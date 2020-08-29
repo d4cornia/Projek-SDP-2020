@@ -22,7 +22,7 @@
                     <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-12 col-form-label">Email</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="username" placeholder="NRP" name="username">
+                            <input type="text" class="form-control" id="username" placeholder="Email" name="username">
                         </div>
                     </div>
                     <div class="form-group row">
