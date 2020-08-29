@@ -14,12 +14,12 @@ class CreateAbsenTukangsTable extends Migration
     public function up()
     {
         Schema::create('absen_tukang', function (Blueprint $table) {
-            $table->string('kode_kontraktor',5);
-            $table->string('kode_tukang',5);
+            $table->string('kode_kontraktor', 5);
+            $table->string('kode_tukang', 5);
             $table->date('tanggal');
-            $table->integer('ongkos_lembur',6);
+            $table->integer('ongkos_lembur', 6);
             $table->date('tanggal_bayar');
-            $table->string('status_setuju_absen',1);
+            $table->string('status_setuju_absen', 1);
         });
     }
 
