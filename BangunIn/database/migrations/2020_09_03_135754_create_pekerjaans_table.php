@@ -13,14 +13,17 @@ class CreatePekerjaansTable extends Migration
      */
     public function up()
     {
-        Schema::create('pekerjaan', function (Blueprint $table) {
-            $table->string('kode_pekerjaan',5);
+        Schema::create('pekerjaans', function (Blueprint $table) {
+            $table->integerIncrements('kode_pekerjaan');
+            $table->string('kode_kontraktor',5);
             $table->string('kode_client',5);
-            $table->string('nama_pekerjaan',5);
+            $table->string('kode_admin',5);
+            $table->string('kode_mandor',5);
+            $table->string('nama_pekerjaan',50);
             $table->string('alamat_pekerjaan',50);
             $table->string('perjanjian_khusus',100);
             $table->string('jenis_pekerjaan',1);
-            $table->primary('kode_pekerjaan');
+            $table->integer('harga_deal');
         });
     }
 
@@ -31,6 +34,6 @@ class CreatePekerjaansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pekerjaan');
+        Schema::dropIfExists('pekerjaans');
     }
 }

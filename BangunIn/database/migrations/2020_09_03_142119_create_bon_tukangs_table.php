@@ -13,13 +13,13 @@ class CreateBonTukangsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bon_tukang', function (Blueprint $table) {
-            $table->string('kode_bon',5);
-            $table->string('kode_kontraktor',5);
-            $table->string('kode_tukang',5);
+        Schema::create('bon_tukangs', function (Blueprint $table) {
+            $table->integerIncrements('kode_bon');
+            $table->integer('kode_tukang');
             $table->date('tanggal_pengajuan');
-            $table->integer('jumlah_bon',7);
-            $table->string('status_lunas_bon',1);
+            $table->integer('jumlah_bon');
+            $table->string("status_lunas",1);
+            $table->string("keterangan_bon",50);
         });
     }
 
@@ -30,6 +30,6 @@ class CreateBonTukangsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bon_tukang');
+        Schema::dropIfExists('bon_tukangs');
     }
 }

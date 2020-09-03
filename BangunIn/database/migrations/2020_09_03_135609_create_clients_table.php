@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateListBarangsTable extends Migration
+class CreateClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateListBarangsTable extends Migration
      */
     public function up()
     {
-        Schema::create('list_barang', function (Blueprint $table) {
-            $table->string('kode_toko',5);
-            $table->string('kode_bahan',5);
-            $table->string('id_list_barang',5);
-            $table->integer('harga_satuan',7);
+        Schema::create('clients', function (Blueprint $table) {
+            $table->integerIncrements('kode_client');
+            $table->string('nama_client',50);
+            $table->string('no_hp_client',13);
         });
     }
 
@@ -28,6 +27,6 @@ class CreateListBarangsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('list_barang');
+        Schema::dropIfExists('clients');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDetailBahanPksTable extends Migration
+class CreateMemilikiDetailBonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateDetailBahanPksTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_bahan_pk', function (Blueprint $table) {
-            $table->string('kode_pk',5);
-            $table->string('id_detail_bahan',5);
+        Schema::create('memiliki_detail_bons', function (Blueprint $table) {
+            $table->integerIncrements('id_detail_bon');
+
         });
     }
 
@@ -26,6 +26,6 @@ class CreateDetailBahanPksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_bahan_pk');
+        Schema::dropIfExists('memiliki_detail_bons');
     }
 }

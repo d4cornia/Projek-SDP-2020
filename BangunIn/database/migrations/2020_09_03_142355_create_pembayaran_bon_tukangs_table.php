@@ -13,10 +13,11 @@ class CreatePembayaranBonTukangsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pembayaran_bon_tukang', function (Blueprint $table) {
-            $table->string('kode_bon',5);
-            $table->date('tanggal_pembayaran');
-            $table->integer('jumlah_bayar',7);
+        Schema::create('pembayaran_bon_tukangs', function (Blueprint $table) {
+            $table->integerIncrements('id_detail_bon');
+            $table->integer('kode_tukang');
+            $table->integer('kode_pembayaran_bon');
+            $table->integer('jumlah_pembayaran_bon');
         });
     }
 
@@ -27,6 +28,6 @@ class CreatePembayaranBonTukangsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pembayaran_bon_tukang');
+        Schema::dropIfExists('pembayaran_bon_tukangs');
     }
 }
