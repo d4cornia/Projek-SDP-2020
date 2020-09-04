@@ -15,10 +15,10 @@ class CreatePekerjaansTable extends Migration
     {
         Schema::create('pekerjaans', function (Blueprint $table) {
             $table->integerIncrements('kode_pekerjaan');
-            $table->string('kode_kontraktor',5);
-            $table->string('kode_client',5);
-            $table->string('kode_admin',5);
-            $table->string('kode_mandor',5);
+            $table->integer('kode_kontraktor');
+            $table->integer('kode_client');
+            $table->integer('kode_admin');
+            $table->integer('kode_mandor');
             $table->string('nama_pekerjaan',50);
             $table->string('alamat_pekerjaan',50);
             $table->string('perjanjian_khusus',100);

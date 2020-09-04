@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePembayaranBonTukangsTable extends Migration
+class CreateBuktiPembelianMandorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePembayaranBonTukangsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pembayaran_bon_tukangs', function (Blueprint $table) {
-            $table->integerIncrements('kode_pembayaran_bon');
-            $table->integer('kode_tukang');
-            $table->integer('jumlah_pembayaran_bon');
+        Schema::create('bukti_pembelian_mandors', function (Blueprint $table) {
+            $table->integerIncrements('id_bukti');
+            $table->integer('kode_pekerjaan');
+            $table->string('file_bukti',100);
         });
     }
 
@@ -27,6 +27,6 @@ class CreatePembayaranBonTukangsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pembayaran_bon_tukangs');
+        Schema::dropIfExists('bukti_pembelian_mandors');
     }
 }
