@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class loginCont extends Controller
+class loginController extends Controller
 {
     /**
      * Display a listing of the resource.

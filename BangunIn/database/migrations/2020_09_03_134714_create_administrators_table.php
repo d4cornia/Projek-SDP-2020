@@ -17,11 +17,11 @@ class CreateAdministratorsTable extends Migration
             $table->integerIncrements('kode_admin');
             $table->integer('kode_kontraktor')->unsigned();
             $table->foreign('kode_kontraktor')->references('kode_kontraktor')->on('kontraktors');
-            $table->string('nama_admin',50);
-            $table->string('no_hp_admin',13);
-            $table->string('username_admin',50);
-            $table->string('email_admin',50);
-            $table->string('password_admin',30);
+            $table->string('nama_admin', 50);
+            $table->string('no_hp_admin', 13);
+            $table->string('username_admin', 50);
+            $table->string('email_admin', 50);
+            $table->string('password_admin', 30);
         });
     }
 

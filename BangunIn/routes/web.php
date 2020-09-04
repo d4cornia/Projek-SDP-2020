@@ -13,4 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'loginCont@index');
+Route::get('/', 'registerController@index');
+Route::get('/rMandor', 'registerController@indexRegisterMandor');
+Route::get('/rAdmin', 'registerController@indexRegisterAdmin');
+Route::post('/submitRegMandor', 'registerController@storeMandor');
+Route::post('/submitRegAdmin', 'registerController@storeAdmin');
