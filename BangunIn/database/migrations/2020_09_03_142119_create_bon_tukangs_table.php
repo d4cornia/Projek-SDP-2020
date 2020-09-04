@@ -15,7 +15,8 @@ class CreateBonTukangsTable extends Migration
     {
         Schema::create('bon_tukangs', function (Blueprint $table) {
             $table->integerIncrements('kode_bon');
-            $table->integer('kode_tukang');
+            $table->integer('kode_tukang')->unsigned();
+            $table->foreign('kode_tukang')->references('kode_tukang')->on('tukangs');
             $table->date('tanggal_pengajuan');
             $table->integer('jumlah_bon');
             $table->string("status_lunas",1);

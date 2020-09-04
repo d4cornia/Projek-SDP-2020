@@ -15,8 +15,10 @@ class CreatePembayaranClientsTable extends Migration
     {
         Schema::create('pembayaran_clients', function (Blueprint $table) {
             $table->integerIncrements('kode_pembayaran_client');
-            $table->integer('kode_pekerjaan');
-            $table->integer('kode_client');
+            $table->integer('kode_pekerjaan')->unsigned();
+            $table->foreign('kode_pekerjaan')->references('kode_pekerjaan')->on('pekerjaans');
+            $table->integer('kode_client')->unsigned();
+            $table->foreign('kode_client')->references('kode_client')->on('clients');
             $table->date('tanggal_pembayan_client');
             $table->integer('jumlah_pembayaran_client');
         });

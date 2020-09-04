@@ -19,7 +19,8 @@ class CreateTokoBangunansTable extends Migration
             $table->string('nama_toko',50);
             $table->string('alamat_toko',50);
             $table->string('no_hp_toko',13);
-            $table->integer('kode_kontraktor');
+            $table->integer('kode_kontraktor')->unsigned();
+            $table->foreign('kode_kontraktor')->references('kode_kontraktor')->on('kontraktors');
         });
     }
 

@@ -15,8 +15,10 @@ class CreateAbsenTukangsTable extends Migration
     {
         Schema::create('absen_tukangs', function (Blueprint $table) {
             $table->integerIncrements('kode_absen');
-            $table->integer('kode_tukang');
-            $table->integer('kode_pekerjaan');
+            $table->integer('kode_tukang')->unsigned();
+            $table->foreign('kode_tukang')->references('kode_tukang')->on('tukangs');
+            $table->integer('kode_pekerjaan')->unsigned();
+            $table->foreign('kode_pekerjaan')->references('kode_pekerjaan')->on('pekerjaans');
             $table->date('tanggal_absen');
             $table->integer('ongkos_lembur');
             $table->string('bukti_kerja',100);

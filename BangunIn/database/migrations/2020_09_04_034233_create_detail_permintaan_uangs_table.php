@@ -15,8 +15,10 @@ class CreateDetailPermintaanUangsTable extends Migration
     {
         Schema::create('detail_permintaan_uangs', function (Blueprint $table) {
             $table->integerIncrements('id_detail_permintaan_uang');
-            $table->integer('id_permintaan_uang');
-            $table->integer('kode_pekerjaan');
+            $table->integer('id_permintaan_uang')->unsigned();
+            $table->foreign('id_permintaan_uang')->references('id_permintaan_uang')->on('permintaan_uangs');
+            $table->integer('kode_pekerjaan')->unsigned();
+            $table->foreign('kode_pekerjaan')->references('kode_pekerjaan')->on('pekerjaans');
             $table->integer('claim_nota_pembelian');
             $table->integer('total_gaji_tukang');
             $table->integer('total_bon_tukang');

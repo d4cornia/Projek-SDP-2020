@@ -15,15 +15,20 @@ class CreatePekerjaansTable extends Migration
     {
         Schema::create('pekerjaans', function (Blueprint $table) {
             $table->integerIncrements('kode_pekerjaan');
-            $table->integer('kode_kontraktor');
-            $table->integer('kode_client');
-            $table->integer('kode_admin');
-            $table->integer('kode_mandor');
+            $table->integer('kode_kontraktor')->unsigned();
+            $table->foreign('kode_kontraktor')->references('kode_kontraktor')->on('kontraktors');
+            $table->integer('kode_client')->unsigned();
+            $table->foreign('kode_client')->references('kode_client')->on('clients');
+            $table->integer('kode_admin')->unsigned();
+            $table->foreign('kode_admin')->references('kode_admin')->on('administrators');
+            $table->integer('kode_mandor')->unsigned();
+            $table->foreign('kode_mandor')->references('kode_mandor')->on('mandors');
             $table->string('nama_pekerjaan',50);
             $table->string('alamat_pekerjaan',50);
             $table->string('perjanjian_khusus',100);
             $table->string('jenis_pekerjaan',1);
             $table->integer('harga_deal');
+            $table->string('status_selesai',1);
         });
     }
 

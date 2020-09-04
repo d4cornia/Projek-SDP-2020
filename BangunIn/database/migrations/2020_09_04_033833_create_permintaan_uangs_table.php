@@ -15,7 +15,8 @@ class CreatePermintaanUangsTable extends Migration
     {
         Schema::create('permintaan_uangs', function (Blueprint $table) {
             $table->integerIncrements('id_permintaan_uang');
-            $table->integer('kode_mandor');
+            $table->integer('kode_mandor')->unsigned();
+            $table->foreign('kode_mandor')->references('kode_mandor')->on('mandors');
             $table->date('tanggal_permintaan_uang');
             $table->string('konfirmasi_penerimaan_uang',1);
             $table->integer('total_permintaan_uang');

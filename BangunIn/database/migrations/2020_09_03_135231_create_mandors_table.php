@@ -15,7 +15,8 @@ class CreateMandorsTable extends Migration
     {
         Schema::create('mandors', function (Blueprint $table) {
             $table->integerIncrements('kode_mandor');
-            $table->string('kode_kontraktor',5);
+            $table->integer('kode_kontraktor')->unsigned();
+            $table->foreign('kode_kontraktor')->references('kode_kontraktor')->on('kontraktors');
             $table->string('nama_mandor',50);
             $table->string('no_hp_mandor',13);
             $table->string('username_mandor',50);

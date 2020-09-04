@@ -15,9 +15,12 @@ class CreatePembeliansTable extends Migration
     {
         Schema::create('pembelians', function (Blueprint $table) {
             $table->integerIncrements('id_pembelian');
-            $table->integer('id_bukti');
-            $table->integer('id_kerjasama');
-            $table->integer('kode_pekerjaan');
+            $table->integer('id_bukti')->unsigned();
+            $table->foreign('id_bukti')->references('id_bukti')->on('bukti_pembelian_mandors');
+            $table->integer('id_kerjasama')->unsigned();
+            $table->foreign('id_kerjasama')->references('id_kerjasama')->on('toko_bangunans');
+            $table->integer('kode_pekerjaan')->unsigned();
+            $table->foreign('kode_pekerjaan')->references('kode_pekerjaan')->on('pekerjaans');
             $table->integer('total_pembelian');
             $table->date('tanggal_beli');
             $table->date('tanggal_bayar');

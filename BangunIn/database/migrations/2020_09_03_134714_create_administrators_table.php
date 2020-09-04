@@ -15,7 +15,8 @@ class CreateAdministratorsTable extends Migration
     {
         Schema::create('administrators', function (Blueprint $table) {
             $table->integerIncrements('kode_admin');
-            $table->string('kode_kontraktor',5);
+            $table->integer('kode_kontraktor')->unsigned();
+            $table->foreign('kode_kontraktor')->references('kode_kontraktor')->on('kontraktors');
             $table->string('nama_admin',50);
             $table->string('no_hp_admin',13);
             $table->string('username_admin',50);

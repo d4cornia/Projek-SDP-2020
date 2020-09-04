@@ -15,8 +15,10 @@ class CreateMemilikiDetailBonsTable extends Migration
     {
         Schema::create('memiliki_detail_bons', function (Blueprint $table) {
             $table->integerIncrements('id_detail_bon');
-            $table->integer('kode_bon');
-            $table->integer('kode_pembayaran_bon');
+            $table->integer('kode_bon')->unsigned();
+            $table->foreign('kode_bon')->references('kode_bon')->on('bon_tukangs');
+            $table->integer('kode_pembayaran_bon')->unsigned();
+            $table->foreign('kode_pembayaran_bon')->references('kode_pembayaran_bon')->on('pembayaran_bon_tukangs');
         });
     }
 

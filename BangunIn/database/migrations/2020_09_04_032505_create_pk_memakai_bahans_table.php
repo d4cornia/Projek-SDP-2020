@@ -15,8 +15,10 @@ class CreatePkMemakaiBahansTable extends Migration
     {
         Schema::create('pk_memakai_bahans', function (Blueprint $table) {
             $table->integerIncrements('id_pk_memakai_bahan',1);
-            $table->integer('id_pembelian');
-            $table->integer('kode_pk');
+            $table->integer('id_pembelian')->unsigned();
+            $table->foreign('id_pembelian')->references('id_pembelian')->on('pembelians');
+            $table->integer('kode_pk')->unsigned();
+            $table->foreign('kode_pk')->references('kode_pk')->on('pekerjaan_khususes');
         });
     }
 

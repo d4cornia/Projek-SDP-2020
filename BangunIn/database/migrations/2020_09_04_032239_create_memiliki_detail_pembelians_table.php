@@ -15,8 +15,10 @@ class CreateMemilikiDetailPembeliansTable extends Migration
     {
         Schema::create('memiliki_detail_pembelians', function (Blueprint $table) {
             $table->integerIncrements('id_detail_pembelian');
-            $table->integer('id_pembelian');
-            $table->integer('id_bahan');
+            $table->integer('id_pembelian')->unsigned();
+            $table->foreign('id_pembelian')->references('id_pembelian')->on('pembelians');
+            $table->integer('id_bahan')->unsigned();
+            $table->foreign('id_bahan')->references('id_bahan')->on('bahan_bangunans');
             $table->integer('jumlah_barang');
             $table->integer('harga_satuan');
             $table->float('persen_diskon');

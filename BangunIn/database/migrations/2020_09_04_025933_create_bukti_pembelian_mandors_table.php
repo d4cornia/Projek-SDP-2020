@@ -15,7 +15,8 @@ class CreateBuktiPembelianMandorsTable extends Migration
     {
         Schema::create('bukti_pembelian_mandors', function (Blueprint $table) {
             $table->integerIncrements('id_bukti');
-            $table->integer('kode_pekerjaan');
+            $table->integer('kode_pekerjaan')->unsigned();
+            $table->foreign('kode_pekerjaan')->references('kode_pekerjaan')->on('pekerjaans');
             $table->string('file_bukti',100);
         });
     }
