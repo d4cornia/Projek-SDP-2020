@@ -14,7 +14,7 @@ class kontraktorController extends Controller
     public function index()
     {
 
-        return view('kontraktor.navbar')->with(['title' => 'Kontraktor']);
+        return view('kontraktor.navbar');
     }
 
 
