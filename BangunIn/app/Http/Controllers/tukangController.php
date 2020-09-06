@@ -8,6 +8,6 @@ class tukangController extends Controller
 {
     public function index()
     {
-        return view('tukang.navbar');
+        return view('tukang.navbar')->with(['title' => 'Tukang']);
     }
 }
