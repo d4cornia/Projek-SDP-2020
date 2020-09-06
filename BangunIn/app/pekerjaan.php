@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class pekerjaan extends Model
 {
     protected $primaryKey = 'kode_pekerjaan';
+    public  $timestamps = false;
 
     public function getWork($id)
     {

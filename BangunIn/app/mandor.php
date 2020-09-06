@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class mandor extends Model
 {
     protected $table = "mandors";
+    public  $timestamps = false;
     protected $primaryKey = 'kode_mandor';
 
     public function CekLogin($username, $password)

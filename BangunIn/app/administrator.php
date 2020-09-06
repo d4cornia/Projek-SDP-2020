@@ -9,6 +9,7 @@ class administrator extends Model
 {
     protected $table = "administrators";
     protected $primaryKey = 'kode_admin';
+    public  $timestamps = false;
 
     public function CekLogin($username, $password)
     {
