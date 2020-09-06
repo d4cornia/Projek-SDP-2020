@@ -2,29 +2,46 @@
 
 @section('content')
     @if (count($listClients) > 0)
-        <table class="table">
-            <thead class="thead-dark">
+        <div class="table-responsive">
+            <table id="tabel-client" class="table table-bordered table-striped">
+              <thead>
                 <tr>
                     <th>No</th>
                     <th>Nama Client</th>
                     <th>Nomor Telepon</th>
                     <th>Action</th>
                 </tr>
-            </thead>
-            <tbody>
-                    @foreach ($listClients as $item)
+              </thead>
+              <tbody id="">
+                @foreach ($listClients as $item)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$item->nama_client}}</td>
                             <td>{{$item->no_hp_client}}</td>
                             <td>
-                                <a href="/kontraktor/detMandor/{{$item->kode_mandor}}}" class="badge badge-success">Detail</a>
+                                <a href="/kontraktor/detMandor/{{$item->kode_mandor}}}" class="btn btn-success">Detail</a>
+                                <a href="/kontraktor/delMandor/{{$item->kode_mandor}}}" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>
                     @endforeach
-            </tbody>
-        </table>
+              </tbody>
+              <tfoot>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Client</th>
+                    <th>Nomor Telepon</th>
+                    <th>Action</th>
+                </tr>
+              </tfoot>
+            </table>
+            </div>
     @else
         <h1>Tidak Ada Client!</h1>
     @endif
+    <script>
+        $(document).ready(function() {
+            $("#tabel-client").DataTable();
+    } );
+    </script>
 @endsection
+

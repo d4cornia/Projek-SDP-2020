@@ -33,15 +33,13 @@ class kontraktorController extends Controller
         $client = new client();
         $data = [
             'title' => 'Tambah Client',
-            'error' => 0 // 0 = success
+            'error' => 0
         ];
-        // validation database -> sudah kepake ato belom kolom sesuatu
         if ($client->cekClient($request->input('nameClient')) == 0) {
-            $client->insertClient($request); // saving
-            // return view('kontraktor.Creation.RegisterMandor', $data);
+            $client->insertClient($request);
+            return view('kontraktor.Creation.tambahClient');
         } else {
-            $data['error'] = 1; // 1 = error username sudah dipakai
-            // return view('kontraktor.Creation.RegisterMandor', $data);
+            $data['error'] = 1;
         }
     }
 
