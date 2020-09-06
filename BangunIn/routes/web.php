@@ -13,8 +13,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'registerController@index');
-Route::get('/rMandor', 'registerController@indexRegisterMandor');
-Route::get('/rAdmin', 'registerController@indexRegisterAdmin');
-Route::post('/submitRegMandor', 'registerController@storeMandor');
-Route::post('/submitRegAdmin', 'registerController@storeAdmin');
+//start login
+Route::get('/','loginController@index');
+Route::get('/vlogin', 'loginController@vlogin');
+Route::post('/login', 'loginController@login');
+Route::any('/register', 'loginController@register');
+//end login
+
+//kontraktor
+Route::group(['prefix' => 'kontraktor'], function () {
+    Route::get('/','kontraktorController@index');
+    Route::get('/rMandor', 'kontraktorController@indexRegisterMandor');
+    Route::get('/rAdmin', 'kontraktorController@indexRegisterAdmin');
+    Route::post('/submitRegMandor', 'kontraktorController@storeMandor');
+    Route::post('/submitRegAdmin', 'kontraktorController@storeAdmin');
+});
+
+//mandor
+Route::group(['prefix' => 'mandor'], function () {
+    Route::get('/','mandorController@index');
+});
+
+//tukang
+Route::group(['prefix' => 'tukang'], function () {
+    Route::get('/','tukangController@index');
+});
+
+//admin
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/','adminController@index');
+});

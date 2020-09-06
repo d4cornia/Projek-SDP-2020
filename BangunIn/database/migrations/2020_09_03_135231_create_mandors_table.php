@@ -17,11 +17,11 @@ class CreateMandorsTable extends Migration
             $table->integerIncrements('kode_mandor');
             $table->integer('kode_kontraktor')->unsigned();
             $table->foreign('kode_kontraktor')->references('kode_kontraktor')->on('kontraktors');
-            $table->string('nama_mandor', 50);
-            $table->string('no_hp_mandor', 13);
-            $table->string('username_mandor', 50);
-            $table->string('email_mandor', 50);
-            $table->string('password_mandor', 30);
+            $table->string('nama_mandor',50);
+            $table->string('no_hp_mandor',13);
+            $table->string('username_mandor',50);
+            $table->string('email_mandor',50);
+            $table->string('password_mandor',30);
         });
     }
 

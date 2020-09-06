@@ -1,0 +1,18 @@
+.judul{
+    font-family: 'Oswald', sans-serif;
+    color:#4c4c4c;
+}
+.nav-side{
+    margin-top:10%;
+    margin-bottom:10%;
+    color:#4c4c4c;
+    text-align: center;
+}
+.btn-link:hover {
+    color: black;
+    text-decoration: none;
+}
+.btn-link {
+    color: #4c4c44;
+    text-decoration: none;
+}
