@@ -24,12 +24,12 @@ class administrator extends Model
     public function cekAdmin($username)
     {
         //cek apakah user sudah terpakai atau belum
-        $result = administrator::where('username_mandor', $username)
+        $result = administrator::where('username_admin', $username)
             ->get();
         return count($result);
     }
 
-    public function insertMandor(Request $request)
+    public function insertAdmin(Request $request)
     {
         $this->kode_kontraktor = session()->get('kode');
         $this->nama_admin = $request->input('name');

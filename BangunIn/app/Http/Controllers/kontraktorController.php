@@ -21,7 +21,7 @@ class kontraktorController extends Controller
     //Client
     public function addClient()
     {
-        return view("kontraktor.Creation.tambahClient",['title' => 'Tambah Client']);
+        return view("kontraktor.Creation.tambahClient", ['title' => 'Tambah Client']);
     }
 
     public function storeClient(Request $request)
@@ -118,7 +118,7 @@ class kontraktorController extends Controller
         // validation form -> ada yang kosong / salah ga, kasi warning di form
         $request->validate([
             'name' => 'required|alpha',
-            'no' => 'required|num',
+            'no' => 'required|numeric',
             'username' => 'required',
             'email' => 'required',
             'pass' => 'required'
