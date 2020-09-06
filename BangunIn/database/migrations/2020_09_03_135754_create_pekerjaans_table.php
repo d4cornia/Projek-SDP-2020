@@ -23,12 +23,12 @@ class CreatePekerjaansTable extends Migration
             $table->foreign('kode_admin')->references('kode_admin')->on('administrators');
             $table->integer('kode_mandor')->unsigned();
             $table->foreign('kode_mandor')->references('kode_mandor')->on('mandors');
-            $table->string('nama_pekerjaan',50);
-            $table->string('alamat_pekerjaan',50);
-            $table->string('perjanjian_khusus',100);
-            $table->string('jenis_pekerjaan',1);
+            $table->string('nama_pekerjaan', 50);
+            $table->string('alamat_pekerjaan', 50);
+            $table->string('perjanjian_khusus', 100);
+            $table->string('jenis_pekerjaan', 1);
             $table->integer('harga_deal');
-            $table->string('status_selesai',1);
+            $table->string('status_selesai', 1);
         });
     }
 

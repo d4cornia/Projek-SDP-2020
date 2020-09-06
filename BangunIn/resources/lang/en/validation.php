@@ -130,8 +130,29 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'name' => [
+            'required' => 'Kolom nama belum diisi!',
+            'alpha' => 'Nama hanya boleh berisi huruf (a-z)',
+        ],
+        'no' => [
+            'required' => 'Kolom nomor diisi!',
+            'numeric' => 'Nomor Telepon hanya boleh berisi Angka (0-9)',
+        ],
+        'username' => [
+            'required' => 'Kolom nama pengguna belum diisi!',
+        ],
+        'email' => [
+            'required' => 'Kolom e-mail belum diisi!',
+        ],
+        'pass' => [
+            'required' => 'Kolom kata sandi belum diisi!',
+        ],
+        'dealPrice' => [
+            'required' => 'Kolom Harga Deal belum diisi!',
+            'numeric' => 'Kolom Harga Deal hanya boleh berisi Angka (0-9)',
+        ],
+        'address' => [
+            'required' => 'Kolom alamat belum diisi!',
         ],
     ],
 

@@ -9,7 +9,7 @@
         </button>
         <div class="dropdown-menu">
             {{--Dropdown Client--}}
-        <a class="dropdown-item" href="#">Tambah Client</a>
+            <a class="dropdown-item" href="#">Tambah Client</a>
         </div>
     </div>
 
@@ -19,7 +19,9 @@
         </button>
         <div class="dropdown-menu">
             {{--Dropdown Pekerjaan--}}
-        <a class="dropdown-item" href="#">Tambah Pekerjaan</a>
+            <a class="dropdown-item" href="/kontraktor/lWork">Lihat Pekerjaan</a>
+            <a class="dropdown-item" href="/kontraktor/aWork">Tambah Pekerjaan</a>
+            <a class="dropdown-item" href="#">Tambah Pekerjaan Khusus</a>
         </div>
     </div>
 
@@ -29,7 +31,8 @@
         </button>
         <div class="dropdown-menu">
             {{--Dropdown Mandor--}}
-        <a class="dropdown-item" href="/kontraktor/rMandor">Tambah Mandor</a>
+            <a class="dropdown-item" href="/kontraktor/lMandor">Lihat Mandor</a>
+            <a class="dropdown-item" href="/kontraktor/rMandor">Tambah Mandor</a>
         </div>
     </div>
 
@@ -39,8 +42,10 @@
         </button>
         <div class="dropdown-menu">
             {{--Dropdown Admin--}}
-        <a class="dropdown-item" href="/kontraktor/rAdmin">Tambah Admin</a>
+            <a class="dropdown-item" href="/kontraktor/lAdmin">Lihat Admin</a>
+            <a class="dropdown-item" href="/kontraktor/rAdmin">Tambah Admin</a>
         </div>
     </div>
 @endsection
+
 

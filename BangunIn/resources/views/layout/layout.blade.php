@@ -15,6 +15,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <style>
+        .err{
+            width: 100%;
+            margin-top: .25rem;
+            font-size: 80%;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
    <div class="row">
@@ -27,3 +38,32 @@
    </div>
 </body>
 </html>
+
+{{-- berhasil/gagal tambah --}}
+@isset($error)
+    @if ($error == 4)
+    <script>
+        swal("Gagal Tambah!", "Belum memilih Mandor untuk pekerjaan ini!", "error");
+    </script>
+    @endif
+    @if ($error == 2)
+    <script>
+        swal("Gagal Tambah!", "Belum memilih Admin untuk pekerjaan ini!", "error");
+    </script>
+    @endif
+    @if ($error == 3)
+    <script>
+        swal("Gagal Tambah!", "Belum memilih Client untuk pekerjaan ini!", "error");
+    </script>
+    @endif
+    @if ($error == 0)
+    <script>
+        swal("Berhasil Tambah!", "", "success");
+    </script>
+    @endif
+    @if ($error == 1)
+    <script>
+        swal("Gagal Tambah!", "Username sudah terpakai!", "error");
+    </script>
+    @endif
+@endisset

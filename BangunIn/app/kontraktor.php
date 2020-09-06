@@ -11,22 +11,24 @@ class kontraktor extends Model
     public  $timestamps = false;
     public  $incrementing = true;
 
-    public function CekLogin($username,$password)
+    public function CekLogin($username, $password)
     {
         //cek login Kontraktor
-        $result = kontraktor::where('username_kontraktor',$username)
-                            ->where('password_kontraktor',$password)
-                            ->get();
+        $result = kontraktor::where('username_kontraktor', $username)
+            ->where('password_kontraktor', $password)
+            ->get();
         return $result;
     }
+
     public function CekUsername($username)
     {
         //cek apakah user sudah terpakai atau belum
-        $result = kontraktor::where('username_kontraktor',$username)
-                            ->get();
+        $result = kontraktor::where('username_kontraktor', $username)
+            ->get();
         return $result;
     }
-    public function TambahKontraktor($username,$password,$nama,$email,$nomer)
+
+    public function TambahKontraktor($username, $password, $nama, $email, $nomer)
     {
         //tambah akun kontraktor baru
         $insert = new kontraktor();

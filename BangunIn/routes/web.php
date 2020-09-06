@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //start login
-Route::get('/','loginController@index');
+Route::get('/', 'loginController@index');
 Route::get('/vlogin', 'loginController@vlogin');
 Route::post('/login', 'loginController@login');
 Route::any('/register', 'loginController@register');
@@ -22,24 +22,30 @@ Route::any('/register', 'loginController@register');
 
 //kontraktor
 Route::group(['prefix' => 'kontraktor'], function () {
-    Route::get('/','kontraktorController@index');
+    Route::get('/', 'kontraktorController@index');
     Route::get('/rMandor', 'kontraktorController@indexRegisterMandor');
     Route::get('/rAdmin', 'kontraktorController@indexRegisterAdmin');
+    Route::get('/aWork', 'kontraktorController@indexAddWork');
+    Route::get('/lMandor', 'kontraktorController@indexListMandor');
+    Route::get('/lAdmin', 'kontraktorController@indexListAdmin');
+    Route::get('/lWork', 'kontraktorController@indexListWork');
+    Route::get('/detWork/{n?}', 'kontraktorController@indexListWork');
     Route::post('/submitRegMandor', 'kontraktorController@storeMandor');
     Route::post('/submitRegAdmin', 'kontraktorController@storeAdmin');
+    Route::post('/submitAddWork', 'kontraktorController@storeWork');
 });
 
 //mandor
 Route::group(['prefix' => 'mandor'], function () {
-    Route::get('/','mandorController@index');
+    Route::get('/', 'mandorController@index');
 });
 
 //tukang
 Route::group(['prefix' => 'tukang'], function () {
-    Route::get('/','tukangController@index');
+    Route::get('/', 'tukangController@index');
 });
 
 //admin
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/','adminController@index');
+    Route::get('/', 'adminController@index');
 });
