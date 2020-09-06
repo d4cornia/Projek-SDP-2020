@@ -154,6 +154,15 @@ return [
         'address' => [
             'required' => 'Kolom alamat belum diisi!',
         ],
+        'handphoneNumber' => [
+            'required' => 'Kolom nomor diisi!',
+            'numeric' => 'Nomor Telepon hanya boleh berisi Angka (0-9)',
+        ],
+        'nameClient' => [
+            'required' => 'Kolom nama belum diisi!',
+            'alpha' => 'Nama hanya boleh berisi huruf (a-z)',
+        ],
+
     ],
 
     /*

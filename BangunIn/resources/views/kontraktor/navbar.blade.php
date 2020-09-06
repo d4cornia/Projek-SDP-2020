@@ -9,7 +9,8 @@
         </button>
         <div class="dropdown-menu">
             {{--Dropdown Client--}}
-            <a class="dropdown-item" href="#">Tambah Client</a>
+            <a class="dropdown-item" href="/kontraktor/addClient">Tambah Client</a>
+            <a class="dropdown-item" href="/kontraktor/lihatClient">Lihat Client</a>
         </div>
     </div>
 

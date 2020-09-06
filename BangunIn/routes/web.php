@@ -33,6 +33,10 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::post('/submitRegMandor', 'kontraktorController@storeMandor');
     Route::post('/submitRegAdmin', 'kontraktorController@storeAdmin');
     Route::post('/submitAddWork', 'kontraktorController@storeWork');
+
+    Route::get('/addClient', 'kontraktorController@addClient');
+    Route::post('/submitRegClient', 'kontraktorController@storeClient');
+    Route::get('/lihatClient', 'kontraktorController@indexListClient');
 });
 
 //mandor
