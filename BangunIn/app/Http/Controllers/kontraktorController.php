@@ -9,6 +9,7 @@ use App\client;
 use App\kontraktor;
 use App\pekerjaan;
 use App\pekerjaan_khusus;
+use App\pembayaran_client;
 
 class kontraktorController extends Controller
 {
@@ -41,6 +42,23 @@ class kontraktorController extends Controller
         ];
 
         return view('kontraktor.Creation.tambahPembayaranClient',$data);
+    }
+
+    public function bayar(Request $req)
+    {
+        $kode = $req->input('pekerjaan');
+        $pekerjaan_kode = substr($kode,0,1);
+        $client_kode = substr($kode,1);
+        $waktu = $req->input('waktuPembayaran');
+        $jumlah = $req->input('total');
+        $data = [
+            'pekerjaan_kode' => $pekerjaan_kode,
+            'client_kode' => $client_kode,
+            'waktu' => $waktu,
+            'total' => $jumlah
+        ];
+        $b = new pembayaran_client();
+        $b->insertPembayaran($data);
     }
 
     public function addClient()

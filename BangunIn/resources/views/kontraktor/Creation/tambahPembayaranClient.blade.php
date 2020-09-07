@@ -4,37 +4,21 @@
 
 {{-- {{dd($listDataClient)}} --}}
 {{-- {{dd($listDataPekerjaan)}} --}}
-<form method="POST" action="" class="needs-validation" novalidate>
+
+<form method="POST" action="/kontraktor/submitPembayaran" class="needs-validation" novalidate>
     @csrf
-    <div class="form-group">
-        <label for="exampleInputEmail1">Nama Client</label>
-        {{-- <input type="text" class="form-control" name="nameClient" value="" required> --}}
-        <select name="" id="" class="form-control">
-            @foreach ($listDataClient as $item)
-        <option value="{{$item->kode_client}}"> {{$item->kode_client}} - {{$item->nama_client}}</option>
-            @endforeach
-        </select>
-        <div class="invalid-feedback">
-            Kolom nama belum di isi!
-        </div>
-        @error('nameClient')
-        <div class="err">
-            {{$message}}
-        </div>
-        @enderror
-    </div>
     <div class="form-group">
         <label for="exampleInputEmail1">Pekerjaan</label>
         {{-- <input type="text" class="form-control" name="handphoneNumber" value="" required> --}}
-        <select name="" id="" class="form-control">
-            @foreach ($listDataPekerjaan as $item)
-        <option value="{{$item->kode_pekerjaan}}">{{$item->kode_pekerjaan}} - {{$item->nama_pekerjaan}}</option>
+        <select name="pekerjaan" id="" class="form-control">
+            @foreach ($listDataPekerjaan['data'] as $item)
+        <option value="{{$item->kode_pekerjaan.$item->kode_client}}">{{$listDataPekerjaan['nama'][$loop->index][0]}} - {{$item->nama_pekerjaan}}</option>
             @endforeach
         </select>
         <div class="invalid-feedback">
             Kolom nomor telepon belum di isi!
         </div>
-        @error('handphoneNumber')
+        @error('pekerjaan')
         <div class="err">
             {{$message}}
         </div>
@@ -42,11 +26,11 @@
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">Waktu Pembayaran</label>
-        <input type="date" id="birthdaytime" name="birthdaytime" class="form-control">
+        <input type="date" id="birthdaytime" name="waktuPembayaran" class="form-control">
         <div class="invalid-feedback">
             Kolom nomor telepon belum di isi!
         </div>
-        @error('handphoneNumber')
+        @error('waktuPembayaran')
         <div class="err">
             {{$message}}
         </div>
@@ -55,11 +39,11 @@
 
     <div class="form-group">
         <label for="exampleInputEmail1">Total</label>
-        <input type="text" class="form-control" name="handphoneNumber" value="" required>
+        <input type="text" class="form-control" name="total" value="" required>
         <div class="invalid-feedback">
             Kolom nomor telepon belum di isi!
         </div>
-        @error('handphoneNumber')
+        @error('total')
         <div class="err">
             {{$message}}
         </div>

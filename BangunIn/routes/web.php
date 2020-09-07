@@ -44,6 +44,7 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::post('/submitRegClient', 'kontraktorController@storeClient');
     Route::get('/lihatClient', 'kontraktorController@indexListClient');
     Route::get('/pembayaran', 'kontraktorController@pembayaranClient');
+    Route::post('/submitPembayaran', 'kontraktorController@bayar');
 });
 
 //mandor

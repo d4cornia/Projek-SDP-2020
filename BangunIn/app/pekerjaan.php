@@ -25,8 +25,13 @@ class pekerjaan extends Model
 
     public function getDataPekerjaan()
     {
-        $data = pekerjaan::select('kode_pekerjaan','nama_pekerjaan')->get();
-        return $data;
+        $data = pekerjaan::select('*')->get();
+        $nama = [];
+        foreach ($data as $key) {
+            $nama[] = client::where('kode_client',$key['kode_client'])->pluck('nama_client');
+        }
+        $final = ['data' => $data, 'nama' => $nama];
+        return $final;
     }
 
     public function insertWork(Request $request, $kc, $ka, $km)
