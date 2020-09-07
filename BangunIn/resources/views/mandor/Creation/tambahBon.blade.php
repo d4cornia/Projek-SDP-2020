@@ -37,7 +37,7 @@
             Kolom Jumlah Bon belum di isi!
         </div>
         @error('jumlah')
-        <div class="invalid-feedback">
+        <div class="err">
             {{$message}}
         </div>
         @enderror
