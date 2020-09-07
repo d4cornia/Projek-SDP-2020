@@ -11,6 +11,7 @@
             {{--Dropdown Client--}}
             <a class="dropdown-item" href="/kontraktor/lihatClient">Lihat Client</a>
             <a class="dropdown-item" href="/kontraktor/addClient">Tambah Client</a>
+            <a class="dropdown-item" href="/kontraktor/pembayaran">Input Pembayaran Client</a>
         </div>
     </div>
 

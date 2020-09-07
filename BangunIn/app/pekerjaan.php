@@ -23,6 +23,11 @@ class pekerjaan extends Model
         return count($result);
     }
 
+    public function getDataPekerjaan()
+    {
+        $data = pekerjaan::select('kode_pekerjaan','nama_pekerjaan')->get();
+        return $data;
+    }
 
     public function insertWork(Request $request, $kc, $ka, $km)
     {

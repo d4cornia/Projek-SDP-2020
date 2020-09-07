@@ -20,6 +20,29 @@ class kontraktorController extends Controller
 
 
     //Client
+
+    // public function showDataPekerjaan()
+    // {
+    //     $p = new pekerjaan();
+    //     $dataPekerjaan = [
+    //         'listDataPekerjaan' => $p->getDataPekerjaan()
+    //     ];
+    //     return view('kontraktor.Creation.tambahPembayaranClient',$dataPekerjaan);
+    // }
+
+    public function pembayaranClient()
+    {
+        $r = new client();
+        $p = new pekerjaan();
+        // $data_client = $r->getNamaClient();
+        $data = [
+            'listDataClient' => $r->getNamaClient(),
+            'listDataPekerjaan' => $p->getDataPekerjaan()
+        ];
+
+        return view('kontraktor.Creation.tambahPembayaranClient',$data);
+    }
+
     public function addClient()
     {
         return view("kontraktor.Creation.tambahClient", ['title' => 'Tambah Client']);
@@ -99,6 +122,7 @@ class kontraktorController extends Controller
 
 
     // Admin
+
     public function indexRegisterAdmin()
     {
         return view('kontraktor.Creation.RegisterAdmin', ['title' => 'Tambah Admin']);

@@ -24,6 +24,12 @@ class client extends Model
         return count($result);
     }
 
+    public function getNamaClient()
+    {
+        $data = client::select('*')->get();
+        return $data;
+    }
+
     public function insertClient(Request $request)
     {
         $this->kode_kontraktor = session()->get('kode');
