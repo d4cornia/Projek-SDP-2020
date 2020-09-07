@@ -162,7 +162,10 @@ return [
             'required' => 'Kolom nama belum diisi!',
             'alpha' => 'Nama hanya boleh berisi huruf (a-z)',
         ],
-
+        'gaji' => [
+            'required' => 'Kolom gaji belum diisi!',
+            'numeric' => 'Gaji hanya boleh berisi Angka (0-9)',
+        ],
     ],
 
     /*

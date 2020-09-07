@@ -45,6 +45,11 @@
 
 {{-- berhasil/gagal tambah --}}
 @isset($error)
+    @if ($error == 5)
+    <script>
+        swal("Gagal Tambah!", "Nama Jenis telah terdaftar!", "error");
+    </script>
+    @endif
     @if ($error == 4)
     <script>
         swal("Gagal Tambah!", "Belum memilih Mandor untuk pekerjaan ini!", "error");
@@ -70,4 +75,5 @@
         swal("Gagal Tambah!", "Username sudah terpakai!", "error");
     </script>
     @endif
+
 @endisset

@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
             ['kode_admin'=>'100001','kode_kontraktor'=>'100001','nama_admin'=>'denny','no_hp_admin'=>'087123784556','username_admin'=>'denny','email_admin'=>'denny@gmail.com','password_admin'=>'denny']
         ]);
         DB::table('jenis_tukangs')->insert([
-            ['kode_jenis'=>'100001','nama_jenis'=>'Tukang Kayu','gaji_pokok'=>300000],
-            ['kode_jenis'=>'100002','nama_jenis'=>'Tukang Listrik','gaji_pokok'=>0],
-            ['kode_jenis'=>'100003','nama_jenis'=>'Tukang poles','gaji_pokok'=>0]
+            ['kode_jenis'=>'100001','kode_mandor'=>'100001','nama_jenis'=>'Tukang Kayu','gaji_pokok'=>300000],
+            ['kode_jenis'=>'100002','kode_mandor'=>'100001','nama_jenis'=>'Tukang Listrik','gaji_pokok'=>0],
+            ['kode_jenis'=>'100003','kode_mandor'=>'100001','nama_jenis'=>'Tukang poles','gaji_pokok'=>0]
         ]);
         DB::table('tukangs')->insert([
             ['kode_tukang'=>'100001','kode_jenis'=>'100001','kode_mandor'=>'100001','nama_tukang'=>'joe','no_hp_tukang'=>'087526789502','username_tukang'=>'joe','email_tukang'=>'joe@gmail.com','password_tukang'=>'joe']

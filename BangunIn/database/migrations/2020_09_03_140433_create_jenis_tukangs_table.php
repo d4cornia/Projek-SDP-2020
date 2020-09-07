@@ -15,6 +15,8 @@ class CreateJenisTukangsTable extends Migration
     {
         Schema::create('jenis_tukangs', function (Blueprint $table) {
             $table->integerIncrements('kode_jenis');
+            $table->integer('kode_mandor')->unsigned();
+            $table->foreign('kode_mandor')->references('kode_mandor')->on('mandors');
             $table->string('nama_jenis',50);
             $table->integer('gaji_pokok');
         });
