@@ -23,6 +23,7 @@ class CreateTukangsTable extends Migration
             $table->string('username_tukang',50);
             $table->string('no_hp_tukang',13);
             $table->string('email_tukang',50);
+            $table->integer('gaji_pokok_tukang');
             $table->string('password_tukang',30);
         });
     }

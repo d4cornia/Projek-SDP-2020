@@ -16,6 +16,7 @@
         Tukang
     </button>
     <div class="dropdown-menu">
+        <a class="dropdown-item" href="/mandor/lihatTukang">Lihat Tukang</a>
         <a class="dropdown-item" href="/mandor/tambahTukang">Tambah Tukang</a>
     </div>
 </div>

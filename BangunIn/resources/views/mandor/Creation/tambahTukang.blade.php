@@ -1,7 +1,7 @@
 @extends('mandor.navbar')
 
 @section('content')
-<form method="POST" action="/kontraktor/submitRegTukang" class="needs-validation" novalidate>
+<form method="POST" action="/mandor/submitRegTukang" class="needs-validation" novalidate>
     @csrf
     <div class="form-group">
         <label for="exampleInputEmail1">Nama Tukang</label>
@@ -21,10 +21,22 @@
             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="jenis" id="jenis">
                 <option selected>-</option>
                 @foreach ($listJenis as $item)
-                    <option value="{{$item['kode_jenis']}}">{{$item['nama_jenis']}}</option>
+                    <option value="{{$item['nama_jenis']}}">{{$item['nama_jenis']}}</option>
                 @endforeach
             </select>
         </div>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Gaji Tukang</label>
+        <input type="text" class="form-control" name="gaji" value="{{old('gaji')}}" required>
+        <div class="invalid-feedback">
+            Kolom gaji tukang belum di isi!
+        </div>
+        @error('gaji')
+        <div class="err">
+            {{$message}}
+        </div>
+        @enderror
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">No Telepon</label>

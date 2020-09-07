@@ -21,6 +21,7 @@ class CreateMandorsTable extends Migration
             $table->string('no_hp_mandor', 13);
             $table->string('username_mandor', 50);
             $table->string('email_mandor', 50);
+            $table->integer('gaji_mandor');
             $table->string('password_mandor', 30);
         });
     }

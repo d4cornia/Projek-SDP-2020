@@ -26,4 +26,9 @@ class jenis_tukang extends Model
         $this->kode_mandor = session()->get('kode');
         $this->save();
     }
+    public function nameToCode($jenis)
+    {
+        return $this::where('nama_jenis', $jenis)
+            ->pluck('kode_jenis');
+    }
 }

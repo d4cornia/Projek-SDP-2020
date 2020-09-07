@@ -39,4 +39,9 @@ class kontraktor extends Model
         $insert->no_hp_kontraktor    = $nomer;
         $insert->save();
     }
+    public function nameToCode($username)
+    {
+        return $this::where('username_kontraktor', $username)
+            ->pluck('kode_kontraktor');
+    }
 }
