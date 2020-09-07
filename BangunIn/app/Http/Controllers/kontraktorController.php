@@ -8,6 +8,7 @@ use App\administrator;
 use App\client;
 use App\kontraktor;
 use App\pekerjaan;
+use App\pekerjaan_khusus;
 
 class kontraktorController extends Controller
 {
@@ -217,5 +218,45 @@ class kontraktorController extends Controller
             $data['error'] = 1; // 1 = error nama pekerjaan sudah dipakai
             return view('kontraktor.Creation.tambahPekerjaan', $data);
         }
+    }
+
+
+
+    // pekerjaan khusus
+    public function indexSpecialWork()
+    {
+        $data = [
+            'title' => 'Pekerjaan Khusus',
+            'listSpWork' => null
+        ];
+        return view('kontraktor.List.listSpecialWork', $data);
+    }
+
+    public function searchListSpecialWork(Request $req)
+    {
+        $req->validate(
+            [
+                'search' => ['reqiured']
+            ],
+            [
+                'search.required' => 'Kolom search harus di isi'
+            ]
+        );
+
+        $pk = new pekerjaan_khusus();
+        $data = [
+            'title' => 'Pekerjaan Khusus',
+            'listSpWork' => $pk->where('kode_pekerjaan', $req->search)->get()
+        ];
+        return view('kontraktor.List.listSpecialWork', $data);
+    }
+
+
+    public function indexAddSpecialWork()
+    {
+        $data = [
+            'title' => 'Tambah Pekerjaan'
+        ];
+        return view('kontraktor.Creation.tambahPekerjaanKhusus', $data);
     }
 }

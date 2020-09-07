@@ -19,8 +19,8 @@
                             <td>{{$item->nama_client}}</td>
                             <td>{{$item->no_hp_client}}</td>
                             <td>
-                                <a href="/kontraktor/detMandor/{{$item->kode_mandor}}}" class="btn btn-success">Detail</a>
-                                <a href="/kontraktor/delMandor/{{$item->kode_mandor}}}" class="btn btn-danger">Hapus</a>
+                                <a href="/kontraktor/detClient/{{$item->kode_client}}}" class="btn btn-success">Detail</a>
+                                <a href="/kontraktor/delClient/{{$item->kode_client}}}" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>
                     @endforeach

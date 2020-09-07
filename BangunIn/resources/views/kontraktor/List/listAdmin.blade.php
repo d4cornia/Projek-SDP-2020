@@ -24,7 +24,7 @@
                             <td>{{$item->email_admin}}</td>
                             <td>
                                 <a href="/kontraktor/detAdmin/{{$item->kode_admin}}}" class="btn btn-success">Detail</a>
-                                <a href="/kontraktor/delMandor/{{$item->kode_mandor}}}" class="btn btn-danger">Hapus</a>
+                                <a href="/kontraktor/delAdmin/{{$item->kode_admin}}}" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>
                     @endforeach

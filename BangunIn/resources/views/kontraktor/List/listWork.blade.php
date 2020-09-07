@@ -22,7 +22,7 @@
                             <td>{{$item->status_selesai}}</td>
                             <td>
                                 <a href="/kontraktor/detWork/{{$item->kode_pekerjaan}}}" class="btn btn-success">Detail</a>
-                                <a href="/kontraktor/delMandor/{{$item->kode_mandor}}}" class="btn btn-danger">Hapus</a>
+                                <a href="/kontraktor/delWork/{{$item->kode_pekerjaan}}}" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>
                 @endforeach

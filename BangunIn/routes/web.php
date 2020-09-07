@@ -26,10 +26,16 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/rMandor', 'kontraktorController@indexRegisterMandor');
     Route::get('/rAdmin', 'kontraktorController@indexRegisterAdmin');
     Route::get('/aWork', 'kontraktorController@indexAddWork');
+    Route::get('/aSpWork', 'kontraktorController@indexAddSpecialWork');
+
     Route::get('/lMandor', 'kontraktorController@indexListMandor');
     Route::get('/lAdmin', 'kontraktorController@indexListAdmin');
     Route::get('/lWork', 'kontraktorController@indexListWork');
+    Route::get('/iSpWork', 'kontraktorController@indexSpecialWork');
+    Route::get('/search', 'kontraktorController@searchListSpecialWork');
+
     Route::get('/detWork/{n?}', 'kontraktorController@indexListWork');
+
     Route::post('/submitRegMandor', 'kontraktorController@storeMandor');
     Route::post('/submitRegAdmin', 'kontraktorController@storeAdmin');
     Route::post('/submitAddWork', 'kontraktorController@storeWork');
