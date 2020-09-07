@@ -45,9 +45,14 @@
 
 {{-- berhasil/gagal tambah --}}
 @isset($error)
+    @if ($error == 7)
+    <script>
+        swal("Gagal Tambah!", "Belum memilih Tukang untuk Bon ini!","error");
+    </script>
+    @endif
     @if ($error == 6)
     <script>
-        swal("Gagal Tambah!", "Belum memilih Jenis Tukang untuk pekerjaan ini!","error");
+        swal("Gagal Tambah!", "Belum memilih Jenis Tukang untuk Tukang ini!","error");
     </script>
     @endif
     @if ($error == 5)

@@ -52,6 +52,10 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/tambahTukang', 'mandorController@tambahTukang');
     Route::post('/submitRegTukang', 'mandorController@storeTukang');
     Route::get('/lihatTukang', 'mandorController@lihatTukang');
+
+    //bon
+    Route::get('/tambahBon', 'mandorController@tambahBon');
+    Route::post('/submitRegBon', 'mandorController@storeBon');
 });
 
 //tukang
