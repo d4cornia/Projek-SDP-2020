@@ -51,6 +51,8 @@ Route::group(['prefix' => 'kontraktor'], function () {
     // Update
     Route::post('/updMandor', 'kontraktorController@updateMandor');
     Route::post('/updAdmin', 'kontraktorController@updateAdmin');
+    Route::post('/updWork', 'kontraktorController@updateAdmin');
+    Route::post('/updSpWork', 'kontraktorController@updateAdmin');
 
     Route::get('/addClient', 'kontraktorController@addClient');
     Route::post('/submitRegClient', 'kontraktorController@storeClient');
@@ -76,8 +78,8 @@ Route::group(['prefix' => 'mandor'], function () {
     //bon
     Route::get('/tambahBon', 'mandorController@tambahBon');
     Route::post('/submitRegBon', 'mandorController@storeBon');
-    Route::get('/tambahPembayaranBon',"mandorController@bayarBon");
-    Route::post('/fetch',"mandorController@fetch")->name('dynamicdependent.fetch');
+    Route::get('/tambahPembayaranBon', "mandorController@bayarBon");
+    Route::post('/fetch', "mandorController@fetch")->name('dynamicdependent.fetch');
 });
 
 //tukang

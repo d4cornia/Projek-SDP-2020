@@ -40,8 +40,8 @@
                             <td>{{$item->total_jasa}}</td>
                             <td>{{$item->total_keseluruhan}}</td>
                             <td>
-                                <a href="/kontraktor/detSpWork/{{$item->kode_pk}}}" class="btn btn-success">Detail</a>
-                                <a href="/kontraktor/delSpWork/{{$item->kode_pk}}}" class="btn btn-danger">Hapus</a>
+                                <a href="/kontraktor/detSpWork/{{$item->kode_pk}}" class="btn btn-success">Detail</a>
+                                <a href="/kontraktor/delSpWork/{{$item->kode_pk}}" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>
                 @endforeach
