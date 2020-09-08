@@ -29,6 +29,9 @@
             font-size: 80%;
             color: #dc3545;
         }
+        .row-first , .row-second{
+            margin-bottom: 40px;
+        }
     </style>
 </head>
 <body>

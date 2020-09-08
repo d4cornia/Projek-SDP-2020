@@ -21,6 +21,7 @@ class CreateAdministratorsTable extends Migration
             $table->string('no_hp_admin', 13);
             $table->string('username_admin', 50);
             $table->string('email_admin', 50);
+            $table->integer('gaji_admin');
             $table->string('password_admin', 30);
         });
     }

@@ -52,6 +52,15 @@
         @enderror
     </div>
     <div class="form-group">
+        <label for="salary">Gaji Mandor</label>
+        <input type="number" class="form-control" name="salary" value="{{old('salary')}}" id="salary" required>
+        @error('salary')
+            <div class="err">
+                {{$message}}
+            </div>
+        @enderror
+    </div>
+    <div class="form-group">
         <label for="exampleInputPassword1">Kata sandi</label>
         <input type="password" class="form-control" name="pass" value="{{old('pass')}}" id="pass" required>
         <div class="invalid-feedback">

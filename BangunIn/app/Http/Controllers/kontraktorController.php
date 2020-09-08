@@ -101,25 +101,19 @@ class kontraktorController extends Controller
         return view('kontraktor.Creation.RegisterMandor', ['title' => 'Tambah Mandor']);
     }
 
-    public function indexListMandor()
-    {
-        $m = new mandor();
-        $data = [
-            'title' => 'List Mandor',
-            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))->get()
-        ];
-        return view('kontraktor.List.listMandor', $data);
-    }
-
     public function storeMandor(Request $request)
     {
         // validation form -> ada yang kosong / salah ga, kasi warning di form
         $request->validate([
-            'name' => 'required|alpha',
-            'no' => 'required|numeric',
+            'name' => 'required|string',
+            'no' => 'required|integer',
             'username' => 'required',
             'email' => 'required',
+            'salary' => 'required|integer',
             'pass' => 'required'
+        ], [
+            'salary.integer' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
+            'salary.required' => 'Kolom gaji admin wajib di isi!'
         ]);
 
         $m = new mandor();
@@ -137,6 +131,56 @@ class kontraktorController extends Controller
         }
     }
 
+    public function indexListMandor()
+    {
+        $m = new mandor();
+        $data = [
+            'title' => 'List Mandor',
+            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))->get()
+        ];
+        return view('kontraktor.List.listMandor', $data);
+    }
+
+    public function detailMandor($id)
+    {
+        $m = new mandor();
+        $data = [
+            'title' => 'Detail Mandor',
+            'mandor' => $m->getMandor(decrypt($id))
+        ];
+        return view('kontraktor.Detail.detailMandor', $data);
+    }
+
+    public function updateMandor(Request $req)
+    {
+        $req->validate([
+            'name' => 'required|string',
+            'no' => 'required|integer',
+            'username' => 'required',
+            'email' => 'required',
+            'salary' => 'required|integer',
+            'pass' => 'required'
+        ], [
+            'name.required' => 'Kolom nama belum di isi!',
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!',
+            'no.required' => 'Kolom nomor telepon belum di isi!',
+            'no.integer' => 'Kolom nomor hanya bisa di isi angka!',
+            'username.required' => 'Kolom nama pengguna belum di isi!',
+            'email.required' => 'Kolom alamat e-mail belum di isi!',
+            'salary.integer' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
+            'salary.required' => 'Kolom gaji admin wajib di isi!',
+            'pass.required' => 'Kolom kata sandi belum di isi!'
+        ]);
+        $m = new mandor();
+        $m->updateMandor($req);
+
+        $data = [
+            'title' => 'List Mandor',
+            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))->get()
+        ];
+        return view('kontraktor.List.listMandor', $data);
+    }
+
 
 
     // Admin
@@ -146,25 +190,19 @@ class kontraktorController extends Controller
         return view('kontraktor.Creation.RegisterAdmin', ['title' => 'Tambah Admin']);
     }
 
-    public function indexListAdmin()
-    {
-        $a = new administrator();
-        $data = [
-            'title' => 'List Admin',
-            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))->get()
-        ];
-        return view('kontraktor.List.listAdmin', $data);
-    }
-
     public function storeAdmin(Request $request)
     {
         // validation form -> ada yang kosong / salah ga, kasi warning di form
         $request->validate([
-            'name' => 'required|alpha',
-            'no' => 'required|numeric',
+            'name' => 'required|string',
+            'no' => 'required|integer',
             'username' => 'required',
             'email' => 'required',
+            'salary' => 'required|integer',
             'pass' => 'required'
+        ], [
+            'salary.integer' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
+            'salary.required' => 'Kolom gaji admin wajib di isi!',
         ]);
 
         $a = new administrator();
@@ -182,19 +220,60 @@ class kontraktorController extends Controller
         }
     }
 
+    public function indexListAdmin()
+    {
+        $a = new administrator();
+        $data = [
+            'title' => 'List Admin',
+            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))->get()
+        ];
+        return view('kontraktor.List.listAdmin', $data);
+    }
+
+    public function detailAdmin($id)
+    {
+        $a = new administrator();
+        $data = [
+            'title' => 'Detail Admin',
+            'admin' => $a->getAdmin(decrypt($id))
+        ];
+        return view('kontraktor.Detail.detailAdmin', $data);
+    }
+
+    public function updateAdmin(Request $req)
+    {
+        $req->validate([
+            'name' => 'required|string',
+            'no' => 'required|integer',
+            'username' => 'required',
+            'email' => 'required',
+            'salary' => 'required|integer',
+            'pass' => 'required'
+        ], [
+            'name.required' => 'Kolom nama belum di isi!',
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!',
+            'no.required' => 'Kolom nomor telepon belum di isi!',
+            'no.integer' => 'Kolom nomor hanya bisa di isi angka!',
+            'username.required' => 'Kolom nama pengguna belum di isi!',
+            'email.required' => 'Kolom alamat e-mail belum di isi!',
+            'salary.integer' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
+            'salary.required' => 'Kolom gaji admin wajib di isi!',
+            'pass.required' => 'Kolom kata sandi belum di isi!'
+        ]);
+        $a = new administrator();
+        $a->updateAdmin($req);
+
+        $data = [
+            'title' => 'List Admin',
+            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))->get()
+        ];
+        return view('kontraktor.List.listAdmin', $data);
+    }
+
+
 
 
     // Pekerjaan
-
-    public function indexListWork()
-    {
-        $p = new pekerjaan();
-        $data = [
-            'title' => 'Detail Pekerjaan',
-            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get()
-        ];
-        return view('kontraktor.List.listWork', $data);
-    }
 
     public function indexAddWork()
     {
@@ -208,16 +287,6 @@ class kontraktorController extends Controller
             'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))->get()
         ];
         return view('kontraktor.Creation.tambahPekerjaan', $data);
-    }
-
-    public function indexDetailWork($id)
-    {
-        $p = new pekerjaan();
-        $data = [
-            'title' => 'Detail Pekerjaan',
-            'work' => $p->getWork($id)
-        ];
-        return view('kontraktor.Detail.detailWork', $data);
     }
 
     public function storeWork(Request $request)
@@ -237,7 +306,7 @@ class kontraktorController extends Controller
         $m = new mandor();
         $a = new administrator();
         $data = [
-            'title' => 'Register Mandor',
+            'title' => 'Tambah Pekerjaan',
             'error' => 0, // 0 = success
             'listClient' => $c->where('kode_kontraktor', session()->get('kode'))->pluck('nama_client'),
             'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
@@ -263,9 +332,30 @@ class kontraktorController extends Controller
         }
     }
 
+    public function indexListWork()
+    {
+        $p = new pekerjaan();
+        $data = [
+            'title' => 'List Pekerjaan',
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get()
+        ];
+        return view('kontraktor.List.listWork', $data);
+    }
+
+    public function detailWork($id)
+    {
+        $p = new pekerjaan();
+        $data = [
+            'title' => 'Detail Pekerjaan',
+            'work' => $p->getWork($id)
+        ];
+        return view('kontraktor.Detail.detailWork', $data);
+    }
+
 
 
     // Pekerjaan khusus
+
     public function indexSpecialWork()
     {
         $p = new pekerjaan();
@@ -289,12 +379,11 @@ class kontraktorController extends Controller
         return view('kontraktor.List.listSpecialWork', $data);
     }
 
-
     public function indexAddSpecialWork()
     {
         $p = new pekerjaan();
         $data = [
-            'title' => 'Tambah Pekerjaan',
+            'title' => 'Tambah Pekerjaan Khusus',
             'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get()
         ];
         return view('kontraktor.Creation.tambahPekerjaanKhusus', $data);
@@ -311,9 +400,12 @@ class kontraktorController extends Controller
             'sumJasa.required' => 'Kolom ongkos kerja wajib di isi!',
             'sumJasa.integer' => 'Kolom ongkos kerja harus di isi dengan angka (0-9)!'
         ]);
+        $pk = new pekerjaan_khusus();
+        $pk->insertPekerjaanKhusus($req);
+
         $p = new pekerjaan();
         $data = [
-            'title' => 'Tambah Pekerjaan',
+            'title' => 'Tambah Pekerjaan Khusus',
             'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get()
         ];
         return view('kontraktor.Creation.tambahPekerjaanKhusus', $data);

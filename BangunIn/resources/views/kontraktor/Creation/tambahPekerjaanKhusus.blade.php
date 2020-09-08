@@ -1,7 +1,7 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-<form method="POST" action="/kontraktor/submitAddWork" novalidate>
+<form method="POST" action="/kontraktor/submitAddSpecWork" novalidate>
     @csrf
     <div class="form-group">
         <label for="nc">Nama Pekerjaan</label>
