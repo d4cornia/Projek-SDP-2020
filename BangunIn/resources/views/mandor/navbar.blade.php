@@ -19,6 +19,7 @@
         <a class="dropdown-item" href="/mandor/lihatTukang">Lihat Tukang</a>
         <a class="dropdown-item" href="/mandor/tambahTukang">Tambah Tukang</a>
         <a class="dropdown-item" href="/mandor/tambahBon">Tambah Bon</a>
+        <a class="dropdown-item" href="/mandor/pembayaranBon">Pembayaran Bon</a>
     </div>
 </div>
 @endsection

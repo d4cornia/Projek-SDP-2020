@@ -20,6 +20,7 @@ class CreateBonTukangsTable extends Migration
             $table->date('tanggal_pengajuan');
             $table->integer('jumlah_bon');
             $table->string("status_lunas",1);
+            $table->integer('sisa_bon');
             $table->string("keterangan_bon",50);
         });
     }
