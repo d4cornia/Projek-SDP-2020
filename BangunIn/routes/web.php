@@ -64,6 +64,8 @@ Route::group(['prefix' => 'mandor'], function () {
     //bon
     Route::get('/tambahBon', 'mandorController@tambahBon');
     Route::post('/submitRegBon', 'mandorController@storeBon');
+    Route::get('/tambahPembayaranBon',"mandorController@bayarBon");
+    Route::post('/fetch',"mandorController@fetch")->name('dynamicdependent.fetch');
 });
 
 //tukang

@@ -6,12 +6,12 @@
     <div class="form-group">
         <label for="nm">Nama Tukang</label>
         <div class="my-1">
-            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="nm" id="nm">
-                <option selected>-</option>
+            <select class="custom-select mr-sm-2 dynamic" id="inlineFormCustomSelect" name="nm" id="nm">
+                <option selected value=''>-</option>
                 @foreach ($listTukang as $item)
                     @foreach ($listJenis as $item2)
                         @if ($item->kode_jenis==$item2->kode_jenis)
-                            <option value="{{$item['username_tukang']}}">{{$item['nama_tukang']}}-{{$item2['nama_jenis']}}</option>
+                            <option value="{{$item['kode_tukang']}}">{{$item['nama_tukang']}}-{{$item2['nama_jenis']}}</option>
                         @endif
                     @endforeach
                 @endforeach
@@ -19,41 +19,28 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="exampleInputEmail1">Tanggal Pengajuan Bon</label>
-        <input type="date" class="form-control" name="tanggal" value="{{old('tanggal')}}" required>
-        <div class="invalid-feedback">
-            Kolom Tanggal Pengajuan Bon belum di isi!
+        <label for="detailbon">Detail Bon</label>
+        <div class="my-1">
+            <select class="custom-select mr-sm-2 isi" id="inlineFormCustomSelect" name="detailbon" id="detailbon">
+                <option selected>-</option>
+
+            </select>
         </div>
-        @error('tanggal')
+    </div>
+    {{ csrf_field() }}
+    <div class="form-group">
+        <label for="exampleInputEmail1">Jumlah Pembayaran</label>
+        <input type="text" class="form-control" name="jumlahbyr" value="{{old('jumlahbyr')}}" required>
+        <div class="invalid-feedback">
+            Kolom Jumlah Pembayaran Bon belum di isi!
+        </div>
+        @error('jumlahbyr')
         <div class="err">
             {{$message}}
         </div>
         @enderror
     </div>
-    <div class="form-group">
-        <label for="exampleInputEmail1">Jumlah Bon</label>
-        <input type="text" class="form-control" name="jumlah" value="{{old('jumlah')}}" required>
-        <div class="invalid-feedback">
-            Kolom Jumlah Bon belum di isi!
-        </div>
-        @error('jumlah')
-        <div class="err">
-            {{$message}}
-        </div>
-        @enderror
-    </div>
-    <div class="form-group">
-        <label for="exampleInputEmail1">Keterangan Bon</label>
-        <input type="text" class="form-control" name="keteranganbon" value="{{old('keteranganbon')}}" required>
-        <div class="invalid-feedback">
-            Kolom Keterangan Bon belum di isi!
-        </div>
-        @error('keteranganbon')
-        <div class="invalid-feedback">
-            {{$message}}
-        </div>
-        @enderror
-    </div>
+
     <button type="submit" class="btn btn-primary">Tambah</button>
 </form>
 
@@ -76,5 +63,29 @@
         });
       }, false);
     })();
+</script>
+<script>
+    $(document).ready(function(){
+       //alert("hai");
+        $('.dynamic').change(function(){
+            //alert('masuk');
+
+            if($(this).val()!=''){
+                //alert($(this).val());
+
+                var value = $(this).val();
+                var _token=$('input[name="_token"]').val();
+                $.ajax({
+                    url:"{{route('dynamicdependent.fetch')}}",
+                    method:"POST",
+                    data:{value:value,_token:_token},
+                    success:function(result){
+                        //alert("Res"+result);
+                        $(".isi").html(result);
+                    }
+                })
+            }
+        });
+    })
 </script>
 @endsection

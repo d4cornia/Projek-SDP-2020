@@ -126,7 +126,7 @@ class mandorController extends Controller
         $t = new tukang();
         $jt = new jenis_tukang();
         $data = [
-            'title' => 'Register Tukang',
+            'title' => 'Register Bon',
             'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get(),
             'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get()
         ];
@@ -147,7 +147,7 @@ class mandorController extends Controller
         $jt = new jenis_tukang();
         $tukang = new tukang();
         $data = [
-            'title' => 'Register Tukang',
+            'title' => 'Register Bon',
             'error' => 0, // 0 = success,
             'listTukang' => $tukang->where('kode_mandor', session()->get('kode'))->get(),
             'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get()
@@ -165,4 +165,34 @@ class mandorController extends Controller
             return view('mandor.Creation.tambahBon', $data);
         }
     }
+
+    //bayarbon
+    public function bayarBon()
+    {
+        $t = new tukang();
+        $jt = new jenis_tukang();
+        $bon = new bon_tukang();
+        $data = [
+            'title' => 'Register Bayar Bon',
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get(),
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get(),
+            'listBon' => $bon->where('status_lunas','0')->get()
+        ];
+        return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+    }
+
+    public function fetch(Request $request){
+        $value = $request->get('value');
+
+        $bon = new bon_tukang();
+        $data = $bon->where('status_lunas','0')
+                    ->where('kode_tukang',$value)
+                    ->get();
+        $output = "<option value=''>-</option>";
+        foreach($data as $row){
+            $output.= "<option value='".$row->kode_bon."'>".$row->keterangan_bon." ~ ".$row->sisa_bon."</option>";
+        }
+        echo $output;
+    }
+
 }
