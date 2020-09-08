@@ -10,6 +10,9 @@ use App\kontraktor;
 use App\pekerjaan;
 use App\pekerjaan_khusus;
 use App\pembayaran_client;
+use App\Rules\cbAdmin;
+use App\Rules\cbClient;
+use App\Rules\cbMandor;
 use App\Rules\cbRequired;
 
 class kontraktorController extends Controller
@@ -124,6 +127,8 @@ class kontraktorController extends Controller
 
 
 
+
+
     // Mandor
     public function indexRegisterMandor()
     {
@@ -135,13 +140,14 @@ class kontraktorController extends Controller
         // validation form -> ada yang kosong / salah ga, kasi warning di form
         $request->validate([
             'name' => 'required|string',
-            'no' => 'required|integer',
+            'no' => 'required|numeric',
             'username' => 'required',
             'email' => 'required',
-            'salary' => 'required|integer',
+            'salary' => 'required|numeric',
             'pass' => 'required'
         ], [
-            'salary.integer' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!',
+            'salary.numeric' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
             'salary.required' => 'Kolom gaji admin wajib di isi!'
         ]);
 
@@ -186,19 +192,19 @@ class kontraktorController extends Controller
     {
         $req->validate([
             'name' => 'required|string',
-            'no' => 'required|integer',
+            'no' => 'required|numeric',
             'username' => 'required',
             'email' => 'required',
-            'salary' => 'required|integer',
+            'salary' => 'required|numeric',
             'pass' => 'required'
         ], [
             'name.required' => 'Kolom nama belum di isi!',
             'name.string' => 'Kolom nama hanya bisa di isi huruf!',
             'no.required' => 'Kolom nomor telepon belum di isi!',
-            'no.integer' => 'Kolom nomor hanya bisa di isi angka!',
+            'no.numeric' => 'Kolom nomor hanya bisa di isi angka!',
             'username.required' => 'Kolom nama pengguna belum di isi!',
             'email.required' => 'Kolom alamat e-mail belum di isi!',
-            'salary.integer' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
+            'salary.numeric' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
             'salary.required' => 'Kolom gaji admin wajib di isi!',
             'pass.required' => 'Kolom kata sandi belum di isi!'
         ]);
@@ -214,6 +220,9 @@ class kontraktorController extends Controller
 
 
 
+
+
+
     // Admin
 
     public function indexRegisterAdmin()
@@ -226,13 +235,14 @@ class kontraktorController extends Controller
         // validation form -> ada yang kosong / salah ga, kasi warning di form
         $request->validate([
             'name' => 'required|string',
-            'no' => 'required|integer',
+            'no' => 'required|numeric',
             'username' => 'required',
             'email' => 'required',
-            'salary' => 'required|integer',
+            'salary' => 'required|numeric',
             'pass' => 'required'
         ], [
-            'salary.integer' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!',
+            'salary.numeric' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
             'salary.required' => 'Kolom gaji admin wajib di isi!',
         ]);
 
@@ -275,19 +285,19 @@ class kontraktorController extends Controller
     {
         $req->validate([
             'name' => 'required|string',
-            'no' => 'required|integer',
+            'no' => 'required|',
             'username' => 'required',
             'email' => 'required',
-            'salary' => 'required|integer',
+            'salary' => 'required|numeric',
             'pass' => 'required'
         ], [
             'name.required' => 'Kolom nama belum di isi!',
             'name.string' => 'Kolom nama hanya bisa di isi huruf!',
             'no.required' => 'Kolom nomor telepon belum di isi!',
-            'no.integer' => 'Kolom nomor hanya bisa di isi angka!',
+            'no.numeric' => 'Kolom nomor hanya bisa di isi angka!',
             'username.required' => 'Kolom nama pengguna belum di isi!',
             'email.required' => 'Kolom alamat e-mail belum di isi!',
-            'salary.integer' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
+            'salary.numeric' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
             'salary.required' => 'Kolom gaji admin wajib di isi!',
             'pass.required' => 'Kolom kata sandi belum di isi!'
         ]);
@@ -324,7 +334,7 @@ class kontraktorController extends Controller
     {
         // validation form -> ada yang kosong / salah ga, kasi warning di form
         $request->validate([
-            'name' => 'required|alpha',
+            'name' => 'required|string',
             'address' => 'required',
             'dealPrice' => 'required|numeric'
         ]);
@@ -376,12 +386,46 @@ class kontraktorController extends Controller
     public function detailWork($id)
     {
         $p = new pekerjaan();
+        $c = new client();
+        $m = new mandor();
+        $a = new administrator();
         $data = [
             'title' => 'Detail Pekerjaan',
-            'work' => $p->getWork($id)
+            'work' => $p->getWork(decrypt($id)),
+            'listClient' => $c->where('kode_kontraktor', session()->get('kode'))->get(),
+            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
+            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))->get()
         ];
         return view('kontraktor.Detail.detailWork', $data);
     }
+
+    public function updateWork(Request $req)
+    {
+        $req->validate([
+            'name' => 'required|string',
+            'kc' => [new cbClient()],
+            'km' => [new cbMandor()],
+            'ka' => [new cbAdmin()],
+            'address' => 'required',
+            'dealPrice' => 'required|numeric'
+        ], [
+            'name.required' => 'Kolom nama perkejaan belum di isi!',
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!',
+            'address.required' => 'Kolom alamat perkejaan belum di isi!',
+            'dealPrice.required' => 'Kolom harga deal perkejaan belum di isi!',
+            'dealPrice.numeric' => 'Kolom Harga Deal harus berisi Angka (0-9)!',
+        ]);
+        $p = new pekerjaan();
+        $p->updateWork($req);
+
+        $data = [
+            'title' => 'List Pekerjaan',
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get()
+        ];
+        return view('kontraktor.List.listWork', $data);
+    }
+
+
 
 
 
@@ -405,7 +449,7 @@ class kontraktorController extends Controller
         $data = [
             'title' => 'Pekerjaan Khusus',
             'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
-            'listSpWork' => $pk->where('kode_pekerjaan', $req->search)->get()
+            'listSpWork' => $pk->where('kode_pekerjaan', $req->work)->get()
         ];
         return view('kontraktor.List.listSpecialWork', $data);
     }
@@ -425,11 +469,11 @@ class kontraktorController extends Controller
         $req->validate([
             'work' => [new cbRequired()],
             'ketPK' => 'required',
-            'sumJasa' => 'required|integer|bail'
+            'sumJasa' => 'required|numeric|bail'
         ], [
             'ketPK.required' => 'Kolom Keterangan Pekerjaan Wajib Di isi!',
             'sumJasa.required' => 'Kolom ongkos kerja wajib di isi!',
-            'sumJasa.integer' => 'Kolom ongkos kerja harus di isi dengan angka (0-9)!'
+            'sumJasa.numeric' => 'Kolom ongkos kerja harus di isi dengan angka (0-9)!'
         ]);
         $pk = new pekerjaan_khusus();
         $pk->insertPekerjaanKhusus($req);

@@ -19,10 +19,14 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$item->nama_pekerjaan}}</td>
                             <td>{{$item->alamat_pekerjaan}}</td>
-                            <td>{{$item->status_selesai}}</td>
+                            <td>@if ($item->status_selesai == '1')
+                                Belum Selesai
+                                @else
+                                Selesai
+                            @endif</td>
                             <td>
-                                <a href="/kontraktor/detWork/{{$item->kode_pekerjaan}}}" class="btn btn-success">Detail</a>
-                                <a href="/kontraktor/delWork/{{$item->kode_pekerjaan}}}" class="btn btn-danger">Hapus</a>
+                                <a href="/kontraktor/detWork/{{encrypt($item->kode_pekerjaan)}}" class="btn btn-success">Detail</a>
+                                <a href="/kontraktor/delWork/{{encrypt($item->kode_pekerjaan)}}" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>
                 @endforeach
