@@ -23,14 +23,11 @@ class kontraktorController extends Controller
 
     //Client
 
-    // public function showDataPekerjaan()
-    // {
-    //     $p = new pekerjaan();
-    //     $dataPekerjaan = [
-    //         'listDataPekerjaan' => $p->getDataPekerjaan()
-    //     ];
-    //     return view('kontraktor.Creation.tambahPembayaranClient',$dataPekerjaan);
-    // }
+    public function toDetailClient(Request $req)
+    {
+        $temp = $req->id;
+        dd($temp);
+    }
 
     public function pembayaranClient()
     {
