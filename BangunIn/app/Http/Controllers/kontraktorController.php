@@ -26,10 +26,39 @@ class kontraktorController extends Controller
 
     //Client
 
-    public function toDetailClient(Request $req)
+    public function toDetailClient($id)
     {
-        $temp = $req->id;
-        dd($temp);
+        // dd(decrypt($id));
+        $c = new client();
+        $data = [
+            'title' => 'Detail Client',
+            'dataClient' => $c->dataToUpdate(decrypt($id))
+        ];
+        return view('kontraktor.Detail.detailClient',$data);
+    }
+
+    public function updateClient(Request $req)
+    {
+        $update = new client();
+        // $idtemp = $req->input('idClient');
+        $req->validate([
+            'nameClient' => 'required|string',
+            'handphoneNumber' => 'required|numeric'
+        ], [
+            'nameClient.required' => 'Kolom nama belum di isi!',
+            'nameClient.string' => 'Kolom nama hanya bisa di isi huruf!',
+            'handphoneNumber.required' => 'Kolom nomor telepon belum di isi!',
+            'handphoneNumber.numeric' => 'Kolom nomor telepon harus diisi angka!'
+        ]);
+        $update->updateClient($req);
+
+        $data = [
+            'title' => 'List Client',
+            'listClients' => $update->where('kode_kontraktor', session()->get('kode'))->get()
+        ];
+        // dd($data);
+        return view('kontraktor.List.listClient', $data);
+
     }
 
     public function pembayaranClient()
@@ -154,7 +183,9 @@ class kontraktorController extends Controller
             'title' => 'Detail Mandor',
             'mandor' => $m->getMandor(decrypt($id))
         ];
+        // dd($data);
         return view('kontraktor.Detail.detailMandor', $data);
+
     }
 
     public function updateMandor(Request $req)
