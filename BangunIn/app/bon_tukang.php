@@ -19,6 +19,7 @@ class bon_tukang extends Model
         $this->jumlah_bon=$request->jumlah;
         $this->status_lunas=0;//0 = belum lunas
         $this->keterangan_bon=$request->keteranganbon;
+        $this->sisa_bon=$request->jumlah;
         $this->save();
     }
 }
