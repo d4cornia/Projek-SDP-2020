@@ -11,6 +11,7 @@
                     <th scope="col">Nama Admin</th>
                     <th scope="col">Nomor HP</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Gaji Admin</th>
                     <th scope="col">Aksi</th>
                 </tr>
               </thead>
@@ -22,9 +23,10 @@
                             <td>{{$item->nama_admin}}</td>
                             <td>{{$item->no_hp_admin}}</td>
                             <td>{{$item->email_admin}}</td>
+                            <td>Rp. {{$item->gaji_admin}}</td>
                             <td>
-                                <a href="/kontraktor/detAdmin/{{$item->kode_admin}}" class="btn btn-success">Detail</a>
-                                <a href="/kontraktor/delAdmin/{{$item->kode_admin}}" class="btn btn-danger">Hapus</a>
+                                <a href="/kontraktor/detAdmin/{{encrypt($item->kode_admin)}}" class="btn btn-success">Detail</a>
+                                <a href="/kontraktor/delAdmin/{{encrypt($item->kode_admin)}}" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>
                     @endforeach

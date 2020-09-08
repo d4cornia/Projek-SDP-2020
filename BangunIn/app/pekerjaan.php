@@ -12,7 +12,7 @@ class pekerjaan extends Model
 
     public function getWork($id)
     {
-        return $this::where('id', $id)->get();
+        return $this::where('kode_pekerjaan', $id)->get();
     }
 
     public function cekWorkname($name)
@@ -28,7 +28,7 @@ class pekerjaan extends Model
         $data = pekerjaan::select('*')->get();
         $nama = [];
         foreach ($data as $key) {
-            $nama[] = client::where('kode_client',$key['kode_client'])->pluck('nama_client');
+            $nama[] = client::where('kode_client', $key['kode_client'])->pluck('nama_client');
         }
         $final = ['data' => $data, 'nama' => $nama];
         return $final;
@@ -47,5 +47,19 @@ class pekerjaan extends Model
         $this->harga_deal = $request->input('dealPrice');
         $this->status_selesai = '0';
         $this->save();
+    }
+
+    public function updateWork(Request $request)
+    {
+        $p = $this->find($request->id);
+        $p->kode_client = $request->input('kc');
+        $p->kode_admin = $request->input('ka');
+        $p->kode_mandor = $request->input('km');
+        $p->nama_pekerjaan = $request->input('name');
+        $p->alamat_pekerjaan = $request->input('address');
+        $p->perjanjian_khusus = $request->input('specAgreement');
+        $p->jenis_pekerjaan = $request->input('type'); // 0 = dp, 1 = komisi
+        $p->harga_deal = $request->input('dealPrice');
+        $p->save();
     }
 }

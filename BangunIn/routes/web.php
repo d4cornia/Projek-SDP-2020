@@ -51,15 +51,15 @@ Route::group(['prefix' => 'kontraktor'], function () {
     // Update
     Route::post('/updMandor', 'kontraktorController@updateMandor');
     Route::post('/updAdmin', 'kontraktorController@updateAdmin');
-    Route::post('/updWork', 'kontraktorController@updateAdmin');
-    Route::post('/updSpWork', 'kontraktorController@updateAdmin');
+    Route::post('/updWork', 'kontraktorController@updateWork');
+    Route::post('/updSpWork', 'kontraktorController@updateSpecialWork');
 
     Route::get('/addClient', 'kontraktorController@addClient');
     Route::post('/submitRegClient', 'kontraktorController@storeClient');
     Route::get('/lihatClient', 'kontraktorController@indexListClient');
     Route::get('/pembayaran', 'kontraktorController@pembayaranClient');
     Route::post('/submitPembayaran', 'kontraktorController@bayar');
-    Route::get('/detClient/{n?}', 'kontraktorController@toDetailClient')
+    Route::get('/detClient/{n?}', 'kontraktorController@toDetailClient');
 });
 
 //mandor
