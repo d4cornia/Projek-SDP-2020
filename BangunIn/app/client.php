@@ -30,6 +30,19 @@ class client extends Model
         return $data;
     }
 
+    public function dataToUpdate($id)
+    {
+        return client::where('kode_client',$id)->get();
+    }
+
+    public function updateClient(Request $req)
+    {
+        $b = $this->find($req->input('idClient'));
+        $b->nama_client = $req->input('nameClient');
+        $b->no_hp_client = $req->input('handphoneNumber');
+        $b->save();
+    }
+
     public function insertClient(Request $request)
     {
         $this->kode_kontraktor = session()->get('kode');
