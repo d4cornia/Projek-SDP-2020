@@ -19,6 +19,7 @@ class CreateMemilikiDetailBonsTable extends Migration
             $table->foreign('kode_bon')->references('kode_bon')->on('bon_tukangs');
             $table->integer('kode_pembayaran_bon')->unsigned();
             $table->foreign('kode_pembayaran_bon')->references('kode_pembayaran_bon')->on('pembayaran_bon_tukangs');
+            $table->integer('jumlah_pembayaran_bon');
         });
     }
 

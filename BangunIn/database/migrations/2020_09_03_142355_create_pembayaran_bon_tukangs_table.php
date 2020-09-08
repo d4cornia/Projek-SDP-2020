@@ -17,7 +17,7 @@ class CreatePembayaranBonTukangsTable extends Migration
             $table->integerIncrements('kode_pembayaran_bon');
             $table->integer('kode_mandor')->unsigned();
             $table->foreign('kode_mandor')->references('kode_mandor')->on('mandors');
-            $table->integer('jumlah_pembayaran_bon');
+            $table->date('tanggal_pembayaran_bon');
         });
     }
 
