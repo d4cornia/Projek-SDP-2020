@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class pekerjaan_khusus extends Model
 {
-    protected $primaryKey = 'kode_pekerjaan';
+    protected $primaryKey = 'kode_pk';
     public  $timestamps = false;
 
     public function insertPekerjaanKhusus(Request $req)

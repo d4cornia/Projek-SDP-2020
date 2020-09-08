@@ -22,23 +22,35 @@ Route::any('/register', 'loginController@register');
 
 //kontraktor
 Route::group(['prefix' => 'kontraktor'], function () {
+    //index for insert
     Route::get('/', 'kontraktorController@index');
     Route::get('/rMandor', 'kontraktorController@indexRegisterMandor');
     Route::get('/rAdmin', 'kontraktorController@indexRegisterAdmin');
     Route::get('/aWork', 'kontraktorController@indexAddWork');
     Route::get('/aSpWork', 'kontraktorController@indexAddSpecialWork');
 
+    //list
     Route::get('/lMandor', 'kontraktorController@indexListMandor');
     Route::get('/lAdmin', 'kontraktorController@indexListAdmin');
     Route::get('/lWork', 'kontraktorController@indexListWork');
     Route::get('/iSpWork', 'kontraktorController@indexSpecialWork');
     Route::post('/search', 'kontraktorController@searchListSpecialWork');
 
-    Route::get('/detWork/{n?}', 'kontraktorController@indexListWork');
-
+    //insert
     Route::post('/submitRegMandor', 'kontraktorController@storeMandor');
     Route::post('/submitRegAdmin', 'kontraktorController@storeAdmin');
-    Route::post('/submitAddWork', 'kontraktorController@storeSpecialWork');
+    Route::post('/submitAddWork', 'kontraktorController@storeWork');
+    Route::post('/submitAddSpecWork', 'kontraktorController@storeSpecialWork');
+
+    // detail
+    Route::get('/detMandor/{n?}', 'kontraktorController@detailMandor');
+    Route::get('/detAdmin/{n?}', 'kontraktorController@detailAdmin');
+    Route::get('/detWork/{n?}', 'kontraktorController@detailWork');
+    Route::get('/detSpWork/{n?}', 'kontraktorController@detailSpecialWork');
+
+    // Update
+    Route::post('/updMandor', 'kontraktorController@updateMandor');
+    Route::post('/updAdmin', 'kontraktorController@updateAdmin');
 
     Route::get('/addClient', 'kontraktorController@addClient');
     Route::post('/submitRegClient', 'kontraktorController@storeClient');

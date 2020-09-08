@@ -23,8 +23,8 @@
                             <td>{{$item->no_hp_mandor}}</td>
                             <td>{{$item->email_mandor}}</td>
                             <td>
-                                <a href="/kontraktor/detMandor/{{$item->kode_mandor}}}" class="btn btn-success">Detail</a>
-                                <a href="/kontraktor/delMandor/{{$item->kode_mandor}}}" class="btn btn-danger">Hapus</a>
+                                <a href="/kontraktor/detMandor/{{encrypt($item->kode_mandor)}}}" class="btn btn-success">Detail</a>
+                                <a href="/kontraktor/delMandor/{{encrypt($item->kode_mandor)}}}" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>
                     @endforeach

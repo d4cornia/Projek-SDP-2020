@@ -2,11 +2,11 @@
 
 @section('content')
     @if ($listSpWork !== null)
-        <div class="row">
+        <div class="row-first">
             <form action="/kontraktor/search" method="post">
                 @csrf
                 <span class="form-group">
-                    <label for="nc">Nama Pekerjaan</label>
+                    <label for="work">Nama Pekerjaan</label>
                     <div class="my-1">
                         <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
                             <option selected>-</option>
@@ -19,7 +19,7 @@
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
-        <div class="row"><div class="table-responsive">
+        <div class="row-second"><div class="table-responsive">
             <table id="tabel-work" class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -63,7 +63,7 @@
             <form action="/kontraktor/search" method="post">
                 @csrf
                 <span class="form-group">
-                    <label for="nc">Nama Pekerjaan</label>
+                    <label for="work">Nama Pekerjaan</label>
                     <div class="my-1">
                         <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
                             <option selected>-</option>

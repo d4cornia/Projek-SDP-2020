@@ -29,6 +29,17 @@ class mandor extends Model
         return count($result);
     }
 
+    public function nameToCode($username)
+    {
+        return $this::where('username_mandor', $username)
+            ->pluck('kode_mandor');
+    }
+
+    public function getMandor($id)
+    {
+        return $this::where('kode_mandor', $id)->get();
+    }
+
     public function insertMandor(Request $request)
     {
         $this->kode_kontraktor = session()->get('kode');
@@ -36,13 +47,20 @@ class mandor extends Model
         $this->no_hp_mandor = $request->input('no');
         $this->username_mandor = $request->input('username');
         $this->email_mandor = $request->input('email');
+        $this->gaji_mandor = $request->input('salary');
         $this->password_mandor = $request->input('pass');
         $this->save();
     }
 
-    public function nameToCode($username)
+    public function updateMandor(Request $request)
     {
-        return $this::where('username_mandor', $username)
-            ->pluck('kode_mandor');
+        $m = $this->find($request->id);
+        $m->nama_mandor = $request->input('name');
+        $m->no_hp_mandor = $request->input('no');
+        $m->username_mandor = $request->input('username');
+        $m->email_mandor = $request->input('email');
+        $m->gaji_mandor = $request->input('salary');
+        $m->password_mandor = $request->input('pass');
+        $m->save();
     }
 }

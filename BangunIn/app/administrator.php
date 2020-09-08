@@ -29,6 +29,12 @@ class administrator extends Model
         return count($result);
     }
 
+    public function nameToCode($username)
+    {
+        return $this::where('username_admin', $username)
+            ->pluck('kode_admin');
+    }
+
     public function insertAdmin(Request $request)
     {
         $this->kode_kontraktor = session()->get('kode');
@@ -36,13 +42,20 @@ class administrator extends Model
         $this->no_hp_admin = $request->input('no');
         $this->username_admin = $request->input('username');
         $this->email_admin = $request->input('email');
+        $this->gaji_admin = $request->input('salary');
         $this->password_admin = $request->input('pass');
         $this->save();
     }
 
-    public function nameToCode($username)
+    public function updateAdmin(Request $request)
     {
-        return $this::where('username_admin', $username)
-            ->pluck('kode_admin');
+        $a = $this->find($request->id);
+        $a->nama_admin = $request->input('name');
+        $a->no_hp_admin = $request->input('no');
+        $a->username_admin = $request->input('username');
+        $a->email_admin = $request->input('email');
+        $a->gaji_admin = $request->input('salary');
+        $a->password_admin = $request->input('pass');
+        $a->save();
     }
 }
