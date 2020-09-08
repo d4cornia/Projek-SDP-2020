@@ -10,6 +10,7 @@ use App\kontraktor;
 use App\pekerjaan;
 use App\pekerjaan_khusus;
 use App\pembayaran_client;
+use App\Rules\cbRequired;
 
 class kontraktorController extends Controller
 {
@@ -41,14 +42,14 @@ class kontraktorController extends Controller
             'listDataPekerjaan' => $p->getDataPekerjaan()
         ];
 
-        return view('kontraktor.Creation.tambahPembayaranClient',$data);
+        return view('kontraktor.Creation.tambahPembayaranClient', $data);
     }
 
     public function bayar(Request $req)
     {
         $kode = $req->input('pekerjaan');
-        $pekerjaan_kode = substr($kode,0,1);
-        $client_kode = substr($kode,1);
+        $pekerjaan_kode = substr($kode, 0, 1);
+        $client_kode = substr($kode, 1);
         $waktu = $req->input('waktuPembayaran');
         $jumlah = $req->input('total');
         $data = [
@@ -94,6 +95,8 @@ class kontraktorController extends Controller
         ];
         return view('kontraktor.List.listClient', $data);
     }
+
+
 
     // Mandor
     public function indexRegisterMandor()
@@ -184,7 +187,8 @@ class kontraktorController extends Controller
 
 
 
-    // pekerjaan
+    // Pekerjaan
+
     public function indexListWork()
     {
         $p = new pekerjaan();
@@ -264,11 +268,13 @@ class kontraktorController extends Controller
 
 
 
-    // pekerjaan khusus
+    // Pekerjaan khusus
     public function indexSpecialWork()
     {
+        $p = new pekerjaan();
         $data = [
             'title' => 'Pekerjaan Khusus',
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
             'listSpWork' => null
         ];
         return view('kontraktor.List.listSpecialWork', $data);
@@ -276,18 +282,11 @@ class kontraktorController extends Controller
 
     public function searchListSpecialWork(Request $req)
     {
-        $req->validate(
-            [
-                'search' => ['reqiured']
-            ],
-            [
-                'search.required' => 'Kolom search harus di isi'
-            ]
-        );
-
+        $p = new pekerjaan();
         $pk = new pekerjaan_khusus();
         $data = [
             'title' => 'Pekerjaan Khusus',
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
             'listSpWork' => $pk->where('kode_pekerjaan', $req->search)->get()
         ];
         return view('kontraktor.List.listSpecialWork', $data);
@@ -296,8 +295,29 @@ class kontraktorController extends Controller
 
     public function indexAddSpecialWork()
     {
+        $p = new pekerjaan();
         $data = [
-            'title' => 'Tambah Pekerjaan'
+            'title' => 'Tambah Pekerjaan',
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get()
+        ];
+        return view('kontraktor.Creation.tambahPekerjaanKhusus', $data);
+    }
+
+    public function storeSpecialWork(Request $req)
+    {
+        $req->validate([
+            'work' => [new cbRequired()],
+            'ketPK' => 'required',
+            'sumJasa' => 'required|integer|bail'
+        ], [
+            'ketPK.required' => 'Kolom Keterangan Pekerjaan Wajib Di isi!',
+            'sumJasa.required' => 'Kolom ongkos kerja wajib di isi!',
+            'sumJasa.integer' => 'Kolom ongkos kerja harus di isi dengan angka (0-9)!'
+        ]);
+        $p = new pekerjaan();
+        $data = [
+            'title' => 'Tambah Pekerjaan',
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get()
         ];
         return view('kontraktor.Creation.tambahPekerjaanKhusus', $data);
     }

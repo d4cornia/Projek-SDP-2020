@@ -1,18 +1,20 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-    @if (count($listSpWork) > 0)
+    @if ($listSpWork !== null)
         <div class="row">
-            <form action="/search" method="post">
+            <form action="/kontraktor/search" method="post">
                 @csrf
                 <span class="form-group">
-                    <label for="exampleInputEmail1">Nama Pekerjaan</label>
-                    <input type="text" class="form-control" name="search" value="{{old('username')}}">
-                    @error('search')
-                        <div class="invalid-feedback">
-                            {{$message}}
-                        </div>
-                    @enderror
+                    <label for="nc">Nama Pekerjaan</label>
+                    <div class="my-1">
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
+                            <option selected>-</option>
+                            @foreach ($listWork as $item)
+                                <option value="{{$item['kode_pekerjaan']}}">{{$item['nama_pekerjaan']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </span>
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
@@ -58,16 +60,18 @@
             </div>
         </div>
     @else
-            <form action="/search" method="post">
+            <form action="/kontraktor/search" method="post">
                 @csrf
                 <span class="form-group">
-                    <label for="exampleInputEmail1">Nama Pekerjaan</label>
-                    <input type="text" class="form-control" name="search" value="{{old('username')}}">
-                    @error('search')
-                        <div class="invalid-feedback">
-                            {{$message}}
-                        </div>
-                    @enderror
+                    <label for="nc">Nama Pekerjaan</label>
+                    <div class="my-1">
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
+                            <option selected>-</option>
+                            @foreach ($listWork as $item)
+                                <option value="{{$item['kode_pekerjaan']}}">{{$item['nama_pekerjaan']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </span>
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
