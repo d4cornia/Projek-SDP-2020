@@ -68,9 +68,13 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/', 'mandorController@index');
 
     //jenistukang
+    //insert
     Route::get('/tambahJenisTukang', 'mandorController@tambahJenisTukang');
     Route::post('/submitRegJenisTukang', 'mandorController@storeJenisTukang');
     Route::get('/lihatJenisTukang', 'mandorController@lihatJenisTukang');
+    //detail
+    Route::get('/detjenis/{n?}', 'mandorController@detailjenis');
+
 
     //tukang
     Route::get('/tambahTukang', 'mandorController@tambahTukang');

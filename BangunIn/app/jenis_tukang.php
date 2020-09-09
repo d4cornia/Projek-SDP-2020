@@ -12,6 +12,16 @@ class jenis_tukang extends Model
     public  $timestamps = false;
     public  $incrementing = true;
 
+    public function getNamaJenis($id)
+    {
+        return $this::where('kode_jenis', $id)
+            ->pluck('nama_jenis');
+    }
+    public function getGaji($id)
+    {
+        return $this::where('kode_jenis', $id)
+            ->pluck('gaji_pokok');
+    }
     public function cekJenis($namaJenis)
     {
         $result = jenis_tukang::where('nama_jenis', $namaJenis)

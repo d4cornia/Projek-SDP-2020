@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             ['kode_mandor'=>'100001','gaji_mandor'=>200000,'kode_kontraktor'=>'100001','nama_mandor'=>'monica','no_hp_mandor'=>'082853714156','username_mandor'=>'monica','email_mandor'=>'monica@gmail.com','password_mandor'=>'monica']
         ]);
         DB::table('administrators')->insert([
-            ['kode_admin'=>'100001','kode_kontraktor'=>'100001','nama_admin'=>'denny','no_hp_admin'=>'087123784556','username_admin'=>'denny','email_admin'=>'denny@gmail.com','password_admin'=>'denny']
+            ['kode_admin'=>'100001','gaji_admin'=>1000000,'kode_kontraktor'=>'100001','nama_admin'=>'denny','no_hp_admin'=>'087123784556','username_admin'=>'denny','email_admin'=>'denny@gmail.com','password_admin'=>'denny']
         ]);
         DB::table('jenis_tukangs')->insert([
             ['kode_jenis'=>'100001','kode_mandor'=>'100001','nama_jenis'=>'Tukang Kayu','gaji_pokok'=>180000],

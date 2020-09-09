@@ -31,8 +31,11 @@ class mandorController extends Controller
     public function storeJenisTukang(Request $request)
     {
         $request->validate([
-            'name' => 'required|alpha',
+            'name' => 'required|string',
             'gaji' => 'required|numeric',
+        ],
+        [
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!'
         ]);
         $jt = new jenis_tukang();
         $data = [
@@ -56,6 +59,27 @@ class mandorController extends Controller
         ];
         return view('mandor.List.listJenisTukang', $data);
     }
+    public function detailjenis($id){
+
+        //dd($id);
+        //dd(decrypt($id));
+        $jt = new jenis_tukang();
+        $nama = $jt->getNamaJenis($id);
+        $nama= substr($nama,2);
+        $nama=substr($nama,0,strlen($nama)-2);
+        //echo $nama;
+        $gaji = $jt->getGaji($id);
+        $gaji = substr($gaji,1);
+        $gaji=substr($gaji,0,strlen($gaji)-1);
+        //echo $gaji;
+        $data = [
+            'title' => 'Detail Jenis',
+            'nama' => $nama,
+            'gaji' => $gaji
+        ];
+        //dd($data);
+        return view('mandor.Detail.detailJenis', $data);
+    }
 
     //tukang
     public function tambahTukang(){
@@ -70,12 +94,14 @@ class mandorController extends Controller
     {
 
         $request->validate([
-            'name' => 'required|alpha',
+            'name' => 'required|string',
             'no' => 'required|numeric',
             'username' => 'required',
             'email' => 'required',
             'pass' => 'required',
             'gaji'=>'required|numeric'
+        ],[
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!'
         ]);
         $jenis = $request->jenis;
         $un = $request->username;
