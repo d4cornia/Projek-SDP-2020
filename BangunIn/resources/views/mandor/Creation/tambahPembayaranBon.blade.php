@@ -18,6 +18,14 @@
                 @endforeach
             </select>
         </div>
+        <div class="invalid-feedback">
+            Kolom Nama Tukang belum di pilih!
+        </div>
+        @error('nm')
+        <div class="err">
+            {{$message}}
+        </div>
+        @enderror
     </div>
     <div class="form-group">
         <label for="detailbon">Detail Bon</label>
@@ -26,7 +34,16 @@
                 <option selected>-</option>
 
             </select>
+
         </div>
+        <div class="invalid-feedback">
+            Kolom Detail Bon belum di isi!
+        </div>
+        @error('detailbon')
+        <div class="err">
+            {{$message}}
+        </div>
+        @enderror
     </div>
     {{ csrf_field() }}
     <div class="form-group">

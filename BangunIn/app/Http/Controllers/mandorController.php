@@ -9,6 +9,9 @@ use App\administrator;
 use App\bon_tukang;
 use App\memiliki_detail_bon;
 use App\pembayaran_bon_tukang;
+use App\Rules\cbDetBon;
+use App\Rules\cbJenis;
+use App\Rules\cbTukang;
 use App\tukang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -203,6 +206,8 @@ class mandorController extends Controller
     {
         $request->validate([
             'jumlahbyr' => 'required|numeric',
+            'nm'=>[new cbTukang()],
+            'detailbon'=>[new cbDetBon()]
         ]);
         $kode_tukang = $request->nm;
         $kdbon = $request->detailbon;

@@ -19,7 +19,7 @@
         <label for="nm">Jenis Tukang</label>
         <div class="my-1">
             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="jenis" id="jenis">
-                <option selected>-</option>
+                <option selected value=''>-</option>
                 @foreach ($listJenis as $item)
                     <option value="{{$item['nama_jenis']}}">{{$item['nama_jenis']}}</option>
                 @endforeach
