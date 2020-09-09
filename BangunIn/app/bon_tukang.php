@@ -33,6 +33,17 @@ class bon_tukang extends Model
         }
         $datalama->save();
     }
+    public function cekMaxBayar($jumlahtotal,$kd)
+    {
+        $datalama   = bon_tukang::find($kd);
+        $jum = $datalama->sisa_bon;
+        if($jumlahtotal>$jum){
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
     public function kodetoKet($kode)
     {
         return $this::where('kode_bon', $kode)

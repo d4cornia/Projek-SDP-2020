@@ -33,6 +33,19 @@ class tukang extends Model
         $this->gaji_pokok_tukang=$request->gaji;
         $this->save();
     }
+    public function updateTukang($request,$kode_jenis)
+    {
+        $kode= $request->kodetukang;
+        $datalama   = tukang::find($kode);
+
+        $datalama->kode_jenis=$kode_jenis;
+        $datalama->nama_tukang = $request->name;
+        $datalama->no_hp_tukang=$request->no;
+        $datalama->email_tukang=$request->email;
+        $datalama->password_tukang=$request->pass;
+        $datalama->gaji_pokok_tukang=$request->gaji;
+        $datalama->save();
+    }
     public function nameToCode($username)
     {
         return $this::where('username_tukang', $username)
@@ -42,5 +55,36 @@ class tukang extends Model
     {
         return $this::where('kode_tukang', $kode)
             ->pluck('username_tukang');
+    }
+    public function getKodeJenis($id)
+    {
+        return $this::where('kode_tukang', $id)
+            ->pluck('kode_jenis');
+    }
+    public function getNamaTukang($id)
+    {
+        return $this::where('kode_tukang', $id)
+            ->pluck('nama_tukang');
+    }
+
+    public function getNo($id)
+    {
+        return $this::where('kode_tukang', $id)
+            ->pluck('no_hp_tukang');
+    }
+    public function getEmail($id)
+    {
+        return $this::where('kode_tukang', $id)
+            ->pluck('email_tukang');
+    }
+    public function getGaji($id)
+    {
+        return $this::where('kode_tukang', $id)
+            ->pluck('gaji_pokok_tukang');
+    }
+    public function getPassword($id)
+    {
+        return $this::where('kode_tukang', $id)
+            ->pluck('password_tukang');
     }
 }

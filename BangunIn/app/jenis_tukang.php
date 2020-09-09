@@ -47,4 +47,9 @@ class jenis_tukang extends Model
         return $this::where('nama_jenis', $jenis)
             ->pluck('kode_jenis');
     }
+    public function codetoName($kode)
+    {
+        return $this::where('kode_jenis', $kode)
+            ->pluck('nama_jenis');
+    }
 }

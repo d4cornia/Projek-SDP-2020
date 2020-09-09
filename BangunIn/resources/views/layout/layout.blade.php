@@ -48,6 +48,16 @@
 
 {{-- berhasil/gagal tambah --}}
 @isset($error)
+    @if ($error == 9)
+    <script>
+        swal("Berhasil Ubah!", "", "success");
+    </script>
+    @endif
+    @if ($error == 8)
+    <script>
+        swal("Gagal Ubah!", "Belum memilih Jenis Tukang untuk Tukang ini!","error");
+    </script>
+    @endif
     @if ($error == 7)
     <script>
         swal("Gagal Tambah!", "Belum memilih Tukang untuk Bon ini!","error");

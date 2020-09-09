@@ -12,6 +12,7 @@ use App\pembayaran_bon_tukang;
 use App\Rules\cbDetBon;
 use App\Rules\cbJenis;
 use App\Rules\cbTukang;
+use App\Rules\cekMaksimalBayar;
 use App\tukang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -106,7 +107,6 @@ class mandorController extends Controller
     }
     public function storeTukang(Request $request)
     {
-
         $request->validate([
             'name' => 'required|string',
             'no' => 'required|numeric',
@@ -163,6 +163,105 @@ class mandorController extends Controller
             'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get()
         ];
         return view('mandor.List.listTukang', $data);
+    }
+    public function detailtukang($id)
+    {
+        $jt = new jenis_tukang();
+        $tk = new tukang();
+
+        $kodejenis = $tk->getKodeJenis($id);
+        $kodejenis = substr($kodejenis,1);
+        $kodejenis=substr($kodejenis,0,strlen($kodejenis)-1);
+
+        $namajenis=$jt->codetoName($kodejenis);
+        $namajenis= substr($namajenis,2);
+        $namajenis=substr($namajenis,0,strlen($namajenis)-2);
+
+        $nama = $tk->getNamaTukang($id);
+        $nama= substr($nama,2);
+        $nama=substr($nama,0,strlen($nama)-2);
+
+        $un = $tk->kodeToNama($id);
+        $un= substr($un,2);
+        $un=substr($un,0,strlen($un)-2);
+
+        $nohp = $tk->getNo($id);
+        $nohp= substr($nohp,2);
+        $nohp=substr($nohp,0,strlen($nohp)-2);
+
+        $email = $tk->getEmail($id);
+        $email= substr($email,2);
+        $email=substr($email,0,strlen($email)-2);
+
+        $gaji = $tk->getGaji($id);
+        $gaji = substr($gaji,1);
+        $gaji=substr($gaji,0,strlen($gaji)-1);
+
+        $password = $tk->getPassword($id);
+        $password= substr($password,2);
+        $password=substr($password,0,strlen($password)-2);
+        //echo $namajenis;
+        //dd($namajenis);
+        $data = [
+            'kodetukang'=>$id,
+            'title' => 'Detail Tukang',
+            'kodejenistukang' => $namajenis,
+            'gajitukang' => $gaji,
+            'namatukang'=>$nama,
+            'usernametukang'=>$un,
+            'notelptukang'=>$nohp,
+            'emailtukang'=>$email,
+            'passwordtukang'=>$password,
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get()
+        ];
+        //dd($data);
+        return view('mandor.Detail.detailTukang', $data);
+    }
+    public function updateTukang(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'no' => 'required|numeric',
+            'username' => 'required',
+            'email' => 'required',
+            'pass' => 'required',
+            'gaji'=>'required|numeric'
+        ],[
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!'
+        ]);
+        $jenis = $request->jenis;
+        $un = $request->username;
+
+        $t = new tukang();
+        $jt = new jenis_tukang();
+        $m = new mandor();
+        $a = new administrator();
+        $k = new kontraktor();
+        $tukang = new tukang();
+        $data = [
+            'title' => 'Register Tukang',
+            'error' => 9, // 0 = success,
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get(),
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get()
+        ];
+        if (count($jt->nameToCode($jenis)) == 0) {
+            $data['error'] = 8; // 8 = belum pilih jenis tukang
+        }
+        if ($data['error'] == 8) {
+            return view('mandor.List.listTukang', $data);
+        }
+        else{
+            $kj = $jt->nameToCode($jenis);
+            $kj = substr($kj,1);
+            $kj = substr($kj,0,strlen($kj)-1);
+            $tukang->updateTukang($request,$kj);
+            $data = [
+                'title' => 'List Tukang',
+                'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get(),
+                'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get()
+            ];
+            return view('mandor.List.listTukang', $data);
+        }
     }
 
     //bon
@@ -244,13 +343,13 @@ class mandorController extends Controller
     }
     public function tambahBayar(Request $request)
     {
+        $kdbon = $request->detailbon;
         $request->validate([
-            'jumlahbyr' => 'required|numeric',
             'nm'=>[new cbTukang()],
-            'detailbon'=>[new cbDetBon()]
+            'detailbon'=>[new cbDetBon(),'bail'],
+            'jumlahbyr' => ['required','numeric',new cekMaksimalBayar($kdbon)],
         ]);
         $kode_tukang = $request->nm;
-        $kdbon = $request->detailbon;
         $jumlah = $request->jumlahbyr;
 
         $tukang = new tukang();
