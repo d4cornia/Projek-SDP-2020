@@ -3,6 +3,7 @@
 @section('content')
 <form method="POST" action="/mandor/submitBayarBon" class="needs-validation" novalidate>
     @csrf
+
     <div class="form-group">
         <label for="nm">Nama Tukang</label>
         <div class="my-1">
@@ -41,9 +42,73 @@
         @enderror
     </div>
 
-    <button type="submit" class="btn btn-primary">Tambah</button>
+    <button type="submit" class="btn btn-primary" name='btnTambah'>Tambah</button>
 </form>
 
+
+    @php
+        $arrbayar = json_decode($listBayar);
+        //echo "masuksini";
+        //echo "Ctr : ".count($arrbayar);
+    @endphp
+    <br>
+    @if (count($arrbayar)>0)
+        <form method="POST" action="/mandor/tabelBayar" class="needs-validation" novalidate>
+            @csrf
+
+        <div class="table-responsive">
+            <table id="tabel-bayar" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Username Tukang</th>
+                    <th>Kode Bon</th>
+                    <th>Keterangan</th>
+                    <th>Jumlah Bayar</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="">
+
+                    @foreach ($arrbayar as $item)
+                        <tr>
+
+                            <th scope="row">{{$loop->iteration}}</th>
+                            <td>{{$item->nama_tukang}}</td>
+                            <td>{{$item->kode_bon}}</td>
+                            <td>{{$item->keterangan}}</td>
+                            <td>{{$item->jumlah_bayar}}</td>
+                            <td>
+                            <button type='submit' name='kodeku'value='{{$item->kode_bon}}' class="btn btn-danger">Batal</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </form>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>No</th>
+                    <th>Username Tukang</th>
+                    <th>Kode Bon</th>
+                    <th>Keterangan</th>
+                    <th>Jumlah Bayar</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
+            </table>
+        </div>
+        <form method="POST" action="/mandor/simpanBayarBon" class="needs-validation" novalidate>
+            @csrf
+            <button type="submit" class="btn btn-success" name='btnSimpan'>Simpan</button>
+        </form>
+    @endif
+
+
+<script>
+    $(document).ready(function() {
+        $("#tabel-bayar").DataTable();
+} );
+</script>
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function() {

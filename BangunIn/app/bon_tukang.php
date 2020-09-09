@@ -22,4 +22,20 @@ class bon_tukang extends Model
         $this->sisa_bon=$request->jumlah;
         $this->save();
     }
+    public function kurangi($jumlah,$kode_bon)
+    {
+        $datalama   = bon_tukang::find($kode_bon);
+        $jumlahlalu = $datalama->sisa_bon;
+        $datalama->sisa_bon=$jumlahlalu-$jumlah;
+        $temp = $jumlahlalu-$jumlah;
+        if($temp==0){
+            $datalama->status_lunas=1;
+        }
+        $datalama->save();
+    }
+    public function kodetoKet($kode)
+    {
+        return $this::where('kode_bon', $kode)
+            ->pluck('keterangan_bon');
+    }
 }

@@ -134,6 +134,10 @@ return [
             'required' => 'Kolom nama belum diisi!',
             'alpha' => 'Nama hanya boleh berisi huruf (a-z)',
         ],
+        'jumlahbyr' => [
+            'required' => 'Kolom Jumlah belum diisi!',
+            'numeric' => 'Jumlah hanya boleh berisi Angka (0-9)',
+        ],
         'jumlah' => [
             'required' => 'Kolom jumlah belum diisi!',
             'numeric' => 'Jumlah hanya boleh berisi Angka (0-9)',
