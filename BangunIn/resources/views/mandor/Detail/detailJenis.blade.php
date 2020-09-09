@@ -1,8 +1,9 @@
 @extends('mandor.navbar')
 
 @section('content')
-<form method="POST" action="/mandor/updateRegJenisTukang" class="needs-validation" novalidate>
+<form method="POST" action="/mandor/updateJenisTukang" class="needs-validation" novalidate>
     @csrf
+    <input type='hidden' name='kodejenis' value={{$kodejenis}}>
     <div class="form-group">
         <label for="exampleInputEmail1">Nama Jenis</label>
         <input type="text" class="form-control" name="name" value="{{$nama}}" required>

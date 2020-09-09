@@ -59,26 +59,40 @@ class mandorController extends Controller
         ];
         return view('mandor.List.listJenisTukang', $data);
     }
-    public function detailjenis($id){
-
-        //dd($id);
-        //dd(decrypt($id));
+    public function detailjenis($id)
+    {
         $jt = new jenis_tukang();
         $nama = $jt->getNamaJenis($id);
         $nama= substr($nama,2);
         $nama=substr($nama,0,strlen($nama)-2);
-        //echo $nama;
         $gaji = $jt->getGaji($id);
         $gaji = substr($gaji,1);
         $gaji=substr($gaji,0,strlen($gaji)-1);
-        //echo $gaji;
         $data = [
             'title' => 'Detail Jenis',
             'nama' => $nama,
-            'gaji' => $gaji
+            'gaji' => $gaji,
+            'kodejenis'=>$id
         ];
-        //dd($data);
         return view('mandor.Detail.detailJenis', $data);
+    }
+    public function updateJenisTukang(Request $request)
+    {
+        $kode=$request->kodejenis;
+        $request->validate([
+            'name' => 'required|string',
+            'gaji' => 'required|numeric',
+        ],
+        [
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!'
+        ]);
+        $jt = new jenis_tukang();
+        $jt->updateJenis($request,$kode);
+        $data = [
+            'title' => 'List Jenis Tukang',
+            'listJenisTukangs' => $jt->where('kode_mandor', session()->get('kode'))->get()
+        ];
+        return view('mandor.List.listJenisTukang', $data);
     }
 
     //tukang

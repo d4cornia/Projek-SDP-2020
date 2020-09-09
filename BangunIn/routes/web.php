@@ -74,6 +74,8 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/lihatJenisTukang', 'mandorController@lihatJenisTukang');
     //detail
     Route::get('/detjenis/{n?}', 'mandorController@detailjenis');
+    //update
+    Route::post('/updateJenisTukang', 'mandorController@updateJenisTukang');
 
 
     //tukang

@@ -29,6 +29,12 @@ class jenis_tukang extends Model
                 ->get();
         return count($result);
     }
+    public function updateJenis($request,$kode){
+        $datalama   = jenis_tukang::find($kode);
+        $datalama->nama_jenis=$request->name;
+        $datalama->gaji_pokok=$request->gaji;
+        $datalama->save();
+    }
     public function insertJenis(Request $request)
     {
         $this->nama_jenis = $request->name;
