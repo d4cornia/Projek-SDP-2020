@@ -88,5 +88,9 @@
         swal("Gagal Tambah!", "Username sudah terpakai!", "error");
     </script>
     @endif
-
+@endisset
+@isset($upd)
+    <script>
+        swal("Berhasil Ubah!", "{{$upd}}", "error");
+    </script>
 @endisset

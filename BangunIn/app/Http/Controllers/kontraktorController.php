@@ -213,7 +213,8 @@ class kontraktorController extends Controller
 
         $data = [
             'title' => 'List Mandor',
-            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))->get()
+            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
+            'upd' => 'Berhasil mengubah data mandor'
         ];
         return view('kontraktor.List.listMandor', $data);
     }
@@ -306,7 +307,8 @@ class kontraktorController extends Controller
 
         $data = [
             'title' => 'List Admin',
-            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))->get()
+            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))->get(),
+            'upd' => 'Berhasil mengubah data admin'
         ];
         return view('kontraktor.List.listAdmin', $data);
     }
@@ -420,7 +422,8 @@ class kontraktorController extends Controller
 
         $data = [
             'title' => 'List Pekerjaan',
-            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get()
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
+            'upd' => 'Berhasil mengubah data pekerjaan'
         ];
         return view('kontraktor.List.listWork', $data);
     }
@@ -447,7 +450,7 @@ class kontraktorController extends Controller
         $p = new pekerjaan();
         $pk = new pekerjaan_khusus();
         $data = [
-            'title' => 'Pekerjaan Khusus',
+            'title' => 'List Pekerjaan Khusus',
             'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
             'listSpWork' => $pk->where('kode_pekerjaan', $req->work)->get()
         ];
@@ -481,8 +484,46 @@ class kontraktorController extends Controller
         $p = new pekerjaan();
         $data = [
             'title' => 'Tambah Pekerjaan Khusus',
-            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get()
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
+            'error' => 0
         ];
         return view('kontraktor.Creation.tambahPekerjaanKhusus', $data);
+    }
+
+    public function detailSpecialWork($id)
+    {
+        $p = new pekerjaan();
+        $pk = new pekerjaan();
+        $data = [
+            'title' => 'Detail Pekerjaan Khusus',
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
+            'spWork' => $pk->getWork(decrypt($id)),
+        ];
+        return view('kontraktor.Detail.detailPekerjaanKhusus', $data);
+    }
+
+    public function updateSpecialWork(Request $req)
+    {
+        $req->validate([
+            'work' => [new cbRequired()],
+            'ketPK' => 'required',
+            'sumJasa' => 'required|numeric|bail'
+        ], [
+            'ketPK.required' => 'Kolom Keterangan Pekerjaan Wajib Di isi!',
+            'sumJasa.required' => 'Kolom ongkos kerja wajib di isi!',
+            'sumJasa.numeric' => 'Kolom ongkos kerja harus di isi dengan angka (0-9)!'
+        ]);
+        $pk = new pekerjaan_khusus();
+        // UPDATE FIELD APA AJA TANYA MONICA
+        $pk->updatePekerjaanKhusus($req);
+
+        $p = new pekerjaan();
+        $data = [
+            'title' => 'List Pekerjaan Khusus',
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
+            'listSpWork' => null,
+            'upd' => 'Berhasil mengubah data pekerjaan khusus!'
+        ];
+        return view('kontraktor.List.listSpecialWork', $data);
     }
 }
