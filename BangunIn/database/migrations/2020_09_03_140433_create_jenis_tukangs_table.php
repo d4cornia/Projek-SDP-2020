@@ -19,6 +19,7 @@ class CreateJenisTukangsTable extends Migration
             $table->foreign('kode_mandor')->references('kode_mandor')->on('mandors');
             $table->string('nama_jenis',50);
             $table->integer('gaji_pokok');
+            $table->string('status_delete_jt', 1);
         });
     }
 

@@ -33,10 +33,11 @@ class mandorController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'gaji' => 'required|numeric',
+            'gaji' => 'required|numeric|gte:0',
         ],
         [
-            'name.string' => 'Kolom nama hanya bisa di isi huruf!'
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!',
+            'gaji.gte'=>'Gaji Pokok harus >= 0'
         ]);
         $jt = new jenis_tukang();
         $data = [
@@ -56,7 +57,7 @@ class mandorController extends Controller
         $jt = new jenis_tukang();
         $data = [
             'title' => 'List Jenis Tukang',
-            'listJenisTukangs' => $jt->where('kode_mandor', session()->get('kode'))->get()
+            'listJenisTukangs' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
         ];
         return view('mandor.List.listJenisTukang', $data);
     }
@@ -82,16 +83,17 @@ class mandorController extends Controller
         $kode=$request->kodejenis;
         $request->validate([
             'name' => 'required|string',
-            'gaji' => 'required|numeric',
+            'gaji' => 'required|numeric|gte:0',
         ],
         [
-            'name.string' => 'Kolom nama hanya bisa di isi huruf!'
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!',
+            'gaji.gte'=>'Gaji Pokok harus >= 0'
         ]);
         $jt = new jenis_tukang();
         $jt->updateJenis($request,$kode);
         $data = [
             'title' => 'List Jenis Tukang',
-            'listJenisTukangs' => $jt->where('kode_mandor', session()->get('kode'))->get()
+            'listJenisTukangs' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
         ];
         return view('mandor.List.listJenisTukang', $data);
     }
@@ -101,7 +103,7 @@ class mandorController extends Controller
         $jt = new jenis_tukang();
         $data = [
             'title' => 'Register Tukang',
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get()
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
         ];
         return view("mandor.Creation.tambahTukang", ['title' => 'Tambah Tukang'],$data);
     }
@@ -113,9 +115,10 @@ class mandorController extends Controller
             'username' => 'required',
             'email' => 'required',
             'pass' => 'required',
-            'gaji'=>'required|numeric'
+            'gaji'=>'required|numeric|gte:0'
         ],[
-            'name.string' => 'Kolom nama hanya bisa di isi huruf!'
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!',
+            'gaji.gte'=>'Gaji Pokok harus >= 0'
         ]);
         $jenis = $request->jenis;
         $un = $request->username;
@@ -128,7 +131,7 @@ class mandorController extends Controller
         $data = [
             'title' => 'Register Tukang',
             'error' => 0, // 0 = success,
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get()
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
         ];
         if (count($jt->nameToCode($jenis)) == 0) {
             $data['error'] = 6; // 6 = belum pilih jenis tukang
@@ -159,8 +162,8 @@ class mandorController extends Controller
         $jt = new jenis_tukang();
         $data = [
             'title' => 'List Tukang',
-            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get(),
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get()
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
         ];
         return view('mandor.List.listTukang', $data);
     }
@@ -212,7 +215,7 @@ class mandorController extends Controller
             'notelptukang'=>$nohp,
             'emailtukang'=>$email,
             'passwordtukang'=>$password,
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get()
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
         ];
         //dd($data);
         return view('mandor.Detail.detailTukang', $data);
@@ -225,9 +228,10 @@ class mandorController extends Controller
             'username' => 'required',
             'email' => 'required',
             'pass' => 'required',
-            'gaji'=>'required|numeric'
+            'gaji'=>'required|numeric|gte:0'
         ],[
-            'name.string' => 'Kolom nama hanya bisa di isi huruf!'
+            'name.string' => 'Kolom nama hanya bisa di isi huruf!',
+            'gaji.gte'=>'Gaji Pokok harus >= 0'
         ]);
         $jenis = $request->jenis;
         $un = $request->username;
@@ -241,8 +245,8 @@ class mandorController extends Controller
         $data = [
             'title' => 'Register Tukang',
             'error' => 9, // 0 = success,
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get(),
-            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get()
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get()
         ];
         if (count($jt->nameToCode($jenis)) == 0) {
             $data['error'] = 8; // 8 = belum pilih jenis tukang
@@ -257,8 +261,8 @@ class mandorController extends Controller
             $tukang->updateTukang($request,$kj);
             $data = [
                 'title' => 'List Tukang',
-                'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get(),
-                'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get()
+                'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+                'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
             ];
             return view('mandor.List.listTukang', $data);
         }
@@ -271,8 +275,8 @@ class mandorController extends Controller
         $jt = new jenis_tukang();
         $data = [
             'title' => 'Register Bon',
-            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get(),
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get()
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
         ];
         return view("mandor.Creation.tambahBon", ['title' => 'Tambah Bon'],$data);
     }
@@ -280,8 +284,10 @@ class mandorController extends Controller
     public function storeBon(Request $request){
         $request->validate([
             'tanggal' =>'required',
-            'jumlah' => 'required|numeric',
+            'jumlah' => 'required|numeric|gte:0',
             'keteranganbon' => 'required'
+        ],[
+            'jumlah.gte'=>'Jumlah Bon harus >= 0'
         ]);
 
         $nama = $request->nm;
@@ -293,8 +299,8 @@ class mandorController extends Controller
         $data = [
             'title' => 'Register Bon',
             'error' => 0, // 0 = success,
-            'listTukang' => $tukang->where('kode_mandor', session()->get('kode'))->get(),
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get()
+            'listTukang' => $tukang->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
         ];
         if (count($tukang->nameToCode($tukangpicked)) == 0) {
             $data['error'] = 7; // 7 = belum pilih tukang
@@ -316,9 +322,9 @@ class mandorController extends Controller
         $bon = new bon_tukang();
         $data = [
             'title' => 'List Bon',
-            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get(),
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get(),
-            'listBon' => $bon->where('status_lunas',0)->get()
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
+            'listBon' => $bon->where('status_lunas',0)->where('status_delete_bon',0)->get()
         ];
         return view('mandor.List.listBon', $data);
     }
@@ -331,9 +337,9 @@ class mandorController extends Controller
         $arrbon=[];
         $data = [
             'title' => 'Register Bayar Bon',
-            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get(),
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get(),
-            'listBon' => $bon->where('status_lunas','0')->get(),
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
+            'listBon' => $bon->where('status_lunas','0')->where('status_delete_bon',0)->get(),
             'listBayar' => json_encode($arrbon)
         ];
         session()->put('listbyr', json_encode($arrbon));
@@ -359,7 +365,10 @@ class mandorController extends Controller
         $request->validate([
             'nm'=>[new cbTukang()],
             'detailbon'=>[new cbDetBon(),'bail'],
-            'jumlahbyr' => ['required','numeric',new cekMaksimalBayar($kdbon)],
+            'jumlahbyr' => ['required','numeric',new cekMaksimalBayar($kdbon),'gte:0'],
+        ],
+        [
+            'jumlahbyr.gte'=>'Jumlah Bayar harus >= 0'
         ]);
         $kode_tukang = $request->nm;
         $jumlah = $request->jumlahbyr;
@@ -396,9 +405,9 @@ class mandorController extends Controller
         $jt = new jenis_tukang();
         $data = [
             'title' => 'Register Bayar Bon',
-            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get(),
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get(),
-            'listBon' => $bon->where('status_lunas','0')->get(),
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
+            'listBon' => $bon->where('status_lunas','0')->where('status_delete_bon',0)->get(),
             'listBayar' => json_encode($arrbyr)
         ];
         session()->put('listbyr', json_encode($arrbyr));
@@ -424,9 +433,9 @@ class mandorController extends Controller
         $bon = new bon_tukang();
         $data = [
             'title' => 'Register Bayar Bon',
-            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get(),
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get(),
-            'listBon' => $bon->where('status_lunas','0')->get(),
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
+            'listBon' => $bon->where('status_lunas','0')->where('status_delete_bon',0)->get(),
             'listBayar' => json_encode($arrbyr)
         ];
         session()->put('listbyr', json_encode($arrbyr));
@@ -456,9 +465,9 @@ class mandorController extends Controller
         $arrbyr=[];
         $data = [
             'title' => 'Register Bayar Bon',
-            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get(),
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get(),
-            'listBon' => $bon->where('status_lunas','0')->get(),
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
+            'listBon' => $bon->where('status_lunas','0')->where('status_delete_bon',0)->get(),
             'listBayar' => json_encode($arrbyr),
             'error'=>0
         ];

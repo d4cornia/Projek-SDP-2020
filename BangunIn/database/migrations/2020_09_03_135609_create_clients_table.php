@@ -19,6 +19,7 @@ class CreateClientsTable extends Migration
             $table->foreign('kode_kontraktor')->references('kode_kontraktor')->on('kontraktors');
             $table->string('nama_client', 50);
             $table->string('no_hp_client', 13);
+            $table->string('status_delete_client', 1);
         });
     }
 

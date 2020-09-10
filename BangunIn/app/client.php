@@ -48,6 +48,7 @@ class client extends Model
         $this->kode_kontraktor = session()->get('kode');
         $this->nama_client = $request->nameClient;
         $this->no_hp_client = $request->handphoneNumber;
+        $this->status_delete_client=0;
         $this->save();
     }
 

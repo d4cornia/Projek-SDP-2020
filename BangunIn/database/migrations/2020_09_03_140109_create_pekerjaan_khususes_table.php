@@ -22,6 +22,7 @@ class CreatePekerjaanKhususesTable extends Migration
             $table->integer('total_bahan');
             $table->integer('total_jasa');
             $table->integer('total_keseluruhan');
+            $table->string('status_delete_pk', 1);
         });
     }
 

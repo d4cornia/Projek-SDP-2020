@@ -44,6 +44,7 @@ class administrator extends Model
         $this->email_admin = $request->input('email');
         $this->gaji_admin = $request->input('salary');
         $this->password_admin = $request->input('pass');
+        $this->status_delete_admin=0;
         $this->save();
     }
 

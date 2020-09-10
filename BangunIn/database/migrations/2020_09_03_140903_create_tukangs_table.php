@@ -25,6 +25,7 @@ class CreateTukangsTable extends Migration
             $table->string('email_tukang',50);
             $table->integer('gaji_pokok_tukang');
             $table->string('password_tukang',30);
+            $table->string('status_delete_tukang', 1);
         });
     }
 

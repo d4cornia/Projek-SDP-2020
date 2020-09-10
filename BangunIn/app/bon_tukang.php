@@ -20,6 +20,7 @@ class bon_tukang extends Model
         $this->status_lunas=0;//0 = belum lunas
         $this->keterangan_bon=$request->keteranganbon;
         $this->sisa_bon=$request->jumlah;
+        $this->status_delete_bon=0;
         $this->save();
     }
     public function kurangi($jumlah,$kode_bon)
