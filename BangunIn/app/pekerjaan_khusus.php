@@ -26,10 +26,8 @@ class pekerjaan_khusus extends Model
         $pk = $this->find($req->id);
         $pk->kode_pekerjaan = $req->work;
         $pk->keterangan_pk = $req->ketPK;
-        $pk->membutuhkan_bahan = '0';
-        $pk->total_bahan = 0;
         $pk->total_jasa = $req->sumJasa;
-        $pk->total_keseluruhan = $req->sumJasa;
+        $pk->total_keseluruhan = ($req->sumJasa + $pk->total_bahan);
         $pk->save();
     }
 }

@@ -54,6 +54,12 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::post('/updWork', 'kontraktorController@updateWork');
     Route::post('/updSpWork', 'kontraktorController@updateSpecialWork');
 
+    // Delete
+    Route::get('/delMandor/{n?}', 'kontraktorController@deleteMandor');
+    Route::get('/delAdmin/{n?}', 'kontraktorController@deleteAdmin');
+    Route::get('/delWork/{n?}', 'kontraktorController@deleteWork');
+    Route::get('/delSpWork/{n?}', 'kontraktorController@deleteSpecialWork');
+
     Route::get('/addClient', 'kontraktorController@addClient');
     Route::post('/submitRegClient', 'kontraktorController@storeClient');
     Route::get('/lihatClient', 'kontraktorController@indexListClient');
@@ -68,36 +74,36 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/', 'mandorController@index');
 
     //jenistukang
-        //insert
-        Route::get('/tambahJenisTukang', 'mandorController@tambahJenisTukang');
-        Route::post('/submitRegJenisTukang', 'mandorController@storeJenisTukang');
-        Route::get('/lihatJenisTukang', 'mandorController@lihatJenisTukang');
-        //detail
-        Route::get('/detjenis/{n?}', 'mandorController@detailjenis');
-        //update
-        Route::post('/updateJenisTukang', 'mandorController@updateJenisTukang');
+    //insert
+    Route::get('/tambahJenisTukang', 'mandorController@tambahJenisTukang');
+    Route::post('/submitRegJenisTukang', 'mandorController@storeJenisTukang');
+    Route::get('/lihatJenisTukang', 'mandorController@lihatJenisTukang');
+    //detail
+    Route::get('/detjenis/{n?}', 'mandorController@detailjenis');
+    //update
+    Route::post('/updateJenisTukang', 'mandorController@updateJenisTukang');
 
 
     //tukang
-        Route::get('/tambahTukang', 'mandorController@tambahTukang');
-        Route::post('/submitRegTukang', 'mandorController@storeTukang');
-        Route::get('/lihatTukang', 'mandorController@lihatTukang');
-        //detail
-        Route::get('/detTukang/{n?}','mandorController@detailtukang');
-        //update
-        Route::post('/updateTukang','mandorController@updateTukang');
+    Route::get('/tambahTukang', 'mandorController@tambahTukang');
+    Route::post('/submitRegTukang', 'mandorController@storeTukang');
+    Route::get('/lihatTukang', 'mandorController@lihatTukang');
+    //detail
+    Route::get('/detTukang/{n?}', 'mandorController@detailtukang');
+    //update
+    Route::post('/updateTukang', 'mandorController@updateTukang');
 
     //bon
-        //tambahbon
-        Route::get('/tambahBon', 'mandorController@tambahBon');
-        Route::post('/submitRegBon', 'mandorController@storeBon');
-        Route::get('/lihatBon','mandorController@lihatBon');
-        //pembayaranbon
-        Route::get('/tambahPembayaranBon',"mandorController@bayarBon");
-        Route::post('/fetch',"mandorController@fetch")->name('dynamicdependent.fetch');
-        Route::post('/submitBayarBon','mandorController@tambahBayar');
-        Route::post('/tabelBayar','mandorController@batalBayar');
-        Route::post('/simpanBayarBon','mandorController@simpanPembayaran');
+    //tambahbon
+    Route::get('/tambahBon', 'mandorController@tambahBon');
+    Route::post('/submitRegBon', 'mandorController@storeBon');
+    Route::get('/lihatBon', 'mandorController@lihatBon');
+    //pembayaranbon
+    Route::get('/tambahPembayaranBon', "mandorController@bayarBon");
+    Route::post('/fetch', "mandorController@fetch")->name('dynamicdependent.fetch');
+    Route::post('/submitBayarBon', 'mandorController@tambahBayar');
+    Route::post('/tabelBayar', 'mandorController@batalBayar');
+    Route::post('/simpanBayarBon', 'mandorController@simpanPembayaran');
 });
 
 //tukang

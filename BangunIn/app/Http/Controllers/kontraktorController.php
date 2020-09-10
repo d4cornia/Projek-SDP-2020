@@ -34,7 +34,7 @@ class kontraktorController extends Controller
             'title' => 'Detail Client',
             'dataClient' => $c->dataToUpdate(decrypt($id))
         ];
-        return view('kontraktor.Detail.detailClient',$data);
+        return view('kontraktor.Detail.detailClient', $data);
     }
 
     public function updateClient(Request $req)
@@ -58,7 +58,6 @@ class kontraktorController extends Controller
         ];
         // dd($data);
         return view('kontraktor.List.listClient', $data);
-
     }
 
     public function pembayaranClient()
@@ -129,7 +128,9 @@ class kontraktorController extends Controller
 
 
 
+
     // Mandor
+
     public function indexRegisterMandor()
     {
         return view('kontraktor.Creation.RegisterMandor', ['title' => 'Tambah Mandor']);
@@ -185,7 +186,6 @@ class kontraktorController extends Controller
         ];
         // dd($data);
         return view('kontraktor.Detail.detailMandor', $data);
-
     }
 
     public function updateMandor(Request $req)
@@ -217,6 +217,11 @@ class kontraktorController extends Controller
             'upd' => 'Berhasil mengubah data mandor'
         ];
         return view('kontraktor.List.listMandor', $data);
+    }
+
+    public function deleteMandor($id)
+    {
+        //
     }
 
 
@@ -311,6 +316,11 @@ class kontraktorController extends Controller
             'upd' => 'Berhasil mengubah data admin'
         ];
         return view('kontraktor.List.listAdmin', $data);
+    }
+
+    public function deleteAdmin($id)
+    {
+        //
     }
 
 
@@ -428,6 +438,11 @@ class kontraktorController extends Controller
         return view('kontraktor.List.listWork', $data);
     }
 
+    public function deleteWork($id)
+    {
+        //
+    }
+
 
 
 
@@ -514,7 +529,6 @@ class kontraktorController extends Controller
             'sumJasa.numeric' => 'Kolom ongkos kerja harus di isi dengan angka (0-9)!'
         ]);
         $pk = new pekerjaan_khusus();
-        // UPDATE FIELD APA AJA TANYA MONICA
         $pk->updatePekerjaanKhusus($req);
 
         $p = new pekerjaan();
@@ -525,5 +539,10 @@ class kontraktorController extends Controller
             'upd' => 'Berhasil mengubah data pekerjaan khusus!'
         ];
         return view('kontraktor.List.listSpecialWork', $data);
+    }
+
+    public function deleteSpecialWork($id)
+    {
+        //
     }
 }
