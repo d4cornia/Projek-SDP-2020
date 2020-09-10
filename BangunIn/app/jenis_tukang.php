@@ -40,6 +40,7 @@ class jenis_tukang extends Model
         $this->nama_jenis = $request->name;
         $this->gaji_pokok = $request->gaji;
         $this->kode_mandor = session()->get('kode');
+        $this->status_delete_jt=0;
         $this->save();
     }
     public function nameToCode($jenis)

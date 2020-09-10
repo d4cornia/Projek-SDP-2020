@@ -31,6 +31,7 @@ class tukang extends Model
         $this->email_tukang=$request->email;
         $this->password_tukang=$request->pass;
         $this->gaji_pokok_tukang=$request->gaji;
+        $this->status_delete_tukang=0;
         $this->save();
     }
     public function updateTukang($request,$kode_jenis)

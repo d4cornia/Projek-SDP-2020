@@ -19,6 +19,7 @@ class CreateBahanBangunansTable extends Migration
             $table->foreign('id_kerjasama')->references('id_kerjasama')->on('toko_bangunans');
             $table->string('nama_bahan',50);
             $table->integer('harga_satuan');
+            $table->string("status_delete_bb",1);
         });
     }
 

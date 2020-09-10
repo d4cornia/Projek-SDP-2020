@@ -18,6 +18,7 @@ class CreateBuktiPembelianMandorsTable extends Migration
             $table->integer('kode_pekerjaan')->unsigned();
             $table->foreign('kode_pekerjaan')->references('kode_pekerjaan')->on('pekerjaans');
             $table->string('file_bukti',100);
+            $table->string("status_delete_bukti",1);
         });
     }
 

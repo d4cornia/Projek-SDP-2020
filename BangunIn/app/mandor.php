@@ -49,6 +49,7 @@ class mandor extends Model
         $this->email_mandor = $request->input('email');
         $this->gaji_mandor = $request->input('salary');
         $this->password_mandor = $request->input('pass');
+        $this->status_delete_mandor=0;
         $this->save();
     }
 

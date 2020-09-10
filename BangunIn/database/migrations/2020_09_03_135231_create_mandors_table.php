@@ -23,6 +23,7 @@ class CreateMandorsTable extends Migration
             $table->string('email_mandor', 50);
             $table->integer('gaji_mandor');
             $table->string('password_mandor', 30);
+            $table->string('status_delete_mandor',1);
         });
     }
 
