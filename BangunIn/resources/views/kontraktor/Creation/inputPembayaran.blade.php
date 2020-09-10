@@ -16,7 +16,7 @@
                 <option value="{{$item->kode_client}}">{{$item->nama_client}}</option>
             @endforeach
         </select>
-        @error('total')
+        @error('namaClient')
         <div class="err">
             {{$message}}
         </div>

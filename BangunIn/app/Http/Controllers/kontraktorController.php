@@ -97,15 +97,30 @@ class kontraktorController extends Controller
 
     public function bayar(Request $req)
     {
-        $pekerjaan_kode = $req->input('pekerjaan');
-        $client_kode = $req->input('namaClient');
-        $waktu = $req->input('waktuPembayaran');
-        $jumlah = $req->input('total');
+        // $pekerjaan_kode = $req->input('pekerjaan');
+        // $client_kode = $req->input('namaClient');
+        // $waktu = $req->input('waktuPembayaran');
+        // $jumlah = $req->input('total');
+
+        $req->validate([
+            'pekerjaan' => 'required',
+            'namaClient' => 'required|string',
+            'waktuPembayaran' => 'required',
+            'total' => 'required|numeric'
+        ], [
+            'pekerjaan.required' => 'Harus pilih pekerjaan!',
+            'namaClient.required' => 'Pilih nama client!',
+            'namaClient.string' => 'Kolom nama hanya bisa di isi huruf!',
+            'waktuPembayaran.required' => 'Pilih tanggal pembayaran!',
+            'total.required' => 'Total harus diisi!',
+            'total.numeric' => 'Total harus diisi angka!'
+        ]);
+
         $data = [
-            'pekerjaan_kode' => $pekerjaan_kode,
-            'client_kode' => $client_kode,
-            'waktu' => $waktu,
-            'total' => $jumlah
+            'pekerjaan_kode' => $req->input('pekerjaan'),
+            'client_kode' => $req->input('namaClient'),
+            'waktu' => $req->input('waktuPembayaran'),
+            'total' => $req->input('total')
         ];
         $b = new pembayaran_client();
         $b->insertPembayaran($data);
@@ -118,10 +133,15 @@ class kontraktorController extends Controller
 
     public function storeClient(Request $request)
     {
-        // $request->validate([
-        //     'nameClient' => 'required',
-        //     'handhoneNumber' => 'required'
-        // ]);
+        $request->validate([
+            'nameClient' => 'required|string',
+            'handphoneNumber' => 'required|numeric'
+        ], [
+            'nameClient.required' => 'Kolom nama belum di isi!',
+            'nameClient.string' => 'Kolom nama hanya bisa di isi huruf!',
+            'handphoneNumber.required' => 'Kolom nomor telepon belum di isi!',
+            'handphoneNumber.numeric' => 'Kolom nomor telepon harus diisi angka!'
+        ]);
         $client = new client();
         $data = [
             'title' => 'Tambah Client',
@@ -144,10 +164,6 @@ class kontraktorController extends Controller
         ];
         return view('kontraktor.List.listClient', $data);
     }
-
-
-
-
 
 
     // Mandor
