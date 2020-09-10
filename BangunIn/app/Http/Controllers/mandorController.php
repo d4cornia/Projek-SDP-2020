@@ -309,7 +309,19 @@ class mandorController extends Controller
             return view('mandor.Creation.tambahBon', $data);
         }
     }
-
+    public function lihatBon()
+    {
+        $t = new tukang();
+        $jt = new jenis_tukang();
+        $bon = new bon_tukang();
+        $data = [
+            'title' => 'List Bon',
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->get(),
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->get(),
+            'listBon' => $bon->where('status_lunas',0)->get()
+        ];
+        return view('mandor.List.listBon', $data);
+    }
     //bayarbon
     public function bayarBon()
     {

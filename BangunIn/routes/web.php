@@ -88,8 +88,11 @@ Route::group(['prefix' => 'mandor'], function () {
         Route::post('/updateTukang','mandorController@updateTukang');
 
     //bon
+        //tambahbon
         Route::get('/tambahBon', 'mandorController@tambahBon');
         Route::post('/submitRegBon', 'mandorController@storeBon');
+        Route::get('/lihatBon','mandorController@lihatBon');
+        //pembayaranbon
         Route::get('/tambahPembayaranBon',"mandorController@bayarBon");
         Route::post('/fetch',"mandorController@fetch")->name('dynamicdependent.fetch');
         Route::post('/submitBayarBon','mandorController@tambahBayar');
