@@ -153,7 +153,7 @@
             //alert('masuk');
 
             if($(this).val()!=''){
-                //alert($(this).val());
+                // alert($(this).val());
 
                 var value = $(this).val();
                 var _token=$('input[name="_token"]').val();

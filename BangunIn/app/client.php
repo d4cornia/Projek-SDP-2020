@@ -50,4 +50,10 @@ class client extends Model
         $this->no_hp_client = $request->handphoneNumber;
         $this->save();
     }
+
+    public function getDataClient()
+    {
+        $data = client::select('*')->get();
+        return $data;
+    }
 }

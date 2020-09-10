@@ -25,6 +25,19 @@ class kontraktorController extends Controller
 
 
     //Client
+    public function fetch(Request $request)
+    {
+        $value = $request->get('value');
+        // echo $value;
+        $pekerjaan = new pekerjaan();
+        $data = $pekerjaan->where('kode_client',$value)
+                    ->get();
+        $output = "<option value=''>-</option>";
+        foreach($data as $row){
+            $output.= "<option value='".$row->kode_pekerjaan."'>".$row->nama_pekerjaan."</option>";
+        }
+        echo $output;
+    }
 
     public function toDetailClient($id)
     {
@@ -74,11 +87,19 @@ class kontraktorController extends Controller
         return view('kontraktor.Creation.tambahPembayaranClient', $data);
     }
 
+    public function showPembayaranForm()
+    {
+        $b = new client();
+        $data = [
+            'listNamaClient' => $b->getDataClient()
+        ];
+        return view('kontraktor.Creation.inputPembayaran',$data);
+    }
+
     public function bayar(Request $req)
     {
-        $kode = $req->input('pekerjaan');
-        $pekerjaan_kode = substr($kode, 0, 1);
-        $client_kode = substr($kode, 1);
+        $pekerjaan_kode = $req->input('pekerjaan');
+        $client_kode = $req->input('namaClient');
         $waktu = $req->input('waktuPembayaran');
         $jumlah = $req->input('total');
         $data = [

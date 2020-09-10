@@ -60,7 +60,10 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/pembayaran', 'kontraktorController@pembayaranClient');
     Route::post('/submitPembayaran', 'kontraktorController@bayar');
     Route::get('/detClient/{n?}', 'kontraktorController@toDetailClient');
+    Route::get('/show', 'kontraktorController@showPembayaranForm');
     Route::post('/update', 'kontraktorController@updateClient');
+    Route::post('/fetch',"kontraktorController@fetch")->name('cbPekerjaan.fetch');
+
 });
 
 //mandor
