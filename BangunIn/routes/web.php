@@ -69,6 +69,7 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/show', 'kontraktorController@showPembayaranForm');
     Route::post('/update', 'kontraktorController@updateClient');
     Route::post('/fetch',"kontraktorController@fetch")->name('cbPekerjaan.fetch');
+    Route::get('/delClient/{n?}',"kontraktorController@deleteClient");
 
 });
 

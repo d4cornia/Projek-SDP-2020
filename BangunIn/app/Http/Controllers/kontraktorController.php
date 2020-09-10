@@ -73,6 +73,17 @@ class kontraktorController extends Controller
         return view('kontraktor.List.listClient', $data);
     }
 
+    public function deleteClient($id)
+    {
+        $c = new client();
+        $data = [
+            'title' => 'Delete Client',
+            'listClients' => $c->softDelete(decrypt($id))
+        ];
+        // dd($data);
+        return view('kontraktor.List.listClient', $data);
+    }
+
     public function pembayaranClient()
     {
         $r = new client();
@@ -160,7 +171,8 @@ class kontraktorController extends Controller
         $listClient = new client();
         $data = [
             'title' => 'List Admin',
-            'listClients' => $listClient->where('kode_kontraktor', session()->get('kode'))->get()
+            'listClients' => $listClient->where('kode_kontraktor', session()->get('kode'))
+                                        ->where('status_delete_client',0)->get()
         ];
         return view('kontraktor.List.listClient', $data);
     }

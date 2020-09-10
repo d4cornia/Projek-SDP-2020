@@ -43,6 +43,13 @@ class client extends Model
         $b->save();
     }
 
+    public function softDelete($id)
+    {
+        $c = $this->find($id);
+        $c->status_delete_client = 1;
+        $c->save();
+    }
+
     public function insertClient(Request $request)
     {
         $this->kode_kontraktor = session()->get('kode');
