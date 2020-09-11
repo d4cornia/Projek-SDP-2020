@@ -81,6 +81,7 @@ class kontraktorController extends Controller
             'title' => 'Delete Client',
             'listClients' => $c->where('kode_kontraktor', session()->get('kode'))
                                 ->where('status_delete_client',0)->get()
+
         ];
         // dd($data);
         return view('kontraktor.List.listClient', $data);

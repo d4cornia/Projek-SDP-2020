@@ -20,7 +20,7 @@
                             <td>{{$item->no_hp_client}}</td>
                             <td>
                                 <a href="/kontraktor/detClient/{{encrypt($item->kode_client)}}" class="btn btn-success">Detail</a>
-                                <a href="/kontraktor/delClient/{{encrypt($item->kode_client)}}" class="btn btn-danger">Hapus</a>
+                                <a href="/kontraktor/delClient/{{encrypt($item->kode_client)}}" class="btn btn-danger delete">Hapus</a>
                             </td>
                         </tr>
                     @endforeach
