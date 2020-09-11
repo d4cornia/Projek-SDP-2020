@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class pembayaran_client extends Model
 {
+    protected $primaryKey = 'kode_pembayaran_client';
     public $timestamps = false;
+    public  $incrementing = true;
     //
     public function insertPembayaran($data)
     {
@@ -15,5 +18,15 @@ class pembayaran_client extends Model
         $this->tanggal_pembayan_client = $data['waktu'];
         $this->jumlah_pembayaran_client = $data['total'];
         $this->save();
+    }
+
+    public function getDataPembayaran()
+    {
+        $users = DB::table('pembayaran_clients')
+        ->join('pekerjaans', 'pembayaran_clients.kode_pekerjaan', '=', 'pekerjaans.kode_pekerjaan')
+        ->join('clients', 'pembayaran_clients.kode_client', '=', 'clients.kode_client')
+        ->select('pembayaran_clients.kode_pembayaran_client', 'pekerjaans.nama_pekerjaan', 'clients.nama_client','pembayaran_clients.tanggal_pembayan_client','pembayaran_clients.jumlah_pembayaran_client')
+        ->get();
+        return $users;
     }
 }

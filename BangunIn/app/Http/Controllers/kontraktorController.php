@@ -174,6 +174,15 @@ class kontraktorController extends Controller
         return view('kontraktor.List.listClient', $data);
     }
 
+    public function listPembayaranClient()
+    {
+        $l = new pembayaran_client();
+        $data = [
+            'title' => 'List Pembayaran Client',
+            'listDataPembayaranClient' => $l->getDataPembayaran()
+        ];
+        return view('kontraktor.List.listPembayaranClient',$data);
+    }
 
 
 
