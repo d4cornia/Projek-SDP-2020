@@ -49,7 +49,7 @@ class mandor extends Model
         $this->email_mandor = $request->input('email');
         $this->gaji_mandor = $request->input('salary');
         $this->password_mandor = $request->input('pass');
-        $this->status_delete_mandor=0;
+        $this->status_delete_mandor = 0;
         $this->save();
     }
 
@@ -62,6 +62,13 @@ class mandor extends Model
         $m->email_mandor = $request->input('email');
         $m->gaji_mandor = $request->input('salary');
         $m->password_mandor = $request->input('pass');
+        $m->save();
+    }
+
+    public function softDeleteMandor($id)
+    {
+        $m = $this->find($id);
+        $m->status_delete_mandor = 1;
         $m->save();
     }
 }

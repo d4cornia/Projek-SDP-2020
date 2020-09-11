@@ -18,7 +18,7 @@ class pekerjaan_khusus extends Model
         $this->total_bahan = 0;
         $this->total_jasa = $req->sumJasa;
         $this->total_keseluruhan = $req->sumJasa;
-        $this->status_delete_pk=0;
+        $this->status_delete_pk = 0;
         $this->save();
     }
 
@@ -29,6 +29,13 @@ class pekerjaan_khusus extends Model
         $pk->keterangan_pk = $req->ketPK;
         $pk->total_jasa = $req->sumJasa;
         $pk->total_keseluruhan = ($req->sumJasa + $pk->total_bahan);
+        $pk->save();
+    }
+
+    public function softDeletePekerjaanKhusus($id)
+    {
+        $pk = $this->find($id);
+        $pk->status_delete_pk = 1;
         $pk->save();
     }
 }

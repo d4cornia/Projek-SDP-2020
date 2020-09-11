@@ -30,11 +30,11 @@ class kontraktorController extends Controller
         $value = $request->get('value');
         // echo $value;
         $pekerjaan = new pekerjaan();
-        $data = $pekerjaan->where('kode_client',$value)
-                    ->get();
+        $data = $pekerjaan->where('kode_client', $value)
+            ->get();
         $output = "<option value=''>-</option>";
-        foreach($data as $row){
-            $output.= "<option value='".$row->kode_pekerjaan."'>".$row->nama_pekerjaan."</option>";
+        foreach ($data as $row) {
+            $output .= "<option value='" . $row->kode_pekerjaan . "'>" . $row->nama_pekerjaan . "</option>";
         }
         echo $output;
     }
@@ -80,8 +80,8 @@ class kontraktorController extends Controller
         $data = [
             'title' => 'Delete Client',
             'listClients' => $c->where('kode_kontraktor', session()->get('kode'))
-                                ->where('status_delete_client',0)->get()
-
+                ->where('status_delete_client', 0)->get(),
+            'del' => 'Berhasil menghapus data Client'
         ];
         return view('kontraktor.List.listClient', $data);
     }
@@ -105,7 +105,7 @@ class kontraktorController extends Controller
         $data = [
             'listNamaClient' => $b->getDataClient()
         ];
-        return view('kontraktor.Creation.inputPembayaran',$data);
+        return view('kontraktor.Creation.inputPembayaran', $data);
     }
 
     public function bayar(Request $req)
@@ -169,10 +169,12 @@ class kontraktorController extends Controller
         $data = [
             'title' => 'List Admin',
             'listClients' => $listClient->where('kode_kontraktor', session()->get('kode'))
-                                        ->where('status_delete_client',0)->get()
+                ->where('status_delete_client', 0)->get()
         ];
         return view('kontraktor.List.listClient', $data);
     }
+
+
 
 
     // Mandor
@@ -218,7 +220,9 @@ class kontraktorController extends Controller
         $m = new mandor();
         $data = [
             'title' => 'List Mandor',
-            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))->get()
+            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_mandor', 0)
+                ->get()
         ];
         return view('kontraktor.List.listMandor', $data);
     }
@@ -230,7 +234,6 @@ class kontraktorController extends Controller
             'title' => 'Detail Mandor',
             'mandor' => $m->getMandor(decrypt($id))
         ];
-        // dd($data);
         return view('kontraktor.Detail.detailMandor', $data);
     }
 
@@ -259,7 +262,9 @@ class kontraktorController extends Controller
 
         $data = [
             'title' => 'List Mandor',
-            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
+            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_mandor', 0)
+                ->get(),
             'upd' => 'Berhasil mengubah data mandor'
         ];
         return view('kontraktor.List.listMandor', $data);
@@ -267,7 +272,16 @@ class kontraktorController extends Controller
 
     public function deleteMandor($id)
     {
-        //
+        $m = new mandor();
+        $m->softDeleteMandor(decrypt($id));
+
+        $data = [
+            'title' => 'List Mandor',
+            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_mandor', 0)->get(),
+            'del' => 'Berhasil menghapus data mandor'
+        ];
+        return view('kontraktor.List.listMandor', $data);
     }
 
 
@@ -318,7 +332,9 @@ class kontraktorController extends Controller
         $a = new administrator();
         $data = [
             'title' => 'List Admin',
-            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))->get()
+            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_admin', 0)
+                ->get()
         ];
         return view('kontraktor.List.listAdmin', $data);
     }
@@ -358,7 +374,9 @@ class kontraktorController extends Controller
 
         $data = [
             'title' => 'List Admin',
-            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))->get(),
+            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_admin', 0)
+                ->get(),
             'upd' => 'Berhasil mengubah data admin'
         ];
         return view('kontraktor.List.listAdmin', $data);
@@ -366,7 +384,16 @@ class kontraktorController extends Controller
 
     public function deleteAdmin($id)
     {
-        //
+        $a = new administrator();
+        $a->softDeleteAdmin(decrypt($id));
+
+        $data = [
+            'title' => 'List Admin',
+            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_admin', 0)->get(),
+            'del' => 'Berhasil menghapus data admin'
+        ];
+        return view('kontraktor.List.listAdmin', $data);
     }
 
 
@@ -381,9 +408,15 @@ class kontraktorController extends Controller
         $a = new administrator();
         $data = [
             'title' => 'Tambah Pekerjaan',
-            'listClient' => $c->where('kode_kontraktor', session()->get('kode'))->pluck('nama_client'),
-            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
-            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))->get()
+            'listClient' => $c->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_client', 0)
+                ->pluck('nama_client'),
+            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_mandor', 0)
+                ->get(),
+            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_admin', 0)
+                ->get()
         ];
         return view('kontraktor.Creation.tambahPekerjaan', $data);
     }
@@ -406,10 +439,16 @@ class kontraktorController extends Controller
         $a = new administrator();
         $data = [
             'title' => 'Tambah Pekerjaan',
-            'error' => 0, // 0 = success
-            'listClient' => $c->where('kode_kontraktor', session()->get('kode'))->pluck('nama_client'),
-            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
-            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))->get()
+            'error' => 0, // 0 = success,
+            'listClient' => $c->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_client', 0)
+                ->pluck('nama_client'),
+            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_mandor', 0)
+                ->get(),
+            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_admin', 0)
+                ->get()
         ];
         if (count($c->nameToCode($nc)) == 0) {
             $data['error'] = 3; // 3 = error kolom client
@@ -436,7 +475,9 @@ class kontraktorController extends Controller
         $p = new pekerjaan();
         $data = [
             'title' => 'List Pekerjaan',
-            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get()
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get()
         ];
         return view('kontraktor.List.listWork', $data);
     }
@@ -450,9 +491,15 @@ class kontraktorController extends Controller
         $data = [
             'title' => 'Detail Pekerjaan',
             'work' => $p->getWork(decrypt($id)),
-            'listClient' => $c->where('kode_kontraktor', session()->get('kode'))->get(),
-            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
-            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))->get()
+            'listClient' => $c->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_client', 0)
+                ->pluck('nama_client'),
+            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_mandor', 0)
+                ->get(),
+            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_admin', 0)
+                ->get()
         ];
         return view('kontraktor.Detail.detailWork', $data);
     }
@@ -478,7 +525,9 @@ class kontraktorController extends Controller
 
         $data = [
             'title' => 'List Pekerjaan',
-            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get(),
             'upd' => 'Berhasil mengubah data pekerjaan'
         ];
         return view('kontraktor.List.listWork', $data);
@@ -486,7 +535,16 @@ class kontraktorController extends Controller
 
     public function deleteWork($id)
     {
-        //
+        $p = new pekerjaan();
+        $p->softDeleteWork(decrypt($id));
+
+        $data = [
+            'title' => 'List Pekerjaan',
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)->get(),
+            'del' => 'Berhasil menghapus data pekerjaan'
+        ];
+        return view('kontraktor.List.listWork', $data);
     }
 
 
@@ -500,7 +558,9 @@ class kontraktorController extends Controller
         $p = new pekerjaan();
         $data = [
             'title' => 'Pekerjaan Khusus',
-            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get(),
             'listSpWork' => null
         ];
         return view('kontraktor.List.listSpecialWork', $data);
@@ -512,8 +572,12 @@ class kontraktorController extends Controller
         $pk = new pekerjaan_khusus();
         $data = [
             'title' => 'List Pekerjaan Khusus',
-            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
-            'listSpWork' => $pk->where('kode_pekerjaan', $req->work)->get()
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get(),
+            'listSpWork' => $pk->where('kode_pekerjaan', $req->work)
+                ->where('status_delete_pk', 0)
+                ->get()
         ];
         return view('kontraktor.List.listSpecialWork', $data);
     }
@@ -523,7 +587,9 @@ class kontraktorController extends Controller
         $p = new pekerjaan();
         $data = [
             'title' => 'Tambah Pekerjaan Khusus',
-            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get()
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get()
         ];
         return view('kontraktor.Creation.tambahPekerjaanKhusus', $data);
     }
@@ -545,7 +611,9 @@ class kontraktorController extends Controller
         $p = new pekerjaan();
         $data = [
             'title' => 'Tambah Pekerjaan Khusus',
-            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get(),
             'error' => 0
         ];
         return view('kontraktor.Creation.tambahPekerjaanKhusus', $data);
@@ -557,7 +625,9 @@ class kontraktorController extends Controller
         $pk = new pekerjaan();
         $data = [
             'title' => 'Detail Pekerjaan Khusus',
-            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get(),
             'spWork' => $pk->getWork(decrypt($id)),
         ];
         return view('kontraktor.Detail.detailPekerjaanKhusus', $data);
@@ -580,7 +650,9 @@ class kontraktorController extends Controller
         $p = new pekerjaan();
         $data = [
             'title' => 'List Pekerjaan Khusus',
-            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))->get(),
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get(),
             'listSpWork' => null,
             'upd' => 'Berhasil mengubah data pekerjaan khusus!'
         ];
@@ -589,6 +661,17 @@ class kontraktorController extends Controller
 
     public function deleteSpecialWork($id)
     {
-        //
+        $pk = new pekerjaan_khusus();
+        $pk->softDeletePekerjaanKhusus(decrypt($id));
+
+        $p = new pekerjaan();
+        $data = [
+            'title' => 'List Pekerjaan Khusus',
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)->get(),
+            'listSpWork' => null,
+            'del' => 'Berhasil menghapus data pekerjaan khusus'
+        ];
+        return view('kontraktor.List.listSpecialWork', $data);
     }
 }

@@ -44,7 +44,7 @@ class administrator extends Model
         $this->email_admin = $request->input('email');
         $this->gaji_admin = $request->input('salary');
         $this->password_admin = $request->input('pass');
-        $this->status_delete_admin=0;
+        $this->status_delete_admin = 0;
         $this->save();
     }
 
@@ -58,5 +58,12 @@ class administrator extends Model
         $a->gaji_admin = $request->input('salary');
         $a->password_admin = $request->input('pass');
         $a->save();
+    }
+
+    public function softDeleteAdmin($id)
+    {
+        $m = $this->find($id);
+        $m->status_delete_admin = 1;
+        $m->save();
     }
 }

@@ -23,7 +23,7 @@ class CreateAdministratorsTable extends Migration
             $table->string('email_admin', 50);
             $table->integer('gaji_admin');
             $table->string('password_admin', 30);
-            $table->string('status_delete_admin',1);
+            $table->string('status_delete_admin', 1);
         });
     }
 

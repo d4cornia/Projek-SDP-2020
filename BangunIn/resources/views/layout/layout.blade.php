@@ -102,6 +102,12 @@
 @endisset
 @isset($upd)
     <script>
-        swal("Berhasil Ubah!", "{{$upd}}", "error");
+        swal("Berhasil Ubah!", "{{$upd}}", "success");
+    </script>
+@endisset
+
+@isset($del)
+    <script>
+        swal("Berhasil Hapus!", "{{$del}}", "success");
     </script>
 @endisset

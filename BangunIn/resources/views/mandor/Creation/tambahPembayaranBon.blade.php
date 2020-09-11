@@ -163,6 +163,7 @@
                     data:{value:value,_token:_token},
                     success:function(result){
                         //alert("Res"+result);
+                        $(".isi").html("");
                         $(".isi").html(result);
                     }
                 })
