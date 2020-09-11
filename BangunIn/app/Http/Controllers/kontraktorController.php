@@ -83,7 +83,6 @@ class kontraktorController extends Controller
                                 ->where('status_delete_client',0)->get()
 
         ];
-        // dd($data);
         return view('kontraktor.List.listClient', $data);
     }
 
@@ -111,11 +110,6 @@ class kontraktorController extends Controller
 
     public function bayar(Request $req)
     {
-        // $pekerjaan_kode = $req->input('pekerjaan');
-        // $client_kode = $req->input('namaClient');
-        // $waktu = $req->input('waktuPembayaran');
-        // $jumlah = $req->input('total');
-
         $req->validate([
             'pekerjaan' => 'required',
             'namaClient' => 'required|string',
