@@ -67,7 +67,8 @@ class kontraktorController extends Controller
 
         $data = [
             'title' => 'List Client',
-            'listClients' => $update->where('kode_kontraktor', session()->get('kode'))->get()
+            'listClients' => $update->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_client', 0)->get()
         ];
         // dd($data);
         return view('kontraktor.List.listClient', $data);
