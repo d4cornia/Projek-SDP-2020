@@ -357,6 +357,9 @@ class mandorController extends Controller
         $jt = new jenis_tukang();
         $bon = new bon_tukang();
         $arrbon=[];
+        if(session()->has('listbyr')){
+            $arrbon=json_decode(session()->get('listbyr'));
+        }
         $data = [
             'title' => 'Register Bayar Bon',
             'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
@@ -374,6 +377,7 @@ class mandorController extends Controller
         $bon = new bon_tukang();
         $data = $bon->where('status_lunas','0')
                     ->where('kode_tukang',$value)
+                    ->where('status_delete_bon','0')
                     ->get();
         $output = "<option value=''>-</option>";
         foreach($data as $row){
@@ -433,7 +437,8 @@ class mandorController extends Controller
             'listBayar' => json_encode($arrbyr)
         ];
         session()->put('listbyr', json_encode($arrbyr));
-        return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+        //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+        return redirect('/mandor/tambahPembayaranBon');
     }
     public function batalBayar(Request $request)
     {
@@ -461,7 +466,8 @@ class mandorController extends Controller
             'listBayar' => json_encode($arrbyr)
         ];
         session()->put('listbyr', json_encode($arrbyr));
-        return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+        //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+        return redirect('/mandor/tambahPembayaranBon');
     }
     public function simpanPembayaran(Request $request)
     {
@@ -494,6 +500,7 @@ class mandorController extends Controller
             'error'=>0
         ];
         session()->put('listbyr', json_encode($arrbyr));
-        return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+        //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+        return redirect('/mandor/tambahPembayaranBon');
     }
 }
