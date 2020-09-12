@@ -157,7 +157,7 @@ class kontraktorController extends Controller
         ];
         if ($client->cekClient($request->input('nameClient')) == 0) {
             $client->insertClient($request);
-            return view('kontraktor.Creation.tambahClient');
+            return view('kontraktor.Creation.tambahClient',$data);
         } else {
             $data['error'] = 1;
         }
