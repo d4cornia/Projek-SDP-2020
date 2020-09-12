@@ -53,4 +53,11 @@ class jenis_tukang extends Model
         return $this::where('kode_jenis', $kode)
             ->pluck('nama_jenis');
     }
+    public function softDelete($id)
+    {
+        $m = new jenis_tukang();
+        $m = $this->find($id);
+        $m->status_delete_jt = 1;
+        $m->save();
+    }
 }

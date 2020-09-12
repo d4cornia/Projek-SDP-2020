@@ -71,4 +71,5 @@ class mandor extends Model
         $m->status_delete_mandor = 1;
         $m->save();
     }
+
 }

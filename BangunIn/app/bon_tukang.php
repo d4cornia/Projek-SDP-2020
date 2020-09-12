@@ -50,4 +50,11 @@ class bon_tukang extends Model
         return $this::where('kode_bon', $kode)
             ->pluck('keterangan_bon');
     }
+    public function softDelete($id)
+    {
+        $bt = new bon_tukang();
+        $bt = $this->find($id);
+        $bt->status_delete_bon = 1;
+        $bt->save();
+    }
 }

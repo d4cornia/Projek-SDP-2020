@@ -1,3 +1,8 @@
+@if(!session()->has('kode'))
+    <script>
+        window.location.href = '{{url("/")}}';
+    </script>
+@endif
 <!DOCTYPE html>
 <html lang="en">
 <head>

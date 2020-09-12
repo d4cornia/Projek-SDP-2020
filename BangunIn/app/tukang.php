@@ -88,4 +88,11 @@ class tukang extends Model
         return $this::where('kode_tukang', $id)
             ->pluck('password_tukang');
     }
+    public function softDelete($id)
+    {
+        $m = new tukang();
+        $m = $this->find($id);
+        $m->status_delete_tukang = 1;
+        $m->save();
+    }
 }

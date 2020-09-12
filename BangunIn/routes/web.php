@@ -18,6 +18,7 @@ Route::get('/', 'loginController@index');
 Route::get('/vlogin', 'loginController@vlogin');
 Route::post('/login', 'loginController@login');
 Route::any('/register', 'loginController@register');
+Route::get('/logout', 'loginController@logout');
 //end login
 
 //kontraktor
@@ -85,6 +86,8 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/lihatJenisTukang', 'mandorController@lihatJenisTukang');
     //detail
     Route::get('/detjenis/{n?}', 'mandorController@detailjenis');
+    //delete
+    Route::get('/deljenis/{n?}', 'mandorController@deleteJenis');
     //update
     Route::post('/updateJenisTukang', 'mandorController@updateJenisTukang');
 
@@ -97,12 +100,15 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/detTukang/{n?}', 'mandorController@detailtukang');
     //update
     Route::post('/updateTukang', 'mandorController@updateTukang');
+    //delete
+    Route::get('/delTukang/{n?}', 'mandorController@deleteTukang');
 
     //bon
     //tambahbon
     Route::get('/tambahBon', 'mandorController@tambahBon');
     Route::post('/submitRegBon', 'mandorController@storeBon');
     Route::get('/lihatBon', 'mandorController@lihatBon');
+    Route::get('/delBon/{n?}', 'mandorController@deleteBon');
     //pembayaranbon
     Route::get('/tambahPembayaranBon', "mandorController@bayarBon");
     Route::post('/fetch', "mandorController@fetch")->name('dynamicdependent.fetch');

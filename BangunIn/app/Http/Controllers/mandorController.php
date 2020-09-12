@@ -97,6 +97,12 @@ class mandorController extends Controller
         ];
         return view('mandor.List.listJenisTukang', $data);
     }
+    public function deleteJenis($id)
+    {
+        $m = new jenis_tukang();
+        $m->softDelete($id);
+        return redirect('mandor/lihatJenisTukang');
+    }
 
     //tukang
     public function tambahTukang(){
@@ -220,6 +226,14 @@ class mandorController extends Controller
         //dd($data);
         return view('mandor.Detail.detailTukang', $data);
     }
+
+    public function deleteTukang($id)
+    {
+        $t = new tukang();
+        $t->softDelete($id);
+        return redirect('mandor/lihatTukang');
+    }
+
     public function updateTukang(Request $request)
     {
         $request->validate([
@@ -328,6 +342,14 @@ class mandorController extends Controller
         ];
         return view('mandor.List.listBon', $data);
     }
+
+    public function deleteBon($id)
+    {
+        $b = new bon_tukang();
+        $b->softDelete($id);
+        return redirect('mandor/lihatBon');
+    }
+
     //bayarbon
     public function bayarBon()
     {

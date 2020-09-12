@@ -107,4 +107,11 @@ class loginController extends Controller
             return view('Login.register');
         }
     }
+    public function logout()
+    {
+        session()->forget('kode');
+        session()->forget('nama');
+        session()->forget('status');
+        return redirect('/');
+    }
 }
