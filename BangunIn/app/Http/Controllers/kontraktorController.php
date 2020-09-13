@@ -158,7 +158,7 @@ class kontraktorController extends Controller
         ];
         if ($client->cekClient($request->input('nameClient')) == 0) {
             $client->insertClient($request);
-            return view('kontraktor.Creation.tambahClient',$data);
+            return view('kontraktor.Creation.tambahClient', $data);
         } else {
             $data['error'] = 1;
         }
@@ -182,7 +182,7 @@ class kontraktorController extends Controller
             'title' => 'List Pembayaran Client',
             'listDataPembayaranClient' => $l->getDataPembayaran()
         ];
-        return view('kontraktor.List.listPembayaranClient',$data);
+        return view('kontraktor.List.listPembayaranClient', $data);
     }
 
 
@@ -587,7 +587,8 @@ class kontraktorController extends Controller
                 ->get(),
             'listSpWork' => $pk->where('kode_pekerjaan', $req->work)
                 ->where('status_delete_pk', 0)
-                ->get()
+                ->get(),
+            'current' => $p->find($req->work)
         ];
         return view('kontraktor.List.listSpecialWork', $data);
     }

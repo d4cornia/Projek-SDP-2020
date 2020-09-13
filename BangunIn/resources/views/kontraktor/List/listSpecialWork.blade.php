@@ -11,8 +11,8 @@
                         <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
                             <option selected>-</option>
                             @foreach ($listWork as $item)
-                                <option value="{{$item['kode_pekerjaan']}}" @if ($item['kode_pekerjaan'] == $listSpWork[0]['kode_pekerjaan'])
-
+                                <option value="{{$item['kode_pekerjaan']}}" @if ($item['kode_pekerjaan'] == $current[0]['kode_pekerjaan'])
+                                    selected
                                 @endif>{{$item['nama_pekerjaan']}}</option>
                             @endforeach
                         </select>
@@ -21,7 +21,8 @@
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
-        <div class="row-second"><div class="table-responsive">
+        <div class="row-second">
+            <div class="table-responsive">
             <table id="tabel-work" class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -62,21 +63,26 @@
             </div>
         </div>
     @else
-            <form action="/kontraktor/search" method="post">
-                @csrf
-                <span class="form-group">
-                    <label for="work">Nama Pekerjaan</label>
-                    <div class="my-1">
-                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
-                            <option selected>-</option>
-                            @foreach ($listWork as $item)
-                                <option value="{{$item['kode_pekerjaan']}}">{{$item['nama_pekerjaan']}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </span>
-                <button type="submit" class="btn btn-primary">Search</button>
-            </form>
+    <div class="row-first">
+        <form action="/kontraktor/search" method="post">
+            @csrf
+            <span class="form-group">
+                <label for="work">Nama Pekerjaan</label>
+                <div class="my-1">
+                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
+                        <option selected>-</option>
+                        @foreach ($listWork as $item)
+                            <option value="{{$item['kode_pekerjaan']}}">{{$item['nama_pekerjaan']}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </span>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    <div class="row-second">
+        <h2>Tidak ada pekerjaan khusus!</h2>
+    </div>
     @endif
     <script>
         $(document).ready(function() {
