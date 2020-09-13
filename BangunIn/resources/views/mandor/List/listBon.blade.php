@@ -33,7 +33,7 @@
                             <td>{{$item->sisa_bon}}</td>
                             <td>{{$item->keterangan_bon}}</td>
                             <td>
-                                <a href="/mandor/delBon/{{$item->kode_bon}}" class="btn btn-danger">Hapus</a>
+                                <a href="/mandor/delBon/{{$item->kode_bon}}" onclick="return confirm('Apakah Yakin di Hapus?')" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>
                     @endforeach
