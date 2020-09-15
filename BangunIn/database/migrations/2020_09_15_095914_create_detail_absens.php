@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDetailAbsen extends Migration
+class CreateDetailAbsens extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateDetailAbsen extends Migration
      */
     public function up()
     {
-        Schema::create('detail_absen', function (Blueprint $table) {
+        Schema::create('detail_absens', function (Blueprint $table) {
             $table->integerIncrements('kode_detail');
-            $table->integer('kode_absen')->unsigned();
-            $table->foreign('kode_absen')->references('kode_absen')->on('bukti_absens');
+            $table->integer('kode_absen_harians')->unsigned();
+            $table->integer('ongkos_lembur')->unsigned();
+            $table->foreign('kode_absen_harians')->references('kode_absen_harians')->on('absen_harians');
         });
     }
 
@@ -27,6 +28,6 @@ class CreateDetailAbsen extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_absen');
+        Schema::dropIfExists('detail_absens');
     }
 }

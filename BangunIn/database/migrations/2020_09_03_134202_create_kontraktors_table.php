@@ -20,6 +20,10 @@ class CreateKontraktorsTable extends Migration
             $table->string('username_kontraktor',50);
             $table->string('email_kontraktor',50);
             $table->string('password_kontraktor',30);
+            $table->string('nama_perusahaan',30);
+            $table->string('logo_perusahaan',30);
+            $table->string('nomer_perusahaan',15);
+            $table->string('alamat_perusahaan',30);
         });
     }
 
