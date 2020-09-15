@@ -43,7 +43,7 @@
     </div>
     <div class="form-group">
         <label for="salary">Gaji Admin</label>
-        <input type="number" class="form-control" name="salary" value="{{$admin[0]['salary']}}" id="salary">
+        <input type="number" class="form-control" name="salary" value="{{$admin[0]['gaji_admin']}}" id="salary">
         @error('salary')
             <div class="err">
                 {{$message}}

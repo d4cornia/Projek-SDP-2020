@@ -35,6 +35,11 @@ class administrator extends Model
             ->pluck('kode_admin');
     }
 
+    public function getAdmin($id)
+    {
+        return $this::where('kode_admin', $id)->get();
+    }
+
     public function insertAdmin(Request $request)
     {
         $this->kode_kontraktor = session()->get('kode');
