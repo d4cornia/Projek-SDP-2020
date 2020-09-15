@@ -14,12 +14,12 @@ use App\Rules\cbAdmin;
 use App\Rules\cbClient;
 use App\Rules\cbMandor;
 use App\Rules\cbRequired;
+use Illuminate\Routing\Controller;
 
 class kontraktorController extends Controller
 {
     public function index()
     {
-
         return view('kontraktor.navbar');
     }
 

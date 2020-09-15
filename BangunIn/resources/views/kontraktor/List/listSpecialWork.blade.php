@@ -11,7 +11,7 @@
                         <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
                             <option selected>-</option>
                             @foreach ($listWork as $item)
-                                <option value="{{$item['kode_pekerjaan']}}" @if ($item['kode_pekerjaan'] == $current[0]['kode_pekerjaan'])
+                                <option value="{{$item['kode_pekerjaan']}}" @if ($item['kode_pekerjaan'] == $current['kode_pekerjaan'])
                                     selected
                                 @endif>{{$item['nama_pekerjaan']}}</option>
                             @endforeach
