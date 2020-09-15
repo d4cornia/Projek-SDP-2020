@@ -46,9 +46,11 @@ class mandorController extends Controller
         ];
         if ($jt->cekJenis($request->input('name')) == 0) {
             $jt->insertJenis($request);
+            //return redirect('/mandor/submitRegJenisTukang');
             return view('mandor.Creation.tambahJenisTukang',$data);
         } else {
             $data['error'] = 5; //nama jenis sdh ada
+            //return redirect('/mandor/submitRegJenisTukang');
             return view('mandor.Creation.tambahJenisTukang',$data);
         }
     }
@@ -101,7 +103,7 @@ class mandorController extends Controller
     {
         $m = new jenis_tukang();
         $m->softDelete($id);
-        return redirect('mandor/lihatJenisTukang');
+        //return redirect('mandor/lihatJenisTukang');
     }
 
     //tukang
@@ -159,6 +161,7 @@ class mandorController extends Controller
             $kj = substr($kj,1);
             $kj = substr($kj,0,strlen($kj)-1);
             $tukang->insertTukang($request,$kj);
+            //return redirect('/mandor/submitRegTukang');
             return view('mandor.Creation.tambahTukang', $data);
         }
     }
@@ -231,7 +234,7 @@ class mandorController extends Controller
     {
         $t = new tukang();
         $t->softDelete($id);
-        return redirect('mandor/lihatTukang');
+        //return redirect('mandor/lihatTukang');
     }
 
     public function updateTukang(Request $request)
@@ -437,8 +440,8 @@ class mandorController extends Controller
             'listBayar' => json_encode($arrbyr)
         ];
         session()->put('listbyr', json_encode($arrbyr));
-        //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
-        return redirect('/mandor/tambahPembayaranBon');
+        return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+        //return redirect('/mandor/tambahPembayaranBon');
     }
     public function batalBayar(Request $request)
     {
@@ -466,8 +469,8 @@ class mandorController extends Controller
             'listBayar' => json_encode($arrbyr)
         ];
         session()->put('listbyr', json_encode($arrbyr));
-        //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
-        return redirect('/mandor/tambahPembayaranBon');
+        return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+        //return redirect('/mandor/tambahPembayaranBon');
     }
     public function simpanPembayaran(Request $request)
     {
@@ -500,7 +503,7 @@ class mandorController extends Controller
             'error'=>0
         ];
         session()->put('listbyr', json_encode($arrbyr));
-        //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
-        return redirect('/mandor/tambahPembayaranBon');
+        return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+        //return redirect('/mandor/tambahPembayaranBon');
     }
 }
