@@ -673,6 +673,33 @@ class kontraktorController extends Controller
         return view('kontraktor.List.listWork', $data);
     }
 
+    public function listDeletedWork()
+    {
+        $p = new pekerjaan();
+        $data = [
+            'title' => 'List Pekerjaan',
+            'listDelWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 1)
+                ->get()
+        ];
+        return view('kontraktor.Deleted.deletedWork', $data);
+    }
+
+    public function rollbackWork($id)
+    {
+        $p = new pekerjaan();
+        $p->rollback(decrypt($id));
+
+        $data = [
+            'title' => 'List Pekerjaan',
+            'listDelWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 1)
+                ->get(),
+            'roll' => 'Berhasil mengembalikan Pekerjaan!'
+        ];
+        return view('kontraktor.Deleted.deletedWork', $data);
+    }
+
 
 
 

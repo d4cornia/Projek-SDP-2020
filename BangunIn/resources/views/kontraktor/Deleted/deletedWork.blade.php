@@ -1,7 +1,7 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-    @if (count($listWork) > 0)
+    @if (count($listDelWork) > 0)
         <h1>Daftar Pekerjaan</h1>
         <div class="table-responsive">
             <table id="tabel-work" class="table table-bordered table-striped">
@@ -16,7 +16,7 @@
                 </tr>
               </thead>
               <tbody id="">
-                @foreach ($listWork as $item)
+                @foreach ($listDelWork as $item)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$item->nama_pekerjaan}}</td>
@@ -28,8 +28,7 @@
                                 Belum Selesai
                             @endif</td>
                             <td>
-                                <a href="/kontraktor/detWork/{{encrypt($item->kode_pekerjaan)}}" class="btn btn-success">Detail</a>
-                                <a href="/kontraktor/delWork/{{encrypt($item->kode_pekerjaan)}}" class="btn btn-danger">Hapus</a>
+                                <a href="/kontraktor/rollbackWork/{{encrypt($item->kode_pekerjaan)}}" class="btn btn-danger">Pulihkan</a>
                             </td>
                         </tr>
                 @endforeach
@@ -51,10 +50,9 @@
                 <a class="btn btn-secondary" href="/kontraktor/sDelWork">Lihat Pekerjaan Yang Dihapus</a>
             </div>
     @else
-        <h1>Tidak Ada Pekerjaan!</h1>
+        <h1>Tidak Ada Pekerjaan Yang Dihapus!</h1>
         <div class="option">
-            <a class="btn btn-primary" href="/kontraktor/aWork">Tambah Pekerjaan</a>
-            <a class="btn btn-secondary" href="/kontraktor/sDelWork">Lihat Pekerjaan Yang Dihapus</a>
+            <a class="btn btn-secondary" href="/kontraktor/lWork">Kembali</a>
         </div>
     @endif
     <script>

@@ -2,7 +2,7 @@
 
 @section('content')
     @if (count($listMandor) > 0)
-        <h1>List Mandor</h1>
+        <h1>Daftar Mandor</h1>
         <div class="table-responsive">
             <table id="tabel-mandor" class="table table-bordered table-striped">
               <thead>
@@ -47,13 +47,13 @@
             </div>
             <div class="option">
                 <a class="btn btn-primary" href="/kontraktor/rMandor">Tambah Mandor</a>
-                <a class="btn btn-secondary" href="/kontraktor/sDelMandor">Lihat Mandor Yand Dihapus</a>
+                <a class="btn btn-secondary" href="/kontraktor/sDelMandor">Lihat Mandor Yang Dihapus</a>
             </div>
     @else
         <h1>Tidak Ada Mandor!</h1>
         <div class="option">
             <a class="btn btn-primary" href="/kontraktor/rMandor">Tambah Mandor</a>
-            <a class="btn btn-secondary" href="/kontraktor/sDelMandor">Lihat Mandor Yand Dihapus</a>
+            <a class="btn btn-secondary" href="/kontraktor/sDelMandor">Lihat Mandor Yang Dihapus</a>
         </div>
     @endif
     <script>

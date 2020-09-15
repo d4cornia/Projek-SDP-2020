@@ -66,8 +66,16 @@ class pekerjaan extends Model
 
     public function softDeleteWork($id)
     {
-        $m = $this->find($id);
-        $m->status_delete_pekerjaan = 1;
-        $m->save();
+        $p = $this->find($id);
+        $p->status_delete_pekerjaan = 1;
+        $p->save();
+    }
+
+
+    public function rollback($id)
+    {
+        $p = $this->find($id);
+        $p->status_delete_pekerjaan = 0;
+        $p->save();
     }
 }

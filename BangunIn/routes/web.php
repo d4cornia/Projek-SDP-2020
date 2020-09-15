@@ -38,6 +38,7 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::post('/search', 'kontraktorController@searchListSpecialWork');
     Route::get('/sDelMandor', 'kontraktorController@listDeletedMandor');
     Route::get('/sDelAdmin', 'kontraktorController@listDeletedAdmin');
+    Route::get('/sDelWork', 'kontraktorController@listDeletedWork');
 
     //insert
     Route::post('/submitRegMandor', 'kontraktorController@storeMandor');
@@ -70,6 +71,7 @@ Route::group(['prefix' => 'kontraktor'], function () {
     // Rollback
     Route::get('/rollbackMandor/{n?}', 'kontraktorController@rollbackMandor');
     Route::get('/rollbackAdmin/{n?}', 'kontraktorController@rollbackAdmin');
+    Route::get('/rollbackWork/{n?}', 'kontraktorController@rollbackWork');
 
 
     Route::get('/addClient', 'kontraktorController@addClient');
