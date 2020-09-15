@@ -46,7 +46,6 @@
         <div class="dropdown-menu">
             {{--Dropdown Mandor--}}
             <a class="dropdown-item" href="/kontraktor/lMandor">Lihat Mandor</a>
-            <a class="dropdown-item" href="/kontraktor/rMandor">Tambah Mandor</a>
         </div>
     </div>
 
@@ -57,7 +56,6 @@
         <div class="dropdown-menu">
             {{--Dropdown Admin--}}
             <a class="dropdown-item" href="/kontraktor/lAdmin">Lihat Admin</a>
-            <a class="dropdown-item" href="/kontraktor/rAdmin">Tambah Admin</a>
         </div>
     </div>
 @endsection

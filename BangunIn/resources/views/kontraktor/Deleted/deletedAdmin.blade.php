@@ -1,7 +1,7 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-    @if (count($listAdmin) > 0)
+    @if (count($listDelAdmin) > 0)
         <h1>List Admin</h1>
         <div class="table-responsive">
             <table id="tabel-admin" class="table table-bordered table-striped">
@@ -17,7 +17,7 @@
                 </tr>
               </thead>
               <tbody id="">
-                @foreach ($listAdmin as $item)
+                @foreach ($listDelAdmin as $item)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$item->username_admin}}</td>
@@ -26,8 +26,7 @@
                             <td>{{$item->email_admin}}</td>
                             <td>Rp. {{number_format($item->gaji_admin)}}</td>
                             <td>
-                                <a href="/kontraktor/detAdmin/{{encrypt($item->kode_admin)}}" class="btn btn-success">Detail</a>
-                                <a href="/kontraktor/delAdmin/{{encrypt($item->kode_admin)}}" class="btn btn-danger">Hapus</a>
+                                <a href="/kontraktor/rollbackAdmin/{{encrypt($item->kode_admin)}}" class="btn btn-info">Pulihkan</a>
                             </td>
                         </tr>
                     @endforeach
@@ -46,14 +45,12 @@
             </table>
             </div>
             <div class="option">
-                <a class="btn btn-primary"  href="/kontraktor/rAdmin">Tambah Admin</a>
-                <a class="btn btn-secondary" href="/kontraktor/sDelAdmin">Lihat Admin Yand Dihapus</a>
+                <a class="btn btn-secondary" href="/kontraktor/lAdmin">Kembali</a>
             </div>
     @else
-        <h1>Tidak Ada Admin!</h1>
+        <h1>Tidak Ada Admin Yang Dihapus!</h1>
         <div class="option">
-            <a class="btn btn-primary"  href="/kontraktor/rAdmin">Tambah Admin</a>
-            <a class="btn btn-secondary" href="/kontraktor/sDelAdmin">Lihat Admin Yand Dihapus</a>
+            <a class="btn btn-secondary" href="/kontraktor/lAdmin">Kembali</a>
         </div>
     @endif
     <script>

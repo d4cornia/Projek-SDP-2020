@@ -36,6 +36,8 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/lWork', 'kontraktorController@indexListWork');
     Route::get('/iSpWork', 'kontraktorController@indexSpecialWork');
     Route::post('/search', 'kontraktorController@searchListSpecialWork');
+    Route::get('/sDelMandor', 'kontraktorController@listDeletedMandor');
+    Route::get('/sDelAdmin', 'kontraktorController@listDeletedAdmin');
 
     //insert
     Route::post('/submitRegMandor', 'kontraktorController@storeMandor');
@@ -50,16 +52,25 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/detSpWork/{n?}', 'kontraktorController@detailSpecialWork');
 
     // Update
+    Route::get('/updPass/{n?}/{m?}', 'kontraktorController@updatePassword');
     Route::post('/updMandor', 'kontraktorController@updateMandor');
     Route::post('/updAdmin', 'kontraktorController@updateAdmin');
+    Route::post('/updPassMandor', 'kontraktorController@updatePassMandor');
+    Route::post('/updPassAdmin', 'kontraktorController@updatePassAdmin');
     Route::post('/updWork', 'kontraktorController@updateWork');
     Route::post('/updSpWork', 'kontraktorController@updateSpecialWork');
 
     // Delete
+    Route::get('/delConf/{n?}', 'kontraktorController@deleteMandor');
     Route::get('/delMandor/{n?}', 'kontraktorController@deleteMandor');
     Route::get('/delAdmin/{n?}', 'kontraktorController@deleteAdmin');
     Route::get('/delWork/{n?}', 'kontraktorController@deleteWork');
     Route::get('/delSpWork/{n?}', 'kontraktorController@deleteSpecialWork');
+
+    // Rollback
+    Route::get('/rollbackMandor/{n?}', 'kontraktorController@rollbackMandor');
+    Route::get('/rollbackAdmin/{n?}', 'kontraktorController@rollbackAdmin');
+
 
     Route::get('/addClient', 'kontraktorController@addClient');
     Route::post('/submitRegClient', 'kontraktorController@storeClient');
@@ -69,10 +80,9 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/detClient/{n?}', 'kontraktorController@toDetailClient');
     Route::get('/show', 'kontraktorController@showPembayaranForm');
     Route::post('/update', 'kontraktorController@updateClient');
-    Route::post('/fetch',"kontraktorController@fetch")->name('cbPekerjaan.fetch');
-    Route::get('/delClient/{n?}',"kontraktorController@deleteClient");
-    Route::get('/listPembayaran',"kontraktorController@listPembayaranClient");
-
+    Route::post('/fetch', "kontraktorController@fetch")->name('cbPekerjaan.fetch');
+    Route::get('/delClient/{n?}', "kontraktorController@deleteClient");
+    Route::get('/listPembayaran', "kontraktorController@listPembayaranClient");
 });
 
 //mandor

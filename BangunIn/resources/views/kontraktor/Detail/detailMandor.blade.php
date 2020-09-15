@@ -25,7 +25,7 @@
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">Nama Pengguna</label>
-        <input type="text" class="form-control" name="username" value="{{$mandor[0]['username_mandor']}}">
+        <input type="text" class="form-control" name="username" value="{{$mandor[0]['username_mandor']}}" disabled>
         @error('username')
         <div class="invalid-feedback">
             {{$message}}
@@ -50,16 +50,8 @@
             </div>
         @enderror
     </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Kata sandi</label>
-        <input type="password" class="form-control" name="pass" value="{{$mandor[0]['password_mandor']}}" id="pass">
-        @error('pass')
-        <div class="invalid-feedback">
-            {{$message}}
-        </div>
-        @enderror
-    </div>
     <input type="hidden" name="id" value="{{$mandor[0]['kode_mandor']}}">
     <button type="submit" class="btn btn-primary">Ubah</button>
+    <a href="/kontraktor/updPass/{{encrypt($mandor[0]['username_mandor'])}}/updPassMandor" class="btn btn-warning">Ubah Kata Sandi Mandor</a>
 </form>
 @endsection

@@ -23,6 +23,29 @@ class kontraktorController extends Controller
         return view('kontraktor.navbar');
     }
 
+    public function updatePassword($username, $path)
+    {
+        $obj = null;
+        if ($path == "updPassAdmin") {
+            $obj = new administrator();
+            $old = $obj::where('username_admin', decrypt($username))->pluck('password_admin');
+        } else if ($path == "updPassMandor") {
+            $obj = new mandor();
+            $old = $obj::where('username_mandor', decrypt($username))->pluck('password_mandor');
+        } else if ($path == "updPassTukang") {
+            $obj = new tukang();
+            $old = $obj::where('username_tukang', decrypt($username))->pluck('password_tukang');
+        }
+
+        $data = [
+            'title' => 'Ubah Kata Sandi',
+            'oldPass' => $old[0],
+            'username' => decrypt($username),
+            'path' => $path
+        ];
+        return view('kontraktor.Detail.changePass', $data);
+    }
+
 
     //Client
     public function fetch(Request $request)
@@ -211,16 +234,22 @@ class kontraktorController extends Controller
         ]);
 
         $m = new mandor();
-        $data = [
-            'title' => 'Tambah Mandor',
-            'error' => 0 // 0 = success
-        ];
         // validation database -> sudah kepake ato belom kolom sesuatu
-        if ($m->cekMandor($request->input('username')) == 0) {
+        if ($m->cekMandor($request->input('username'))) {
             $m->insertMandor($request); // saving
+
+            $data = [
+                'title' => 'Tambah Mandor',
+                'succ' => 'Berhasil Menambahkan Mandor',
+                'error' => 0 // 0 = success
+            ];
             return view('kontraktor.Creation.RegisterMandor', $data);
         } else {
-            $data['error'] = 1; // 1 = error username sudah dipakai
+            $data = [
+                'title' => 'Tambah Mandor',
+                'bef' => $request->input(),
+                'error' => 1 // 1 = error, username sudah terpakai
+            ];
             return view('kontraktor.Creation.RegisterMandor', $data);
         }
     }
@@ -252,20 +281,16 @@ class kontraktorController extends Controller
         $req->validate([
             'name' => 'required|string',
             'no' => 'required|numeric',
-            'username' => 'required',
             'email' => 'required',
-            'salary' => 'required|numeric',
-            'pass' => 'required'
+            'salary' => 'required|numeric'
         ], [
             'name.required' => 'Kolom nama belum di isi!',
             'name.string' => 'Kolom nama hanya bisa di isi huruf!',
             'no.required' => 'Kolom nomor telepon belum di isi!',
             'no.numeric' => 'Kolom nomor hanya bisa di isi angka!',
-            'username.required' => 'Kolom nama pengguna belum di isi!',
             'email.required' => 'Kolom alamat e-mail belum di isi!',
-            'salary.numeric' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
-            'salary.required' => 'Kolom gaji admin wajib di isi!',
-            'pass.required' => 'Kolom kata sandi belum di isi!'
+            'salary.numeric' => 'Kolom gaji mandor hanya bisa di isi dengan angka (0-9)!',
+            'salary.required' => 'Kolom gaji mandor wajib di isi!',
         ]);
         $m = new mandor();
         $m->updateMandor($req);
@@ -280,6 +305,24 @@ class kontraktorController extends Controller
         return view('kontraktor.List.listMandor', $data);
     }
 
+    public function updatePassMandor(Request $req)
+    {
+        $req->validate([
+            'pass' => 'required'
+        ], [
+            'pass.required' => 'Kolom kata sandi belum di isi!'
+        ]);
+        $m = new mandor();
+        $m->updatePassMandor($req);
+
+        $data = [
+            'title' => 'Detail Mandor',
+            'mandor' => $m->where('username_mandor', $req->username)->get(),
+            'upd' => 'Berhasil mengubah password mandor'
+        ];
+        return view('kontraktor.Detail.detailMandor', $data);
+    }
+
     public function deleteMandor($id)
     {
         $m = new mandor();
@@ -292,6 +335,33 @@ class kontraktorController extends Controller
             'del' => 'Berhasil menghapus data mandor'
         ];
         return view('kontraktor.List.listMandor', $data);
+    }
+
+    public function listDeletedMandor()
+    {
+        $m = new mandor();
+        $data = [
+            'title' => 'List Mandor',
+            'listDelMandor' => $m->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_mandor', 1)
+                ->get()
+        ];
+        return view('kontraktor.Deleted.deletedMandor', $data);
+    }
+
+    public function rollbackMandor($id)
+    {
+        $m = new mandor();
+        $m->rollback(decrypt($id));
+
+        $data = [
+            'title' => 'List Mandor',
+            'listDelMandor' => $m->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_mandor', 1)
+                ->get(),
+            'roll' => 'Berhasil mengembalikan Mandor!'
+        ];
+        return view('kontraktor.Deleted.deletedMandor', $data);
     }
 
 
@@ -323,16 +393,22 @@ class kontraktorController extends Controller
         ]);
 
         $a = new administrator();
-        $data = [
-            'title' => 'Tambah Admin',
-            'error' => 0
-        ];
         // validation database -> sudah kepake ato belom kolom sesuatu
-        if ($a->cekAdmin($request->input('username')) == 0) {
+        if ($a->cekAdmin($request->input('username'))) {
             $a->insertAdmin($request); // saving
+
+            $data = [
+                'title' => 'Tambah Admin',
+                'succ' => 'Berhasil Menambahkan Admin',
+                'error' => 0 // 0 = success
+            ];
             return view('kontraktor.Creation.RegisterAdmin', $data);
         } else {
-            $data['error'] = 1; // 1 = error username sudah dipakai
+            $data = [
+                'title' => 'Tambah Admin',
+                'bef' => $request->input(),
+                'error' => 1 // 1 = error, username sudah terpakai
+            ];
             return view('kontraktor.Creation.RegisterAdmin', $data);
         }
     }
@@ -364,20 +440,16 @@ class kontraktorController extends Controller
         $req->validate([
             'name' => 'required|string',
             'no' => 'required|',
-            'username' => 'required',
             'email' => 'required',
-            'salary' => 'required|numeric',
-            'pass' => 'required'
+            'salary' => 'required|numeric'
         ], [
             'name.required' => 'Kolom nama belum di isi!',
             'name.string' => 'Kolom nama hanya bisa di isi huruf!',
             'no.required' => 'Kolom nomor telepon belum di isi!',
             'no.numeric' => 'Kolom nomor hanya bisa di isi angka!',
-            'username.required' => 'Kolom nama pengguna belum di isi!',
             'email.required' => 'Kolom alamat e-mail belum di isi!',
             'salary.numeric' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
-            'salary.required' => 'Kolom gaji admin wajib di isi!',
-            'pass.required' => 'Kolom kata sandi belum di isi!'
+            'salary.required' => 'Kolom gaji admin wajib di isi!'
         ]);
         $a = new administrator();
         $a->updateAdmin($req);
@@ -390,6 +462,24 @@ class kontraktorController extends Controller
             'upd' => 'Berhasil mengubah data admin'
         ];
         return view('kontraktor.List.listAdmin', $data);
+    }
+
+    public function updatePassAdmin(Request $req)
+    {
+        $req->validate([
+            'pass' => 'required'
+        ], [
+            'pass.required' => 'Kolom kata sandi belum di isi!'
+        ]);
+        $a = new administrator();
+        $a->updatePassAdmin($req);
+
+        $data = [
+            'title' => 'Detail Admin',
+            'admin' => $a->where('username_admin', $req->username)->get(),
+            'upd' => 'Berhasil mengubah password admin'
+        ];
+        return view('kontraktor.Detail.detailAdmin', $data);
     }
 
     public function deleteAdmin($id)
@@ -406,6 +496,32 @@ class kontraktorController extends Controller
         return view('kontraktor.List.listAdmin', $data);
     }
 
+    public function listDeletedAdmin()
+    {
+        $a = new administrator();
+        $data = [
+            'title' => 'List Admin',
+            'listDelAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_admin', 1)
+                ->get()
+        ];
+        return view('kontraktor.Deleted.deletedAdmin', $data);
+    }
+
+    public function rollbackAdmin($id)
+    {
+        $a = new administrator();
+        $a->rollback(decrypt($id));
+
+        $data = [
+            'title' => 'List Admin',
+            'listDelAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_Admin', 1)
+                ->get(),
+            'roll' => 'Berhasil mengembalikan Admin!'
+        ];
+        return view('kontraktor.Deleted.deletedAdmin', $data);
+    }
 
 
 

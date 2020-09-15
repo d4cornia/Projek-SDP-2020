@@ -37,6 +37,24 @@
         .row-first , .row-second{
             margin-bottom: 40px;
         }
+
+        .option{
+            margin-top: 30px;
+        }
+
+        .succ{
+            width: 100%;
+            margin-top: .25rem;
+            font-size: 85%;
+            color: #28a745;
+            border: 1px solid #28a745;
+            border-radius: 2rem;
+            margin: 15px 20px 10px 0px;
+            padding: 15px;
+            width: fit-content;
+        }
+        .none{
+        }
     </style>
 </head>
 <body>
@@ -97,6 +115,9 @@
     @if ($error == 0)
     <script>
         swal("Berhasil Tambah!", "", "success");
+        myVar = setTimeout(() => {
+            document.getElementById("succ").style.display = "none";
+        }, 5000);
     </script>
     @endif
     @if ($error == 1)
@@ -110,9 +131,14 @@
         swal("Berhasil Ubah!", "{{$upd}}", "success");
     </script>
 @endisset
-
 @isset($del)
     <script>
         swal("Berhasil Hapus!", "{{$del}}", "success");
     </script>
 @endisset
+@isset($roll)
+    <script>
+        swal("Berhasil Mengembalikan!", "{{$roll}}", "success");
+    </script>
+@endisset
+

@@ -24,9 +24,14 @@ class mandor extends Model
     public function cekMandor($username)
     {
         //cek apakah user sudah terpakai atau belum
-        $result = mandor::where('username_mandor', $username)
-            ->get();
-        return count($result);
+        $result = mandor::where('username_mandor', $username)->get();
+        $total = count($result);
+        $result = administrator::where('username_admin', $username)->get();
+        $total += count($result);
+        if ($total == 0) {
+            return true;
+        }
+        return false;
     }
 
     public function nameToCode($username)
@@ -58,11 +63,16 @@ class mandor extends Model
         $m = $this->find($request->id);
         $m->nama_mandor = $request->input('name');
         $m->no_hp_mandor = $request->input('no');
-        $m->username_mandor = $request->input('username');
         $m->email_mandor = $request->input('email');
         $m->gaji_mandor = $request->input('salary');
-        $m->password_mandor = $request->input('pass');
         $m->save();
+    }
+
+    public function updatePassMandor(Request $request)
+    {
+        $m = $this->where('username_mandor', $request->username)->get();
+        $m[0]->password_mandor = $request->input('pass');
+        $m[0]->save();
     }
 
     public function softDeleteMandor($id)
@@ -72,4 +82,10 @@ class mandor extends Model
         $m->save();
     }
 
+    public function rollback($id)
+    {
+        $m = $this->find($id);
+        $m->status_delete_mandor = 0;
+        $m->save();
+    }
 }

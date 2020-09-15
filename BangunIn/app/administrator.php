@@ -24,9 +24,14 @@ class administrator extends Model
     public function cekAdmin($username)
     {
         //cek apakah user sudah terpakai atau belum
-        $result = administrator::where('username_admin', $username)
-            ->get();
-        return count($result);
+        $result = mandor::where('username_mandor', $username)->get();
+        $total = count($result);
+        $result = administrator::where('username_admin', $username)->get();
+        $total += count($result);
+        if ($total == 0) {
+            return true;
+        }
+        return false;
     }
 
     public function nameToCode($username)
@@ -58,17 +63,29 @@ class administrator extends Model
         $a = $this->find($request->id);
         $a->nama_admin = $request->input('name');
         $a->no_hp_admin = $request->input('no');
-        $a->username_admin = $request->input('username');
         $a->email_admin = $request->input('email');
         $a->gaji_admin = $request->input('salary');
-        $a->password_admin = $request->input('pass');
         $a->save();
+    }
+
+    public function updatePassAdmin(Request $request)
+    {
+        $a = $this->where('username_admin', $request->username)->get();
+        $a[0]->password_admin = $request->input('pass');
+        $a[0]->save();
     }
 
     public function softDeleteAdmin($id)
     {
-        $m = $this->find($id);
-        $m->status_delete_admin = 1;
-        $m->save();
+        $a = $this->find($id);
+        $a->status_delete_admin = 1;
+        $a->save();
+    }
+
+    public function rollback($id)
+    {
+        $a = $this->find($id);
+        $a->status_delete_admin = 0;
+        $a->save();
     }
 }

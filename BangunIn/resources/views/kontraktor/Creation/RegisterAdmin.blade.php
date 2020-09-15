@@ -1,11 +1,17 @@
 @extends('kontraktor.navbar')
 
 @section('content')
+<h1>Tambah Admin</h1>
+@isset($succ)
+<div class="succ"  id="succ">
+    {{$succ}}
+</div>
+@endisset
 <form method="POST" action="/kontraktor/submitRegAdmin" class="needs-validation" novalidate>
     @csrf
     <div class="form-group">
         <label for="exampleInputEmail1">Nama Admin</label>
-        <input type="text" class="form-control" name="name" value="{{old('name')}}" required>
+        <input type="text" class="form-control" name="name" value="@if(isset($bef)){{$bef['name']}}@endif{{old('name')}}" required>
         <div class="invalid-feedback">
             Kolom nama belum di isi!
         </div>
@@ -17,7 +23,7 @@
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">No Telepon</label>
-        <input type="text" class="form-control" name="no" value="{{old('no')}}" required>
+        <input type="text" class="form-control" name="no" value="@if(isset($bef)){{$bef['no']}}@endif{{old('no')}}" required>
         <div class="invalid-feedback">
             Kolom nomor telepon belum di isi!
         </div>
@@ -29,7 +35,7 @@
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">Nama Pengguna</label>
-        <input type="text" class="form-control" name="username" value="{{old('username')}}" required>
+        <input type="text" class="form-control" name="username" value="@if(isset($bef)){{$bef['username']}}@endif{{old('username')}}" required>
         <div class="invalid-feedback">
             Kolom nama pengguna belum di isi!
         </div>
@@ -41,7 +47,7 @@
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">Alamat E-mail</label>
-        <input type="email" class="form-control" name="email" value="{{old('email')}}" id="email" aria-describedby="emailHelp" required>
+        <input type="email" class="form-control" name="email" value="@if(isset($bef)){{$bef['email']}}@endif{{old('email')}}" id="email" aria-describedby="emailHelp" required>
         <div class="invalid-feedback">
             Kolom alamat e-mail belum di isi!
         </div>
@@ -53,7 +59,7 @@
     </div>
     <div class="form-group">
         <label for="salary">Gaji Admin</label>
-        <input type="number" class="form-control" name="salary" value="{{old('salary')}}" id="salary" required>
+        <input type="number" class="form-control" name="salary" value="@if(isset($bef)){{intval($bef['salary'])/10}}@endif{{intval(old('salary'))}}" id="salary" required>
         @error('salary')
             <div class="err">
                 {{$message}}
@@ -62,7 +68,7 @@
     </div>
     <div class="form-group">
         <label for="exampleInputPassword1">Kata sandi</label>
-        <input type="password" class="form-control" name="pass" value="{{old('pass')}}" id="pass" required>
+        <input type="password" class="form-control" name="pass" value="@if(isset($bef)){{$bef['pass']}}@endif{{old('pass')}}" id="pass" required>
         <div class="invalid-feedback">
             Kolom kata sandi belum di isi!
         </div>
@@ -73,6 +79,7 @@
         @enderror
     </div>
     <button type="submit" class="btn btn-primary">Tambah</button>
+    <a class="btn btn-secondary" href="/kontraktor/lAdmin">Kembali</a>
 </form>
 
 <script>

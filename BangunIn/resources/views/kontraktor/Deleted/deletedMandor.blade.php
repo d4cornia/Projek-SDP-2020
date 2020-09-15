@@ -1,7 +1,7 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-    @if (count($listMandor) > 0)
+    @if (count($listDelMandor) > 0)
         <h1>List Mandor</h1>
         <div class="table-responsive">
             <table id="tabel-mandor" class="table table-bordered table-striped">
@@ -17,7 +17,7 @@
                 </tr>
               </thead>
               <tbody id="">
-                @foreach ($listMandor as $item)
+                @foreach ($listDelMandor as $item)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$item->username_mandor}}</td>
@@ -26,8 +26,7 @@
                             <td>{{$item->email_mandor}}</td>
                             <td>Rp. {{number_format($item->gaji_mandor)}}</td>
                             <td>
-                                <a href="/kontraktor/detMandor/{{encrypt($item->kode_mandor)}}" class="btn btn-success">Detail</a>
-                                <a href="/kontraktor/delMandor/{{encrypt($item->kode_mandor)}}" class="btn btn-danger">Hapus</a>
+                                <a href="/kontraktor/rollbackMandor/{{encrypt($item->kode_mandor)}}" class="btn btn-info">Pulihkan</a>
                             </td>
                         </tr>
                     @endforeach
@@ -46,14 +45,12 @@
             </table>
             </div>
             <div class="option">
-                <a class="btn btn-primary" href="/kontraktor/rMandor">Tambah Mandor</a>
-                <a class="btn btn-secondary" href="/kontraktor/sDelMandor">Lihat Mandor Yand Dihapus</a>
+                <a class="btn btn-secondary" href="/kontraktor/lMandor">Kembali</a>
             </div>
     @else
-        <h1>Tidak Ada Mandor!</h1>
+        <h1>Tidak Ada Mandor Yang Dihapus!</h1>
         <div class="option">
-            <a class="btn btn-primary" href="/kontraktor/rMandor">Tambah Mandor</a>
-            <a class="btn btn-secondary" href="/kontraktor/sDelMandor">Lihat Mandor Yand Dihapus</a>
+            <a class="btn btn-secondary" href="/kontraktor/lMandor">Kembali</a>
         </div>
     @endif
     <script>
