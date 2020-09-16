@@ -50,6 +50,13 @@ class client extends Model
         $c->save();
     }
 
+    public function restore($id)
+    {
+        $c = $this->find($id);
+        $c->status_delete_client = 0;
+        $c->save();
+    }
+
     public function insertClient(Request $request)
     {
         $this->kode_kontraktor = session()->get('kode');
@@ -62,6 +69,12 @@ class client extends Model
     public function getDataClient()
     {
         $data = client::select('*')->get();
+        return $data;
+    }
+
+    public function getHapusClient()
+    {
+        $data = client::select('*')->where('status_delete_client','1')->get();
         return $data;
     }
 }
