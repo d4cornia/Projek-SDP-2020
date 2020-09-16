@@ -50,6 +50,16 @@ class kontraktorController extends Controller
 
 
     //Client
+    public function listDeleteClient()
+    {
+        $b = new client();
+        $data = [
+            'title' => 'List Delete Client',
+            'listDataDeleteClient' => $b->getHapusClient()
+        ];
+        return view('kontraktor.List.listDeleteClient',$data);
+    }
+
     public function fetch(Request $request)
     {
         session()->forget('listSpWork');
@@ -97,6 +107,19 @@ class kontraktorController extends Controller
                 ->where('status_delete_client', 0)->get()
         ];
         // dd($data);
+        return view('kontraktor.List.listClient', $data);
+    }
+
+    public function restoreClient($id)
+    {
+        $b = new client();
+        $b->restore(decrypt($id));
+        $data = [
+            'title' => 'Restore Client',
+            'listClients' => $b->where('kode_kontraktor', session()->get('kode'))
+            ->where('status_delete_client', 0)->get(),
+        'del' => 'Berhasil restore data Client'
+        ];
         return view('kontraktor.List.listClient', $data);
     }
 

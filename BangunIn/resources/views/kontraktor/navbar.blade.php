@@ -23,6 +23,7 @@
             <a class="dropdown-item" href="/kontraktor/addClient">Tambah Client</a>
             <a class="dropdown-item" href="/kontraktor/show">Input Pembayaran Client</a>
             <a class="dropdown-item" href="/kontraktor/listPembayaran">List Pembayaran Client</a>
+            <a class="dropdown-item" href="/kontraktor/listDeleteClient">List Delete Client</a>
         </div>
     </div>
 

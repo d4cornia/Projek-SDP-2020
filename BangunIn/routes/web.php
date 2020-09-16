@@ -90,7 +90,9 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::post('/update', 'kontraktorController@updateClient');
     Route::post('/fetch', "kontraktorController@fetch")->name('cbPekerjaan.fetch');
     Route::get('/delClient/{n?}', "kontraktorController@deleteClient");
+    Route::get('/resClient/{n?}', "kontraktorController@restoreClient");
     Route::get('/listPembayaran', "kontraktorController@listPembayaranClient");
+    Route::get('/listDeleteClient', "kontraktorController@listDeleteClient");
 });
 
 //mandor
