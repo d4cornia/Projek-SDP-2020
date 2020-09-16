@@ -1,6 +1,7 @@
 @extends('kontraktor.navbar')
 
 @section('content')
+<h1>Ubah Data Mandor</h1>
 <form method="POST" action="/kontraktor/updMandor" class="needs-validation" novalidate>
     @csrf
     <div class="form-group">

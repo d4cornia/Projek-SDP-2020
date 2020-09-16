@@ -21,14 +21,14 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$item->nama_pekerjaan}}</td>
                             <td>{{$item->alamat_pekerjaan}}</td>
-                            <td>{{$item->harga_deal}}</td>
+                            <td>Rp. {{number_format($item->harga_deal)}}</td>
                             <td>@if ($item->status_selesai == '1')
                                 Selesai
                                 @else
                                 Belum Selesai
                             @endif</td>
                             <td>
-                                <a href="/kontraktor/rollbackWork/{{encrypt($item->kode_pekerjaan)}}" class="btn btn-danger">Pulihkan</a>
+                                <a href="/kontraktor/rollbackWork/{{encrypt($item->kode_pekerjaan)}}" class="btn btn-info">Pulihkan</a>
                             </td>
                         </tr>
                 @endforeach
@@ -46,8 +46,7 @@
             </table>
             </div>
             <div class="option">
-                <a class="btn btn-primary" href="/kontraktor/aWork">Tambah Pekerjaan</a>
-                <a class="btn btn-secondary" href="/kontraktor/sDelWork">Lihat Pekerjaan Yang Dihapus</a>
+                <a class="btn btn-secondary" href="/kontraktor/lWork">Kembali</a>
             </div>
     @else
         <h1>Tidak Ada Pekerjaan Yang Dihapus!</h1>

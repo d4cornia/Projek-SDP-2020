@@ -21,7 +21,7 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$item->nama_pekerjaan}}</td>
                             <td>{{$item->alamat_pekerjaan}}</td>
-                            <td>{{$item->harga_deal}}</td>
+                            <td>Rp. {{number_format($item->harga_deal)}}</td>
                             <td>@if ($item->status_selesai == '1')
                                 Selesai
                                 @else

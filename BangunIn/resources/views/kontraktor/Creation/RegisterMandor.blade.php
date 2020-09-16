@@ -59,7 +59,7 @@
     </div>
     <div class="form-group">
         <label for="salary">Gaji Mandor</label>
-        <input type="number" class="form-control" name="salary" value="@if(isset($bef)){{intval($bef['salary'])/10}}@endif{{intval(old('salary'))}}" id="salary" required>
+        <input type="number" class="form-control" name="salary" value="@if(isset($bef)){{intval($bef['salary'])}}@else{{intval(old('salary'))}}@endif" id="salary" required>
         @error('salary')
             <div class="err">
                 {{$message}}

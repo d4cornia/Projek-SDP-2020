@@ -53,16 +53,31 @@
             padding: 15px;
             width: fit-content;
         }
-        .none{
+
+        .padd{
+            padding: 40px;
+            border: solid black 1px;
+            border-radius: 1rem;
+        }
+
+        #content{
+            overflow-y:auto;
+            margin-left: 15%;
+        }
+
+        #side-nav{
+            position: fixed; /* Set the navbar to fixed position */
+            left: 0;
+            top: 0; /* Position the navbar at the top of the page */
         }
     </style>
 </head>
 <body>
    <div class="row">
-    <div class="col-lg-2 col-md-2 p-5">
+    <div class="col-lg-2 col-md-2 p-5" id="side-nav">
         @yield('side-navbar')
     </div>
-    <div class="col-lg-10 col-md-10 p-5">
+    <div class="col-lg-10 col-md-10 p-5" id="content">
         @yield('content')
     </div>
    </div>

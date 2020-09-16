@@ -1,30 +1,24 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-    @if ($listSpWork !== null)
-    <h1>Daftar Pekerjaan Khusus</h1>
+    @if ($listDelSpWork !== null)
+    <h1>Daftar Pekerjaan Khusus Yang Dihapus</h1>
         <div class="row-first">
             <form action="/kontraktor/search" method="post">
                 @csrf
                 <span class="form-group">
                     <label for="work">Nama Pekerjaan</label>
                     <div class="my-1">
-                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work" disabled>
                             <option selected>-</option>
                             @foreach ($listWork as $item)
-                                <option value="{{$item['kode_pekerjaan']}}" @if ($item['kode_pekerjaan'] == $current['kode_pekerjaan'])
+                                <option value="{{$item['kode_pekerjaan']}}" @if ($item['kode_pekerjaan'] == $id)
                                     selected
                                 @endif>{{$item['nama_pekerjaan']}}</option>
                             @endforeach
                         </select>
-                        @error('work')
-                        <div class="err">
-                            {{$message}}
-                        </div>
-                        @enderror
                     </div>
                 </span>
-                <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
         <div class="row-second">
@@ -41,7 +35,7 @@
                 </tr>
             </thead>
             <tbody id="">
-                @foreach ($listSpWork as $item)
+                @foreach ($listDelSpWork as $item)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$item->keterangan_pk}}</td>
@@ -49,8 +43,7 @@
                             <td>{{$item->total_jasa}}</td>
                             <td>{{$item->total_keseluruhan}}</td>
                             <td>
-                                <a href="/kontraktor/detSpWorkMenu/{{encrypt($item->kode_pk)}}" class="btn btn-success">Detail</a>
-                                <a href="/kontraktor/delSpWorkMenu/{{encrypt($item->kode_pk)}}" class="btn btn-danger">Hapus</a>
+                                <a href="/kontraktor/rollbackSpWorkMenu/{{encrypt($item->kode_pk)}}" class="btn btn-info">Pulihkan</a>
                             </td>
                         </tr>
                 @endforeach
@@ -69,36 +62,13 @@
             </div>
         </div>
         <div class="option">
-            <a class="btn btn-primary" href="/kontraktor/aSpWork">Tambah Pekerjaan Khusus</a>
-            <a class="btn btn-secondary" href="/kontraktor/sSpDelWork/{{$current['kode_pekerjaan']}}">Lihat Pekerjaan Khusus Yang Dihapus</a>
+            <a class="btn btn-primary" href="/kontraktor/iSpWork">Kembali</a>
         </div>
     @else
-    <div class="row-first">
-        <form action="/kontraktor/search" method="post">
-            @csrf
-            <span class="form-group">
-                <label for="work">Nama Pekerjaan</label>
-                <div class="my-1">
-                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
-                        <option selected>-</option>
-                        @foreach ($listWork as $item)
-                            <option value="{{$item['kode_pekerjaan']}}">{{$item['nama_pekerjaan']}}</option>
-                        @endforeach
-                    </select>
-                    @error('work')
-                    <div class="err">
-                        {{$message}}
-                    </div>
-                    @enderror
-                </div>
-            </span>
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
-    </div>
     <div class="row-second">
-        <h2>Tidak ada pekerjaan khusus!</h2>
+        <h2>Tidak ada pekerjaan khusus yang dihapus!</h2>
         <div class="option">
-            <a class="btn btn-primary" href="/kontraktor/aSpWork">Tambah Pekerjaan Khusus</a>
+            <a class="btn btn-primary" href="/kontraktor/iSpWork">Kembali</a>
         </div>
     </div>
     @endif

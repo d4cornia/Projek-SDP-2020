@@ -1,14 +1,69 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-<form method="POST" action="/kontraktor/submitAddWork" class="needs-validation" novalidate>
+<h1>Tambah Pekerjaan</h1>
+<form method="POST" action="/kontraktor/submitAddWork" class="option needs-validation" novalidate>
     @csrf
+    <div class="option padd">
+        <h3>Pekerjaan Khusus</h3>
+        <div class="option table-responsive">
+            <table id="tabel-spWork" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Keterangan Pekerjaan Khusus</th>
+                    <th scope="col">Total Harga</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="">
+                @isset($listSpWork)
+                    @foreach ($listSpWork as $item)
+                        <tr>
+                            <th scope="row">{{$loop->iteration}}</th>
+                            <td>{{$item['ketPK']}}</td>
+                            <td>{{$item['sumJasa']}}</td>
+                            <td>
+                                <a href="/kontraktor/delSpWorkRow/{{encrypt($loop->iteration)}}" class="btn btn-danger">Hapus</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endisset
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Keterangan Pekerjaan Khusus</th>
+                    <th scope="col">Total Harga</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </tfoot>
+            </table>
+        </div>
+            <div class="form-group">
+                <label for="ketPK">Keterangan Perkejaan Khusus</label>
+                <textarea class="form-control" name="ketPK" id="ketPK" value="{{old('ketPK')}}" rows="10"></textarea>
+                @error('ketPK')
+                    <div class="err">
+                        {{$message}}
+                    </div>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="sumJasa">Ongkos Kerja</label>
+                <input type="number" class="form-control" name="sumJasa" id="sumJasa" value="{{old('sumJasa')}}">
+                @error('sumJasa')
+                    <div class="err">
+                        {{$message}}
+                    </div>
+                @enderror
+            </div>
+            <button type="submit" name="addSpWork" value="spW" class="btn btn-info">Tambah Pekerjaan Khusus</button>
+    </div>
+    <hr class="option">
     <div class="form-group">
         <label for="name">Nama Perkejaan</label>
-        <input type="text" class="form-control" name="name" id="name" value="{{old('name')}}" required>
-        <div class="invalid-feedback">
-            Kolom nama perkejaan belum di isi!
-        </div>
+        <input type="text" class="form-control" name="name" id="name" value="@if(isset($bef)){{$bef['name']}}@else{{old('name')}}@endif">
         @error('name')
         <div class="err">
             {{$message}}
@@ -21,7 +76,10 @@
             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="nc" id="nc">
                 <option selected>-</option>
                 @foreach ($listClient as $item)
-                    <option value="{{$item}}">{{$item}}</option>
+                    <option value="{{$item}}" @isset($bef) @if ($bef['nc'] == $item)
+                            selected
+                        @endif
+                    @endisset @if(old('nc') == $item) selected @endif>{{$item}}</option>
                 @endforeach
             </select>
         </div>
@@ -32,7 +90,10 @@
             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="nm" id="nm">
                 <option selected>-</option>
                 @foreach ($listMandor as $item)
-                    <option value="{{$item['username_mandor']}}">{{$item['nama_mandor'].' - '.$item['username_mandor']}}</option>
+                    <option value="{{$item['username_mandor']}}" @isset($bef) @if ($bef['nm'] == $item['username_mandor'])
+                            selected
+                        @endif
+                    @endisset @if(old('nm') == $item['username_mandor']) selected @endif>{{$item['nama_mandor'].' - '.$item['username_mandor']}}</option>
                 @endforeach
             </select>
         </div>
@@ -43,17 +104,17 @@
             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="na" id="na">
                 <option selected>-</option>
                 @foreach ($listAdmin as $item)
-                    <option value="{{$item['username_admin']}}">{{$item['nama_admin'].' - '.$item['username_admin']}}</option>
+                    <option value="{{$item['username_admin']}}" @isset($bef) @if ($bef['na'] == $item['username_admin'])
+                            selected
+                        @endif
+                    @endisset @if(old('na') == $item['username_admin']) selected @endif>{{$item['nama_admin'].' - '.$item['username_admin']}}</option>
                 @endforeach
             </select>
         </div>
     </div>
     <div class="form-group">
         <label for="address">Alamat</label>
-        <input type="text" class="form-control" name="address" id="address" value="{{old('address')}}" required>
-        <div class="invalid-feedback">
-            Kolom alamat belum di isi!
-        </div>
+        <input type="text" class="form-control" name="address" id="address" value="@if(isset($bef)){{$bef['address']}}@else{{old('address')}}@endif" >
         @error('address')
         <div class="err">
             {{$message}}
@@ -62,7 +123,7 @@
     </div>
     <div class="form-group">
         <label for="specAgreement">Perjanjian Khusus</label>
-        <textarea class="form-control" name="specAgreement" id="specAgreement" value="{{old('specAgreement')}}" rows="8"></textarea>
+        <textarea class="form-control" name="specAgreement" id="specAgreement" rows="8">@if(isset($bef)){{$bef['specAgreement']}}@else{{old('specAgreement')}}@endif</textarea>
     </div>
     <div class="form-group">
         <label for="inlineRadio1" class="">Jenis Pekerjaan</label>
@@ -79,37 +140,13 @@
     </div>
     <div class="form-group">
         <label for="dealPrice">Harga Deal</label>
-        <input type="number" class="form-control" name="dealPrice" id="dealPrice" value="{{old('dealPrice')}}" id="pass" required>
-        <div class="invalid-feedback">
-            Kolom Harga Deal harus berisi Angka (0-9)!
-        </div>
+        <input type="number" class="form-control" name="dealPrice" id="dealPrice" value="@if(isset($bef)){{$bef['dealPrice']}}@else{{old('dealPrice')}}@endif" id="dealPrice">
         @error('dealPrice')
-        <div class="invalid-feedback">
+        <div class="err">
             {{$message}}
         </div>
         @enderror
     </div>
-    <button type="submit" class="btn btn-primary">Tambah</button>
+    <button type="submit" name="addWork" value="sp" class="option btn btn-primary">Tambah Pekerjaan</button>
 </form>
-
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-      'use strict';
-      window.addEventListener('load', function() {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-          form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-          }, false);
-        });
-      }, false);
-    })();
-</script>
 @endsection

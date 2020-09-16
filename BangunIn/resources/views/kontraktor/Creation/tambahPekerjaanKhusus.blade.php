@@ -6,13 +6,13 @@
     <div class="form-group">
         <label for="nc">Nama Pekerjaan</label>
         <div class="my-1">
-            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
+            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="kode" id="kode">
                 <option selected>-</option>
                 @foreach ($listWork as $item)
                     <option value="{{$item['kode_pekerjaan']}}">{{$item['nama_pekerjaan']}}</option>
                 @endforeach
             </select>
-            @error('work')
+            @error('kode')
                 <div class="err">
                     {{$message}}
                 </div>

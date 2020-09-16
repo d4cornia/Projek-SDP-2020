@@ -112,6 +112,7 @@ class loginController extends Controller
         session()->forget('kode');
         session()->forget('nama');
         session()->forget('status');
+        session()->forget('listSpWork');
         return redirect('/');
     }
 }

@@ -34,7 +34,6 @@
             {{--Dropdown Pekerjaan--}}
             <a class="dropdown-item" href="/kontraktor/lWork">Lihat Pekerjaan</a>
             <a class="dropdown-item" href="/kontraktor/iSpWork">Lihat Pekerjaan Khusus</a>
-            <a class="dropdown-item" href="/kontraktor/aSpWork">Tambah Pekerjaan Khusus</a>
         </div>
     </div>
 

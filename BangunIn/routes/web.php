@@ -39,6 +39,7 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/sDelMandor', 'kontraktorController@listDeletedMandor');
     Route::get('/sDelAdmin', 'kontraktorController@listDeletedAdmin');
     Route::get('/sDelWork', 'kontraktorController@listDeletedWork');
+    Route::get('/sSpDelWork/{n?}', 'kontraktorController@listDeletedSpecialWork');
 
     //insert
     Route::post('/submitRegMandor', 'kontraktorController@storeMandor');
@@ -51,6 +52,7 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/detAdmin/{n?}', 'kontraktorController@detailAdmin');
     Route::get('/detWork/{n?}', 'kontraktorController@detailWork');
     Route::get('/detSpWork/{n?}', 'kontraktorController@detailSpecialWork');
+    Route::get('/detSpWorkMenu/{n?}', 'kontraktorController@detailSpecialWorkMenu');
 
     // Update
     Route::get('/updPass/{n?}/{m?}', 'kontraktorController@updatePassword');
@@ -67,11 +69,15 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/delAdmin/{n?}', 'kontraktorController@deleteAdmin');
     Route::get('/delWork/{n?}', 'kontraktorController@deleteWork');
     Route::get('/delSpWork/{n?}', 'kontraktorController@deleteSpecialWork');
+    Route::get('/delSpWorkMenu/{n?}', 'kontraktorController@deleteSpecialWorkMenu');
+    Route::get('/delSpWorkRow/{n?}', 'kontraktorController@deleteRowSpWork');
 
     // Rollback
     Route::get('/rollbackMandor/{n?}', 'kontraktorController@rollbackMandor');
     Route::get('/rollbackAdmin/{n?}', 'kontraktorController@rollbackAdmin');
     Route::get('/rollbackWork/{n?}', 'kontraktorController@rollbackWork');
+    Route::get('/rollbackSpWork/{n?}', 'kontraktorController@rollbackSpecialWork');
+    Route::get('/rollbackSpWorkMenu/{n?}', 'kontraktorController@rollbackSpecialWorkMenu');
 
 
     Route::get('/addClient', 'kontraktorController@addClient');

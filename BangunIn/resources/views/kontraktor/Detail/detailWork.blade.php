@@ -1,8 +1,68 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-<form method="POST" action="/kontraktor/updWork" class="needs-validation" novalidate>
+<h1>Ubah Data Pekerjaan</h1>
+<form method="POST" action="/kontraktor/updWork" class="option needs-validation" novalidate>
     @csrf
+    <div class="option padd">
+        <h3>Pekerjaan Khusus</h3>
+        <div class="option table-responsive">
+            <table id="tabel-spWork" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Keterangan Pekerjaan Khusus</th>
+                        <th scope="col">Total Bahan</th>
+                        <th scope="col">Total Jasa</th>
+                        <th scope="col">Total Keseluruhan</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="">
+                    @isset($listSpWork)
+                        @foreach ($listSpWork as $item)
+                                <tr style="color: #6c757d; background-color: #fff; border-color: #fff;">
+                                    <th scope="row">{{$loop->iteration}}</th>
+                                    <td>{{$item->keterangan_pk}}</td>
+                                    <td>{{$item->total_bahan}}</td>
+                                    <td>{{$item->total_jasa}}</td>
+                                    <td>{{$item->total_keseluruhan}}</td>
+                                    <td>
+                                        <a href="/kontraktor/detSpWork/{{encrypt($item->kode_pk)}}" class="btn btn-success">Detail</a>
+                                        <a href="/kontraktor/delSpWork/{{encrypt($item->kode_pk)}}" class="btn btn-danger">Hapus</a>
+                                    </td>
+                                </tr>
+                        @endforeach
+                    @endisset
+                    @isset($listSpWork)
+                        @foreach ($listDelSpWork as $item)
+                                <tr style="color: #fff; background-color: #6c757d; border-color: #6c757d;">
+                                    <th scope="row">{{$loop->iteration}}</th>
+                                    <td>{{$item->keterangan_pk}}</td>
+                                    <td>{{$item->total_bahan}}</td>
+                                    <td>{{$item->total_jasa}}</td>
+                                    <td>{{$item->total_keseluruhan}}</td>
+                                    <td>
+                                        <a href="/kontraktor/rollbackSpWork/{{encrypt($item->kode_pk)}}" class="btn btn-info">Kembalikan</a>
+                                    </td>
+                                </tr>
+                        @endforeach
+                    @endisset
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Keterangan Pekerjaan Khusus</th>
+                        <th scope="col">Total Bahan</th>
+                        <th scope="col">Total Jasa</th>
+                        <th scope="col">Total Keseluruhan</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <hr class="option">
     <div class="form-group">
         <label for="name">Nama Perkejaan</label>
         <input type="text" class="form-control" name="name" id="name" value="{{$work[0]['nama_pekerjaan']}}">
@@ -62,7 +122,7 @@
     </div>
     <div class="form-group">
         <label for="specAgreement">Perjanjian Khusus</label>
-        <textarea class="form-control" name="specAgreement" id="specAgreement" value="{{$work[0]['perjanjian_khusus']}}" rows="8"></textarea>
+        <textarea class="form-control" name="specAgreement" id="specAgreement" rows="8" disabled>{{$work[0]['perjanjian_khusus']}}</textarea>
     </div>
     <div class="form-group">
         <label for="inlineRadio1" class="">Jenis Pekerjaan</label>
@@ -70,20 +130,20 @@
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="type" id="inlineRadio1" value="0" @if ($work[0]['jenis_pekerjaan'] == '0')
                     checked
-                @endif>
+                @endif disabled>
                 <label class="form-check-label" for="inlineRadio1">Harga Fix Di Depan</label>
             </div>
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="type" id="inlineRadio2" value="1"@if ($work[0]['jenis_pekerjaan'] == '1')
-                checked
-            @endif>
+                    checked
+                @endif disabled>
                 <label class="form-check-label" for="inlineRadio2">Komisi</label>
             </div>
         </span>
     </div>
     <div class="form-group">
         <label for="dealPrice">Harga Deal</label>
-        <input type="number" class="form-control" name="dealPrice" id="dealPrice" value="{{$work[0]['harga_deal']}}" id="pass">
+        <input type="number" class="form-control" name="dealPrice" id="dealPrice" value="{{$work[0]['harga_deal']}}" id="dealPrice" disabled>
         @error('dealPrice')
             <div class="err">
                 {{$message}}

@@ -48,6 +48,20 @@ class pekerjaan extends Model
         $this->status_selesai = '0';
         $this->status_delete_pekerjaan = '0';
         $this->save();
+        $kode = $this::where('nama_pekerjaan', $request->input('name'))->pluck('kode_pekerjaan');
+
+        // detail
+        foreach (session()->get('listSpWork') as $item) {
+            $pk = new pekerjaan_khusus();
+            $pk->kode_pekerjaan = $kode[0];
+            $pk->keterangan_pk = $item['ketPK'];
+            $pk->membutuhkan_bahan = '0';
+            $pk->total_bahan = 0;
+            $pk->total_jasa = $item['sumJasa'];
+            $pk->total_keseluruhan = $item['sumJasa'];
+            $pk->status_delete_pk = 0;
+            $pk->save();
+        }
     }
 
     public function updateWork(Request $request)
@@ -58,9 +72,6 @@ class pekerjaan extends Model
         $p->kode_mandor = $request->input('km');
         $p->nama_pekerjaan = $request->input('name');
         $p->alamat_pekerjaan = $request->input('address');
-        $p->perjanjian_khusus = $request->input('specAgreement');
-        $p->jenis_pekerjaan = $request->input('type'); // 0 = dp, 1 = komisi
-        $p->harga_deal = $request->input('dealPrice');
         $p->save();
     }
 
