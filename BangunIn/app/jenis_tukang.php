@@ -42,6 +42,15 @@ class jenis_tukang extends Model
         $datalama->status_delete_jt=0;
         $datalama->save();
     }
+    public function cekNamaTidakKembar($nama,$kode)
+    {
+        $result = jenis_tukang::where('nama_jenis', $nama)
+                ->where('kode_mandor',session()->get('kode'))
+                ->where('kode_jenis',"<>",$kode)
+                ->where('status_delete_jt',0)
+                ->get();
+        return count($result);
+    }
     public function insertJenis(Request $request)
     {
         $this->nama_jenis = $request->name;

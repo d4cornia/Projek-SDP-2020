@@ -12,6 +12,7 @@ use App\pembayaran_bon_tukang;
 use App\Rules\cbDetBon;
 use App\Rules\cbJenis;
 use App\Rules\cbTukang;
+use App\Rules\cekKembarUpdateJenis;
 use App\Rules\cekMaksimalBayar;
 use App\tukang;
 use Illuminate\Http\Request;
@@ -114,22 +115,42 @@ class mandorController extends Controller
     }
     public function updateJenisTukang(Request $request)
     {
+        $jt=new jenis_tukang();
         $kode=$request->kodejenis;
+        //dd($kode);
+
         $request->validate([
-            'name' => 'required|string',
+            'name' => [new cekKembarUpdateJenis($kode),'required','string'],
             'gaji' => 'required|numeric|gte:0',
         ],
         [
+            'name.required'=>'Kolom nama belum diisi',
             'name.string' => 'Kolom nama hanya bisa di isi huruf!',
             'gaji.gte'=>'Gaji Pokok harus >= 0'
         ]);
-        $jt = new jenis_tukang();
-        $jt->updateJenis($request,$kode);
-        $data = [
-            'title' => 'List Jenis Tukang',
-            'listJenisTukangs' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
-        ];
-        return view('mandor.List.listJenisTukang', $data);
+        if($jt->cekJenisTukangDeleted($request->input('name'))==1){
+            //ada tapi udah kedelete,maka dipulihkan
+            //dd("masuk");
+            $kode = $jt->cekKodeTukangDeleted($request->input('name'));
+            $kode= substr($kode,1);
+            $kode=substr($kode,0,strlen($kode)-1);
+            //dd($kode);
+            $jt->updateDeletedJT($request,$kode);
+            $data = [
+                'title' => 'List Jenis Tukang',
+                'listJenisTukangs' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
+                'error'=>10
+            ];
+            return view('mandor.List.listJenisTukang', $data);
+        }
+        else{
+            $jt->updateJenis($request,$kode);
+            $data = [
+                'title' => 'List Jenis Tukang',
+                'listJenisTukangs' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
+            ];
+            return view('mandor.List.listJenisTukang', $data);
+        }
     }
     public function deleteJenis($id)
     {
