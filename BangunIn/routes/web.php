@@ -104,6 +104,9 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/tambahJenisTukang', 'mandorController@tambahJenisTukang');
     Route::post('/submitRegJenisTukang', 'mandorController@storeJenisTukang');
     Route::get('/lihatJenisTukang', 'mandorController@lihatJenisTukang');
+    //Deleted
+    Route::get('/lihatJenisTerhapus','mandorController@lihatdeletedJenis');
+    Route::get('/rollbackJenisTukang/{n?}', 'mandorController@rollbackJenisTukang');
     //detail
     Route::get('/detjenis/{n?}', 'mandorController@detailjenis');
     //delete

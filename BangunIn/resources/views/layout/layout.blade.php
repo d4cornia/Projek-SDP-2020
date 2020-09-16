@@ -87,6 +87,11 @@
 
 {{-- berhasil/gagal tambah --}}
 @isset($error)
+    @if ($error == 10)
+    <script>
+        swal("Berhasil Mengembalikan Jenis Tukang!", "", "success");
+    </script>
+    @endif
     @if ($error == 9)
     <script>
         swal("Berhasil Ubah!", "", "success");

@@ -1,6 +1,10 @@
 @extends('mandor.navbar')
 
 @section('content')
+<h1>Jenis Tukang</h1>
+<div class="option" style="margin-left:78%">
+    <a class="btn btn-primary"  href="/mandor/lihatJenisTukang" style="width:250px"><font size="3">Lihat Jenis Tukang</font></a>
+</div>
 <form method="POST" action="/mandor/submitRegJenisTukang" class="needs-validation" novalidate>
     @csrf
     <div class="form-group">

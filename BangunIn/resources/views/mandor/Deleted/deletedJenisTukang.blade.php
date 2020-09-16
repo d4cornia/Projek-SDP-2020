@@ -1,13 +1,12 @@
 @extends('mandor.navbar')
 
 @section('content')
-    <h1>Jenis Tukang</h1>
-    <div class="option" style="margin-left:60%">
-        <a class="btn btn-primary"  href="/mandor/tambahJenisTukang">Tambah Jenis Tukang</a>
-        <a class="btn btn-secondary" href="/mandor/lihatJenisTerhapus">Lihat Jenis Tukang Yang Dihapus</a>
+    <h1>Jenis Tukang yang Telah Dihapus</h1>
+    <div class="option" style="margin-left:78%">
+        <a class="btn btn-primary"  href="/mandor/lihatJenisTukang" style="width:250px"><font size="3">Lihat Jenis Tukang yang Aktif</font></a>
     </div>
     <br>
-    @if (count($listJenisTukangs) > 0)
+    @if (count($listDelJenisTukangs) > 0)
         <div class="table-responsive">
             <table id="tabel-jenis" class="table table-bordered table-striped">
               <thead>
@@ -19,14 +18,13 @@
                 </tr>
               </thead>
               <tbody id="">
-                @foreach ($listJenisTukangs as $item)
+                @foreach ($listDelJenisTukangs as $item)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$item->nama_jenis}}</td>
                             <td align="right">Rp. {{number_format($item->gaji_pokok)}}</td>
                             <td>
-                                <a href="/mandor/detjenis/{{$item->kode_jenis}}" class="btn btn-success">Detail</a>
-                                <a href="/mandor/deljenis/{{$item->kode_jenis}}" onclick="return confirm('Apakah Yakin di Hapus?')" class="btn btn-danger">Hapus</a>
+                                <a href="/mandor/rollbackJenisTukang/{{$item->kode_jenis}}" class="btn btn-info">Pulihkan</a>
                             </td>
                         </tr>
                     @endforeach
@@ -41,7 +39,6 @@
               </tfoot>
             </table>
             </div>
-
     @else
         <h1>Tidak Ada Jenis Tukang!</h1>
     @endif

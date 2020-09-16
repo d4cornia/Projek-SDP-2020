@@ -28,7 +28,19 @@ class mandorController extends Controller
     {
         return view("mandor.Creation.tambahJenisTukang", ['title' => 'Tambah Jenis Tukang']);
     }
+    public function rollbackJenisTukang($id)
+    {
+        $jt = new jenis_tukang();
+        $jt->rollbackJenis($id);
 
+        $jt = new jenis_tukang();
+        $data = [
+            'title' => 'List Jenis Tukang',
+            'listDelJenisTukangs' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',1)->get(),
+            'error'=>10
+        ];
+        return view('mandor.Deleted.deletedJenisTukang', $data);
+    }
     public function storeJenisTukang(Request $request)
     {
         $request->validate([
@@ -49,8 +61,19 @@ class mandorController extends Controller
             //return redirect('/mandor/submitRegJenisTukang');
             return view('mandor.Creation.tambahJenisTukang',$data);
         } else {
-            $data['error'] = 5; //nama jenis sdh ada
-            //return redirect('/mandor/submitRegJenisTukang');
+            if($jt->cekJenisTukangDeleted($request->input('name'))==1){
+                //ada tapi udah kedelete,maka dipulihkan
+                //dd("masuk");
+                $kode = $jt->cekKodeTukangDeleted($request->input('name'));
+                $kode= substr($kode,1);
+                $kode=substr($kode,0,strlen($kode)-1);
+                //dd($kode);
+                $jt->updateDeletedJT($request,$kode);
+                return view('mandor.Creation.tambahJenisTukang',$data);
+            }
+            else{
+                $data['error'] = 5; //nama jenis sdh ada
+            }
             return view('mandor.Creation.tambahJenisTukang',$data);
         }
     }
@@ -62,6 +85,15 @@ class mandorController extends Controller
             'listJenisTukangs' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
         ];
         return view('mandor.List.listJenisTukang', $data);
+    }
+    public function lihatdeletedJenis()
+    {
+        $jt = new jenis_tukang();
+        $data = [
+            'title' => 'List Jenis Tukang',
+            'listDelJenisTukangs' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',1)->get()
+        ];
+        return view('mandor.Deleted.deletedJenisTukang', $data);
     }
     public function detailjenis($id)
     {
@@ -103,6 +135,11 @@ class mandorController extends Controller
     {
         $m = new jenis_tukang();
         $m->softDelete($id);
+        $data = [
+            'title' => 'List Jenis Tukang',
+            'listJenisTukangs' => $m->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
+        ];
+        return view('mandor.List.listJenisTukang', $data);
         //return redirect('mandor/lihatJenisTukang');
     }
 
@@ -440,8 +477,8 @@ class mandorController extends Controller
             'listBayar' => json_encode($arrbyr)
         ];
         session()->put('listbyr', json_encode($arrbyr));
-        return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
-        //return redirect('/mandor/tambahPembayaranBon');
+        //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+        return redirect('/mandor/tambahPembayaranBon');
     }
     public function batalBayar(Request $request)
     {

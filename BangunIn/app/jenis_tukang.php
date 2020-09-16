@@ -35,6 +35,13 @@ class jenis_tukang extends Model
         $datalama->gaji_pokok=$request->gaji;
         $datalama->save();
     }
+    public function updateDeletedJT($request,$kode)
+    {
+        $datalama   = jenis_tukang::find($kode);
+        $datalama->gaji_pokok=$request->gaji;
+        $datalama->status_delete_jt=0;
+        $datalama->save();
+    }
     public function insertJenis(Request $request)
     {
         $this->nama_jenis = $request->name;
@@ -53,6 +60,27 @@ class jenis_tukang extends Model
         return $this::where('kode_jenis', $kode)
             ->pluck('nama_jenis');
     }
+    public function cekJenisTukangDeleted($jenis)
+    {
+        $result = jenis_tukang::where('nama_jenis', $jenis)
+                ->where('status_delete_jt',1)
+                ->where('kode_mandor',session()->get('kode'))
+                ->get();
+        return count($result);
+    }
+    public function cekKodeTukangDeleted($jenis)
+    {
+        return  $this::where('nama_jenis', $jenis)
+                ->where('status_delete_jt',1)
+                ->where('kode_mandor',session()->get('kode'))
+                ->pluck('kode_jenis');
+    }
+    public function rollbackJenis($id)
+    {
+        $datalama   = jenis_tukang::find($id);
+        $datalama->status_delete_jt=0;
+        $datalama->save();
+    }
     public function softDelete($id)
     {
         $m = new jenis_tukang();
@@ -60,4 +88,5 @@ class jenis_tukang extends Model
         $m->status_delete_jt = 1;
         $m->save();
     }
+
 }
