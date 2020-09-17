@@ -67,12 +67,24 @@
         @enderror
     </div>
     <div class="form-group">
-        <label for="exampleInputPassword1">Kata sandi</label>
+        <label for="pass">Kata sandi</label>
         <input type="password" class="form-control" name="pass" value="@if(isset($bef)){{$bef['pass']}}@endif{{old('pass')}}" id="pass" required>
         <div class="invalid-feedback">
             Kolom kata sandi belum di isi!
         </div>
         @error('pass')
+        <div class="invalid-feedback">
+            {{$message}}
+        </div>
+        @enderror
+    </div>
+    <div class="form-group">
+        <label for="cpass">Konfirmasi kata sandi</label>
+        <input type="password" class="form-control" name="cpass" value="" id="cpass" required>
+        <div class="invalid-feedback">
+            Kolom konfirmasi kata sandi belum di isi!
+        </div>
+        @error('cpass')
         <div class="invalid-feedback">
             {{$message}}
         </div>

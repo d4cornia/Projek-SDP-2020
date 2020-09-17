@@ -14,6 +14,7 @@ use App\Rules\cbAdmin;
 use App\Rules\cbClient;
 use App\Rules\cbMandor;
 use App\Rules\cbRequired;
+use App\Rules\cekCpass;
 use App\Rules\cekNamaWork;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -57,7 +58,7 @@ class kontraktorController extends Controller
             'title' => 'List Delete Client',
             'listDataDeleteClient' => $b->getHapusClient()
         ];
-        return view('kontraktor.List.listDeleteClient',$data);
+        return view('kontraktor.List.listDeleteClient', $data);
     }
 
     public function fetch(Request $request)
@@ -117,8 +118,8 @@ class kontraktorController extends Controller
         $data = [
             'title' => 'Restore Client',
             'listClients' => $b->where('kode_kontraktor', session()->get('kode'))
-            ->where('status_delete_client', 0)->get(),
-        'del' => 'Berhasil restore data Client'
+                ->where('status_delete_client', 0)->get(),
+            'del' => 'Berhasil restore data Client'
         ];
         return view('kontraktor.List.listClient', $data);
     }
@@ -251,6 +252,7 @@ class kontraktorController extends Controller
 
     public function storeMandor(Request $request)
     {
+        session()->put('tempPass', $request->pass);
         // validation form -> ada yang kosong / salah ga, kasi warning di form
         $request->validate([
             'name' => 'required|string',
@@ -258,7 +260,8 @@ class kontraktorController extends Controller
             'username' => 'required',
             'email' => 'required',
             'salary' => 'required|numeric',
-            'pass' => 'required'
+            'pass' => 'required',
+            'cpass' => [new cekCpass()]
         ], [
             'name.string' => 'Kolom nama hanya bisa di isi huruf!',
             'salary.numeric' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
@@ -345,10 +348,13 @@ class kontraktorController extends Controller
 
     public function updatePassMandor(Request $req)
     {
+        session()->put('tempPass', $req->pass);
         $req->validate([
-            'pass' => 'required'
+            'pass' => 'required',
+            'cpass' => [new cekCpass(), 'required']
         ], [
-            'pass.required' => 'Kolom kata sandi belum di isi!'
+            'pass.required' => 'Kolom kata sandi belum di isi!',
+            'cpass.required' => 'Kolom kata sandi belum di isi!'
         ]);
         $m = new mandor();
         $m->updatePassMandor($req);
@@ -417,6 +423,7 @@ class kontraktorController extends Controller
 
     public function storeAdmin(Request $request)
     {
+        session()->put('tempPass', $request->pass);
         // validation form -> ada yang kosong / salah ga, kasi warning di form
         $request->validate([
             'name' => 'required|string',
@@ -424,7 +431,8 @@ class kontraktorController extends Controller
             'username' => 'required',
             'email' => 'required',
             'salary' => 'required|numeric',
-            'pass' => 'required'
+            'pass' => 'required',
+            'cpass' => [new cekCpass()]
         ], [
             'name.string' => 'Kolom nama hanya bisa di isi huruf!',
             'salary.numeric' => 'Kolom gaji admin hanya bisa di isi dengan angka (0-9)!',
@@ -443,7 +451,6 @@ class kontraktorController extends Controller
             ];
             return view('kontraktor.Creation.RegisterAdmin', $data);
         } else {
-            // dd($request->input());
             $data = [
                 'title' => 'Tambah Admin',
                 'bef' => $request->input(),
@@ -512,10 +519,13 @@ class kontraktorController extends Controller
 
     public function updatePassAdmin(Request $req)
     {
+        session()->put('tempPass', $req->pass);
         $req->validate([
-            'pass' => 'required'
+            'pass' => 'required',
+            'cpass' => [new cekCpass(), 'required']
         ], [
-            'pass.required' => 'Kolom kata sandi belum di isi!'
+            'pass.required' => 'Kolom kata sandi belum di isi!',
+            'cpass.required' => 'Kolom kata sandi belum di isi!'
         ]);
         $a = new administrator();
         $a->updatePassAdmin($req);
