@@ -71,7 +71,7 @@ class administrator extends Model
     public function updatePassAdmin(Request $request)
     {
         $a = $this->where('username_admin', $request->username)->get();
-        $a[0]->password_admin = $request->input('pass');
+        $a[0]->password_admin = $request->input('npass');
         $a[0]->save();
     }
 

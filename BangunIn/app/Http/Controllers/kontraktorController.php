@@ -348,13 +348,15 @@ class kontraktorController extends Controller
 
     public function updatePassMandor(Request $req)
     {
-        session()->put('tempPass', $req->pass);
+        session()->put('tempPass', $req->npass);
         $req->validate([
-            'pass' => 'required',
+            'pass' => [new cekNpass(), 'required'],
+            'npass' => 'required',
             'cpass' => [new cekCpass(), 'required']
         ], [
             'pass.required' => 'Kolom kata sandi belum di isi!',
-            'cpass.required' => 'Kolom kata sandi belum di isi!'
+            'npass.required' => 'Kolom kata sandi baru belum di isi!',
+            'cpass.required' => 'Kolom konfirmasi kata sandi baru belum di isi!'
         ]);
         $m = new mandor();
         $m->updatePassMandor($req);
@@ -519,13 +521,15 @@ class kontraktorController extends Controller
 
     public function updatePassAdmin(Request $req)
     {
-        session()->put('tempPass', $req->pass);
+        session()->put('tempPass', $req->npass);
         $req->validate([
-            'pass' => 'required',
+            'pass' =>  [new cekNpass(), 'required'],
+            'npass' => 'required',
             'cpass' => [new cekCpass(), 'required']
         ], [
             'pass.required' => 'Kolom kata sandi belum di isi!',
-            'cpass.required' => 'Kolom kata sandi belum di isi!'
+            'npass.required' => 'Kolom kata sandi baru belum di isi!',
+            'cpass.required' => 'Kolom konfirmasi kata sandi baru di isi!'
         ]);
         $a = new administrator();
         $a->updatePassAdmin($req);

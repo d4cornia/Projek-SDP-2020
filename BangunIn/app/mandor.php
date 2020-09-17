@@ -71,7 +71,7 @@ class mandor extends Model
     public function updatePassMandor(Request $request)
     {
         $m = $this->where('username_mandor', $request->username)->get();
-        $m[0]->password_mandor = $request->input('pass');
+        $m[0]->password_mandor = $request->input('npass');
         $m[0]->save();
     }
 
