@@ -28,6 +28,7 @@
         </div>
         @enderror
     </div>
+    <a class="btn btn-secondary" href="/mandor/lihatJenisTukang">Batal</a>
     <button type="submit" class="btn btn-primary">Ubah</button>
 </form>
 

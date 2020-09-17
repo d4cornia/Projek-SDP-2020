@@ -97,5 +97,9 @@ class jenis_tukang extends Model
         $m->status_delete_jt = 1;
         $m->save();
     }
+    public function harddelete($kodeini)
+    {
+        $res=$this::where('kode_jenis',$kodeini)->delete();
+    }
 
 }

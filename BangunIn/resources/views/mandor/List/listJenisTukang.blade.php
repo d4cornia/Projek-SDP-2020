@@ -43,7 +43,7 @@
             </div>
 
     @else
-        <h1>Tidak Ada Jenis Tukang!</h1>
+        <h4>Tidak Ada Jenis Tukang!</h4>
     @endif
     <script>
         $(document).ready(function() {

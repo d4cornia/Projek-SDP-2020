@@ -131,6 +131,9 @@ class mandorController extends Controller
         if($jt->cekJenisTukangDeleted($request->input('name'))==1){
             //ada tapi udah kedelete,maka dipulihkan
             //dd("masuk");
+            $kodeini=$kode;
+            //dd($kodeini);
+            $jt->harddelete($kodeini);
             $kode = $jt->cekKodeTukangDeleted($request->input('name'));
             $kode= substr($kode,1);
             $kode=substr($kode,0,strlen($kode)-1);
