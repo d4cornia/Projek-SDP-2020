@@ -62,7 +62,7 @@ class loginController extends Controller
             $mandor = new mandor();
             $dataMandor = $mandor->CekLogin($username, $password);
             if (count($dataMandor) > 0) { //mandor
-                $dtperusahaan = $mandor->where('kode_kontraktor=',$dataMandor[0]->kode_kontraktor)->get();
+                $dtperusahaan = $mandor->where('kode_kontraktor',$dataMandor[0]->kode_kontraktor)->get();
 
                 session()->put('kode', $dataMandor[0]->kode_mandor);
                 session()->put('nama', $dataMandor[0]->nama_mandor);
@@ -74,8 +74,8 @@ class loginController extends Controller
                 $tukang = new tukang();
                 $dataTukang = $tukang->CekLogin($username, $password);
                 if (count($dataTukang) > 0) { //tukang
-                    $dtperusahaan = $tukang->where('kode_mandor=',$dataTukang[0]->kode_mandor)
-                                            ->where('kode_kontraktor=',$dataTukang[0]->kode_kontraktor)
+                    $dtperusahaan = $tukang->where('kode_mandor',$dataTukang[0]->kode_mandor)
+                                            ->where('kode_kontraktor',$dataTukang[0]->kode_kontraktor)
                                             ->get();
                     session()->put('kode', $dataTukang[0]->kode_tukang);
                     session()->put('nama', $dataTukang[0]->nama_tukang);
@@ -87,7 +87,7 @@ class loginController extends Controller
                     $admin = new administrator();
                     $dataAdmin = $admin->CekLogin($username, $password);
                     if (count($dataAdmin) > 0) { //admin
-                        $dtperusahaan = $admin->where('kode_kontraktor=',$dataAdmin[0]->kode_kontraktor)->get();
+                        $dtperusahaan = $admin->where('kode_kontraktor',$dataAdmin[0]->kode_kontraktor)->get();
                         session()->put('kode', $dataAdmin[0]->kode_admin);
                         session()->put('nama', $dataAdmin[0]->nama_admin);
                         session()->put('nmperusahaan', $dtperusahaan[0]->nama_perusahaan);
