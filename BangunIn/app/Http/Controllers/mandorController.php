@@ -14,6 +14,7 @@ use App\Rules\cbJenis;
 use App\Rules\cbTukang;
 use App\Rules\cekKembarUpdateJenis;
 use App\Rules\cekMaksimalBayar;
+use App\Rules\cekPwdLama;
 use App\Rules\konfirmasiPwd;
 use App\tukang;
 use Illuminate\Http\Request;
@@ -345,16 +346,14 @@ class mandorController extends Controller
             'no' => 'required|numeric',
             'username' => 'required',
             'email' => 'required',
-            'pass' => 'required',
-            'gaji'=>'required|numeric|gte:0'
+            'gaji'=>'required|numeric|gte:0',
         ],[
             'name.string' => 'Kolom nama hanya bisa di isi huruf!',
-            'gaji.gte'=>'Gaji Pokok harus >= 0'
+            'gaji.gte'=>'Gaji Pokok harus >= 0',
         ]);
         $jenis = $request->jenis;
         $un = $request->username;
 
-        $t = new tukang();
         $jt = new jenis_tukang();
         $m = new mandor();
         $a = new administrator();
@@ -362,30 +361,64 @@ class mandorController extends Controller
         $tukang = new tukang();
         $data = [
             'title' => 'Register Tukang',
-            'error' => 9, // 0 = success,
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
-            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get()
+            'error' => 0, // 0 = success,
+            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
         ];
         if (count($jt->nameToCode($jenis)) == 0) {
-            $data['error'] = 8; // 8 = belum pilih jenis tukang
-        }
-        if ($data['error'] == 8) {
-            return view('mandor.List.listTukang', $data);
+            $data['error'] = 6; // 6 = belum pilih jenis tukang
+            return view('mandor.Creation.tambahTukang', $data);
         }
         else{
             $kj = $jt->nameToCode($jenis);
             $kj = substr($kj,1);
             $kj = substr($kj,0,strlen($kj)-1);
             $tukang->updateTukang($request,$kj);
+            $t = new tukang();
+            $jt = new jenis_tukang();
+            $bon = new bon_tukang();
             $data = [
                 'title' => 'List Tukang',
                 'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
-                'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
+                'listJenis' => $jt->get(),
+                'listBon'=>$bon->where('status_lunas',0)->get()
             ];
             return view('mandor.List.listTukang', $data);
         }
     }
-
+    public function gantiPass($id)
+    {
+        $data = [
+            'title' => 'Update Password Tukang',
+            'kodetukang'=>$id
+        ];
+        return view('mandor.Detail.updatePassTukang',$data);
+    }
+    public function storeGantiPass(Request $request)
+    {
+        $kodetukang = $request->kodetukang;
+        //dd($kodetukang);
+        $request->validate([
+            'passlama' => ['required',new cekPwdLama($kodetukang)],
+            'passbaru'=>'required',
+            'cpassbaru'=>['required',new konfirmasiPwd($request->passbaru)]
+        ],[
+            'passlama.required' => 'Kolom kata sandi belum diisi!',
+            'passbaru.required'=>'Kata sandi baru belum diisi!',
+            'cpassbaru.required'=>'Konfirmasi Kata Sandi baru belum diisi!'
+        ]);
+        $t = new tukang();
+        $t->gantiPwd($kodetukang,$request);
+        $jt = new jenis_tukang();
+        $bon = new bon_tukang();
+        $data = [
+            'title' => 'List Tukang',
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+            'listJenis' => $jt->get(),
+            'listBon'=>$bon->where('status_lunas',0)->get(),
+            'error'=>11
+        ];
+        return view('mandor.List.listTukang', $data);
+    }
     //bon
     public function tambahBon()
     {

@@ -123,6 +123,8 @@ Route::group(['prefix' => 'mandor'], function () {
     //Deleted
     Route::get('/lihatTukangTerhapus','mandorController@lihatdeletedTukang');
     Route::get('/rollbackTukang/{n?}', 'mandorController@rollbackTukang');
+    Route::get('/updatePass/{n?}', 'mandorController@gantiPass');
+    Route::post('/storeGantiPass','mandorController@storeGantiPass');
     //detail
     Route::get('/detTukang/{n?}', 'mandorController@detailtukang');
     //update

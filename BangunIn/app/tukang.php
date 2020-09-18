@@ -43,7 +43,6 @@ class tukang extends Model
         $datalama->nama_tukang = $request->name;
         $datalama->no_hp_tukang=$request->no;
         $datalama->email_tukang=$request->email;
-        $datalama->password_tukang=$request->pass;
         $datalama->gaji_pokok_tukang=$request->gaji;
         $datalama->save();
     }
@@ -107,6 +106,12 @@ class tukang extends Model
     {
         $datalama   = tukang::find($id);
         $datalama->status_delete_tukang=0;
+        $datalama->save();
+    }
+    public function gantiPwd($kodetukang,$request)
+    {
+        $datalama   = tukang::find($kodetukang);
+        $datalama->password_tukang=$request->passbaru;
         $datalama->save();
     }
 }

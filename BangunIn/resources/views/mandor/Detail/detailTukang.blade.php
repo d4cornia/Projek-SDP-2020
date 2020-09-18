@@ -19,7 +19,7 @@
     <div class="form-group">
         <label for="nm">Jenis Tukang</label>
         <div class="my-1">
-        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="jenis" id="jenis">
+        <select class="custom-select mr-sm-2 dynamic" id="inlineFormCustomSelect" name="jenis" id="jenis">
                 <option selected value=''>-</option>
                 @foreach ($listJenis as $item)
                     @if ($kodejenistukang==$item['nama_jenis'])
@@ -33,7 +33,7 @@
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">Gaji Tukang</label>
-        <input type="text" class="form-control" name="gaji" value="{{$gajitukang}}" required>
+        <input type="text" class="form-control" id="gaji" name="gaji" value="{{$gajitukang}}" required>
         <div class="invalid-feedback">
             Kolom gaji tukang belum di isi!
         </div>
@@ -43,6 +43,7 @@
         </div>
         @enderror
     </div>
+    {{ csrf_field() }}
     <div class="form-group">
         <label for="exampleInputEmail1">No Telepon</label>
         <input type="text" class="form-control" name="no" value="{{$notelptukang}}" required>
@@ -79,19 +80,8 @@
         </div>
         @enderror
     </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Kata sandi</label>
-        <input type="password" class="form-control" name="pass" value="{{$passwordtukang}}" id="pass" required>
-        <div class="invalid-feedback">
-            Kolom kata sandi belum di isi!
-        </div>
-        @error('pass')
-        <div class="invalid-feedback">
-            {{$message}}
-        </div>
-        @enderror
-    </div>
     <button type="submit" class="btn btn-primary">Ubah</button>
+    <a href="/mandor/updatePass/{{$kodetukang}}" class="btn btn-warning">Ubah Kata Sandi Tukang</a>
 </form>
 
 <script>
@@ -113,5 +103,33 @@
         });
       }, false);
     })();
+</script>
+<script>
+    $(document).ready(function(){
+       //alert("hai");
+        $('.dynamic').change(function(){
+            //alert('masuk');
+
+            if($(this).val()!=''){
+                // alert($(this).val());
+
+                var value = $(this).val();
+                var _token=$('input[name="_token"]').val();
+                $.ajax({
+                    url:"{{route('dynamicdependent2.fetch')}}",
+                    method:"POST",
+                    data:{value:value,_token:_token},
+                    success:function(result){
+                        var res = result.substring(1);
+                        res=res.substring(0,res.length - 1)
+                        //alert("Res"+res);
+                        $("#gaji").val(res);
+                        /*$(".isi").html("");
+                        $(".isi").html(result);*/
+                    }
+                })
+            }
+        });
+    })
 </script>
 @endsection
