@@ -1,10 +1,9 @@
 @extends('mandor.navbar')
 
 @section('content')
-    <h1>Tukang</h1>
-    <div class="option" style="margin-left:67%">
-        <a class="btn btn-primary"  href="/mandor/tambahTukang">Tambah Tukang</a>
-        <a class="btn btn-secondary" href="/mandor/lihatTukangTerhapus">Lihat Tukang Yang Dihapus</a>
+    <h1>Tukang yang Telah Dihapus</h1>
+    <div class="option" style="margin-left:78%">
+        <a class="btn btn-primary"  href="/mandor/lihatTukang" style="width:250px"><font size="3">Lihat Tukang yang Aktif</font></a>
     </div>
     <br>
     @if (count($listTukang) > 0)
@@ -18,7 +17,6 @@
                     <th scope="col">Jenis Tukang</th>
                     <th scope="col">Gaji</th>
                     <th scope="col">Nomor HP</th>
-                    <th scope="col">Bon</th>
                     <th scope="col">Aksi</th>
                 </tr>
               </thead>
@@ -35,20 +33,8 @@
                             @endforeach
                             <td>{{$item->gaji_pokok_tukang}}</td>
                             <td>{{$item->no_hp_tukang}}</td>
-                            @php
-                                $jumbon=0;
-                            @endphp
-                            @foreach ($listBon as $bon)
-                                @if ($bon->kode_tukang==$item->kode_tukang)
-                                    @php
-                                        $jumbon+=$bon->sisa_bon;
-                                    @endphp
-                                @endif
-                            @endforeach
-                            <td>@php echo $jumbon;@endphp</td>
                             <td>
-                                <a href="/mandor/detTukang/{{$item->kode_tukang}}" class="btn btn-success">Detail</a>
-                                <a href="/mandor/delTukang/{{$item->kode_tukang}}" onclick="return confirm('Apakah Yakin di Hapus?')" class="btn btn-danger">Hapus</a>
+                                <a href="/mandor/rollbackTukang/{{$item->kode_tukang}}" class="btn btn-info">Pulihkan</a>
                             </td>
                         </tr>
                     @endforeach
@@ -61,14 +47,13 @@
                     <th scope="col">Jenis Tukang</th>
                     <th scope="col">Gaji</th>
                     <th scope="col">Nomor HP</th>
-                    <th scope="col">Bon</th>
                     <th scope="col">Aksi</th>
                 </tr>
               </tfoot>
             </table>
             </div>
     @else
-        <h1>Tidak Ada Tukang!</h1>
+        <h1>Tidak Ada Tukang Yang Dihapus!</h1>
     @endif
     <script>
         $(document).ready(function() {

@@ -62,7 +62,14 @@ class jenis_tukang extends Model
     public function nameToCode($jenis)
     {
         return $this::where('nama_jenis', $jenis)
+            ->where('kode_mandor',session()->get('kode'))
             ->pluck('kode_jenis');
+    }
+    public function nameToGaji($jenis)
+    {
+        return $this::where('nama_jenis', $jenis)
+            ->where('kode_mandor',session()->get('kode'))
+            ->pluck('gaji_pokok');
     }
     public function codetoName($kode)
     {

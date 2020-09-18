@@ -14,6 +14,7 @@ use App\Rules\cbJenis;
 use App\Rules\cbTukang;
 use App\Rules\cekKembarUpdateJenis;
 use App\Rules\cekMaksimalBayar;
+use App\Rules\konfirmasiPwd;
 use App\tukang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -186,10 +187,11 @@ class mandorController extends Controller
             'username' => 'required',
             'email' => 'required',
             'pass' => 'required',
-            'gaji'=>'required|numeric|gte:0'
+            'gaji'=>'required|numeric|gte:0',
+            'cpwd'=>new konfirmasiPwd($request->pass)
         ],[
             'name.string' => 'Kolom nama hanya bisa di isi huruf!',
-            'gaji.gte'=>'Gaji Pokok harus >= 0'
+            'gaji.gte'=>'Gaji Pokok harus >= 0',
         ]);
         $jenis = $request->jenis;
         $un = $request->username;
@@ -232,12 +234,40 @@ class mandorController extends Controller
     {
         $t = new tukang();
         $jt = new jenis_tukang();
+        $bon = new bon_tukang();
         $data = [
             'title' => 'List Tukang',
             'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get()
+            'listJenis' => $jt->get(),
+            'listBon'=>$bon->where('status_lunas',0)->get()
         ];
         return view('mandor.List.listTukang', $data);
+    }
+    public function lihatdeletedTukang()
+    {
+        $t = new tukang();
+        $jt = new jenis_tukang();
+        $bon = new bon_tukang();
+        $data = [
+            'title' => 'List Tukang',
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',1)->get(),
+            'listJenis' => $jt->get()
+        ];
+        return view('mandor.Deleted.deletedTukang', $data);
+    }
+    public function rollbackTukang($id)
+    {
+        $t = new tukang();
+        $t->rollbackTukang($id);
+
+        $jt = new jenis_tukang();
+        $bon = new bon_tukang();
+        $data = [
+            'title' => 'List Tukang',
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',1)->get(),
+            'listJenis' => $jt->get()
+        ];
+        return view('mandor.Deleted.deletedTukang', $data);
     }
     public function detailtukang($id)
     {
@@ -297,7 +327,15 @@ class mandorController extends Controller
     {
         $t = new tukang();
         $t->softDelete($id);
-        //return redirect('mandor/lihatTukang');
+        $jt = new jenis_tukang();
+        $bon = new bon_tukang();
+        $data = [
+            'title' => 'List Tukang',
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+            'listJenis' => $jt->get(),
+            'listBon'=>$bon->where('status_lunas',0)->get()
+        ];
+        return view('mandor.List.listTukang', $data);
     }
 
     public function updateTukang(Request $request)
@@ -450,6 +488,14 @@ class mandorController extends Controller
             $output.= "<option value='".$row->kode_bon."'>".$row->keterangan_bon." ~ ".$row->sisa_bon."</option>";
         }
         echo $output;
+    }
+    public function fetchgaji(Request $request){
+        $value = $request->get('value');
+
+        $jt = new jenis_tukang();
+        $gaji = $jt->nameToGaji($value);
+        //dd($gaji);
+        echo $gaji;
     }
     public function tambahBayar(Request $request)
     {

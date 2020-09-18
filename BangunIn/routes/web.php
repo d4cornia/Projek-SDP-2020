@@ -119,6 +119,10 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/tambahTukang', 'mandorController@tambahTukang');
     Route::post('/submitRegTukang', 'mandorController@storeTukang');
     Route::get('/lihatTukang', 'mandorController@lihatTukang');
+    Route::post('/fetch2', "mandorController@fetchgaji")->name('dynamicdependent2.fetch');
+    //Deleted
+    Route::get('/lihatTukangTerhapus','mandorController@lihatdeletedTukang');
+    Route::get('/rollbackTukang/{n?}', 'mandorController@rollbackTukang');
     //detail
     Route::get('/detTukang/{n?}', 'mandorController@detailtukang');
     //update

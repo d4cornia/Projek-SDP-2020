@@ -32,9 +32,7 @@
         <div class="my-1">
             <select class="custom-select mr-sm-2 isi" id="inlineFormCustomSelect" name="detailbon" id="detailbon">
                 <option selected>-</option>
-
             </select>
-
         </div>
         <div class="invalid-feedback">
             Kolom Detail Bon belum di isi!

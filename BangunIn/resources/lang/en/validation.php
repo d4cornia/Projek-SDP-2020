@@ -177,6 +177,9 @@ return [
             'required' => 'Kolom gaji belum diisi!',
             'numeric' => 'Gaji hanya boleh berisi Angka (0-9)',
         ],
+        'cpwd'=>[
+            'same'=>'Password dan konfirmasi password tidak sama'
+        ]
     ],
 
     /*

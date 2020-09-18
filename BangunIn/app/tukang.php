@@ -103,4 +103,10 @@ class tukang extends Model
         $datalama->kode_jenis=$kdbaru;
         $datalama->save();
     }
+    public function rollbackTukang($id)
+    {
+        $datalama   = tukang::find($id);
+        $datalama->status_delete_tukang=0;
+        $datalama->save();
+    }
 }
