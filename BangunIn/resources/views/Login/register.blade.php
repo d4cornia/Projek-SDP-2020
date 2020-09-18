@@ -115,6 +115,17 @@
 
 
             </form>
+
+        </div>
+        <div class="card col-md-4-sm-12  p-4 mt-4" style="width: 40vw;margin: auto;box-shadow: 5px 5px 5px rgba(0,0,0,0.4);">
+            <div class="row">
+                <div class="col-6 my-auto mx-auto ">
+                        <h6 class="text-center my-auto">Kembali Ke Home</h6>
+                </div>
+                <div class="col-6 text-center">
+                        <a href="/"><button class="btn btn-info w-100">Kembali</button></a>
+                </div>
+            </div>
         </div>
     </div>
 </body>
