@@ -432,7 +432,21 @@ class mandorController extends Controller
         ];
         return view("mandor.Creation.tambahBon", ['title' => 'Tambah Bon'],$data);
     }
-
+    public function tambahBonTukangX($id)
+    {
+        //dd($id);
+        $tukang = new tukang();
+        $nama = $tukang->codetoName($id);
+        $nama=substr($nama,2);
+        $nama=substr($nama,0,strlen($nama)-2);
+        //dd($nama);
+        $data=[
+            'title'=>'Register Bon Khusus',
+            'nama'=>$nama,
+            'kode'=>$id
+        ];
+        return view("mandor.Creation.tambahBonKhusus", ['title' => 'Tambah Bon'],$data);
+    }
     public function storeBon(Request $request){
         $request->validate([
             'tanggal' =>'required',
@@ -467,6 +481,36 @@ class mandorController extends Controller
             return view('mandor.Creation.tambahBon', $data);
         }
     }
+    public function storeBonKhusus(Request $request)
+    {
+        $request->validate([
+            'tanggal' =>'required',
+            'jumlah' => 'required|numeric|gte:0',
+            'keteranganbon' => 'required'
+        ],[
+            'jumlah.gte'=>'Jumlah Bon harus >= 0'
+        ]);
+
+        $kode=$request->kodetkg;
+
+        $bon = new bon_tukang();
+        $bon->insertBon($request,$kode);
+
+        $t = new tukang();
+        $nama=$t->kodeToNama($kode);
+        $nama=substr($nama,2);
+        $nama=substr($nama,0,strlen($nama)-2);
+        $data = [
+            'title' => 'List Bon',
+            'listBon' => $bon->where('status_lunas',0)->where('kode_tukang',$kode)->where('status_delete_bon',0)->get(),
+            'nama'=>$nama,
+            'kode'=>$kode,
+            'error'=>12
+        ];
+        return view('mandor.List.listBonTukang', $data);
+        //return redirect("/mandor/lihatBonTukang/".$kode);
+
+    }
     public function lihatBon()
     {
         $t = new tukang();
@@ -483,9 +527,15 @@ class mandorController extends Controller
     public function lihatBonTukang($id)
     {
         $bon = new bon_tukang();
+        $t = new tukang();
+        $nama=$t->codetoName($id);
+        $nama=substr($nama,2);
+        $nama=substr($nama,0,strlen($nama)-2);
         $data = [
             'title' => 'List Bon',
-            'listBon' => $bon->where('status_lunas',0)->where('kode_tukang',$id)->where('status_delete_bon',0)->get()
+            'listBon' => $bon->where('status_lunas',0)->where('kode_tukang',$id)->where('status_delete_bon',0)->get(),
+            'nama'=>$nama,
+            'kode'=>$id
         ];
         return view('mandor.List.listBonTukang', $data);
     }
@@ -593,6 +643,35 @@ class mandorController extends Controller
         session()->put('listbyr', json_encode($arrbyr));
         //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
         return redirect('/mandor/tambahPembayaranBon');
+    }
+    public function detailPembayaranBon($id)
+    {
+        $kode=$id;
+        $mandor = new mandor();
+        $kodemandor = session()->get('kode');
+        $namamandor = $mandor->codetoName(session()->get('kode'));
+        $namamandor=substr($namamandor,2);
+        $namamandor=substr($namamandor,0,strlen($namamandor)-2);
+        $mbon=new memiliki_detail_bon();
+        $bon=new bon_tukang();
+        $t = new tukang();
+        $bons = $bon->where('kode_bon',$kode)->pluck('kode_tukang');
+        $bons=substr($bons,1);
+        $bons=substr($bons,0,strlen($bons)-1);
+        $namatukang = $t->codetoName($bons);
+        $namatukang=substr($namatukang,2);
+        $namatukang=substr($namatukang,0,strlen($namatukang)-2);
+        $pb = new pembayaran_bon_tukang();
+        $data = [
+            'title' => 'Detail Pembayaran Bon',
+            'bon' => $bon->where('kode_bon',$kode)->get(),
+            'listBayar' => $mbon->where('kode_bon',$kode)->get(),
+            'listKodeBayar'=>$pb->get(),
+            'mandor'=>$namamandor,
+            'tukang'=>$namatukang,
+            'kode'=>$bons
+        ];
+        return view("mandor.List.listPembayaranBon", ['title' => 'Detail Pembayaran Bon'],$data);
     }
     public function batalBayar(Request $request)
     {

@@ -89,6 +89,11 @@
 
 {{-- berhasil/gagal tambah --}}
 @isset($error)
+    @if ($error == 12)
+    <script>
+        swal("Berhasil Menambah Bon Tukang!", "", "success");
+    </script>
+    @endif
     @if ($error == 11)
     <script>
         swal("Berhasil Update Password Tukang!", "", "success");

@@ -61,6 +61,11 @@ class tukang extends Model
         return $this::where('username_tukang', $username)
             ->pluck('kode_tukang');
     }
+    public function codetoName($kode)
+    {
+        return $this::where('kode_tukang', $kode)
+            ->pluck('nama_tukang');
+    }
     public function kodeToNama($kode)
     {
         return $this::where('kode_tukang', $kode)

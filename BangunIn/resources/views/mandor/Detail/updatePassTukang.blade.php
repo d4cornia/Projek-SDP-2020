@@ -41,7 +41,7 @@
         </div>
         @enderror
     </div>
-    <a class="btn btn-secondary" href="/mandor/lihatJenisTukang">Batal</a>
+    <a class="btn btn-secondary" href="/mandor/lihatTukang">Batal</a>
     <button type="submit" class="btn btn-primary">Ubah</button>
 </form>
 @endsection

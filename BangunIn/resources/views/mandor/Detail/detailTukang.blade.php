@@ -1,6 +1,7 @@
 @extends('mandor.navbar')
 
 @section('content')
+<h1>Tukang</h1>
 <form method="POST" action="/mandor/updateTukang" class="needs-validation" novalidate>
     @csrf
     <input type='hidden' name='kodetukang' value={{$kodetukang}}>
