@@ -18,7 +18,6 @@
                 @foreach ($listBon as $item)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-
                             <td>{{$item->tanggal_pengajuan}}</td>
                             <td>Rp. {{number_format($item->jumlah_bon)}}</td>
                             <td>Rp. {{number_format($item->sisa_bon)}}</td>
