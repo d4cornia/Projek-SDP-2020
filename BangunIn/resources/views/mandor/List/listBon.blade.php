@@ -40,7 +40,7 @@
               </tbody>
               <tfoot>
                 <tr>
-                    <<th>No</th>
+                    <th>No</th>
                     <th>Nama Tukang</th>
                     <th>Tanggal Pengajuan</th>
                     <th>Jumlah Bon</th>
