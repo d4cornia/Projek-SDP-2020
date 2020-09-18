@@ -13,11 +13,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         DB::table('kontraktors')->insert([
-            ['kode_kontraktor'=>'100001','nama_kontraktor'=>'Makmur Jaya',
+            ['kode_kontraktor'=>'100001','nama_kontraktor'=>'David',
             'no_hp_kontraktor'=>'086754733120','username_kontraktor'=>'david',
             'email_kontraktor'=>'david@gmail.com','password_kontraktor'=>'david',
             'nama_perusahaan'=>'PT. Kecap Manis',
-            'logo_perusahaan'=> '/assets/logo_perusahaan/abc.jpg',
+            'logo_perusahaan'=> 'abc.jpg',
             'nomer_perusahaan'=>'081811662',
             'alamat_perusahaan'=>'Gang Buntu no 39']
         ]);
