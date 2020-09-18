@@ -137,13 +137,14 @@ Route::group(['prefix' => 'mandor'], function () {
     //tambahbon
     Route::get('/lihatBonTukang/{n?}','mandorController@lihatBonTukang');
     Route::get('/tambahBon', 'mandorController@tambahBon');
+    Route::get("/tambahBonTukangX/{n?}","mandorController@tambahBonTukangX");
     Route::post('/submitRegBon', 'mandorController@storeBon');
     Route::post('/submitRegBonKhusus',"mandorController@storeBonKhusus");
     Route::get('/lihatBon', 'mandorController@lihatBon');
     Route::get('/delBon/{n?}', 'mandorController@deleteBon');
     //pembayaranbon
     Route::get('/tambahPembayaranBon', "mandorController@bayarBon");
-    Route::get("/tambahBonTukangX/{n?}","mandorController@tambahBonTukangX");
+    Route::post('/tambahBayarKhusus',"mandorController@tambahBayarKhusus");
     Route::post('/fetch', "mandorController@fetch")->name('dynamicdependent.fetch');
     Route::post('/submitBayarBon', 'mandorController@tambahBayar');
     Route::post('/tabelBayar', 'mandorController@batalBayar');

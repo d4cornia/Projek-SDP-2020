@@ -586,7 +586,6 @@ class mandorController extends Controller
 
         $jt = new jenis_tukang();
         $gaji = $jt->nameToGaji($value);
-        //dd($gaji);
         echo $gaji;
     }
     public function tambahBayar(Request $request)
@@ -644,6 +643,51 @@ class mandorController extends Controller
         //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
         return redirect('/mandor/tambahPembayaranBon');
     }
+    public function tambahBayarKhusus(Request $request)
+    {
+        $kodebon=$request->kodebon;
+        $request->validate([
+            'jumlah' => ['required','numeric',new cekMaksimalBayar($kodebon),'gte:0'],
+        ],
+        [
+            'jumlah.gte'=>'Jumlah Bayar harus >= 0'
+        ]);
+        $byr = new pembayaran_bon_tukang();
+        $tanggal = date("Y-m-d");
+        $byr->insertByr($request,$tanggal);
+        $kodemax = $byr->getMaxKode();
+
+        $bon = new bon_tukang();
+        $jumlah=$request->jumlah;
+        $det = new memiliki_detail_bon();
+        $det->insertDetail($kodebon,$kodemax,$jumlah);
+        $bon->kurangi($jumlah,$kodebon);
+        $jumlah = $bon->where('kode_bon',$kodebon)->pluck('sisa_bon');
+        $jumlah=substr($jumlah,1);
+        $jumlah=substr($jumlah,0,strlen($jumlah)-1);
+        if($jumlah!=0){
+            return $this->detailPembayaranBon($kodebon);
+        }
+        else{
+            $bon = new bon_tukang();
+            $id = $bon->where('kode_bon',$kodebon)->pluck('kode_tukang');
+            $id=substr($id,1);
+            $id=substr($id,0,strlen($id)-1);
+            $t = new tukang();
+            $nama=$t->codetoName($id);
+            $nama=substr($nama,2);
+            $nama=substr($nama,0,strlen($nama)-2);
+            $data = [
+                'title' => 'List Bon',
+                'listBon' => $bon->where('status_lunas',0)->where('kode_tukang',$id)->where('status_delete_bon',0)->get(),
+                'nama'=>$nama,
+                'kode'=>$id,
+                'error'=>13
+            ];
+            return view('mandor.List.listBonTukang', $data);
+        }
+
+    }
     public function detailPembayaranBon($id)
     {
         $kode=$id;
@@ -669,7 +713,8 @@ class mandorController extends Controller
             'listKodeBayar'=>$pb->get(),
             'mandor'=>$namamandor,
             'tukang'=>$namatukang,
-            'kode'=>$bons
+            'kode'=>$bons,
+            'kdbon'=>$id
         ];
         return view("mandor.List.listPembayaranBon", ['title' => 'Detail Pembayaran Bon'],$data);
     }

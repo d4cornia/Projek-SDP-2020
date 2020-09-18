@@ -16,6 +16,26 @@
         @endphp</h3>
     </div>
     <h5>Diterima Mandor : {{$mandor}}</h5>
+
+        <div class="option">
+            <form action="/mandor/tambahBayarKhusus" method='post' class="needs-validation" novalidate>
+                @csrf
+                <input type='hidden' name='kodebon' value={{$kdbon}}>
+                <div style="width:100%">
+                    <label for="exampleInputEmail1" style="float:left;margin-top:1%;"><h6>Jumlah Tambahan Pembayaran</h6></label>
+                    <input type="text" class="form-control" name="jumlah" value="{{old('jumlah')}}" style='width:20%;float:left;margin-left:2%' required>&nbsp;
+                    <button type='submit' class="btn btn-primary" style="float:left;margin-left:2%">Tambah Pembayaran</button>
+                    <div class="invalid-feedback" style="clear:both;float:left;">
+                        Kolom Jumlah hanya berisi angka!
+                    </div>
+                    @error('jumlah')
+                    <div class="err" style="clear:both;float:left;">
+                        {{$message}}
+                    </div>
+                    @enderror
+                </div>
+            </form>
+        </div><br><br><br>
     @if (count($listBayar) > 0)
         <div class="table-responsive">
             <table id="tabeldetbyr" class="table table-bordered table-striped">
