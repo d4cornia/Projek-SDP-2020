@@ -1,6 +1,7 @@
 @extends('mandor.navbar')
 
 @section('content')
+<h1>Tambah Tukang</h1>
 <div class="option" style="margin-left:78%">
     <a class="btn btn-primary"  href="/mandor/lihatTukang" style="width:250px"><font size="3">Lihat Tukang</font></a>
 </div>

@@ -114,7 +114,6 @@ Route::group(['prefix' => 'mandor'], function () {
     //update
     Route::post('/updateJenisTukang', 'mandorController@updateJenisTukang');
 
-
     //tukang
     Route::get('/tambahTukang', 'mandorController@tambahTukang');
     Route::post('/submitRegTukang', 'mandorController@storeTukang');
@@ -134,6 +133,7 @@ Route::group(['prefix' => 'mandor'], function () {
 
     //bon
     //tambahbon
+    Route::get('/lihatBonTukang/{n?}','mandorController@lihatBonTukang');
     Route::get('/tambahBon', 'mandorController@tambahBon');
     Route::post('/submitRegBon', 'mandorController@storeBon');
     Route::get('/lihatBon', 'mandorController@lihatBon');

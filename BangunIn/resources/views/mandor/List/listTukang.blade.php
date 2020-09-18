@@ -48,7 +48,7 @@
                             <td>@php echo $jumbon;@endphp</td>
                             <td>
                                 <a href="/mandor/detTukang/{{$item->kode_tukang}}" class="btn btn-success">Detail Tukang</a>
-                                <a href="/mandor/bonTukang/{{$item->kode_tukang}}" class="btn btn-info">Detail Bon</a>
+                                <a href="/mandor/lihatBonTukang/{{$item->kode_tukang}}" class="btn btn-info">Detail Bon</a>
                                 <a href="/mandor/delTukang/{{$item->kode_tukang}}" onclick="return confirm('Apakah Yakin di Hapus?')" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>

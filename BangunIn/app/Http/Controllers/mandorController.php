@@ -479,7 +479,15 @@ class mandorController extends Controller
         ];
         return view('mandor.List.listBon', $data);
     }
-
+    public function lihatBonTukang($id)
+    {
+        $bon = new bon_tukang();
+        $data = [
+            'title' => 'List Bon',
+            'listBon' => $bon->where('status_lunas',0)->where('kode_tukang',$id)->where('status_delete_bon',0)->get()
+        ];
+        return view('mandor.List.listBonTukang', $data);
+    }
     public function deleteBon($id)
     {
         $b = new bon_tukang();
