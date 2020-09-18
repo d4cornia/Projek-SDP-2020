@@ -52,6 +52,7 @@
         @enderror
     </div>
     <input type="hidden" name="id" value="{{$mandor[0]['kode_mandor']}}">
+    <a href="/kontraktor/lMandor" class="btn btn-secondary">Kembali</a>
     <button type="submit" class="btn btn-primary">Ubah</button>
     <a href="/kontraktor/updPass/{{encrypt($mandor[0]['username_mandor'])}}/updPassMandor" class="btn btn-warning">Ubah Kata Sandi Mandor</a>
 </form>

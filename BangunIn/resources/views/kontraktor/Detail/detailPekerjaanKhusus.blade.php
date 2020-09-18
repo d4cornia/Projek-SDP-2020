@@ -24,6 +24,7 @@
     </div>
     <input type="hidden" name="id" value="{{$spWork[0]['kode_pk']}}">
     <input type="hidden" name="code" value="{{$code}}">
+    <a href="/kontraktor/iSpWork" class="btn btn-secondary">Kembali</a>
     <button type="submit" class="btn btn-primary">Ubah</button>
 </form>
 @endsection

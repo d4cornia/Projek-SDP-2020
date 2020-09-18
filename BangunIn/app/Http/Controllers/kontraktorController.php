@@ -32,21 +32,24 @@ class kontraktorController extends Controller
     {
         $obj = null;
         if ($path == "updPassAdmin") {
+            $bef = 'detAdmin';
             $obj = new administrator();
             $old = $obj::where('username_admin', decrypt($username))->pluck('password_admin');
+            $kode = $obj::where('username_admin', decrypt($username))->pluck('kode_admin');
         } else if ($path == "updPassMandor") {
+            $bef = 'detMandor';
             $obj = new mandor();
             $old = $obj::where('username_mandor', decrypt($username))->pluck('password_mandor');
-        } else if ($path == "updPassTukang") {
-            $obj = new tukang();
-            $old = $obj::where('username_tukang', decrypt($username))->pluck('password_tukang');
+            $kode = $obj::where('username_mandor', decrypt($username))->pluck('kode_mandor');
         }
 
         $data = [
             'title' => 'Ubah Kata Sandi',
             'oldPass' => $old[0],
             'username' => decrypt($username),
-            'path' => $path
+            'path' => $path,
+            'bef' => $bef,
+            'kode' => $kode[0]
         ];
         return view('kontraktor.Detail.changePass', $data);
     }

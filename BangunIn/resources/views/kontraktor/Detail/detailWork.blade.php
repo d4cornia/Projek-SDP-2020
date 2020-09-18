@@ -151,6 +151,7 @@
         @enderror
     </div>
     <input type="hidden" name="id" value="{{ $work[0]['kode_pekerjaan'] }}">
+    <a href="/kontraktor/lWork" class="btn btn-secondary">Kembali</a>
     <button type="submit" class="btn btn-primary">Ubah</button>
 </form>
 @endsection

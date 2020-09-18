@@ -52,6 +52,7 @@
         @enderror
     </div>
     <input type="hidden" name="id" value="{{$admin[0]['kode_admin']}}">
+    <a href="/kontraktor/lAdmin" class="btn btn-secondary">Kembali</a>
     <button type="submit" class="btn btn-primary">Ubah</button>
     <a href="/kontraktor/updPass/{{encrypt($admin[0]['username_admin'])}}/updPassAdmin" class="btn btn-warning">Ubah Kata Sandi Admin</a>
 </form>
