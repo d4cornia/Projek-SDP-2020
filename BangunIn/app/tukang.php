@@ -95,4 +95,12 @@ class tukang extends Model
         $m->status_delete_tukang = 1;
         $m->save();
     }
+    public function updateJenisLama($kdlama,$kdbaru)
+    {
+        $kode= $kdlama;
+        $datalama   = tukang::find($kode);
+
+        $datalama->kode_jenis=$kdbaru;
+        $datalama->save();
+    }
 }

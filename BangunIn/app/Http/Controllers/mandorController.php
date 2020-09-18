@@ -133,12 +133,14 @@ class mandorController extends Controller
             //dd("masuk");
             $kodeini=$kode;
             //dd($kodeini);
-            $jt->harddelete($kodeini);
+            $jt->softDelete($kodeini);
             $kode = $jt->cekKodeTukangDeleted($request->input('name'));
             $kode= substr($kode,1);
             $kode=substr($kode,0,strlen($kode)-1);
             //dd($kode);
             $jt->updateDeletedJT($request,$kode);
+            $t=new tukang();
+            $t->updateJenisLama($kodeini,$kode);
             $data = [
                 'title' => 'List Jenis Tukang',
                 'listJenisTukangs' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
