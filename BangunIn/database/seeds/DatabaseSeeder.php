@@ -13,7 +13,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         DB::table('kontraktors')->insert([
-            ['kode_kontraktor'=>'100001','nama_kontraktor'=>'Makmur Jaya','no_hp_kontraktor'=>'086754733120','username_kontraktor'=>'david','email_kontraktor'=>'david@gmail.com','password_kontraktor'=>'david','nama_perusahaan'=>'PT. Kecap Manis','logo_perusahaan'=> '/assets/logo_perusahaan/abc.jpg','nomer_perusahaan'=>'081811662','alamat_perusahaan'=>'Gang Buntu no 39']
+            ['kode_kontraktor'=>'100001','nama_kontraktor'=>'Makmur Jaya',
+            'no_hp_kontraktor'=>'086754733120','username_kontraktor'=>'david',
+            'email_kontraktor'=>'david@gmail.com','password_kontraktor'=>'david',
+            'nama_perusahaan'=>'PT. Kecap Manis',
+            'logo_perusahaan'=> '/assets/logo_perusahaan/abc.jpg',
+            'nomer_perusahaan'=>'081811662',
+            'alamat_perusahaan'=>'Gang Buntu no 39']
         ]);
         DB::table('mandors')->insert([
             ['kode_mandor'=>'100001','status_delete_mandor'=>0,'gaji_mandor'=>200000,'kode_kontraktor'=>'100001','nama_mandor'=>'monica','no_hp_mandor'=>'082853714156','username_mandor'=>'monica','email_mandor'=>'monica@gmail.com','password_mandor'=>'monica']
