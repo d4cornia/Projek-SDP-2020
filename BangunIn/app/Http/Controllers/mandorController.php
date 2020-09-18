@@ -16,6 +16,7 @@ use App\Rules\cekKembarUpdateJenis;
 use App\Rules\cekMaksimalBayar;
 use App\Rules\cekPwdLama;
 use App\Rules\konfirmasiPwd;
+use App\Rules\pwdlamabeda;
 use App\tukang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -399,7 +400,7 @@ class mandorController extends Controller
         //dd($kodetukang);
         $request->validate([
             'passlama' => ['required',new cekPwdLama($kodetukang)],
-            'passbaru'=>'required',
+            'passbaru'=>['required',new pwdlamabeda($kodetukang)],
             'cpassbaru'=>['required',new konfirmasiPwd($request->passbaru)]
         ],[
             'passlama.required' => 'Kolom kata sandi belum diisi!',
