@@ -80,6 +80,7 @@
         </div>
         @enderror
     </div>
+    <a class="btn btn-secondary" href="/mandor/lihatTukang">Batal</a>
     <button type="submit" class="btn btn-primary">Ubah</button>
     <a href="/mandor/updatePass/{{$kodetukang}}" class="btn btn-warning">Ubah Kata Sandi Tukang</a>
 </form>

@@ -20,8 +20,8 @@
                             <th scope="row">{{$loop->iteration}}</th>
 
                             <td>{{$item->tanggal_pengajuan}}</td>
-                            <td>{{$item->jumlah_bon}}</td>
-                            <td>{{$item->sisa_bon}}</td>
+                            <td>Rp. {{number_format($item->jumlah_bon)}}</td>
+                            <td>Rp. {{number_format($item->sisa_bon)}}</td>
                             <td>{{$item->keterangan_bon}}</td>
                             <td>
                                 <a href="/mandor/detBayar/{{$item->kode_bon}}" class="btn btn-info">Detail Pembayaran</a>

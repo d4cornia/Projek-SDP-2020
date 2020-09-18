@@ -13,7 +13,6 @@
               <thead>
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Username</th>
                     <th scope="col">Nama Tukang</th>
                     <th scope="col">Jenis Tukang</th>
                     <th scope="col">Gaji</th>
@@ -26,14 +25,13 @@
                 @foreach ($listTukang as $item)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td>{{$item->username_tukang}}</td>
                             <td>{{$item->nama_tukang}}</td>
                             @foreach ($listJenis as $item2)
                                 @if ($item->kode_jenis == $item2->kode_jenis)
                                     <td>{{$item2->nama_jenis}}</td>
                                 @endif
                             @endforeach
-                            <td>{{$item->gaji_pokok_tukang}}</td>
+                            <td>Rp. {{number_format($item->gaji_pokok_tukang)}}</td>
                             <td>{{$item->no_hp_tukang}}</td>
                             @php
                                 $jumbon=0;
@@ -45,7 +43,7 @@
                                     @endphp
                                 @endif
                             @endforeach
-                            <td>@php echo $jumbon;@endphp</td>
+                            <td>@php echo "Rp.". number_format($jumbon);@endphp</td>
                             <td>
                                 <a href="/mandor/detTukang/{{$item->kode_tukang}}" class="btn btn-success">Detail Tukang</a>
                                 <a href="/mandor/lihatBonTukang/{{$item->kode_tukang}}" class="btn btn-info">Detail Bon</a>
@@ -57,7 +55,6 @@
               <tfoot>
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Username</th>
                     <th scope="col">Nama Tukang</th>
                     <th scope="col">Jenis Tukang</th>
                     <th scope="col">Gaji</th>
