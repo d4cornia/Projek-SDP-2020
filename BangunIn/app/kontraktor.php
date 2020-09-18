@@ -28,7 +28,7 @@ class kontraktor extends Model
         return $result;
     }
 
-    public function TambahKontraktor($username, $password, $nama, $email, $nomer)
+    public function TambahKontraktor($username, $password, $nama, $email, $nomer,$nmperusahaan,$noperusahaan,$alperusahaan,$nmlogo)
     {
         //tambah akun kontraktor baru
         $insert = new kontraktor();
@@ -37,11 +37,25 @@ class kontraktor extends Model
         $insert->nama_kontraktor     = $nama;
         $insert->email_kontraktor    = $email;
         $insert->no_hp_kontraktor    = $nomer;
+        $insert->nama_perusahaan    = $nmperusahaan;
+        $insert->logo_perusahaan    = $nmlogo;
+        $insert->nomer_perusahaan    = $noperusahaan;
+        $insert->alamat_perusahaan    = $alperusahaan;
         $insert->save();
     }
     public function nameToCode($username)
     {
         return $this::where('username_kontraktor', $username)
-            ->pluck('kode_kontraktor');
+                     ->pluck('kode_kontraktor');
+    }
+    public function updateProfilePerusahaan($nmperusahaan,$noperusahaan,$alperusahaan,$nmlogo)
+    {
+        $k = new kontraktor();
+        $k = $this->find(session()->get('kode'));
+        $k->nama_perusahaan = $nmperusahaan;
+        $k->alamat_perusahaan = $alperusahaan;
+        $k->nomer_perusahaan = $noperusahaan;
+        if($nmlogo!="")$k->logo_perusahaan = $nmlogo;
+        $k->save();
     }
 }

@@ -25,7 +25,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+    <link rel="icon"
+    type="image/png"
+    href="assets/homepage/logo.png">
 
     <style>
         .err{
@@ -68,13 +70,13 @@
         #side-nav{
             position: fixed; /* Set the navbar to fixed position */
             left: 0;
-            top: 0; /* Position the navbar at the top of the page */
         }
     </style>
 </head>
 <body>
    <div class="row">
     <div class="col-lg-2 col-md-2 p-5" id="side-nav">
+
         @yield('side-navbar')
     </div>
     <div class="col-lg-10 col-md-10 p-5" id="content">
@@ -166,4 +168,5 @@
         swal("Berhasil Mengembalikan!", "{{$roll}}", "success");
     </script>
 @endisset
+
 

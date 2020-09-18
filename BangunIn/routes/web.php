@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //start login
-Route::get('/', 'loginController@index');
+Route::get('/', 'loginController@home');
 Route::get('/vlogin', 'loginController@vlogin');
 Route::post('/login', 'loginController@login');
 Route::any('/register', 'loginController@register');
@@ -62,6 +62,7 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::post('/updPassAdmin', 'kontraktorController@updatePassAdmin');
     Route::post('/updWork', 'kontraktorController@updateWork');
     Route::post('/updSpWork', 'kontraktorController@updateSpecialWork');
+    Route::post('/updProfilePerusahaan', 'kontraktorController@updateProfilePerusahaan');
 
     // Delete
     Route::get('/delConf/{n?}', 'kontraktorController@deleteMandor');
@@ -93,6 +94,7 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/resClient/{n?}', "kontraktorController@restoreClient");
     Route::get('/listPembayaran', "kontraktorController@listPembayaranClient");
     Route::get('/listDeleteClient', "kontraktorController@listDeleteClient");
+    Route::get('/edProfile','kontraktorController@showProfilePerusahaan');
 });
 
 //mandor

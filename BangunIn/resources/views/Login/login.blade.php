@@ -11,6 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title>BangunIn</title>
+    <link rel="icon"
+      type="image/png"
+      href="assets/homepage/logo.png">
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="content">
@@ -39,29 +42,16 @@
                 </div>
             </form>
         </div>
-        @if($stat==0)
-            <div class="card col-md-4-sm-12  p-4" style="width: 30vw;margin: auto;box-shadow: 5px 5px 5px rgba(0,0,0,0.4);">
-                <div class="row">
-                    <div class="col-6 my-auto mx-auto ">
-                        <h6 class="text-center my-auto">Belum punya Akun?</h6>
-                    </div>
-                    <div class="col-6 text-center">
-                        <a href="/register"><button class="btn btn-info w-100">Register Now</button></a>
-                    </div>
-                </div>
-            </div>
-        @else
-            <div class="card col-md-4-sm-12  p-4" style="width: 30vw;margin: auto;box-shadow: 5px 5px 5px rgba(0,0,0,0.4);">
-                <div class="row">
-                    <div class="col-6 my-auto mx-auto ">
+        <div class="card col-md-4-sm-12  p-4" style="width: 30vw;margin: auto;box-shadow: 5px 5px 5px rgba(0,0,0,0.4);">
+            <div class="row">
+                <div class="col-6 my-auto mx-auto ">
                         <h6 class="text-center my-auto">Kembali Ke Menu Awal</h6>
-                    </div>
-                    <div class="col-6 text-center">
+                </div>
+                <div class="col-6 text-center">
                         <a href="/"><button class="btn btn-info w-100">Kembali</button></a>
-                    </div>
                 </div>
             </div>
-        @endif
+        </div>
     </div>
 </body>
 </html>

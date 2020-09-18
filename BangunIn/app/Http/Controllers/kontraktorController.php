@@ -1176,4 +1176,36 @@ class kontraktorController extends Controller
         ];
         return view('kontraktor.Deleted.deletedSpecialWork', $data);
     }
+    public function showProfilePerusahaan()
+    {
+        $k = new kontraktor();
+        $k = $k->where('kode_kontraktor',session()->get('kode'))
+                ->get();
+        $param["nama"] = $k[0]->nama_perusahaan;
+        $param["nomer"] = $k[0]->nomer_perusahaan;
+        $param["alamat"] = $k[0]->alamat_perusahaan;
+        return view('kontraktor.Detail.detailProfile')->with($param);
+    }
+
+    public function updateProfilePerusahaan(Request $req)
+    {
+        $noperusahaan = $req->noperusahaan;
+        $nmperusahaan = $req->nmperusahaan;
+        $alperusahaan = $req->alperusahaan;
+        $logo = $req->file('logo');
+        if($logo!=null){
+            $nmlogo =$logo->getClientOriginalName();
+            $tujuan_upload = '/assets/logo_perusahaan';
+            $logo->move($tujuan_upload,$nmlogo);
+            session()->put('lgperusahaan',$nmlogo);
+        }
+        else{
+            $nmlogo="";
+        }
+        $k = new kontraktor();
+        $k->updateProfilePerusahaan($nmperusahaan,$noperusahaan,$alperusahaan,$nmlogo);
+        session()->put('nmperusahaan',$nmperusahaan);
+        $param["upd"]="Data Perusahaan Telah Di ubah";
+        return redirect('kontraktor/')->with($param);
+    }
 }

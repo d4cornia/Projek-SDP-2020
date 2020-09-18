@@ -21,6 +21,16 @@ class tukang extends Model
                         ->get();
         return $result;
     }
+    public function cekTukang($username)
+    {
+        //cek apakah user sudah terpakai atau belum
+        $result = tukang::where('username_tukang', $username)->get();
+        $total = count($result);
+        if ($total == 0) {
+            return true;
+        }
+        return false;
+    }
     public function insertTukang($request,$kode_jenis)
     {
         $this->kode_jenis = $kode_jenis;

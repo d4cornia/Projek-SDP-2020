@@ -1,16 +1,17 @@
 @extends('layout.layout')
 @section('side-navbar')
-<h2 class="judul">Bangun.in</h2>
-<hr class="w-25 text-center">
-<div class="btn-group nav-side">
-    <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Welcome,<br>{{session()->get('nama')}}
-    </button>
-    <div class="dropdown-menu">
-        {{--Dropdown Client--}}
-        <a class="dropdown-item" href="/logout">Log Out</a>
+<img class="mx-auto" style="padding-left: 4vh" width="80%" src="/assets/logo_perusahaan/{{session()->get('lgperusahaan')}}">
+    <h4 class="judul pt-3">{{session()->get('nmperusahaan')}}</h4>
+    <hr>
+    <div class="btn-group nav-side">
+        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Welcome,<br>{{session()->get('nama')}}
+        </button>
+        <div class="dropdown-menu">
+            {{--Dropdown Client--}}
+            <a class="dropdown-item" href="/logout">Log Out</a>
+        </div>
     </div>
-</div>
 <div class="btn-group nav-side">
     <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Jenis Tukang

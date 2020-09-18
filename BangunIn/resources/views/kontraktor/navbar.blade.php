@@ -1,8 +1,9 @@
 @extends('layout.layout')
 
 @section('side-navbar')
-    <h2 class="judul">Bangun.in</h2>
-    <hr class="w-25 text-center">
+    <img class="mx-auto" style="padding-left: 4vh" width="80%" src="/assets/logo_perusahaan/{{session()->get('lgperusahaan')}}">
+    <h4 class="judul pt-3">{{session()->get('nmperusahaan')}}</h4>
+    <hr>
     <div class="btn-group nav-side">
         <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Welcome,<br>{{session()->get('nama')}}
@@ -10,6 +11,7 @@
         <div class="dropdown-menu">
             {{--Dropdown Client--}}
             <a class="dropdown-item" href="/logout">Log Out</a>
+            <a class="dropdown-item" href="/kontraktor/edProfile">Edit Profile Perusahaan</a>
         </div>
     </div>
 
@@ -57,6 +59,6 @@
             <a class="dropdown-item" href="/kontraktor/lAdmin">Lihat Admin</a>
         </div>
     </div>
-@endsection
 
+@endsection
 
