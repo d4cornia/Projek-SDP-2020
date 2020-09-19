@@ -360,7 +360,7 @@
         </div>
     </section>
     <div class="col-12" style="position: sticky;width:100%;height:80px;background-color:#1e88e5;top: 0;color:#4c4c4c;z-index:1"></div>
-    <section style="height:110vh;padding-top:10%;background-color:#1e88e5;" id="contact">
+    <section style="height:115vh;padding-top:10%;background-color:#1e88e5;" id="contact">
         <div class="container" style="padding-top: 1%;padding-bottom: 2%;box-shadow: 0px 0px 20px #145d9c;margin-top:1%;">
             <div class="col-12" style="padding-bottom: 5%;">
                 <h1 class="text-center header" style="margin-top: 6%">Segera Daftarkan Perusahaan anda</h1>

@@ -1195,8 +1195,7 @@ class kontraktorController extends Controller
         $logo = $req->file('logo');
         if($logo!=null){
             $nmlogo =$logo->getClientOriginalName();
-            $tujuan_upload = '/assets/logo_perusahaan';
-            $logo->move($tujuan_upload,$nmlogo);
+            $logo->move(public_path('\assets\logo_perusahaan'),$nmlogo);
             session()->put('lgperusahaan',$nmlogo);
         }
         else{

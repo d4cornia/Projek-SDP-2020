@@ -12,7 +12,7 @@
             <div class="form-group col-md-6">
                 <label for="inputPassword3" class="col-sm-12 col-form-label">Nomer Telephone Perushaan</label>
                 <div class="col-sm-12">
-                <input type="text" class="form-control" id="nomer" placeholder="Nomer Telephone Perusahaan" name="noperusahaan" value="{{$nomer}}"  required>
+                <input type="text" class="form-control" id="nomer" pattern="[0-9]{10,}" title="Nomer Telp Harus Angka" placeholder="Nomer Telephone Perusahaan" name="noperusahaan" value="{{$nomer}}"  required>
                 </div>
             </div>
         </div>
@@ -43,3 +43,9 @@
         </div>
 </form>
 @endsection
+<script>
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
