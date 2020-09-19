@@ -513,6 +513,11 @@ class mandorController extends Controller
     }
     public function lihatBon()
     {
+        $mandor = new mandor();
+        $kodemandor = session()->get('kode');
+        $namamandor = $mandor->codetoName(session()->get('kode'));
+        $namamandor=substr($namamandor,2);
+        $namamandor=substr($namamandor,0,strlen($namamandor)-2);
         $t = new tukang();
         $jt = new jenis_tukang();
         $bon = new bon_tukang();
@@ -520,7 +525,8 @@ class mandorController extends Controller
             'title' => 'List Bon',
             'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
             'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
-            'listBon' => $bon->where('status_lunas',0)->where('status_delete_bon',0)->get()
+            'listBon' => $bon->where('status_lunas',0)->where('status_delete_bon',0)->get(),
+            'mandor'=>$namamandor
         ];
         return view('mandor.List.listBon', $data);
     }

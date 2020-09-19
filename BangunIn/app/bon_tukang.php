@@ -45,6 +45,11 @@ class bon_tukang extends Model
             return 1;
         }
     }
+    public function getKodeTukang()
+    {
+        $result = tukang::select('kode_tukang')->where('kode_mandor', session()->get('kode'))->get();
+        return $result;
+    }
     public function kodetoKet($kode)
     {
         return $this::where('kode_bon', $kode)
