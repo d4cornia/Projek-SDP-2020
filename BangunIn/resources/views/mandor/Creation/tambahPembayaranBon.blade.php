@@ -1,9 +1,25 @@
 @extends('mandor.navbar')
 
 @section('content')
+<h1>Pembayaran Bon</h1>
+<h3>Mandor : {{$mandor}}</h3>
+<h4>Tanggal Pembayaran :
+    @php
+        $tgl = date('d-m-Y');
+        echo $tgl;
+    @endphp
+</h4>
+@isset($jumtotal)
+@php
+    if($jumtotal!=0){
+        echo "<h4 style='color:red'>"."Pembayaran Hari ini : Rp ".number_format($jumtotal)."</h4>";
+    }
+@endphp
+
+@endisset
+<br>
 <form method="POST" action="/mandor/submitBayarBon" class="needs-validation" novalidate>
     @csrf
-
     <div class="form-group">
         <label for="nm">Nama Tukang</label>
         <div class="my-1">

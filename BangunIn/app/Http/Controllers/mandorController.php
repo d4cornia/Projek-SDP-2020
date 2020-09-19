@@ -573,18 +573,32 @@ class mandorController extends Controller
         $t = new tukang();
         $jt = new jenis_tukang();
         $bon = new bon_tukang();
+        $mandor = new mandor();
+        $kodemandor = session()->get('kode');
+        $namamandor = $mandor->codetoName(session()->get('kode'));
+        $namamandor=substr($namamandor,2);
+        $namamandor=substr($namamandor,0,strlen($namamandor)-2);
         $arrbon=[];
         if(session()->has('listbyr')){
             $arrbon=json_decode(session()->get('listbyr'));
+        }
+        if(session()->has('jumtotal')){
+            $jumtotal=json_decode(session()->get('jumtotal'));
+        }
+        else{
+            $jumtotal=0;
         }
         $data = [
             'title' => 'Register Bayar Bon',
             'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
             'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
             'listBon' => $bon->where('status_lunas','0')->where('status_delete_bon',0)->get(),
-            'listBayar' => json_encode($arrbon)
+            'listBayar' => json_encode($arrbon),
+            'mandor'=>$namamandor,
+            'jumtotal'=>$jumtotal
         ];
         session()->put('listbyr', json_encode($arrbon));
+        session()->put('jumtotal', json_encode($jumtotal));
         return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
     }
 
@@ -620,6 +634,7 @@ class mandorController extends Controller
         [
             'jumlahbyr.gte'=>'Jumlah Bayar harus >= 0'
         ]);
+
         $kode_tukang = $request->nm;
         $jumlah = $request->jumlahbyr;
 
@@ -633,12 +648,19 @@ class mandorController extends Controller
         $nama=$nmtkg[0];
         $ktg = $ket[0];
         $ada=-1;
+        if(session()->get('jumtotal')){
+            $jumtotal=session()->get('jumtotal');
+        }
+        else{
+            $jumtotal=0;
+        }
         foreach($arrbyr as $row){
             if($row->kode_bon == $kdbon){
                 $ada=1;
                 $jumsblm = $row->jumlah_bayar;
                 $jumsblm+=$jumlah;
                 $row->jumlah_bayar=$jumsblm;
+                $jumtotal+=$jumlah;
             }
         }
         if($ada==-1){
@@ -648,9 +670,11 @@ class mandorController extends Controller
                 "keterangan"=>$ktg,
                 "jumlah_bayar"=>$jumlah
             );
+            $jumtotal+=$jumlah;
             array_push($arrbyr,$baru);
         }
 
+        //dd($jumtotal);
         $t = new tukang();
         $jt = new jenis_tukang();
         $data = [
@@ -658,9 +682,11 @@ class mandorController extends Controller
             'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
             'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
             'listBon' => $bon->where('status_lunas','0')->where('status_delete_bon',0)->get(),
-            'listBayar' => json_encode($arrbyr)
+            'listBayar' => json_encode($arrbyr),
+            'jumtotal'=>$jumtotal
         ];
         session()->put('listbyr', json_encode($arrbyr));
+        session()->put('jumtotal', $jumtotal);
         //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
         return redirect('/mandor/tambahPembayaranBon');
     }
@@ -745,19 +771,27 @@ class mandorController extends Controller
     }
     public function batalBayar(Request $request)
     {
+        $mandor = new mandor();
+        $kodemandor = session()->get('kode');
+        $namamandor = $mandor->codetoName(session()->get('kode'));
+        $namamandor=substr($namamandor,2);
+        $namamandor=substr($namamandor,0,strlen($namamandor)-2);
         $kode = $request->kodeku;
         //dd($kode);
         $arrbyr = json_decode(session()->get('listbyr'));
+        $jumtotal = json_decode(session()->get('jumtotal'));
         $ctr=0;
         $posisiketemu=-1;
+        $minusjum=0;
         foreach($arrbyr as $row){
             if($row->kode_bon == $kode){
                 $posisiketemu=$ctr;
+                $minusjum=$row->jumlah_bayar;
             }
             $ctr++;
         }
         array_splice($arrbyr,$posisiketemu,1);
-
+        $jumtotal-=$minusjum;
         $t = new tukang();
         $jt = new jenis_tukang();
         $bon = new bon_tukang();
@@ -766,14 +800,22 @@ class mandorController extends Controller
             'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
             'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
             'listBon' => $bon->where('status_lunas','0')->where('status_delete_bon',0)->get(),
-            'listBayar' => json_encode($arrbyr)
+            'listBayar' => json_encode($arrbyr),
+            'jumtotal'=>$jumtotal,
+            'mandor'=>$namamandor
         ];
         session()->put('listbyr', json_encode($arrbyr));
+        session()->put('jumtotal', $jumtotal);
         return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
         //return redirect('/mandor/tambahPembayaranBon');
     }
     public function simpanPembayaran(Request $request)
     {
+        $mandor = new mandor();
+        $kodemandor = session()->get('kode');
+        $namamandor = $mandor->codetoName(session()->get('kode'));
+        $namamandor=substr($namamandor,2);
+        $namamandor=substr($namamandor,0,strlen($namamandor)-2);
         $byr = new pembayaran_bon_tukang();
         $tanggal = date("Y-m-d");
         $byr->insertByr($request,$tanggal);
@@ -800,9 +842,11 @@ class mandorController extends Controller
             'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
             'listBon' => $bon->where('status_lunas','0')->where('status_delete_bon',0)->get(),
             'listBayar' => json_encode($arrbyr),
-            'error'=>0
+            'error'=>0,
+            'mandor'=>$namamandor
         ];
         session()->put('listbyr', json_encode($arrbyr));
+        session()->put('jumtotal', 0);
         return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
         //return redirect('/mandor/tambahPembayaranBon');
     }

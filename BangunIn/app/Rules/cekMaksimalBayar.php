@@ -46,11 +46,11 @@ class cekMaksimalBayar implements Rule
 
         $jumlahtotal = $jum+$value;
         //dd($jumlahtotal);
-        return $bon->cekMaxBayar($jumlahtotal,$this->patokan)===1;
+        //return $bon->cekMaxBayar($jumlahtotal,$this->patokan)===1;
         if($bon->cekMaxBayar($jumlahtotal,$this->patokan)==1){
             return true;
         }
-        dd($bon->cekMaxBayar($jumlahtotal,$this->patokan));
+        //dd($bon->cekMaxBayar($jumlahtotal,$this->patokan));
         return false;
     }
 
