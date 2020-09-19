@@ -545,6 +545,21 @@ class mandorController extends Controller
         ];
         return view('mandor.List.listBonTukang', $data);
     }
+    public function cekBonTukang($id)
+    {
+        $bon = new bon_tukang();
+        $t = new tukang();
+        $nama=$t->codetoName($id);
+        $nama=substr($nama,2);
+        $nama=substr($nama,0,strlen($nama)-2);
+        $data = [
+            'title' => 'List Bon',
+            'listBon' => $bon->where('status_lunas',0)->where('kode_tukang',$id)->where('status_delete_bon',0)->get(),
+            'nama'=>$nama,
+            'kode'=>$id
+        ];
+        return view('mandor.List.cekBonTukang', $data);
+    }
     public function deleteBon($id)
     {
         $b = new bon_tukang();
@@ -651,13 +666,17 @@ class mandorController extends Controller
     }
     public function tambahBayarKhusus(Request $request)
     {
+        //dd("masuk");
         $kodebon=$request->kodebon;
+        //dd($kodebon);
         $request->validate([
             'jumlah' => ['required','numeric',new cekMaksimalBayar($kodebon),'gte:0'],
         ],
         [
             'jumlah.gte'=>'Jumlah Bayar harus >= 0'
         ]);
+        //dd("pass");
+
         $byr = new pembayaran_bon_tukang();
         $tanggal = date("Y-m-d");
         $byr->insertByr($request,$tanggal);

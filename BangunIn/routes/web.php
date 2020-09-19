@@ -136,6 +136,7 @@ Route::group(['prefix' => 'mandor'], function () {
     //bon
     //tambahbon
     Route::get('/lihatBonTukang/{n?}','mandorController@lihatBonTukang');
+    Route::get('/cekBonTukang/{n?}','mandorController@cekBonTukang');
     Route::get('/tambahBon', 'mandorController@tambahBon');
     Route::get("/tambahBonTukangX/{n?}","mandorController@tambahBonTukangX");
     Route::post('/submitRegBon', 'mandorController@storeBon');

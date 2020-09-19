@@ -28,6 +28,7 @@
                 <th scope="col">No</th>
                 <th scope="col">Nama Tukang</th>
                 <th scope="col">Jenis Tukang</th>
+                <th scope="col">Tanggal Pengajuan Pertama</th>
                 <th scope="col">Bon</th>
                 <th scope="col">Aksi</th>
             </tr>
@@ -37,12 +38,22 @@
                 <tr>
                     @php
                         $jumbon=0;
+                        $tgl=date('Y-m-d');
+                        $thn = substr($tgl,0,4);
+                        $thn+=2;
+                        $lanjut=substr($tgl,4);
+                        $tgl=$thn.$lanjut;
                     @endphp
                     @foreach ($listBon as $bon)
                         @if ($bon->kode_tukang==$item->kode_tukang)
                             @php
                                 $jumbon+=$bon->sisa_bon;
                             @endphp
+                            @if ($bon->tanggal_pengajuan<$tgl)
+                                @php
+                                    $tgl=$bon->tanggal_pengajuan;
+                                @endphp
+                            @endif
                         @endif
                     @endforeach
                     @if ($jumbon!=0)
@@ -52,11 +63,16 @@
                         @if ($item->kode_jenis == $item2->kode_jenis)
                             <td>{{$item2->nama_jenis}}</td>
                         @endif
+                        @php
+                                $tahun = substr($tgl,0,4);
+                                $bulan = substr($tgl,5,2);
+                                $tanggal = substr($tgl,8);
+                        @endphp
                     @endforeach
-
+                    <td>{{$tanggal}}-{{$bulan}}-{{$tahun}}</td>
                     <td>@php echo "Rp.". number_format($jumbon);@endphp</td>
                     <td>
-                        <a href="/mandor/lihatBonTukang/{{$item->kode_tukang}}" class="btn btn-info">Detail Bon</a>
+                        <a href="/mandor/cekBonTukang/{{$item->kode_tukang}}" class="btn btn-info">Detail Bon</a>
                     </td>
                     @endif
                 </tr>
@@ -67,6 +83,7 @@
                 <th scope="col">No</th>
                 <th scope="col">Nama Tukang</th>
                 <th scope="col">Jenis Tukang</th>
+                <th scope="col">Tanggal Pengajuan Pertama</th>
                 <th scope="col">Bon</th>
                 <th scope="col">Aksi</th>
             </tr>
