@@ -848,6 +848,5 @@ class mandorController extends Controller
         session()->put('listbyr', json_encode($arrbyr));
         session()->put('jumtotal', 0);
         return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
-        //return redirect('/mandor/tambahPembayaranBon');
     }
 }

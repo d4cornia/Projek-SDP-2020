@@ -30,7 +30,7 @@ class cekMaksimalBayar implements Rule
     {
         //
         $bon = new bon_tukang();
-        if(session()->has('listbyt')){
+        if(session()->has('listbyr')){
             $arrbyr = json_decode(session()->get('listbyr'));
         }
         else{
