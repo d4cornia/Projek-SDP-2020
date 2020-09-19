@@ -14,6 +14,15 @@
     </div>
 <div class="btn-group nav-side">
     <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Pekerjaan
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="/mandor/lihatPekerjaan">Lihat Pekerjaan</a>
+        <a class="dropdown-item" href="/mandor/lihatHistoryPekerjaan">History Pekerjaan</a>
+    </div>
+</div>
+<div class="btn-group nav-side">
+    <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Jenis Tukang
     </button>
     <div class="dropdown-menu">

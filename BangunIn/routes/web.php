@@ -152,6 +152,12 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::post('/tabelBayar', 'mandorController@batalBayar');
     Route::post('/simpanBayarBon', 'mandorController@simpanPembayaran');
     Route::get('/detailPembayaranBon/{n?}', 'mandorController@detailPembayaranBon');
+        //selesain pekerjaan
+        Route::get('/lihatPekerjaan', "mandorController@lihatPekerjaan");
+        Route::get('/lihatHistoryPekerjaan', "mandorController@lihatHistoryPekerjaan");
+
+        Route::get('/detWork/{id?}', "kontraktorController@detailWork");
+        Route::get('/sProject/{id?}', "mandorController@selesaiProject");
 });
 
 //tukang

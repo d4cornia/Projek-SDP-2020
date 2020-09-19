@@ -8,6 +8,7 @@ use App\kontraktor;
 use App\administrator;
 use App\bon_tukang;
 use App\memiliki_detail_bon;
+use App\pekerjaan;
 use App\pembayaran_bon_tukang;
 use App\Rules\cbDetBon;
 use App\Rules\cbJenis;
@@ -848,5 +849,27 @@ class mandorController extends Controller
         session()->put('listbyr', json_encode($arrbyr));
         session()->put('jumtotal', 0);
         return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+    }
+    public function lihatPekerjaan()
+    {
+        $pekerjaan = new pekerjaan();
+        $pekerjaan = $pekerjaan->where('kode_mandor',session()->get('kode'))
+                                ->where('status_selesai',0)
+                                ->get();
+        $param["pekerjaan"] = $pekerjaan;
+        return view('mandor.List.listPekerjaan')->with($param);
+    }
+    public function lihatHistoryPekerjaan()
+    {
+        $pekerjaan = new pekerjaan();
+        $pekerjaan = $pekerjaan->where('kode_mandor',session()->get('kode'))
+                                ->where('status_selesai',1)
+                                ->get();
+        $param["pekerjaan"] = $pekerjaan;
+        return view('mandor.List.listHistoryPekerjaan')->with($param);
+    }
+    public function selesaiProject($id)
+    {
+        return view('mandor.Detail.selesaiProject');
     }
 }

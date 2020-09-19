@@ -1,7 +1,7 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-<h1>Ubah Data Pekerjaan</h1>
+<h1 id="judul">Ubah Data Pekerjaan</h1>
 <form method="POST" action="/kontraktor/updWork" class="option needs-validation" novalidate>
     @csrf
     <div class="option padd">
@@ -151,7 +151,18 @@
         @enderror
     </div>
     <input type="hidden" name="id" value="{{ $work[0]['kode_pekerjaan'] }}">
-    <a href="/kontraktor/lWork" class="btn btn-secondary">Kembali</a>
-    <button type="submit" class="btn btn-primary">Ubah</button>
+    @if(session()->get('status')!="mandor")
+        <a href="/kontraktor/lWork" class="btn btn-secondary">Kembali</a>
+        <button type="submit" class="btn btn-primary">Ubah</button>
+    @else
+        <a href="/mandor/lihatPekerjaan" class="btn btn-secondary">Kembali</a>
+    @endif
 </form>
+@if(session()->get('status')=="mandor")
+    <script>
+        $('#judul').html('Detail Pekerjaan');
+        $('.form-control').attr('disabled',"");
+        $('.custom-select').attr('disabled',"");
+    </script>
+@endif
 @endsection

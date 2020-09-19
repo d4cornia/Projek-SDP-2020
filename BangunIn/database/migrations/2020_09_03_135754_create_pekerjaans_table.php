@@ -30,7 +30,6 @@ class CreatePekerjaansTable extends Migration
             $table->integer('harga_deal');
             $table->string('status_selesai', 1);
             $table->string('status_delete_pekerjaan', 1);
-            $table->string('bukti_pekerjaan_selesai', 30)->default('');
         });
     }
 
