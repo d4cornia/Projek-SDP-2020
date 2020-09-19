@@ -51,16 +51,18 @@ class pekerjaan extends Model
         $kode = $this::where('nama_pekerjaan', $request->input('name'))->pluck('kode_pekerjaan');
 
         // detail
-        foreach (session()->get('listSpWork') as $item) {
-            $pk = new pekerjaan_khusus();
-            $pk->kode_pekerjaan = $kode[0];
-            $pk->keterangan_pk = $item['ketPK'];
-            $pk->membutuhkan_bahan = '0';
-            $pk->total_bahan = 0;
-            $pk->total_jasa = $item['sumJasa'];
-            $pk->total_keseluruhan = $item['sumJasa'];
-            $pk->status_delete_pk = 0;
-            $pk->save();
+        if (session()->get('listSpWork') !== null) {
+            foreach (session()->get('listSpWork') as $item) {
+                $pk = new pekerjaan_khusus();
+                $pk->kode_pekerjaan = $kode[0];
+                $pk->keterangan_pk = $item['ketPK'];
+                $pk->membutuhkan_bahan = '0';
+                $pk->total_bahan = 0;
+                $pk->total_jasa = $item['sumJasa'];
+                $pk->total_keseluruhan = $item['sumJasa'];
+                $pk->status_delete_pk = 0;
+                $pk->save();
+            }
         }
     }
 
