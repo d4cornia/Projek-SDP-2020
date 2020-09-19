@@ -16,8 +16,9 @@
             echo number_format($jumbon);
         @endphp
     </h3>
-    <div class="option" style="margin-left:89%">
+    <div class="option" style="margin-left:76%">
         <a class="btn btn-primary"  href="/mandor/tambahBon">Tambah Bon</a>
+        <a class="btn btn-secondary"  href="/mandor/tambahPembayaranBon">Pembayaran Bon</a>
     </div>
     <br>
     @if (count($listBon) > 0)
