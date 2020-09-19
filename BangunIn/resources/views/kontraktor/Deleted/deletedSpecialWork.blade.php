@@ -12,7 +12,7 @@
                         <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work" disabled>
                             <option selected>-</option>
                             @foreach ($listWork as $item)
-                                <option value="{{$item['kode_pekerjaan']}}" @if ($item['kode_pekerjaan'] == $id)
+                                <option value="{{$item['kode_pekerjaan']}}" @if ($item['kode_pekerjaan'] == $kode_pekerjaan)
                                     selected
                                 @endif>{{$item['nama_pekerjaan']}}</option>
                             @endforeach
@@ -62,13 +62,13 @@
             </div>
         </div>
         <div class="option">
-            <a class="btn btn-primary" href="/kontraktor/iSpWork">Kembali</a>
+            <a class="btn btn-primary" href="/kontraktor/iSpWork/{{encrypt($kode_pekerjaan)}}">Kembali</a>
         </div>
     @else
     <div class="row-second">
         <h2>Tidak ada pekerjaan khusus yang dihapus!</h2>
         <div class="option">
-            <a class="btn btn-primary" href="/kontraktor/iSpWork">Kembali</a>
+            <a class="btn btn-primary" href="/kontraktor/iSpWork/{{encrypt($kode_pekerjaan)}}">Kembali</a>
         </div>
     </div>
     @endif

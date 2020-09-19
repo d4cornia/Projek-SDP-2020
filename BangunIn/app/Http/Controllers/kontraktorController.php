@@ -54,8 +54,43 @@ class kontraktorController extends Controller
         return view('kontraktor.Detail.changePass', $data);
     }
 
+    // Kontraktor
+
+    public function showProfilePerusahaan()
+    {
+        $k = new kontraktor();
+        $k = $k->where('kode_kontraktor', session()->get('kode'))
+            ->get();
+        $param["nama"] = $k[0]->nama_perusahaan;
+        $param["nomer"] = $k[0]->nomer_perusahaan;
+        $param["alamat"] = $k[0]->alamat_perusahaan;
+        return view('kontraktor.Detail.detailProfile')->with($param);
+    }
+
+    public function updateProfilePerusahaan(Request $req)
+    {
+        $noperusahaan = $req->noperusahaan;
+        $nmperusahaan = $req->nmperusahaan;
+        $alperusahaan = $req->alperusahaan;
+        $logo = $req->file('logo');
+        if ($logo != null) {
+            $nmlogo = $logo->getClientOriginalName();
+            $logo->move(public_path('\assets\logo_perusahaan'), $nmlogo);
+            session()->put('lgperusahaan', $nmlogo);
+        } else {
+            $nmlogo = "";
+        }
+        $k = new kontraktor();
+        $k->updateProfilePerusahaan($nmperusahaan, $noperusahaan, $alperusahaan, $nmlogo);
+        session()->put('nmperusahaan', $nmperusahaan);
+        $param["upd"] = "Data Perusahaan Telah Di ubah";
+        return redirect('kontraktor/')->with($param);
+    }
+
+
 
     //Client
+
     public function listDeleteClient()
     {
         $b = new client();
@@ -377,13 +412,21 @@ class kontraktorController extends Controller
     public function deleteMandor($id)
     {
         $m = new mandor();
-        $m->softDeleteMandor(decrypt($id));
+        if ($m->cekDelete(decrypt($id))) {
+            $m->softDeleteMandor(decrypt($id));
+            $data = [
+                'title' => 'List Mandor',
+                'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))
+                    ->where('status_delete_mandor', 0)->get(),
+                'del' => 'Berhasil menghapus data mandor'
+            ];
+        }
 
         $data = [
             'title' => 'List Mandor',
             'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))
                 ->where('status_delete_mandor', 0)->get(),
-            'del' => 'Berhasil menghapus data mandor'
+            'fail' => 'Data mandor masih digunakan di suatu pekerjaan'
         ];
         return view('kontraktor.List.listMandor', $data);
     }
@@ -550,13 +593,22 @@ class kontraktorController extends Controller
     public function deleteAdmin($id)
     {
         $a = new administrator();
-        $a->softDeleteAdmin(decrypt($id));
+        if ($a->cekDelete(decrypt($id))) {
+            $a->softDeleteAdmin(decrypt($id));
+
+            $data = [
+                'title' => 'List Admin',
+                'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
+                    ->where('status_delete_admin', 0)->get(),
+                'del' => 'Berhasil menghapus data admin'
+            ];
+        }
 
         $data = [
             'title' => 'List Admin',
             'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
                 ->where('status_delete_admin', 0)->get(),
-            'del' => 'Berhasil menghapus data admin'
+            'fail' => 'Data admin masih digunakan di suatu pekerjaan'
         ];
         return view('kontraktor.List.listAdmin', $data);
     }
@@ -622,7 +674,7 @@ class kontraktorController extends Controller
         $a = new administrator();
         if (isset($request->addWork)) { // commit add work
             $validator = Validator::make($request->all(), [
-                'name' => ['required', 'string', new cekNamaWork()],
+                'name' => ['required', 'string', new cekNamaWork()], // validation database -> sudah kepake belum namanya di pekerjaan yang aktif
                 'address' => 'required',
                 'dealPrice' => 'required|numeric'
             ], [
@@ -655,8 +707,7 @@ class kontraktorController extends Controller
             if ($data['error'] == 2 || $data['error'] == 3 || $data['error'] == 4) {
                 return view('kontraktor.Creation.tambahPekerjaan', $data);
             }
-            // validation database -> sudah kepake ato belom kolom sesuatu
-            if ($p->cekWorkname($request->input('name')) == 0 && $data['error'] == 0) {
+            if ($data['error'] == 0) {
                 $p->insertWork($request, $c->nameToCode($nc), $a->nameToCode($na), $m->nameToCode($nm)); // saving
                 session()->forget('listSpWork');
                 $data = [
@@ -1051,6 +1102,24 @@ class kontraktorController extends Controller
         return view('kontraktor.List.listSpecialWork', $data);
     }
 
+    public function indexSpecialWorkParam($id)
+    {
+        session()->forget('listSpWork');
+        $p = new pekerjaan();
+        $pk = new pekerjaan_khusus();
+        $data = [
+            'title' => 'Pekerjaan Khusus',
+            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get(),
+            'listSpWork' => $pk->where('kode_pekerjaan', decrypt($id))
+                ->where('status_delete_pk', 0)
+                ->get(),
+            'current' => $p->find(decrypt($id))
+        ];
+        return view('kontraktor.List.listSpecialWork', $data);
+    }
+
     public function searchListSpecialWork(Request $req)
     {
         $p = new pekerjaan();
@@ -1116,7 +1185,7 @@ class kontraktorController extends Controller
             'title' => 'Pekerjaan Khusus',
             'listDelSpWork' => $pk->where('kode_pekerjaan', $id)
                 ->where('status_delete_pk', 1)->get(),
-            'id' => $id,
+            'kode_pekerjaan' => $id,
             'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
                 ->where('status_delete_pekerjaan', 0)
                 ->get()
@@ -1175,36 +1244,5 @@ class kontraktorController extends Controller
             'roll' => 'Berhasil Mengembalikan Data Pekerjaan Khusus!'
         ];
         return view('kontraktor.Deleted.deletedSpecialWork', $data);
-    }
-    public function showProfilePerusahaan()
-    {
-        $k = new kontraktor();
-        $k = $k->where('kode_kontraktor',session()->get('kode'))
-                ->get();
-        $param["nama"] = $k[0]->nama_perusahaan;
-        $param["nomer"] = $k[0]->nomer_perusahaan;
-        $param["alamat"] = $k[0]->alamat_perusahaan;
-        return view('kontraktor.Detail.detailProfile')->with($param);
-    }
-
-    public function updateProfilePerusahaan(Request $req)
-    {
-        $noperusahaan = $req->noperusahaan;
-        $nmperusahaan = $req->nmperusahaan;
-        $alperusahaan = $req->alperusahaan;
-        $logo = $req->file('logo');
-        if($logo!=null){
-            $nmlogo =$logo->getClientOriginalName();
-            $logo->move(public_path('\assets\logo_perusahaan'),$nmlogo);
-            session()->put('lgperusahaan',$nmlogo);
-        }
-        else{
-            $nmlogo="";
-        }
-        $k = new kontraktor();
-        $k->updateProfilePerusahaan($nmperusahaan,$noperusahaan,$alperusahaan,$nmlogo);
-        session()->put('nmperusahaan',$nmperusahaan);
-        $param["upd"]="Data Perusahaan Telah Di ubah";
-        return redirect('kontraktor/')->with($param);
     }
 }

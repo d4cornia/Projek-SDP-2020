@@ -27,7 +27,8 @@ class cekNamaWork implements Rule
     public function passes($attribute, $value)
     {
         $p = new pekerjaan();
-        if ($p->cekWorkname($value) == 0) {
+        if ($p->cekWorkname($value)) { // data yang cek adalah dengan nama pekerjaan yang masih aktif / belum disoft delete
+            $p->hardDelete($value); // jika nama pekerjaan ada sama dengan nama di soft delete maka yang soft delete di hard delete baru insert
             return true;
         }
         return false;

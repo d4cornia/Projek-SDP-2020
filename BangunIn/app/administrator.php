@@ -88,4 +88,16 @@ class administrator extends Model
         $a->status_delete_admin = 0;
         $a->save();
     }
+
+    public function cekDelete($id)
+    {
+        $p = new pekerjaan();
+        $cek = $p->where('kode_admin', $id)
+            ->where('kode_kontraktor', session()->get('kode'))
+            ->get();
+        if (count($cek) > 0) {
+            return false;
+        }
+        return true;
+    }
 }

@@ -163,6 +163,11 @@
     </script>
     @endif
 @endisset
+@isset($fail)
+<script>
+    swal("Gagal Hapus!", "{{$fail}}", "error");
+</script>
+@endisset
 @isset($upd)
     <script>
         swal("Berhasil Ubah!", "{{$upd}}", "success");

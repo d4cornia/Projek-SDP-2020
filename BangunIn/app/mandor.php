@@ -93,4 +93,16 @@ class mandor extends Model
         $m->status_delete_mandor = 0;
         $m->save();
     }
+
+    public function cekDelete($id)
+    {
+        $p = new pekerjaan();
+        $cek = $p->where('kode_mandor', $id)
+            ->where('kode_kontraktor', session()->get('kode'))
+            ->get();
+        if (count($cek) > 0) {
+            return false;
+        }
+        return true;
+    }
 }

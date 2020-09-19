@@ -19,8 +19,12 @@ class pekerjaan extends Model
     {
         //cek apakah user sudah terpakai atau belum
         $result = pekerjaan::where('nama_pekerjaan', $name)
+            ->where('status_delete_pekerjaan', 0) // masih aktif
             ->get();
-        return count($result);
+        if (count($result) > 0) {
+            return false;
+        }
+        return true;
     }
 
     public function getDataPekerjaan()
@@ -84,6 +88,10 @@ class pekerjaan extends Model
         $p->save();
     }
 
+    public function hardDelete($name)
+    {
+        $this->where('nama_pekerjaan', $name)->get()->each->delete(); // jika ada maka delete
+    }
 
     public function rollback($id)
     {
