@@ -837,17 +837,38 @@ class mandorController extends Controller
         $jt = new jenis_tukang();
         $arrbyr=[];
         $data = [
-            'title' => 'Register Bayar Bon',
-            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
-            'listBon' => $bon->where('status_lunas','0')->where('status_delete_bon',0)->get(),
-            'listBayar' => json_encode($arrbyr),
-            'error'=>0,
-            'mandor'=>$namamandor
+            'error'=>0
         ];
         session()->put('listbyr', json_encode($arrbyr));
         session()->put('jumtotal', 0);
-        return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+        return $this->lihatPembayaranBon();
         //return redirect('/mandor/tambahPembayaranBon');
+    }
+    public function lihatPembayaranBon()
+    {
+        $tgl = date('Y-m-d');
+        $mandor = new mandor();
+        $kodemandor = session()->get('kode');
+        $namamandor = $mandor->codetoName(session()->get('kode'));
+        $namamandor=substr($namamandor,2);
+        $namamandor=substr($namamandor,0,strlen($namamandor)-2);
+        $pb = new pembayaran_bon_tukang();
+        $listBayar = $pb->where('tanggal_pembayaran_bon',$tgl)->get();
+        $det = new memiliki_detail_bon();
+        $detBayar = $det->get();
+        $bon = new bon_tukang();
+        $listBon=$bon->get();
+        $tukang = new tukang();
+        $listTukang = $tukang->where('kode_mandor',session()->get('kode'))->get();
+        $data = [
+            'title' => 'Lihat Pembayaran Bon',
+            'tgl' => $tgl,
+            'mandor' => $namamandor,
+            'listBayar' => $listBayar,
+            'detBayar' => $detBayar,
+            'listBon'=>$listBon,
+            'listTukang'=>$listTukang
+        ];
+        return view("mandor.Detail.detailBayarCustom", ['title' => 'Lihat Pembayaran Bon'],$data);
     }
 }
