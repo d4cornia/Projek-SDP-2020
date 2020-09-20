@@ -89,6 +89,11 @@
 
 {{-- berhasil/gagal tambah --}}
 @isset($error)
+    @if ($error == 14)
+    <script>
+        swal("Gagal Menghapus Tukang!", "Tukang masih memiliki hutang yang belum dibayarkan!","error");
+    </script>
+    @endif
     @if ($error == 13)
     <script>
         swal("Bon Telah Lunas!", "", "success");

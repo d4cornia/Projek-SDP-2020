@@ -329,16 +329,32 @@ class mandorController extends Controller
     public function deleteTukang($id)
     {
         $t = new tukang();
-        $t->softDelete($id);
-        $jt = new jenis_tukang();
         $bon = new bon_tukang();
-        $data = [
-            'title' => 'List Tukang',
-            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
-            'listJenis' => $jt->get(),
-            'listBon'=>$bon->where('status_lunas',0)->get()
-        ];
-        return view('mandor.List.listTukang', $data);
+        if($bon->cekMasihadaBon($id)==0){
+
+            $t->softDelete($id);
+            $jt = new jenis_tukang();
+            $bon = new bon_tukang();
+            $data = [
+                'title' => 'List Tukang',
+                'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+                'listJenis' => $jt->get(),
+                'listBon'=>$bon->where('status_lunas',0)->get()
+            ];
+            return view('mandor.List.listTukang', $data);
+        }
+        else{
+            $jt = new jenis_tukang();
+            $bon = new bon_tukang();
+            $data = [
+                'title' => 'List Tukang',
+                'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+                'listJenis' => $jt->get(),
+                'listBon'=>$bon->where('status_lunas',0)->get(),
+                'error'=>14
+            ];
+            return view('mandor.List.listTukang', $data);
+        }
     }
 
     public function updateTukang(Request $request)
