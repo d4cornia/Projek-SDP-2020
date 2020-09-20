@@ -27,7 +27,6 @@
         <label for="nm">Nama Tukang</label>
         <div class="my-1">
             <select class="custom-select mr-sm-2 dynamic" id="inlineFormCustomSelect" name="nm" id="nm">
-                <option selected value=''>-</option>
                 @foreach ($listTukang as $item)
                     @foreach ($listJenis as $item2)
                         @if ($item->kode_jenis==$item2->kode_jenis)

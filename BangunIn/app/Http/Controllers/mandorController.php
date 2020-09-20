@@ -643,69 +643,132 @@ class mandorController extends Controller
     public function tambahBayar(Request $request)
     {
         $kdbon = $request->detailbon;
-        $request->validate([
-            'nm'=>[new cbTukang()],
-            'detailbon'=>[new cbDetBon(),'bail'],
-            'jumlahbyr' => ['required','numeric',new cekMaksimalBayar($kdbon),'gte:0'],
-        ],
-        [
-            'jumlahbyr.gte'=>'Jumlah Bayar harus >= 0'
-        ]);
+        if($kdbon!=''){
+            $request->validate([
+                'nm'=>[new cbTukang()],
+                'detailbon'=>[new cbDetBon(),'bail'],
+                'jumlahbyr' => ['required','numeric',new cekMaksimalBayar($kdbon),'gte:0'],
+            ],
+            [
+                'jumlahbyr.gte'=>'Jumlah Bayar harus >= 0'
+            ]);
 
-        $kode_tukang = $request->nm;
-        $jumlah = $request->jumlahbyr;
+            $kode_tukang = $request->nm;
+            $jumlah = $request->jumlahbyr;
 
-        $tukang = new tukang();
-        $bon = new bon_tukang();
+            $tukang = new tukang();
+            $bon = new bon_tukang();
 
-        $arrbyr = json_decode(session()->get('listbyr'));
-        $nmtkg = $tukang->kodeToNama($kode_tukang);
-        $ket = $bon->kodetoKet($kdbon);
+            $arrbyr = json_decode(session()->get('listbyr'));
+            $nmtkg = $tukang->kodeToNama($kode_tukang);
+            $ket = $bon->kodetoKet($kdbon);
 
-        $nama=$nmtkg[0];
-        $ktg = $ket[0];
-        $ada=-1;
-        if(session()->get('jumtotal')){
-            $jumtotal=session()->get('jumtotal');
+            $nama=$nmtkg[0];
+            $ktg = $ket[0];
+            $ada=-1;
+            if(session()->get('jumtotal')){
+                $jumtotal=session()->get('jumtotal');
+            }
+            else{
+                $jumtotal=0;
+            }
+            foreach($arrbyr as $row){
+                if($row->kode_bon == $kdbon){
+                    $ada=1;
+                    $jumsblm = $row->jumlah_bayar;
+                    $jumsblm+=$jumlah;
+                    $row->jumlah_bayar=$jumsblm;
+                    $jumtotal+=$jumlah;
+                }
+            }
+            if($ada==-1){
+                $baru = array(
+                    "nama_tukang"=>$nama,
+                    "kode_bon"=>$kdbon,
+                    "keterangan"=>$ktg,
+                    "jumlah_bayar"=>$jumlah
+                );
+                $jumtotal+=$jumlah;
+                array_push($arrbyr,$baru);
+            }
+
+            //dd($jumtotal);
+            $t = new tukang();
+            $jt = new jenis_tukang();
+            $data = [
+                'title' => 'Register Bayar Bon',
+                'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+                'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
+                'listBon' => $bon->where('status_lunas','0')->where('status_delete_bon',0)->get(),
+                'listBayar' => json_encode($arrbyr),
+                'jumtotal'=>$jumtotal
+            ];
+            session()->put('listbyr', json_encode($arrbyr));
+            session()->put('jumtotal', $jumtotal);
+            //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+            return redirect('/mandor/tambahPembayaranBon');
         }
         else{
-            $jumtotal=0;
-        }
-        foreach($arrbyr as $row){
-            if($row->kode_bon == $kdbon){
-                $ada=1;
-                $jumsblm = $row->jumlah_bayar;
-                $jumsblm+=$jumlah;
-                $row->jumlah_bayar=$jumsblm;
-                $jumtotal+=$jumlah;
-            }
-        }
-        if($ada==-1){
-            $baru = array(
-                "nama_tukang"=>$nama,
-                "kode_bon"=>$kdbon,
-                "keterangan"=>$ktg,
-                "jumlah_bayar"=>$jumlah
-            );
-            $jumtotal+=$jumlah;
-            array_push($arrbyr,$baru);
-        }
+            $request->validate([
+                'nm'=>[new cbTukang()],
+                'detailbon'=>[new cbDetBon(),'bail'],
+            ]);
 
-        //dd($jumtotal);
-        $t = new tukang();
-        $jt = new jenis_tukang();
-        $data = [
-            'title' => 'Register Bayar Bon',
-            'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
-            'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
-            'listBon' => $bon->where('status_lunas','0')->where('status_delete_bon',0)->get(),
-            'listBayar' => json_encode($arrbyr),
-            'jumtotal'=>$jumtotal
-        ];
-        session()->put('listbyr', json_encode($arrbyr));
-        session()->put('jumtotal', $jumtotal);
-        //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
-        return redirect('/mandor/tambahPembayaranBon');
+            $kode_tukang = $request->nm;
+            $jumlah = $request->jumlahbyr;
+
+            $tukang = new tukang();
+            $bon = new bon_tukang();
+
+            $arrbyr = json_decode(session()->get('listbyr'));
+            $nmtkg = $tukang->kodeToNama($kode_tukang);
+            $ket = $bon->kodetoKet($kdbon);
+
+            $nama=$nmtkg[0];
+            $ktg = $ket[0];
+            $ada=-1;
+            if(session()->get('jumtotal')){
+                $jumtotal=session()->get('jumtotal');
+            }
+            else{
+                $jumtotal=0;
+            }
+            foreach($arrbyr as $row){
+                if($row->kode_bon == $kdbon){
+                    $ada=1;
+                    $jumsblm = $row->jumlah_bayar;
+                    $jumsblm+=$jumlah;
+                    $row->jumlah_bayar=$jumsblm;
+                    $jumtotal+=$jumlah;
+                }
+            }
+            if($ada==-1){
+                $baru = array(
+                    "nama_tukang"=>$nama,
+                    "kode_bon"=>$kdbon,
+                    "keterangan"=>$ktg,
+                    "jumlah_bayar"=>$jumlah
+                );
+                $jumtotal+=$jumlah;
+                array_push($arrbyr,$baru);
+            }
+
+            //dd($jumtotal);
+            $t = new tukang();
+            $jt = new jenis_tukang();
+            $data = [
+                'title' => 'Register Bayar Bon',
+                'listTukang' => $t->where('kode_mandor', session()->get('kode'))->where('status_delete_tukang',0)->get(),
+                'listJenis' => $jt->where('kode_mandor', session()->get('kode'))->where('status_delete_jt',0)->get(),
+                'listBon' => $bon->where('status_lunas','0')->where('status_delete_bon',0)->get(),
+                'listBayar' => json_encode($arrbyr),
+                'jumtotal'=>$jumtotal
+            ];
+            session()->put('listbyr', json_encode($arrbyr));
+            session()->put('jumtotal', $jumtotal);
+            //return view("mandor.Creation.tambahPembayaranBon", ['title' => 'Register Bayar Bon'],$data);
+            return redirect('/mandor/tambahPembayaranBon');
+        }
     }
     public function tambahBayarKhusus(Request $request)
     {
