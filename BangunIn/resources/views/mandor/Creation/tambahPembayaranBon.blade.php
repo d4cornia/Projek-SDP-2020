@@ -12,11 +12,14 @@
 @isset($jumtotal)
 @php
     if($jumtotal!=0){
-        echo "<h4 style='color:red'>"."Pembayaran Hari ini : Rp ".number_format($jumtotal)."</h4>";
+        echo "<h4 style='color:red'>"."Pembayaran Saat ini : Rp ".number_format($jumtotal)."</h4>";
     }
 @endphp
 
 @endisset
+<div class="option" style="margin-left:81%">
+    <a class="btn btn-primary"  href="/mandor/lihatRincianPembayaran">Rincian Pembayaran Bon</a>
+</div>
 <br>
 <form method="POST" action="/mandor/submitBayarBon" class="needs-validation" novalidate>
     @csrf

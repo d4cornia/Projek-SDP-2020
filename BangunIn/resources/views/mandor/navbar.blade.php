@@ -40,6 +40,7 @@
         <a class="dropdown-item" href="/mandor/lihatBon">Lihat Bon</a>
         <a class="dropdown-item" href="/mandor/tambahBon">Tambah Bon</a>
         <a class="dropdown-item" href="/mandor/tambahPembayaranBon">Pembayaran Bon</a>
+        <a class="dropdown-item" href="/mandor/lihatRincianPembayaran">Lihat Pembayaran Bon</a>
     </div>
 </div>
 @endsection
