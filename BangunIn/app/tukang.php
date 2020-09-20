@@ -112,10 +112,13 @@ class tukang extends Model
     public function updateJenisLama($kdlama,$kdbaru)
     {
         $kode= $kdlama;
+        //dd($kdbaru);
         $datalama   = tukang::find($kode);
-
-        $datalama->kode_jenis=$kdbaru;
-        $datalama->save();
+        if($datalama!=null){
+            $datalama   = tukang::find($kode);
+            $datalama->kode_jenis=$kdbaru;
+            $datalama->save();
+        }
     }
     public function rollbackTukang($id)
     {
