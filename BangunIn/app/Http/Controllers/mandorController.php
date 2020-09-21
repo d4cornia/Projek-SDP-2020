@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\jenis_tukang;
+use App\fotopekerjaan;
+use App\pekerjaan_khusus;
+use App\client;
 use App\mandor;
 use App\kontraktor;
 use App\administrator;
@@ -861,15 +864,69 @@ class mandorController extends Controller
     }
     public function lihatHistoryPekerjaan()
     {
+
+
         $pekerjaan = new pekerjaan();
         $pekerjaan = $pekerjaan->where('kode_mandor',session()->get('kode'))
                                 ->where('status_selesai',1)
                                 ->get();
         $param["pekerjaan"] = $pekerjaan;
+
         return view('mandor.List.listHistoryPekerjaan')->with($param);
     }
     public function selesaiProject($id)
     {
-        return view('mandor.Detail.selesaiProject');
+        $param["id"] = $id;
+        return view('mandor.Detail.selesaiProject')->with($param);
+    }
+    public function finishWork(Request $req){
+        $id = decrypt($req->id);
+        $pekerjaan = new pekerjaan();
+        $pekerjaan->finishWork($id);
+        $files = $req->file('bukti');
+        $f = new fotopekerjaan();
+        foreach($files as $file){
+            $name = $file->getClientOriginalName();
+            $f->uploadFoto($name,$id);
+            $file->move(public_path('\assets\bukti_pekerjaan'), $file->getClientOriginalName());
+        }
+        redirect('/mandor/lihatPekerjaan');
+    }
+    public function detailWork($id)
+    {
+        $f = new fotopekerjaan();
+        $p = new pekerjaan();
+        $pk = new pekerjaan_khusus();
+        $c = new client();
+        $m = new mandor();
+        $a = new administrator();
+        $pekerjaan = new pekerjaan();
+        $pekerjaan = $pekerjaan->where('kode_pekerjaan',decrypt($id))
+                   ->get();
+        $data = [
+            'title' => 'Detail Pekerjaan',
+            'work' => $p->getWork(decrypt($id)),
+            'listClient' => $c->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_client', 0)
+                ->get(),
+            'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_mandor', 0)
+                ->get(),
+            'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_admin', 0)
+                ->get(),
+            'listSpWork' => $pk->where('kode_pekerjaan', decrypt($id))
+                ->where('status_delete_pk', 0)
+                ->get(),
+            'listDelSpWork' => $pk->where('kode_pekerjaan', decrypt($id))
+                ->where('status_delete_pk', 1)
+                ->get(),
+            'listFoto' => $f->where('kode_pekerjaan', decrypt($id))
+                ->get(),
+            'status'=>$pekerjaan[0]->status_selesai
+        ];
+        session()->put('listSpWorkAwal', $pk->where('kode_pekerjaan', decrypt($id))
+                 ->get());
+        return view('mandor.Detail.detailWork', $data);
     }
 }

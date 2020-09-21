@@ -87,6 +87,12 @@ class pekerjaan extends Model
         $p->status_delete_pekerjaan = 1;
         $p->save();
     }
+    public function finishWork($id)
+    {
+        $p = $this->find($id);
+        $p->status_selesai = 1;
+        $p->save();
+    }
 
     public function hardDelete($name)
     {

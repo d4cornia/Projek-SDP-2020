@@ -156,8 +156,9 @@ Route::group(['prefix' => 'mandor'], function () {
         Route::get('/lihatPekerjaan', "mandorController@lihatPekerjaan");
         Route::get('/lihatHistoryPekerjaan', "mandorController@lihatHistoryPekerjaan");
 
-        Route::get('/detWork/{id?}', "kontraktorController@detailWork");
+        Route::get('/detWork/{id?}', "mandorController@detailWork");
         Route::get('/sProject/{id?}', "mandorController@selesaiProject");
+        Route::post('/finishWork', "mandorController@finishWork");
 });
 
 //tukang

@@ -1,4 +1,5 @@
-@extends('kontraktor.navbar')
+@extends('mandor.navbar')
+
 @section('content')
 <h1 id="judul">Ubah Data Pekerjaan</h1>
 <form method="POST" action="/kontraktor/updWork" class="option needs-validation" novalidate>
@@ -62,6 +63,38 @@
         </div>
     </div>
     <hr class="option">
+
+    @if(session()->get('status')=="mandor"&&$status==1)
+        <div class="col-12">
+            <label class="mb-2">Bukti Project Selesai</label>
+            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+                <div class="carousel-inner">
+                    @php $i=0; @endphp
+                    @foreach ($listFoto as $item)
+                        @if($i==0)
+                            <div class="carousel-item active">
+                                <img src="/assets/bukti_pekerjaan/{{$item->nama_foto}}" class="d-block w-100" alt="...">
+                            </div>
+                        @else
+                            <div class="carousel-item">
+                                <img src="/assets/bukti_pekerjaan/{{$item->nama_foto}}" class="d-block w-100" alt="...">
+                            </div>
+                            @php $i++; @endphp
+                        @endif
+                    @endforeach
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    @endif
+
     <div class="form-group">
         <label for="name">Nama Perkejaan</label>
         <input type="text" class="form-control" name="name" id="name" value="{{$work[0]['nama_pekerjaan']}}">
@@ -150,9 +183,15 @@
         @enderror
     </div>
     <input type="hidden" name="id" value="{{ $work[0]['kode_pekerjaan'] }}">
-    <a href="/kontraktor/lWork" class="btn btn-secondary">Kembali</a>
-    <button type="submit" class="btn btn-primary">Ubah</button>
-
+    @if($status==0)
+        <a href="/mandor/lihatPekerjaan" class="btn btn-secondary">Kembali </a>
+    @else
+        <a href="/mandor/lihatHistoryPekerjaan" class="btn btn-secondary">Kembali</a>
+    @endif
 </form>
-
+    <script>
+        $('#judul').html('Detail Pekerjaan');
+        $('.form-control').attr('disabled',"");
+        $('.custom-select').attr('disabled',"");
+    </script>
 @endsection
