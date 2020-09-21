@@ -62,4 +62,11 @@ class bon_tukang extends Model
         $bt->status_delete_bon = 1;
         $bt->save();
     }
+    public function cekMasihadaBon($id)
+    {
+        $ada = $this::where('kode_tukang',$id)
+                ->where('sisa_bon','<>',0)
+                ->count();
+        return $ada;
+    }
 }
