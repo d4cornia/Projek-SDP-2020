@@ -420,6 +420,7 @@ class kontraktorController extends Controller
                     ->where('status_delete_mandor', 0)->get(),
                 'del' => 'Berhasil menghapus data mandor'
             ];
+            return view('kontraktor.List.listMandor', $data);
         }
 
         $data = [
@@ -602,6 +603,7 @@ class kontraktorController extends Controller
                     ->where('status_delete_admin', 0)->get(),
                 'del' => 'Berhasil menghapus data admin'
             ];
+            return view('kontraktor.List.listAdmin', $data);
         }
 
         $data = [

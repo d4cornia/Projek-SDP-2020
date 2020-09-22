@@ -93,6 +93,7 @@ class administrator extends Model
     {
         $p = new pekerjaan();
         $cek = $p->where('kode_admin', $id)
+            ->where('status_delete_pekerjaan', 0)
             ->where('kode_kontraktor', session()->get('kode'))
             ->get();
         if (count($cek) > 0) {
