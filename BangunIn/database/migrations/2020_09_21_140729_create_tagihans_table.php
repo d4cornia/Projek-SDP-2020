@@ -18,6 +18,7 @@ class CreateTagihansTable extends Migration
             $table->integer('kode_pekerjaan')->unsigned();
             $table->foreign('kode_pekerjaan')->references('kode_pekerjaan')->on('pekerjaans');
             $table->date('tanggal_pembayan_client');
+            $table->integer('sisa_tagihan');
         });
     }
 
