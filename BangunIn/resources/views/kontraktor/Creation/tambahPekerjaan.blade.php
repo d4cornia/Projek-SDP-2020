@@ -75,12 +75,14 @@
         <div class="my-1">
             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="nc" id="nc">
                 <option selected>-</option>
-                @foreach ($listClient as $item)
-                    <option value="{{$item}}" @isset($bef) @if ($bef['nc'] == $item)
-                            selected
-                        @endif
-                    @endisset @if(old('nc') == $item) selected @endif>{{$item}}</option>
-                @endforeach
+                @isset($listClient)
+                    @foreach ($listClient as $item)
+                        <option value="{{$item}}" @isset($bef) @if ($bef['nc'] == $item)
+                                selected
+                            @endif
+                        @endisset @if(old('nc') == $item) selected @endif>{{$item}}</option>
+                    @endforeach
+                @endisset
             </select>
         </div>
     </div>
@@ -89,12 +91,14 @@
         <div class="my-1">
             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="nm" id="nm">
                 <option selected>-</option>
-                @foreach ($listMandor as $item)
-                    <option value="{{$item['username_mandor']}}" @isset($bef) @if ($bef['nm'] == $item['username_mandor'])
-                            selected
-                        @endif
-                    @endisset @if(old('nm') == $item['username_mandor']) selected @endif>{{$item['nama_mandor'].' - '.$item['username_mandor']}}</option>
-                @endforeach
+                @isset($listMandor)
+                    @foreach ($listMandor as $item)
+                        <option value="{{$item['username_mandor']}}" @isset($bef) @if ($bef['nm'] == $item['username_mandor'])
+                                selected
+                            @endif
+                        @endisset @if(old('nm') == $item['username_mandor']) selected @endif>{{$item['nama_mandor'].' - '.$item['username_mandor']}}</option>
+                    @endforeach
+                @endisset
             </select>
         </div>
     </div>
@@ -103,12 +107,14 @@
         <div class="my-1">
             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="na" id="na">
                 <option selected>-</option>
-                @foreach ($listAdmin as $item)
-                    <option value="{{$item['username_admin']}}" @isset($bef) @if ($bef['na'] == $item['username_admin'])
-                            selected
-                        @endif
-                    @endisset @if(old('na') == $item['username_admin']) selected @endif>{{$item['nama_admin'].' - '.$item['username_admin']}}</option>
-                @endforeach
+                @isset($listAdmin)
+                    @foreach ($listAdmin as $item)
+                        <option value="{{$item['username_admin']}}" @isset($bef) @if ($bef['na'] == $item['username_admin'])
+                                selected
+                            @endif
+                        @endisset @if(old('na') == $item['username_admin']) selected @endif>{{$item['nama_admin'].' - '.$item['username_admin']}}</option>
+                    @endforeach
+                @endisset
             </select>
         </div>
     </div>
