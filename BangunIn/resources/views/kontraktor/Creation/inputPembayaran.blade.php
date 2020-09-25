@@ -37,6 +37,7 @@
         </div>
         @enderror
     </div>
+    <input type="hidden" name="kodejenis" class="kodejenis">
     <div class="form-group">
         <label for="exampleInputEmail1">Waktu Pembayaran</label>
         <input type="date" id="birthdaytime" name="waktuPembayaran" class="form-control">
@@ -80,6 +81,22 @@
                     success:function(result){
                         $(".isiPekerjaan").html("");
                         $(".isiPekerjaan").html(result);
+                    }
+                })
+            }
+        });
+        $('.isiPekerjaan').change(function () {
+            if($(this).val()!= '')
+            {
+                var value = $(this).val();
+                var _token=$('input[name="_token"]').val();
+                $.ajax({
+                    url:"{{route('cb.fetch1')}}",
+                    method:"POST",
+                    data:{value:value,_token:_token},
+                    success:function(result){
+                        $(".kodejenis").html("");
+                        $(".kodejenis").val(result);
                     }
                 })
             }

@@ -1,6 +1,7 @@
 @extends('kontraktor.navbar')
 
 @section('content')
+<a href="/kontraktor/addClient" class="btn btn-primary">Tambah Client</a><br><br>
     @if (count($listClients) > 0)
         <div class="table-responsive">
             <table id="tabel-client" class="table table-bordered table-striped">

@@ -19,6 +19,7 @@ use App\Rules\cekCpass;
 use App\Rules\cekNpass;
 use App\Rules\cekNamaWork;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class kontraktorController extends Controller
@@ -200,30 +201,50 @@ class kontraktorController extends Controller
         return view('kontraktor.Creation.inputPembayaran', $data);
     }
 
+    public function getKode(Request $request)
+    {
+
+        $value = $request->get('value');
+        $b = new pekerjaan();
+        $hasil = $b->selectJenis($value);
+        foreach ($hasil as $value) {
+            echo $value;
+        }
+    }
+
     public function bayar(Request $req)
     {
-        $req->validate([
-            'pekerjaan' => 'required',
-            'namaClient' => 'required|string',
-            'waktuPembayaran' => 'required',
-            'total' => 'required|numeric'
-        ], [
-            'pekerjaan.required' => 'Harus pilih pekerjaan!',
-            'namaClient.required' => 'Pilih nama client!',
-            'namaClient.string' => 'Kolom nama hanya bisa di isi huruf!',
-            'waktuPembayaran.required' => 'Pilih tanggal pembayaran!',
-            'total.required' => 'Total harus diisi!',
-            'total.numeric' => 'Total harus diisi angka!'
-        ]);
+        $jenis = $req->input('kodejenis');
+        if($jenis == 0)
+        {
 
-        $data = [
-            'pekerjaan_kode' => $req->input('pekerjaan'),
-            'client_kode' => $req->input('namaClient'),
-            'waktu' => $req->input('waktuPembayaran'),
-            'total' => $req->input('total')
-        ];
-        $b = new pembayaran_client();
-        $b->insertPembayaran($data);
+        }
+        else{
+            $req->validate([
+                'pekerjaan' => 'required',
+                'namaClient' => 'required|string',
+                'waktuPembayaran' => 'required',
+                'total' => 'required|numeric'
+            ], [
+                'pekerjaan.required' => 'Harus pilih pekerjaan!',
+                'namaClient.required' => 'Pilih nama client!',
+                'namaClient.string' => 'Kolom nama hanya bisa di isi huruf!',
+                'waktuPembayaran.required' => 'Pilih tanggal pembayaran!',
+                'total.required' => 'Total harus diisi!',
+                'total.numeric' => 'Total harus diisi angka!'
+            ]);
+
+            $data = [
+                'pekerjaan_kode' => $req->input('pekerjaan'),
+                'client_kode' => $req->input('namaClient'),
+                'waktu' => $req->input('waktuPembayaran'),
+                'total' => $req->input('total')
+            ];
+
+            $b = new pembayaran_client();
+            $b->insertPembayaran($data);
+        }
+
     }
 
     public function addClient()

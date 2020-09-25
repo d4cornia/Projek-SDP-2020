@@ -105,4 +105,10 @@ class pekerjaan extends Model
         $p->status_delete_pekerjaan = 0;
         $p->save();
     }
+
+    public function selectJenis($value)
+    {
+        return $this::where('kode_pekerjaan', $value)->pluck('jenis_pekerjaan');
+    }
+
 }
