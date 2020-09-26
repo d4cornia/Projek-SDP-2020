@@ -17,17 +17,17 @@
               </thead>
               <tbody id="">
                 @foreach ($listDataTagihan as $item)
-                        <tr>
-                            <th scope="row">{{$loop->iteration}}</th>
-                            <td>{{$item->kode_pekerjaan}}</td>
-                            <td>{{$item->tanggal_tagihan}}</td>
-                            <td>Rp. {{number_format($item->jumlah_tagihan)}}</td>
-                            <td>Rp. {{number_format($item->sisa_tagihan)}}</td>
-                            <td>
-                                <a href="" class="btn btn-success">Detail</a>
-                                <a href="" class="btn btn-danger delete">Hapus</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <th scope="row">{{$loop->iteration}}</th>
+                        <td>{{$item->kode_pekerjaan}}</td>
+                        <td>{{$item->tanggal_tagihan}}</td>
+                        <td>Rp. {{number_format($item->jumlah_tagihan)}}</td>
+                        <td>Rp. {{number_format($item->sisa_tagihan)}}</td>
+                        <td>
+                            <a href="" class="btn btn-success">Detail</a>
+                            <a href="" class="btn btn-danger delete">Hapus</a>
+                        </td>
+                    </tr>
                 @endforeach
               </tbody>
               <tfoot>
