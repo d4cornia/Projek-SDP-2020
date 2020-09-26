@@ -26,6 +26,8 @@
             <a class="dropdown-item" href="/kontraktor/show">Input Pembayaran Client</a>
             <a class="dropdown-item" href="/kontraktor/listPembayaran">List Pembayaran Client</a>
             <a class="dropdown-item" href="/kontraktor/listDeleteClient">List Delete Client</a>
+            <a class="dropdown-item" href="/kontraktor/inputTagihan">Input Tagihan</a>
+            <a class="dropdown-item" href="/kontraktor/listTagihan">List Tagihan</a>
         </div>
     </div>
 

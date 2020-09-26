@@ -111,4 +111,9 @@ class pekerjaan extends Model
         return $this::where('kode_pekerjaan', $value)->pluck('jenis_pekerjaan');
     }
 
+    public function selectPekerjaanFix()
+    {
+        return $this::where('jenis_pekerjaan', 0)->get();
+    }
+
 }

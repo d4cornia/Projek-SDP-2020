@@ -22,7 +22,7 @@
                             <td>{{$item->nama_pekerjaan}}</td>
                             <td>{{$item->nama_client}}</td>
                             <td>{{$item->tanggal_pembayan_client}}</td>
-                            <td>{{$item->jumlah_pembayaran_client}}</td>
+                            <td>Rp. {{number_format($item->jumlah_pembayaran_client)}}</td>
                             <td>
                                 <a href="/kontraktor/detClient/" class="btn btn-success">Detail</a>
                                 {{-- <a href="/kontraktor/delClient/" class="btn btn-danger delete">Hapus</a> --}}

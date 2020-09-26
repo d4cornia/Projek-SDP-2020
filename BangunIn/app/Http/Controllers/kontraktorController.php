@@ -18,6 +18,7 @@ use App\Rules\cbRequired;
 use App\Rules\cekCpass;
 use App\Rules\cekNpass;
 use App\Rules\cekNamaWork;
+use App\tagihan;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -212,11 +213,90 @@ class kontraktorController extends Controller
         }
     }
 
+    public function menuTagihan()
+    {
+        $b = new pekerjaan();
+        $data = [
+            "title" => "Input Tagihan",
+            "listDataPekerjaanFix" => $b->selectPekerjaanFix()
+        ];
+        return view('kontraktor.Creation.tagihan',$data);
+    }
+
+    public function storeTagihan(Request $req)
+    {
+        $req->validate([
+            'pekerjaan' => 'required',
+            'waktuTagihan' => 'required',
+            'jumlah' => 'required|numeric',
+            'sisa' => 'required|numeric'
+        ], [
+            'pekerjaan.required' => 'Harus pilih pekerjaan!',
+            'waktuPembayaran.required' => 'Pilih tanggal pembayaran!',
+            'jumlah.required' => 'Jumlah harus diisi!',
+            'jumlah.numeric' => 'Jumlah harus diisi angka!',
+            'sisa.required' => 'Sisa harus diisi!',
+            'sisa.numeric' => 'Sisa harus diisi angka!'
+        ]);
+
+        $data = [
+            'pekerjaan_kode' => $req->input('pekerjaan'),
+            'waktu' => $req->input('waktuTagihan'),
+            'jumlah' => $req->input('jumlah'),
+            'sisa' => $req->input('sisa')
+        ];
+        $b = new tagihan();
+        $b->insertTagihan($data);
+    }
+
+    public function showListTagihan()
+    {
+        $b = new tagihan();
+        $data = [
+            'title' => 'Data Tagihan',
+            'listDataTagihan' => $b->getDataTagihan()
+        ];
+        return view('kontraktor.List.listTagihan',$data);
+    }
+
     public function bayar(Request $req)
     {
         $jenis = $req->input('kodejenis');
+        $get = $req->input('pekerjaan');
+        $uang = $req->input('total');
         if($jenis == 0)
         {
+            $req->validate([
+                'pekerjaan' => 'required',
+                'namaClient' => 'required|string',
+                'waktuPembayaran' => 'required',
+                'total' => 'required|numeric'
+            ], [
+                'pekerjaan.required' => 'Harus pilih pekerjaan!',
+                'namaClient.required' => 'Pilih nama client!',
+                'namaClient.string' => 'Kolom nama hanya bisa di isi huruf!',
+                'waktuPembayaran.required' => 'Pilih tanggal pembayaran!',
+                'total.required' => 'Total harus diisi!',
+                'total.numeric' => 'Total harus diisi angka!'
+            ]);
+
+            $data = [
+                'pekerjaan_kode' => $req->input('pekerjaan'),
+                'client_kode' => $req->input('namaClient'),
+                'waktu' => $req->input('waktuPembayaran'),
+                'total' => $req->input('total'),
+                'error' => 0
+            ];
+
+            $b = new pembayaran_client();
+            $b->insertPembayaran($data);
+            $c = new tagihan();
+            $sisa = $c->getSisaTagihan($get);
+
+            foreach ($sisa as $value) {
+                $sisaBaru = $value - $uang;
+                $c->updateTagihan($get,$sisaBaru);
+            }
 
         }
         else{
@@ -238,7 +318,8 @@ class kontraktorController extends Controller
                 'pekerjaan_kode' => $req->input('pekerjaan'),
                 'client_kode' => $req->input('namaClient'),
                 'waktu' => $req->input('waktuPembayaran'),
-                'total' => $req->input('total')
+                'total' => $req->input('total'),
+                'error' => 0
             ];
 
             $b = new pembayaran_client();
