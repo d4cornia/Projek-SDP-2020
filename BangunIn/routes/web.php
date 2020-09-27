@@ -28,7 +28,7 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/rMandor', 'kontraktorController@indexRegisterMandor');
     Route::get('/rAdmin', 'kontraktorController@indexRegisterAdmin');
     Route::get('/aWork', 'kontraktorController@indexAddWork');
-    Route::get('/aSpWork', 'kontraktorController@indexAddSpecialWork');
+    Route::get('/aSpWork/{n?}', 'kontraktorController@indexAddSpecialWork');
 
     //list
     Route::get('/lMandor', 'kontraktorController@indexListMandor');
@@ -156,15 +156,15 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::post('/tabelBayar', 'mandorController@batalBayar');
     Route::post('/simpanBayarBon', 'mandorController@simpanPembayaran');
     Route::get('/detailPembayaranBon/{n?}', 'mandorController@detailPembayaranBon');
-    Route::get('/lihatRincianPembayaran','mandorController@rincianPembayaran');
-    Route::post('/filterRincianBon','mandorController@filterRincianBon');
-        //selesain pekerjaan
-        Route::get('/lihatPekerjaan', "mandorController@lihatPekerjaan");
-        Route::get('/lihatHistoryPekerjaan', "mandorController@lihatHistoryPekerjaan");
+    Route::get('/lihatRincianPembayaran', 'mandorController@rincianPembayaran');
+    Route::post('/filterRincianBon', 'mandorController@filterRincianBon');
+    //selesain pekerjaan
+    Route::get('/lihatPekerjaan', "mandorController@lihatPekerjaan");
+    Route::get('/lihatHistoryPekerjaan', "mandorController@lihatHistoryPekerjaan");
 
-        Route::get('/detWork/{id?}', "mandorController@detailWork");
-        Route::get('/sProject/{id?}', "mandorController@selesaiProject");
-        Route::post('/finishWork', "mandorController@finishWork");
+    Route::get('/detWork/{id?}', "mandorController@detailWork");
+    Route::get('/sProject/{id?}', "mandorController@selesaiProject");
+    Route::post('/finishWork', "mandorController@finishWork");
 });
 
 //tukang

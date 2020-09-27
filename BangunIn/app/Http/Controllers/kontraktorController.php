@@ -226,7 +226,7 @@ class kontraktorController extends Controller
             "title" => "Input Tagihan",
             "listDataPekerjaanFix" => $b->selectPekerjaanFix()
         ];
-        return view('kontraktor.Creation.tagihan',$data);
+        return view('kontraktor.Creation.tagihan', $data);
     }
 
     public function storeTagihan(Request $req)
@@ -261,7 +261,7 @@ class kontraktorController extends Controller
             'title' => 'Data Tagihan',
             'listDataTagihan' => $b->getDataTagihan()
         ];
-        return view('kontraktor.List.listTagihan',$data);
+        return view('kontraktor.List.listTagihan', $data);
     }
 
     public function bayar(Request $req)
@@ -303,9 +303,7 @@ class kontraktorController extends Controller
                 $sisaBaru = $value - $uang;
                 $c->updateTagihan($get,$sisaBaru,$idtagihan);
             }
-
-        }
-        else{
+        } else {
             $req->validate([
                 'pekerjaan' => 'required',
                 'namaClient' => 'required|string',
@@ -331,7 +329,6 @@ class kontraktorController extends Controller
             $b = new pembayaran_client();
             $b->insertPembayaran($data);
         }
-
     }
 
     public function addClient()
@@ -375,7 +372,7 @@ class kontraktorController extends Controller
                 ->where('status_delete_client', 0)->get()
         ];
         return view('kontraktor.List.listClient', $data);
-    }
+    }3
 
     public function listPembayaranClient()
     {
@@ -1250,12 +1247,16 @@ class kontraktorController extends Controller
         return view('kontraktor.List.listSpecialWork', $data);
     }
 
-    public function indexAddSpecialWork()
+    public function indexAddSpecialWork($kode_pekerjaan)
     {
         $p = new pekerjaan();
         $data = [
             'title' => 'Tambah Pekerjaan Khusus',
             'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get(),
+            'work' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('kode_pekerjaan', $kode_pekerjaan)
                 ->where('status_delete_pekerjaan', 0)
                 ->get()
         ];
@@ -1280,6 +1281,10 @@ class kontraktorController extends Controller
         $data = [
             'title' => 'Tambah Pekerjaan Khusus',
             'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get(),
+            'work' => $p->where('kode_kontraktor', session()->get('kode'))
+                ->where('kode_pekerjaan', $req->kode_pekerjaan)
                 ->where('status_delete_pekerjaan', 0)
                 ->get(),
             'error' => 0
