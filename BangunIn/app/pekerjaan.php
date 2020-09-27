@@ -50,6 +50,7 @@ class pekerjaan extends Model
         $this->jenis_pekerjaan = $request->input('type'); // 0 = dp, 1 = komisi
         $this->harga_deal = $request->input('dealPrice');
         $this->status_selesai = '0';
+        $this->status_lunas = '0';
         $this->status_delete_pekerjaan = '0';
         $this->save();
         $kode = $this::where('nama_pekerjaan', $request->input('name'))->pluck('kode_pekerjaan');

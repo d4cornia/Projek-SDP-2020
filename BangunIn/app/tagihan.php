@@ -12,20 +12,23 @@ class tagihan extends Model
     public function insertTagihan($data)
     {
         $this->kode_pekerjaan = $data['pekerjaan_kode'];
+        $this->keterangan = $data['keterangan'];
         $this->tanggal_tagihan = $data['waktu'];
         $this->jumlah_tagihan = $data['jumlah'];
+        $this->status_lunas = 0;
         $this->sisa_tagihan = $data['sisa'];
         $this->save();
     }
 
-    public function getSisaTagihan($kode_pekerjaan)
+    public function getSisaTagihan($kode_pekerjaan, $idTagihan)
     {
-        return $this::where('kode_pekerjaan', $kode_pekerjaan)->pluck('sisa_tagihan');
+        return $this::where('kode_pekerjaan', $kode_pekerjaan)
+                    ->where('id_tagihan', $idTagihan)->pluck('sisa_tagihan');
     }
 
-    public function updateTagihan($kode_pekerjaan,$sisaBaru)
+    public function updateTagihan($kode_pekerjaan,$sisaBaru,$idtagihan)
     {
-        $c = $this->find($kode_pekerjaan);
+        $c = $this->find($idtagihan);
         $c->sisa_tagihan = $sisaBaru;
         $c->save();
     }
@@ -33,5 +36,10 @@ class tagihan extends Model
     public function getDataTagihan()
     {
         return tagihan::select('*')->get();
+    }
+
+    public function getTagihan($value)
+    {
+        return tagihan::where('kode_pekerjaan',$value)->get();
     }
 }

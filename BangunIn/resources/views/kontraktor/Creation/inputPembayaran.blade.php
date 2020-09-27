@@ -25,7 +25,7 @@
     <div class="form-group">
         <label for="exampleInputEmail1">Pekerjaan</label>
         {{-- <input type="text" class="form-control" name="handphoneNumber" value="" required> --}}
-        <select name="pekerjaan" id="" class="form-control isiPekerjaan">
+        <select name="pekerjaan" id="isiPekerjaan" class="form-control isiPekerjaan">
 
         </select>
         <div class="invalid-feedback">
@@ -37,12 +37,43 @@
         </div>
         @enderror
     </div>
+    <label for="exampleInputEmail1">Tipe Pekerjaan</label>
+    <div class="radio" style="display: flex">
+        <div class="form-check" style="margin-right: 2vw;">
+            <input class="form-check-input" type="radio" name="radio" id="fix" value="0" checked>
+            <label class="form-check-label" for="exampleRadios1">
+              Harga Fix di Depan
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="radio" id="komisi" value="1">
+            <label class="form-check-label" for="exampleRadios2">
+              Komisi
+            </label>
+          </div>
+    </div><br>
+    <div class="form-group">
+        <label for="exampleInputEmail1">List Tagihan Fix</label>
+        {{-- <input type="text" class="form-control" name="handphoneNumber" value="" required> --}}
+        <select name="tagihan" id="tagihan" class="form-control isiTagihan">
+
+        </select>
+        <div class="invalid-feedback">
+            Kolom tagihan belum diisi!
+        </div>
+        @error('tagihan')
+        <div class="err">
+            {{$message}}
+        </div>
+        @enderror
+    </div>
+
     <input type="hidden" name="kodejenis" class="kodejenis">
     <div class="form-group">
         <label for="exampleInputEmail1">Waktu Pembayaran</label>
         <input type="date" id="birthdaytime" name="waktuPembayaran" class="form-control">
         <div class="invalid-feedback">
-            Kolom nomor telepon belum di isi!
+            Kolom waktu pembayaran belum di isi!
         </div>
         @error('waktuPembayaran')
         <div class="err">
@@ -55,7 +86,7 @@
         <label for="exampleInputEmail1">Total</label>
         <input type="text" class="form-control" name="total" value="" required>
         <div class="invalid-feedback">
-            Kolom nomor telepon belum di isi!
+            Kolom total belum di isi!
         </div>
         @error('total')
         <div class="err">
@@ -86,20 +117,42 @@
             }
         });
         $('.isiPekerjaan').change(function () {
-            if($(this).val()!= '')
+            // if($(this).val()!= '')
+            // {
+            //     var value = $(this).val();
+            //     var _token=$('input[name="_token"]').val();
+            //     $.ajax({
+            //         url:"{{route('cb.fetch1')}}",
+            //         method:"POST",
+            //         data:{value:value,_token:_token},
+            //         success:function(result){
+            //             $(".kodejenis").html("");
+            //             $(".kodejenis").val(result);
+            //         }
+            //     })
+            // }
+        });
+        $("#fix").click(function () {
+            $("#tagihan").prop('disabled', false);
+            if($("#isiPekerjaan").val()!= '')
             {
-                var value = $(this).val();
+                var value = $("#isiPekerjaan").val();
                 var _token=$('input[name="_token"]').val();
                 $.ajax({
                     url:"{{route('cb.fetch1')}}",
                     method:"POST",
                     data:{value:value,_token:_token},
                     success:function(result){
-                        $(".kodejenis").html("");
-                        $(".kodejenis").val(result);
+                        // $(".kodejenis").html("");
+                        // $(".kodejenis").val(result);
+                        $(".isiTagihan").html("");
+                        $(".isiTagihan").html(result);
                     }
                 })
             }
+        });
+        $("#komisi").click(function () {
+            $("#tagihan").prop('disabled',true);
         });
     })
 </script>

@@ -15,11 +15,13 @@ class CreateTagihansTable extends Migration
     {
         Schema::create('tagihans', function (Blueprint $table) {
             $table->integerIncrements('id_tagihan');
+            $table->string('keterangan');
             $table->integer('kode_pekerjaan')->unsigned();
             $table->foreign('kode_pekerjaan')->references('kode_pekerjaan')->on('pekerjaans');
             $table->date('tanggal_tagihan');
             $table->integer('jumlah_tagihan');
             $table->integer('sisa_tagihan');
+            $table->string('status_lunas',1);
         });
     }
 

@@ -206,11 +206,17 @@ class kontraktorController extends Controller
     {
 
         $value = $request->get('value');
-        $b = new pekerjaan();
-        $hasil = $b->selectJenis($value);
-        foreach ($hasil as $value) {
-            echo $value;
+        $b = new tagihan();
+        $data = $b->getTagihan($value);
+        // $hasil = $b->selectJenis($value);
+        // foreach ($hasil as $value) {
+        //     echo $value;
+        // }
+        $output = "<option value=''>-</option>";
+        foreach ($data as $row) {
+            $output .= "<option value='" . $row->id_tagihan . "'>" . $row->keterangan . "</option>";
         }
+        echo $output;
     }
 
     public function menuTagihan()
@@ -226,24 +232,23 @@ class kontraktorController extends Controller
     public function storeTagihan(Request $req)
     {
         $req->validate([
+            'keterangan' => 'required',
             'pekerjaan' => 'required',
             'waktuTagihan' => 'required',
-            'jumlah' => 'required|numeric',
-            'sisa' => 'required|numeric'
+            'jumlah' => 'required|numeric'
         ], [
             'pekerjaan.required' => 'Harus pilih pekerjaan!',
             'waktuPembayaran.required' => 'Pilih tanggal pembayaran!',
             'jumlah.required' => 'Jumlah harus diisi!',
-            'jumlah.numeric' => 'Jumlah harus diisi angka!',
-            'sisa.required' => 'Sisa harus diisi!',
-            'sisa.numeric' => 'Sisa harus diisi angka!'
+            'jumlah.numeric' => 'Jumlah harus diisi angka!'
         ]);
 
         $data = [
+            'keterangan' => $req->input('keterangan'),
             'pekerjaan_kode' => $req->input('pekerjaan'),
             'waktu' => $req->input('waktuTagihan'),
             'jumlah' => $req->input('jumlah'),
-            'sisa' => $req->input('sisa')
+            'sisa' => $req->input('jumlah')
         ];
         $b = new tagihan();
         $b->insertTagihan($data);
@@ -261,9 +266,10 @@ class kontraktorController extends Controller
 
     public function bayar(Request $req)
     {
-        $jenis = $req->input('kodejenis');
+        $jenis = $req->input('radio');
         $get = $req->input('pekerjaan');
         $uang = $req->input('total');
+        $idtagihan = $req->input('tagihan');
         if($jenis == 0)
         {
             $req->validate([
@@ -291,11 +297,11 @@ class kontraktorController extends Controller
             $b = new pembayaran_client();
             $b->insertPembayaran($data);
             $c = new tagihan();
-            $sisa = $c->getSisaTagihan($get);
+            $sisa = $c->getSisaTagihan($get,$idtagihan);
 
             foreach ($sisa as $value) {
                 $sisaBaru = $value - $uang;
-                $c->updateTagihan($get,$sisaBaru);
+                $c->updateTagihan($get,$sisaBaru,$idtagihan);
             }
 
         }
