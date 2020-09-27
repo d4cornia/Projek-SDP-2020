@@ -2,7 +2,11 @@
 
 @section('content')
     @if (count($listAdmin) > 0)
-        <h1>Daftar Admin</h1>
+    <h1>Daftar Admin</h1>
+        <div class="option" style="float: right; margin:5px 0px 40px 0px;">
+            <a class="btn btn-primary"  href="/kontraktor/rAdmin">Tambah Admin</a>
+            <a class="btn btn-secondary" href="/kontraktor/sDelAdmin">Lihat Admin Yang Dihapus</a>
+        </div>
         <div class="table-responsive">
             <table id="tabel-admin" class="table table-bordered table-striped">
               <thead>
@@ -44,10 +48,6 @@
                 </tr>
               </tfoot>
             </table>
-            </div>
-            <div class="option">
-                <a class="btn btn-primary"  href="/kontraktor/rAdmin">Tambah Admin</a>
-                <a class="btn btn-secondary" href="/kontraktor/sDelAdmin">Lihat Admin Yang Dihapus</a>
             </div>
     @else
         <h1>Tidak Ada Admin!</h1>

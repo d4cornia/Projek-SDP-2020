@@ -9,7 +9,9 @@
             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="kode" id="kode">
                 <option selected>-</option>
                 @foreach ($listWork as $item)
-                    <option value="{{$item['kode_pekerjaan']}}">{{$item['nama_pekerjaan']}}</option>
+                    <option value="{{$item['kode_pekerjaan']}}" @if ($work[0]['nama_pekerjaan'] == $item['nama_pekerjaan'])
+                        selected
+                    @endif>{{$item['nama_pekerjaan']}}</option>
                 @endforeach
             </select>
             @error('kode')
@@ -21,7 +23,7 @@
     </div>
     <div class="form-group">
         <label for="ketPK">Keterangan Perkejaan Khusus</label>
-        <textarea class="form-control" name="ketPK" id="ketPK" value="{{old('ketPK')}}" rows="10"></textarea>
+        <textarea class="form-control" name="ketPK" id="ketPK" rows="10">{{old('ketPK')}}</textarea>
         @error('ketPK')
             <div class="err">
                 {{$message}}
@@ -37,6 +39,8 @@
             </div>
         @enderror
     </div>
+    <input type="hidden" name="kode_pekerjaan" value="{{$work[0]['kode_pekerjaan']}}">
     <button type="submit" class="btn btn-primary">Tambah</button>
+    <a class="btn btn-secondary" href="/kontraktor/iSpWork">Kembali</a>
 </form>
 @endsection

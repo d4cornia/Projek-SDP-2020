@@ -3,10 +3,14 @@
 @section('content')
     @if ($listSpWork !== null)
     <h1>Daftar Pekerjaan Khusus</h1>
-        <div class="row-first">
+    <div class="option" style="float: right; margin:5px 0px 40px 0px;">
+        <a class="btn btn-primary" href="/kontraktor/aSpWork/{{$current['kode_pekerjaan']}}">Tambah Pekerjaan Khusus</a>
+        <a class="btn btn-secondary" href="/kontraktor/sSpDelWork/{{$current['kode_pekerjaan']}}">Lihat Pekerjaan Khusus Yang Dihapus</a>
+    </div>
+        <div class="row-first" style=" margin:80px 0px 50px 0px;">
             <form action="/kontraktor/search" method="post">
                 @csrf
-                <span class="form-group">
+                <div class="form-group">
                     <label for="work">Nama Pekerjaan</label>
                     <div class="my-1">
                         <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
@@ -23,7 +27,7 @@
                         </div>
                         @enderror
                     </div>
-                </span>
+                </div>
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
@@ -68,11 +72,8 @@
             </table>
             </div>
         </div>
-        <div class="option">
-            <a class="btn btn-primary" href="/kontraktor/aSpWork">Tambah Pekerjaan Khusus</a>
-            <a class="btn btn-secondary" href="/kontraktor/sSpDelWork/{{$current['kode_pekerjaan']}}">Lihat Pekerjaan Khusus Yang Dihapus</a>
-        </div>
     @else
+    <h1>Daftar Pekerjaan Khusus</h1>
     <div class="row-first">
         <form action="/kontraktor/search" method="post">
             @csrf
