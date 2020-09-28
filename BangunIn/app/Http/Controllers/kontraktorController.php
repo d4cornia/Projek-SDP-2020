@@ -301,7 +301,7 @@ class kontraktorController extends Controller
 
             foreach ($sisa as $value) {
                 $sisaBaru = $value - $uang;
-                $c->updateTagihan($get,$sisaBaru,$idtagihan);
+                $c->updateTagihan($sisaBaru,$idtagihan);
             }
         } else {
             $req->validate([
@@ -372,7 +372,7 @@ class kontraktorController extends Controller
                 ->where('status_delete_client', 0)->get()
         ];
         return view('kontraktor.List.listClient', $data);
-    }3
+    }
 
     public function listPembayaranClient()
     {

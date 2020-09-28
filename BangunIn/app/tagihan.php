@@ -26,11 +26,19 @@ class tagihan extends Model
                     ->where('id_tagihan', $idTagihan)->pluck('sisa_tagihan');
     }
 
-    public function updateTagihan($kode_pekerjaan,$sisaBaru,$idtagihan)
+    public function updateTagihan($sisaBaru,$idtagihan)
     {
         $c = $this->find($idtagihan);
-        $c->sisa_tagihan = $sisaBaru;
+        if($sisaBaru <= 0)
+        {
+            $c->sisa_tagihan = $sisaBaru;
+            $c->status_lunas = 1;
+        }
+        else{
+            $c->sisa_tagihan = $sisaBaru;
+        }
         $c->save();
+
     }
 
     public function getDataTagihan()

@@ -153,6 +153,7 @@ class loginController extends Controller
         session()->forget('nama');
         session()->forget('status');
         session()->forget('listSpWork');
+        session()->forget('listSpWorkAwal');
         return redirect('/');
     }
 }
