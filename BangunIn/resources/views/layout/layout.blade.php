@@ -90,6 +90,11 @@
 
 {{-- berhasil/gagal tambah --}}
 @isset($error)
+    @if ($error == 17)
+    <script>
+        swal("Berhasil input pembayaran!", "Pembayaran komisi berhasil!","success");
+    </script>
+    @endif
     @if ($error == 16)
     <script>
         swal("Berhasil input pembayaran!", "Pembayaran berhasil!","success");

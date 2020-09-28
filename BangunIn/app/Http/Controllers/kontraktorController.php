@@ -93,6 +93,7 @@ class kontraktorController extends Controller
 
     public function showListKomisi()
     {
+
     }
 
     public function tambahTagihanDenganKode($kode_pekerjaan)
@@ -304,9 +305,19 @@ class kontraktorController extends Controller
                 'listNamaClient' => $client->getDataClient(),
                 'error' => 16
             ];
-
             $b = new pembayaran_client();
+            $d = new pekerjaan();
+            $jenisP = 0;
             $b->insertPembayaran($data);
+            $cek = $b->getSumPembayaran($get);
+            $jumlah_bayar = intval($cek);
+            $harga_deal = $d->getTotalHarga($get,$jenisP);
+            foreach ($harga_deal as $item) {
+                if($jumlah_bayar >= $item)
+                {
+                    $d->updateLunas($get);
+                }
+            }
             $c = new tagihan();
             $sisa = $c->getSisaTagihan($get, $idtagihan);
 
@@ -316,6 +327,7 @@ class kontraktorController extends Controller
                 return view('kontraktor.Creation.inputPembayaran', $data);
             }
         } else {
+            $b = new client();
             $req->validate([
                 'pekerjaan' => 'required',
                 'namaClient' => 'required|string',
@@ -335,11 +347,13 @@ class kontraktorController extends Controller
                 'client_kode' => $req->input('namaClient'),
                 'waktu' => $req->input('waktuPembayaran'),
                 'total' => $req->input('total'),
-                'error' => 0
+                'listNamaClient' => $b->getDataClient(),
+                'error' => 17
             ];
 
             $b = new pembayaran_client();
             $b->insertPembayaran($data);
+            return view('kontraktor.Creation.inputPembayaran', $data);
         }
     }
 

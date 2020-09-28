@@ -29,4 +29,12 @@ class pembayaran_client extends Model
         ->get();
         return $users;
     }
+
+    public function getSumPembayaran($value)
+    {
+        $sum = DB::table('pembayaran_clients')
+                    ->where('pembayaran_clients.kode_pekerjaan', '=', $value)
+                    ->sum('pembayaran_clients.jumlah_pembayaran_client');
+        return $sum;
+    }
 }

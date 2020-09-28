@@ -130,4 +130,18 @@ class pekerjaan extends Model
             ->where('kode_pekerjaan', $value)
             ->get();
     }
+
+    public function updateLunas($value)
+    {
+        $p = $this->find($value);
+        $p->status_lunas = 1;
+        $p->save();
+    }
+
+    public function getTotalHarga($kode,$jenis)
+    {
+        return $this::where('kode_pekerjaan', $kode)
+                    ->where('jenis_pekerjaan',$jenis)
+                    ->pluck('harga_deal');
+    }
 }
