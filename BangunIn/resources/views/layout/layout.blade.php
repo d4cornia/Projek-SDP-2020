@@ -91,9 +91,9 @@
 {{-- berhasil/gagal tambah --}}
 @isset($error)
     @if ($error == 16)
-        <script>
-            swal("Berhasil input pembayaran!", "Pembayaran berhasil!","success");
-        </script>
+    <script>
+        swal("Berhasil input pembayaran!", "Pembayaran berhasil!","success");
+    </script>
     @endif
     @if ($error == 15)
     <script>

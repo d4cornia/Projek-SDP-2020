@@ -93,6 +93,11 @@ class kontraktorController extends Controller
 
     //Client
 
+    public function showListKomisi()
+    {
+
+    }
+
     public function listDeleteClient()
     {
         $b = new client();

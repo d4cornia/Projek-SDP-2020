@@ -164,7 +164,6 @@
                     <tr>
                         <th scope="col">No</th>
                         <th scope="col">Tagihan ke</th>
-                        <th scope="col">Kode Pekerjaan</th>
                         <th scope="col">Jumlah Tagihan</th>
                         <th scope="col">Sisa Tagihan</th>
                         <th scope="col">Status Lunas</th>
@@ -176,7 +175,6 @@
                         <tr >
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>Tagihan ke - {{$item->keterangan}}</td>
-                            <td>{{$item->kode_pekerjaan}}</td>
                             <td>Rp. {{number_format($item->jumlah_tagihan)}}</td>
                             <td>Rp. {{number_format($item->sisa_tagihan)}}</td>
                             @if ($item->status_lunas == 0)
@@ -192,7 +190,6 @@
                     <tr>
                         <th scope="col">No</th>
                         <th scope="col">Tagihan ke</th>
-                        <th scope="col">Kode Pekerjaan</th>
                         <th scope="col">Jumlah Tagihan</th>
                         <th scope="col">Sisa Tagihan</th>
                         <th scope="col">Status Lunas</th>

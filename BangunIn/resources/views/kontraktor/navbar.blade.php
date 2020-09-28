@@ -28,6 +28,7 @@
             <a class="dropdown-item" href="/kontraktor/listDeleteClient">List Delete Client</a>
             <a class="dropdown-item" href="/kontraktor/inputTagihan">Input Tagihan</a>
             <a class="dropdown-item" href="/kontraktor/listTagihan">List Tagihan</a>
+            <a class="dropdown-item" href="/kontraktor/listKomisi">List Pembayaran Komisi</a>
         </div>
     </div>
 

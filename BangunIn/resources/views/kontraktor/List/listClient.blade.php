@@ -1,7 +1,11 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-<a href="/kontraktor/addClient" class="btn btn-primary">Tambah Client</a><br><br>
+<div class="tombol" style="float:right">
+    <a href="/kontraktor/addClient" class="btn btn-primary">Tambah Client</a>
+    <a class="btn btn-secondary" href="/kontraktor/listDeleteClient">Lihat Client Yang Dihapus</a>
+</div>
+<br><br>
     @if (count($listClients) > 0)
         <div class="table-responsive">
             <table id="tabel-client" class="table table-bordered table-striped">
