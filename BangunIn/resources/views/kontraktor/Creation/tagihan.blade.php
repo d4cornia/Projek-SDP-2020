@@ -3,38 +3,10 @@
 @section('content')
 <form method="POST" action="/kontraktor/submitTagihan" class="needs-validation" novalidate>
     @csrf
-
-    <div class="option padd">
-        <h3>List Tagihan</h3>
-        <div class="option table-responsive">
-            <table id="tabel-spWork" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Tagihan ke</th>
-                        <th scope="col">Pekerjaan</th>
-                        <th scope="col">Tanggal Tagihan</th>
-                        <th scope="col">Jumlah Tagihan</th>
-                        <th scope="col">Sisa Tagihan</th>
-                    </tr>
-                </thead>
-                <tbody id="">
-
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Tagihan ke</th>
-                        <th scope="col">Pekerjaan</th>
-                        <th scope="col">Tanggal Tagihan</th>
-                        <th scope="col">Jumlah Tagihan</th>
-                        <th scope="col">Sisa Tagihan</th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+    <div class="option" style="float: right;margin:5px 0px 40px 0px;">
+        <a class="btn btn-secondary" href="/kontraktor/listTagihan">List Tagihan</a>
     </div>
-<br>
+<br><br>
     <div class="form-group">
         <label for="exampleInputEmail1">Tagihan ke :</label>
         <input type="text" class="form-control" name="keterangan" value="" required>

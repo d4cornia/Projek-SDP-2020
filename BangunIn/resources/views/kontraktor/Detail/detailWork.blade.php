@@ -158,6 +158,7 @@
     <hr class="option">
     <div class="option padd">
         <h3>Data Tagihan</h3>
+        @if (count($listTagihan) > 0)
         <div class="option table-responsive">
             <table id="tabel-spWork" class="table table-bordered table-striped">
                 <thead>
@@ -197,7 +198,13 @@
                 </tfoot>
             </table>
         </div>
+        <a href="/kontraktor/tambahTagihan/{{ $work[0]['kode_pekerjaan'] }}" class="btn btn-primary" style="float: right;">Tambah Tagihan</a>
+        <br>
     </div>
+        @else
+    <h1>Tidak ada tagihan!</h1>
+        @endif
+
     <hr class="option">
 
 

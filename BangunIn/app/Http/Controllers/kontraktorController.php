@@ -89,13 +89,21 @@ class kontraktorController extends Controller
         return redirect('kontraktor/')->with($param);
     }
 
-
-
     //Client
 
     public function showListKomisi()
     {
 
+    }
+
+    public function tambahTagihanDenganKode($kode_pekerjaan)
+    {
+        $c = new pekerjaan();
+        $data = [
+            'title' => 'Detail Tagihan',
+            'listDataPekerjaanFix' => $c->selectPekerjaan($kode_pekerjaan)
+        ];
+        return view('kontraktor.Creation.tagihan', $data);
     }
 
     public function listDeleteClient()
@@ -569,11 +577,6 @@ class kontraktorController extends Controller
         ];
         return view('kontraktor.Deleted.deletedMandor', $data);
     }
-
-
-
-
-
 
     // Admin
 

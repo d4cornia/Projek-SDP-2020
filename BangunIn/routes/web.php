@@ -101,6 +101,7 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/edProfile', 'kontraktorController@showProfilePerusahaan');
     Route::get('/listTagihan', 'kontraktorController@showListTagihan');
     Route::get('/listKomisi', 'kontraktorController@showListKomisi');
+    Route::get('/tambahTagihan/{n?}', "kontraktorController@tambahTagihanDenganKode");
 });
 
 //mandor

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class tagihan extends Model
 {
@@ -43,12 +44,18 @@ class tagihan extends Model
 
     public function getDataTagihan()
     {
-        return tagihan::select('*')->get();
+        $users = DB::table('tagihans')
+        ->join('pekerjaans', 'tagihans.kode_pekerjaan', '=', 'pekerjaans.kode_pekerjaan')
+        ->select('tagihans.id_tagihan', 'pekerjaans.nama_pekerjaan', 'tagihans.tanggal_tagihan','tagihans.jumlah_tagihan','tagihans.sisa_tagihan')
+        ->get();
+        return $users;
     }
 
     public function getTagihan($value)
     {
         return tagihan::where('kode_pekerjaan',$value)->get();
+
+
     }
 
 }

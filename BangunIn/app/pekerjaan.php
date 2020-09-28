@@ -117,4 +117,11 @@ class pekerjaan extends Model
         return $this::where('jenis_pekerjaan', 0)->get();
     }
 
+    public function selectPekerjaan($value)
+    {
+        return $this::where('jenis_pekerjaan', 0)
+                ->where('kode_pekerjaan',$value)
+                ->get();
+    }
+
 }
