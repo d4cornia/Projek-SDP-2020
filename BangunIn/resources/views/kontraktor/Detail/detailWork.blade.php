@@ -129,8 +129,8 @@
                                     <th scope="row">{{$loop->iteration}}</th>
                                     <td>{{$item->keterangan_pk}}</td>
                                     <td>{{$item->total_bahan}}</td>
-                                    <td>{{$item->total_jasa}}</td>
-                                    <td>{{$item->total_keseluruhan}}</td>
+                                    <td>Rp. {{number_format($item->total_jasa)}}</td>
+                                    <td>Rp. {{number_format($item->total_keseluruhan)}}</td>
                                     <td>
                                         <a href="/kontraktor/rollbackSpWork/{{encrypt($item->kode_pk)}}" class="btn btn-info">Kembalikan</a>
                                     </td>
@@ -152,6 +152,58 @@
         </div>
     </div>
     <hr class="option">
+
+    {{-- Tabel isi tagihan --}}
+
+    <hr class="option">
+    <div class="option padd">
+        <h3>Data Tagihan</h3>
+        <div class="option table-responsive">
+            <table id="tabel-spWork" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Tagihan ke</th>
+                        <th scope="col">Kode Pekerjaan</th>
+                        <th scope="col">Jumlah Tagihan</th>
+                        <th scope="col">Sisa Tagihan</th>
+                        <th scope="col">Status Lunas</th>
+                    </tr>
+                </thead>
+                <tbody id="">
+                    @isset($listTagihan)
+                    @foreach ($listTagihan as $item)
+                        <tr >
+                            <th scope="row">{{$loop->iteration}}</th>
+                            <td>Tagihan ke - {{$item->keterangan}}</td>
+                            <td>{{$item->kode_pekerjaan}}</td>
+                            <td>Rp. {{number_format($item->jumlah_tagihan)}}</td>
+                            <td>Rp. {{number_format($item->sisa_tagihan)}}</td>
+                            @if ($item->status_lunas == 0)
+                                <td>Belum Lunas</td>
+                            @else
+                                <td>Lunas</td>
+                            @endif
+                            </tr>
+                    @endforeach
+                    @endisset
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Tagihan ke</th>
+                        <th scope="col">Kode Pekerjaan</th>
+                        <th scope="col">Jumlah Tagihan</th>
+                        <th scope="col">Sisa Tagihan</th>
+                        <th scope="col">Status Lunas</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <hr class="option">
+
+
     <a href="/kontraktor/lWork" class="btn btn-secondary">Kembali</a>
     <button type="submit" class="btn btn-primary">Ubah</button>
 </form>

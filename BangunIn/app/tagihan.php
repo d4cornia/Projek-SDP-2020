@@ -50,4 +50,5 @@ class tagihan extends Model
     {
         return tagihan::where('kode_pekerjaan',$value)->get();
     }
+
 }

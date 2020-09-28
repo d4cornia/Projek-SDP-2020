@@ -208,10 +208,6 @@ class kontraktorController extends Controller
         $value = $request->get('value');
         $b = new tagihan();
         $data = $b->getTagihan($value);
-        // $hasil = $b->selectJenis($value);
-        // foreach ($hasil as $value) {
-        //     echo $value;
-        // }
         $output = "<option value=''>-</option>";
         foreach ($data as $row) {
             $output .= "<option value='" . $row->id_tagihan . "'>" . $row->keterangan . "</option>";
@@ -242,16 +238,19 @@ class kontraktorController extends Controller
             'jumlah.required' => 'Jumlah harus diisi!',
             'jumlah.numeric' => 'Jumlah harus diisi angka!'
         ]);
-
+        $pe = new pekerjaan();
         $data = [
             'keterangan' => $req->input('keterangan'),
             'pekerjaan_kode' => $req->input('pekerjaan'),
             'waktu' => $req->input('waktuTagihan'),
             'jumlah' => $req->input('jumlah'),
-            'sisa' => $req->input('jumlah')
+            'sisa' => $req->input('jumlah'),
+            "listDataPekerjaanFix" => $pe->selectPekerjaanFix(),
+            'error' => 15
         ];
         $b = new tagihan();
         $b->insertTagihan($data);
+        return view('kontraktor.Creation.tagihan',$data);
     }
 
     public function showListTagihan()
@@ -285,13 +284,14 @@ class kontraktorController extends Controller
                 'total.required' => 'Total harus diisi!',
                 'total.numeric' => 'Total harus diisi angka!'
             ]);
-
+            $client = new client();
             $data = [
                 'pekerjaan_kode' => $req->input('pekerjaan'),
                 'client_kode' => $req->input('namaClient'),
                 'waktu' => $req->input('waktuPembayaran'),
                 'total' => $req->input('total'),
-                'error' => 0
+                'listNamaClient' => $client->getDataClient(),
+                'error' => 16
             ];
 
             $b = new pembayaran_client();
@@ -302,6 +302,7 @@ class kontraktorController extends Controller
             foreach ($sisa as $value) {
                 $sisaBaru = $value - $uang;
                 $c->updateTagihan($sisaBaru,$idtagihan);
+                return view('kontraktor.Creation.inputPembayaran',$data);
             }
         } else {
             $req->validate([
@@ -942,6 +943,7 @@ class kontraktorController extends Controller
         $c = new client();
         $m = new mandor();
         $a = new administrator();
+        $b = new tagihan();
         $data = [
             'title' => 'Detail Pekerjaan',
             'work' => $p->getWork(decrypt($id)),
@@ -959,7 +961,8 @@ class kontraktorController extends Controller
                 ->get(),
             'listDelSpWork' => $pk->where('kode_pekerjaan', decrypt($id))
                 ->where('status_delete_pk', 1)
-                ->get()
+                ->get(),
+            'listTagihan' => $b->getTagihan(decrypt($id))
         ];
         session()->put('listSpWorkAwal', $pk->where('kode_pekerjaan', decrypt($id))
             ->get());

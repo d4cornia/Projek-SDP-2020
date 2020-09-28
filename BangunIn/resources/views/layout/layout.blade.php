@@ -90,6 +90,16 @@
 
 {{-- berhasil/gagal tambah --}}
 @isset($error)
+    @if ($error == 16)
+        <script>
+            swal("Berhasil input pembayaran!", "Pembayaran berhasil!","success");
+        </script>
+    @endif
+    @if ($error == 15)
+    <script>
+        swal("Berhasil input tagihan!", "Tagihan berhasil!","success");
+    </script>
+    @endif
     @if ($error == 14)
     <script>
         swal("Gagal Menghapus Tukang!", "Tukang masih memiliki hutang yang belum dibayarkan!","error");
@@ -187,6 +197,11 @@
 @isset($roll)
     <script>
         swal("Berhasil Mengembalikan!", "{{$roll}}", "success");
+    </script>
+@endisset
+@isset($err)
+    <script>
+        swal("Berhasil input tagihan!", "success");
     </script>
 @endisset
 
