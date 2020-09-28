@@ -93,7 +93,6 @@ class kontraktorController extends Controller
 
     public function showListKomisi()
     {
-
     }
 
     public function tambahTagihanDenganKode($kode_pekerjaan)
@@ -263,7 +262,7 @@ class kontraktorController extends Controller
         ];
         $b = new tagihan();
         $b->insertTagihan($data);
-        return view('kontraktor.Creation.tagihan',$data);
+        return view('kontraktor.Creation.tagihan', $data);
     }
 
     public function showListTagihan()
@@ -282,8 +281,7 @@ class kontraktorController extends Controller
         $get = $req->input('pekerjaan');
         $uang = $req->input('total');
         $idtagihan = $req->input('tagihan');
-        if($jenis == 0)
-        {
+        if ($jenis == 0) {
             $req->validate([
                 'pekerjaan' => 'required',
                 'namaClient' => 'required|string',
@@ -310,12 +308,12 @@ class kontraktorController extends Controller
             $b = new pembayaran_client();
             $b->insertPembayaran($data);
             $c = new tagihan();
-            $sisa = $c->getSisaTagihan($get,$idtagihan);
+            $sisa = $c->getSisaTagihan($get, $idtagihan);
 
             foreach ($sisa as $value) {
                 $sisaBaru = $value - $uang;
-                $c->updateTagihan($sisaBaru,$idtagihan);
-                return view('kontraktor.Creation.inputPembayaran',$data);
+                $c->updateTagihan($sisaBaru, $idtagihan);
+                return view('kontraktor.Creation.inputPembayaran', $data);
             }
         } else {
             $req->validate([
@@ -758,6 +756,7 @@ class kontraktorController extends Controller
 
 
 
+
     // Pekerjaan
 
     public function indexAddWork()
@@ -789,22 +788,39 @@ class kontraktorController extends Controller
         $m = new mandor();
         $a = new administrator();
         if (isset($request->addWork)) { // commit add work
-            $validator = Validator::make($request->all(), [
-                'name' => ['required', 'string', new cekNamaWork()], // validation database -> sudah kepake belum namanya di pekerjaan yang aktif
-                'address' => 'required',
-                'dealPrice' => 'required|numeric'
-            ], [
-                'name.required' => 'Kolom nama perkejaan belum di isi!',
-                'name.string' => 'Kolom nama perkejaan hanya bisa di isi huruf!',
-                'address.required' => 'Kolom alamat belum di isi!',
-                'dealPrice.required' => 'Kolom harga deal belum di isi!',
-                'dealPrice.numeric' => 'Kolom harga deal hanya bisa berisi angka (0-9)!'
-            ]);
+            if ($request->type == "0") { // fix didepan
+                $validator = Validator::make($request->all(), [
+                    'name' => ['required', 'string', new cekNamaWork()], // validation database -> sudah kepake belum namanya di pekerjaan yang aktif
+                    'address' => 'required',
+                    'dealPrice' => 'required|numeric'
+                ], [
+                    'name.required' => 'Kolom nama perkejaan belum di isi!',
+                    'name.string' => 'Kolom nama perkejaan hanya bisa di isi huruf!',
+                    'address.required' => 'Kolom alamat belum di isi!',
+                    'dealPrice.required' => 'Kolom harga deal belum di isi!',
+                    'dealPrice.numeric' => 'Kolom harga deal hanya bisa berisi angka (0-9)!'
+                ]);
 
-            if ($validator->fails()) {
-                return redirect('/kontraktor/aWork')
-                    ->withErrors($validator)
-                    ->withInput();
+                if ($validator->fails()) {
+                    return redirect('/kontraktor/aWork')
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+            } else { // komisi
+                $validator = Validator::make($request->all(), [
+                    'name' => ['required', 'string', new cekNamaWork()], // validation database -> sudah kepake belum namanya di pekerjaan yang aktif
+                    'address' => 'required'
+                ], [
+                    'name.required' => 'Kolom nama perkejaan belum di isi!',
+                    'name.string' => 'Kolom nama perkejaan hanya bisa di isi huruf!',
+                    'address.required' => 'Kolom alamat belum di isi!',
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect('/kontraktor/aWork')
+                        ->withErrors($validator)
+                        ->withInput();
+                }
             }
             $nc = $request->input('nc');
             $na = $request->input('na');
@@ -826,6 +842,7 @@ class kontraktorController extends Controller
             if ($data['error'] == 0) {
                 $p->insertWork($request, $c->nameToCode($nc), $a->nameToCode($na), $m->nameToCode($nm)); // saving
                 session()->forget('listSpWork');
+                session()->forget('listSpWorkAwal');
                 $data = [
                     'title' => 'Tambah Pekerjaan',
                     'error' => 0, // 0 = success,
@@ -881,22 +898,42 @@ class kontraktorController extends Controller
                 'sumJasa' => $request->sumJasa
             ];
             session()->put('listSpWork', $newRow);
-
-            $data = [
-                'title' => 'Tambah Pekerjaan',
-                'listClient' => $c->where('kode_kontraktor', session()->get('kode'))
-                    ->where('status_delete_client', 0)
-                    ->pluck('nama_client'),
-                'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))
-                    ->where('status_delete_mandor', 0)
-                    ->get(),
-                'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
-                    ->where('status_delete_admin', 0)
-                    ->get(),
-                'listSpWork' => session()->get('listSpWork'),
-                'bef' => $request->input()
-            ];
-            session()->put('input', $request->input());
+            $temp = $request->input();
+            if ($request->has('dealPrice')) {
+                $data = [
+                    'title' => 'Tambah Pekerjaan',
+                    'listClient' => $c->where('kode_kontraktor', session()->get('kode'))
+                        ->where('status_delete_client', 0)
+                        ->pluck('nama_client'),
+                    'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))
+                        ->where('status_delete_mandor', 0)
+                        ->get(),
+                    'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
+                        ->where('status_delete_admin', 0)
+                        ->get(),
+                    'listSpWork' => session()->get('listSpWork'),
+                    'bef' => $temp
+                ];
+            } else {
+                $temp += [
+                    'dealPrice' => 0
+                ];
+                $data = [
+                    'title' => 'Tambah Pekerjaan',
+                    'listClient' => $c->where('kode_kontraktor', session()->get('kode'))
+                        ->where('status_delete_client', 0)
+                        ->pluck('nama_client'),
+                    'listMandor' => $m->where('kode_kontraktor', session()->get('kode'))
+                        ->where('status_delete_mandor', 0)
+                        ->get(),
+                    'listAdmin' => $a->where('kode_kontraktor', session()->get('kode'))
+                        ->where('status_delete_admin', 0)
+                        ->get(),
+                    'listSpWork' => session()->get('listSpWork'),
+                    'bef' => $temp
+                ];
+            }
+            session()->put('input', $temp);
             return view('kontraktor.Creation.tambahPekerjaan', $data);
         }
     }
@@ -1072,6 +1109,7 @@ class kontraktorController extends Controller
             $c = new client();
             $m = new mandor();
             $a = new administrator();
+            $b = new tagihan();
             $req->validate([
                 'work' => [new cbRequired()],
                 'ketPK' => 'required',
@@ -1101,7 +1139,8 @@ class kontraktorController extends Controller
                     ->get(),
                 'listDelSpWork' => $pk->where('kode_pekerjaan', $kodeP[0])
                     ->where('status_delete_pk', 1)
-                    ->get()
+                    ->get(),
+                'listTagihan' => $b->getTagihan($kodeP[0])
             ];
             return view('kontraktor.Detail.detailWork', $data);
         } else if ($req->code == 1) { // yang pekerjaan khusus menu sendiri
@@ -1122,6 +1161,7 @@ class kontraktorController extends Controller
             }
             $p = new pekerjaan();
             $pk = new pekerjaan_khusus();
+            $b = new tagihan();
             $kodeP = $pk->findKodePekerjaan($req->id);
             $pk->updatePekerjaanKhusus($req);
             $data = [
@@ -1134,7 +1174,8 @@ class kontraktorController extends Controller
                     ->get(),
                 'current' => [
                     'kode_pekerjaan' => $kodeP[0]
-                ]
+                ],
+                'listTagihan' => $b->getTagihan($kodeP[0])
             ];
             return view('kontraktor.List.listSpecialWork', $data);
         }
@@ -1147,6 +1188,7 @@ class kontraktorController extends Controller
         $c = new client();
         $m = new mandor();
         $a = new administrator();
+        $b = new tagihan();
         $pk->softDeletePekerjaanKhusus(decrypt($id));
 
         $kodeP = $pk->findKodePekerjaan(decrypt($id));
@@ -1167,7 +1209,8 @@ class kontraktorController extends Controller
                 ->get(),
             'listDelSpWork' => $pk->where('kode_pekerjaan', $kodeP[0])
                 ->where('status_delete_pk', 1)
-                ->get()
+                ->get(),
+            'listTagihan' => $b->getTagihan(decrypt($id))
         ];
         return view('kontraktor.Detail.detailWork', $data);
     }
@@ -1179,6 +1222,7 @@ class kontraktorController extends Controller
         $c = new client();
         $m = new mandor();
         $a = new administrator();
+        $b = new tagihan();
         $pk->rollbackSpWork(decrypt($id));
 
         $kodeP = $pk->findKodePekerjaan(decrypt($id));
@@ -1199,7 +1243,8 @@ class kontraktorController extends Controller
                 ->get(),
             'listDelSpWork' => $pk->where('kode_pekerjaan', $kodeP[0])
                 ->where('status_delete_pk', 1)
-                ->get()
+                ->get(),
+            'listTagihan' => $b->getTagihan(decrypt($id))
         ];
         return view('kontraktor.Detail.detailWork', $data);
     }

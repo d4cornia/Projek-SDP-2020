@@ -114,8 +114,8 @@
                                     <th scope="row">{{$loop->iteration}}</th>
                                     <td>{{$item->keterangan_pk}}</td>
                                     <td>{{$item->total_bahan}}</td>
-                                    <td>{{$item->total_jasa}}</td>
-                                    <td>{{$item->total_keseluruhan}}</td>
+                                    <td>Rp. {{number_format($item->total_jasa)}}</td>
+                                    <td>Rp. {{number_format($item->total_keseluruhan)}}</td>
                                     <td>
                                         <a href="/kontraktor/detSpWork/{{encrypt($item->kode_pk)}}" class="btn btn-success">Detail</a>
                                         <a href="/kontraktor/delSpWork/{{encrypt($item->kode_pk)}}" class="btn btn-danger">Hapus</a>

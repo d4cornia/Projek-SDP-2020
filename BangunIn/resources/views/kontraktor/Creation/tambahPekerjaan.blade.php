@@ -6,7 +6,9 @@
 <script>
     function disable() {
         var komisi = document.getElementById("type2");
+        var deal = document.getElementById("dealPrice");
         if(komisi.checked == true){
+            deal.value = "";
             document.getElementById("dealPrice").disabled = true;
         }else{
             document.getElementById("dealPrice").disabled = false;
@@ -90,18 +92,24 @@
         <label for="inlineRadio1" class="">Jenis Pekerjaan</label>
         <span class="col-6">
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="type" id="type1" value="0" checked onclick="disable()">
-                <label class="form-check-label" for="inlineRadio1">Harga Fix Di Depan</label>
+                <input class="form-check-input" type="radio" name="type" id="type1" value="0" @if(isset($bef)) @if ($bef['type'] == 0)
+                    checked
+                @endif @endif onclick="disable()">
+            <label class="form-check-label" for="inlineRadio1">Harga Fix Di Depan</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="type" id="type2" value="1" onclick="disable()">
+                <input class="form-check-input" type="radio" name="type" id="type2" value="1" onclick="disable()" @if(isset($bef)) @if ($bef['type'] == 1)
+                checked
+            @endif @endif>
                 <label class="form-check-label" for="inlineRadio2">Komisi</label>
             </div>
         </span>
     </div>
     <div class="form-group">
         <label for="dealPrice">Harga Deal</label>
-        <input type="number" class="form-control" name="dealPrice" id="dealPrice" value="@if(isset($bef)){{$bef['dealPrice']}}@else{{old('dealPrice')}}@endif" id="dealPrice">
+        <input type="number" class="form-control" name="dealPrice" id="dealPrice" value="@if(isset($bef)){{$bef['dealPrice']}}@else{{old('dealPrice')}}@endif" id="dealPrice" @if(isset($bef)) @if ($bef['type'] == 1)
+        disabled
+    @endif @endif>
         @error('dealPrice')
         <div class="err">
             {{$message}}
@@ -127,7 +135,7 @@
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$item['ketPK']}}</td>
-                            <td>{{$item['sumJasa']}}</td>
+                            <td>Rp. {{number_format($item['sumJasa'])}}</td>
                             <td>
                                 <a href="/kontraktor/delSpWorkRow/{{encrypt($loop->iteration)}}" class="btn btn-danger">Hapus</a>
                             </td>

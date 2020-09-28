@@ -14,6 +14,7 @@
                     <th scope="col">No</th>
                     <th scope="col">Nama Pekerjaan</th>
                     <th scope="col">Alamat</th>
+                    <th scope="col">Jenis Pekerjaan</th>
                     <th scope="col">Persetujuan Harga Awal</th>
                     <th scope="col">Status</th>
                     <th scope="col">Aksi</th>
@@ -25,6 +26,11 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$item->nama_pekerjaan}}</td>
                             <td>{{$item->alamat_pekerjaan}}</td>
+                            <td>@if ($item->jenis_pekerjaan == '0')
+                                Harga Fix Di Depan
+                                @else
+                                Komisi
+                            @endif</td>
                             <td>Rp. {{number_format($item->harga_deal)}}</td>
                             <td>@if ($item->status_selesai == '1')
                                 Selesai
@@ -43,6 +49,7 @@
                     <th scope="col">No</th>
                     <th scope="col">Nama Pekerjaan</th>
                     <th scope="col">Alamat</th>
+                    <th scope="col">Jenis Pekerjaan</th>
                     <th scope="col">Persetujuan Harga Awal</th>
                     <th scope="col">Status</th>
                     <th scope="col">Aksi</th>

@@ -40,6 +40,10 @@ class pekerjaan extends Model
 
     public function insertWork(Request $request, $kc, $ka, $km)
     {
+        $dealPrice = 0;
+        if ($request->has('dealPrice')) {
+            $dealPrice = $request->input('dealPrice');
+        }
         $this->kode_kontraktor = session()->get('kode');
         $this->kode_client = $kc[0];
         $this->kode_admin = $ka[0];
@@ -48,7 +52,7 @@ class pekerjaan extends Model
         $this->alamat_pekerjaan = $request->input('address');
         $this->perjanjian_khusus = $request->input('specAgreement');
         $this->jenis_pekerjaan = $request->input('type'); // 0 = dp, 1 = komisi
-        $this->harga_deal = $request->input('dealPrice');
+        $this->harga_deal = $dealPrice;
         $this->status_selesai = '0';
         $this->status_lunas = '0';
         $this->status_delete_pekerjaan = '0';
@@ -97,6 +101,9 @@ class pekerjaan extends Model
 
     public function hardDelete($name)
     {
+        $pk = new pekerjaan_khusus();
+        $kode = $this::where('nama_pekerjaan', $name)->pluck('kode_pekerjaan')->first();
+        $pk->where('kode_pekerjaan', $kode)->get()->each->delete();
         $this->where('nama_pekerjaan', $name)->get()->each->delete(); // jika ada maka delete
     }
 
@@ -120,8 +127,7 @@ class pekerjaan extends Model
     public function selectPekerjaan($value)
     {
         return $this::where('jenis_pekerjaan', 0)
-                ->where('kode_pekerjaan',$value)
-                ->get();
+            ->where('kode_pekerjaan', $value)
+            ->get();
     }
-
 }
