@@ -227,7 +227,6 @@ class kontraktorController extends Controller
         session()->forget('listSpWork');
         $r = new client();
         $p = new pekerjaan();
-        // $data_client = $r->getNamaClient();
         $data = [
             'listDataClient' => $r->getNamaClient(),
             'listDataPekerjaan' => $p->getDataPekerjaan()
