@@ -246,7 +246,6 @@ class kontraktorController extends Controller
 
     public function getKode(Request $request)
     {
-
         $value = $request->get('value');
         $b = new tagihan();
         $data = $b->getTagihan($value);
