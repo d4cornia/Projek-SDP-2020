@@ -144,4 +144,17 @@ class pekerjaan extends Model
                     ->where('jenis_pekerjaan',$jenis)
                     ->pluck('harga_deal');
     }
+
+    public function updateLunasKomisi($value)
+    {
+        $p = $this->find($value);
+        $p->status_lunas = 1;
+        $p->save();
+    }
+    public function batalLunasKomisi($value)
+    {
+        $p = $this->find($value);
+        $p->status_lunas = 0;
+        $p->save();
+    }
 }

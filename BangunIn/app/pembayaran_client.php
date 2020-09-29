@@ -37,4 +37,14 @@ class pembayaran_client extends Model
                     ->sum('pembayaran_clients.jumlah_pembayaran_client');
         return $sum;
     }
+
+    public function getListKomisi()
+    {
+        $users = DB::table('pembayaran_clients')
+        ->join('pekerjaans', 'pembayaran_clients.kode_pekerjaan', '=', 'pekerjaans.kode_pekerjaan')
+        ->select('pekerjaans.kode_pekerjaan','pekerjaans.nama_pekerjaan', 'pembayaran_clients.tanggal_pembayan_client','pembayaran_clients.jumlah_pembayaran_client','pekerjaans.status_lunas')
+        ->where('pekerjaans.jenis_pekerjaan',1)
+        ->get();
+        return $users;
+    }
 }

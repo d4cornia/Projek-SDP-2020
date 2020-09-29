@@ -17,6 +17,7 @@
                     <th scope="col">Jenis Pekerjaan</th>
                     <th scope="col">Persetujuan Harga Awal</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Status Lunas</th>
                     <th scope="col">Aksi</th>
                 </tr>
               </thead>
@@ -37,6 +38,11 @@
                                 @else
                                 Belum Selesai
                             @endif</td>
+                            <td>@if ($item->status_lunas == '1')
+                                Lunas
+                                @else
+                                Belum Lunas
+                            @endif</td>
                             <td>
                                 <a href="/kontraktor/detWork/{{encrypt($item->kode_pekerjaan)}}" class="btn btn-success">Detail</a>
                                 <a href="/kontraktor/delWork/{{encrypt($item->kode_pekerjaan)}}" class="btn btn-danger">Hapus</a>
@@ -52,6 +58,7 @@
                     <th scope="col">Jenis Pekerjaan</th>
                     <th scope="col">Persetujuan Harga Awal</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Status Lunas</th>
                     <th scope="col">Aksi</th>
                 </tr>
               </tfoot>

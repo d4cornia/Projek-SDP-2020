@@ -8,6 +8,7 @@
               <thead>
                 <tr>
                     <th>No</th>
+                    <th>Keterangan</th>
                     <th>Pekerjaan</th>
                     <th>Tanggal Tagihan</th>
                     <th>Jumlah Tagihan</th>
@@ -19,13 +20,13 @@
                 @foreach ($listDataTagihan as $item)
                     <tr>
                         <th scope="row">{{$loop->iteration}}</th>
+                        <td>{{$item->keterangan}}</td>
                         <td>{{$item->nama_pekerjaan}}</td>
                         <td>{{$item->tanggal_tagihan}}</td>
                         <td>Rp. {{number_format($item->jumlah_tagihan)}}</td>
                         <td>Rp. {{number_format($item->sisa_tagihan)}}</td>
                         <td>
-                            <a href="" class="btn btn-success">Detail</a>
-                            <a href="" class="btn btn-danger delete">Hapus</a>
+                        <a href="/kontraktor/hapusTagihan/{{encrypt($item->id_tagihan)}}" class="btn btn-danger delete">Hapus</a>
                         </td>
                     </tr>
                 @endforeach
@@ -33,6 +34,7 @@
               <tfoot>
                 <tr>
                     <th>No</th>
+                    <th>Keterangan</th>
                     <th>Pekerjaan</th>
                     <th>Tanggal Tagihan</th>
                     <th>Jumlah Tagihan</th>

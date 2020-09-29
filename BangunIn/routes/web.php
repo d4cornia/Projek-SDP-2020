@@ -93,6 +93,8 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::post('/update', 'kontraktorController@updateClient');
     Route::post('/fetch', "kontraktorController@fetch")->name('cbPekerjaan.fetch');
     Route::post('/fetch1', "kontraktorController@getKode")->name('cb.fetch1');
+    Route::get('/setujui/{m?}',"kontraktorController@setujuiKomisi");
+    Route::get('/batal/{m?}',"kontraktorController@batalSetujui");
     Route::get('/delClient/{n?}', "kontraktorController@deleteClient");
     Route::get('/resClient/{n?}', "kontraktorController@restoreClient");
     Route::get('/listPembayaran', "kontraktorController@listPembayaranClient");
@@ -102,6 +104,7 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/listTagihan', 'kontraktorController@showListTagihan');
     Route::get('/listKomisi', 'kontraktorController@showListKomisi');
     Route::get('/tambahTagihan/{n?}', "kontraktorController@tambahTagihanDenganKode");
+    Route::get('/hapusTagihan/{n?}', "kontraktorController@hapusTagihan");
 });
 
 //mandor

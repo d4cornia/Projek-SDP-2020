@@ -206,8 +206,7 @@
         @endif
 
     <hr class="option">
-
-
+    </div><br>
     <a href="/kontraktor/lWork" class="btn btn-secondary">Kembali</a>
     <button type="submit" class="btn btn-primary">Ubah</button>
 </form>

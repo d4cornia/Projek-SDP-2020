@@ -91,9 +91,39 @@ class kontraktorController extends Controller
 
     //Client
 
+    public function batalSetujui($id)
+    {
+        $b = new pekerjaan();
+        $d = new pembayaran_client();
+        $data = $b->batalLunasKomisi(decrypt($id));
+        $data = [
+            'title' => 'Setujui',
+            'listDataKomisi' => $d->getListKomisi()
+        ];
+        return view('kontraktor.List.listPembayaranKomisi', $data);
+    }
+
+    public function setujuiKomisi($id)
+    {
+        $b = new pekerjaan();
+        $d = new pembayaran_client();
+        $data = $b->updateLunasKomisi(decrypt($id));
+        $data = [
+            'title' => 'Setujui',
+            'listDataKomisi' => $d->getListKomisi()
+        ];
+        return view('kontraktor.List.listPembayaranKomisi', $data);
+    }
+
     public function showListKomisi()
     {
-
+        $c = new pembayaran_client();
+        $baru = $c->getListKomisi();
+        $data = [
+            'title' => 'List Pembayaran Komisi',
+            'listDataKomisi' => $c->getListKomisi()
+        ];
+        return view('kontraktor.List.listPembayaranKomisi',$data);
     }
 
     public function tambahTagihanDenganKode($kode_pekerjaan)
@@ -264,6 +294,30 @@ class kontraktorController extends Controller
         $b = new tagihan();
         $b->insertTagihan($data);
         return view('kontraktor.Creation.tagihan', $data);
+    }
+
+    public function hapusTagihan($id)
+    {
+        $c = new tagihan();
+        $cekTagihan = $c->cekKodeTagihan(decrypt($id));
+        // dd($cekTagihan);
+        if($cekTagihan == false)
+        {
+            $c->deleteTagihan(decrypt($id));
+            $data = [
+                'title' => 'Delete Tagihan',
+                'listDataTagihan' => $c->getDataTagihan()
+            ];
+            return view('kontraktor.List.listTagihan', $data);
+        }
+        else{
+            $data = [
+                'title' => 'Delete Tagihan',
+                'listDataTagihan' => $c->getDataTagihan(),
+                'error' => 18
+            ];
+            return view('kontraktor.List.listTagihan', $data);
+        }
     }
 
     public function showListTagihan()

@@ -46,7 +46,7 @@ class tagihan extends Model
     {
         $users = DB::table('tagihans')
         ->join('pekerjaans', 'tagihans.kode_pekerjaan', '=', 'pekerjaans.kode_pekerjaan')
-        ->select('tagihans.id_tagihan', 'pekerjaans.nama_pekerjaan', 'tagihans.tanggal_tagihan','tagihans.jumlah_tagihan','tagihans.sisa_tagihan')
+        ->select('tagihans.keterangan','tagihans.id_tagihan', 'pekerjaans.nama_pekerjaan', 'tagihans.tanggal_tagihan','tagihans.jumlah_tagihan','tagihans.sisa_tagihan')
         ->get();
         return $users;
     }
@@ -54,8 +54,28 @@ class tagihan extends Model
     public function getTagihan($value)
     {
         return tagihan::where('kode_pekerjaan',$value)->get();
+    }
 
+    public function deleteTagihan($id)
+    {
+        return tagihan::where('id_tagihan',$id)->delete();
+    }
 
+    public function cekKodeTagihan($id)
+    {
+        $users = DB::table('tagihans')
+        ->join('pekerjaans', 'tagihans.kode_pekerjaan', '=', 'pekerjaans.kode_pekerjaan')
+        ->join('pembayaran_clients', 'pembayaran_clients.kode_pekerjaan','=','pekerjaans.kode_pekerjaan')
+        ->select('tagihans.id_tagihan')
+        ->where('tagihans.id_tagihan',$id)
+        ->get();
+        if(count($users) > 0)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }
