@@ -11,8 +11,8 @@
               <thead>
                 <tr>
                     <th>No</th>
-                    <th>Keterangan</th>
                     <th>Pekerjaan</th>
+                    <th>Keterangan</th>
                     <th>Tanggal Tagihan</th>
                     <th>Jumlah Tagihan</th>
                     <th>Sisa Tagihan</th>
@@ -23,8 +23,8 @@
                 @foreach ($listDataTagihan as $item)
                     <tr>
                         <th scope="row">{{$loop->iteration}}</th>
-                        <td>Tagihan ke - {{$item->keterangan}}</td>
                         <td>{{$item->nama_pekerjaan}}</td>
+                        <td>Tagihan ke - {{$item->keterangan}}</td>
                         <td>{{$item->tanggal_tagihan}}</td>
                         <td>Rp. {{number_format($item->jumlah_tagihan)}}</td>
                         <td>Rp. {{number_format($item->sisa_tagihan)}}</td>
@@ -37,8 +37,8 @@
               <tfoot>
                 <tr>
                     <th>No</th>
-                    <th>Keterangan</th>
                     <th>Pekerjaan</th>
+                    <th>Keterangan</th>
                     <th>Tanggal Tagihan</th>
                     <th>Jumlah Tagihan</th>
                     <th>Sisa Tagihan</th>

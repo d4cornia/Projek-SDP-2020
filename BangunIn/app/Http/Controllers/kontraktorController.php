@@ -1079,7 +1079,7 @@ class kontraktorController extends Controller
             'listDelSpWork' => $pk->where('kode_pekerjaan', decrypt($id))
                 ->where('status_delete_pk', 1)
                 ->get(),
-            'listTagihan' => $b->getTagihan(decrypt($id))
+            'listTagihan' => $b->getTagihanAll(decrypt($id))
         ];
         session()->put('listSpWorkAwal', $pk->where('kode_pekerjaan', decrypt($id))
             ->get());

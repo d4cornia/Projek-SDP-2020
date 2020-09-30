@@ -49,6 +49,7 @@ class tagihan extends Model
         ->join('pekerjaans', 'tagihans.kode_pekerjaan', '=', 'pekerjaans.kode_pekerjaan')
         ->select('tagihans.keterangan','tagihans.id_tagihan', 'pekerjaans.nama_pekerjaan', 'tagihans.tanggal_tagihan','tagihans.jumlah_tagihan','tagihans.sisa_tagihan')
         ->where('pekerjaans.kode_kontraktor','=',$kodeKontraktor)
+        ->where('tagihans.status_lunas','=',0)
         ->get();
         return $users;
     }
@@ -57,6 +58,18 @@ class tagihan extends Model
     {
         return tagihan::where('kode_pekerjaan',$value)
                         ->where('status_lunas',0)
+                        ->get();
+        // $users = DB::table('tagihans')
+        // ->join('pekerjaans', 'tagihans.kode_pekerjaan', '=', 'pekerjaans.kode_pekerjaan')
+        // ->select('tagihans.keterangan','tagihans.id_tagihan', 'pekerjaans.nama_pekerjaan', 'tagihans.tanggal_tagihan','tagihans.jumlah_tagihan','tagihans.sisa_tagihan','pekerjaans.jenis_pekerjaan')
+        // ->where('tagihans.kode_pekerjaan','=',$value)
+        // ->get();
+        // return $users;
+    }
+
+    public function getTagihanAll($value)
+    {
+        return tagihan::where('kode_pekerjaan',$value)
                         ->get();
         // $users = DB::table('tagihans')
         // ->join('pekerjaans', 'tagihans.kode_pekerjaan', '=', 'pekerjaans.kode_pekerjaan')
