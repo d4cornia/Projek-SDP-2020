@@ -40,7 +40,7 @@
             Kolom nama pengguna belum di isi!
         </div>
         @error('username')
-        <div class="invalid-feedback">
+        <div class="err">
             {{$message}}
         </div>
         @enderror
@@ -52,7 +52,7 @@
             Kolom alamat e-mail belum di isi!
         </div>
         @error('email')
-        <div class="invalid-feedback">
+        <div class="err">
             {{$message}}
         </div>
         @enderror
@@ -73,7 +73,7 @@
             Kolom kata sandi belum di isi!
         </div>
         @error('pass')
-        <div class="invalid-feedback">
+        <div class="err">
             {{$message}}
         </div>
         @enderror
@@ -85,7 +85,7 @@
             Kolom konfirmasi kata sandi belum di isi!
         </div>
         @error('cpass')
-        <div class="invalid-feedback">
+        <div class="err">
             {{$message}}
         </div>
         @enderror

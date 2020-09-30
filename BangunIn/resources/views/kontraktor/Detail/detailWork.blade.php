@@ -155,7 +155,6 @@
 
     {{-- Tabel isi tagihan --}}
 
-    <hr class="option">
     <div class="option padd">
         <h3>Data Tagihan</h3>
         @if (count($listTagihan) > 0)
