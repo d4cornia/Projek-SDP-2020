@@ -86,7 +86,7 @@ class kontraktorController extends Controller
         $k->updateProfilePerusahaan($nmperusahaan, $noperusahaan, $alperusahaan, $nmlogo);
         session()->put('nmperusahaan', $nmperusahaan);
         $param["upd"] = "Data Perusahaan Telah Di ubah";
-        return redirect('kontraktor/')->with($param);
+        return view('kontraktor.navbar')->with($param);
     }
 
     //Client
