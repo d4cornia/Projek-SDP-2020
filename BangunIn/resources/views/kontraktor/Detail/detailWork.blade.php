@@ -204,11 +204,12 @@
         @else
     <h1>Tidak ada tagihan!</h1>
         @endif
-
+        <br>
+        <a href="/kontraktor/lWork" class="btn btn-secondary">Kembali</a>
+    <button type="submit" class="btn btn-primary">Ubah</button>
     <hr class="option">
     </div><br>
-    <a href="/kontraktor/lWork" class="btn btn-secondary">Kembali</a>
-    <button type="submit" class="btn btn-primary">Ubah</button>
+
 </form>
 
 @endsection
