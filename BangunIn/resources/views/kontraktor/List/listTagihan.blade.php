@@ -1,7 +1,10 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-<a href="/kontraktor/inputTagihan" class="btn btn-primary">Input Tagihan</a><br><br>
+<div class="option" style="float: right;margin:5px 0px 40px 0px;">
+    <a href="/kontraktor/inputTagihan" class="btn btn-primary">Input Tagihan</a><br>
+</div>
+<br><br>
     @if (count($listDataTagihan) > 0)
         <div class="table-responsive">
             <table id="tabel-tagihan" class="table table-bordered table-striped">

@@ -256,6 +256,14 @@ class kontraktorController extends Controller
         echo $output;
     }
 
+    public function cekTagihan(Request $request)
+    {
+        $value = $request->get('value');
+        $b = new tagihan();
+        $index = $b->searchTagihanKe($value);
+        echo $index;
+    }
+
     public function menuTagihan()
     {
         $b = new pekerjaan();

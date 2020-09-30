@@ -53,7 +53,13 @@ class tagihan extends Model
 
     public function getTagihan($value)
     {
-        return tagihan::where('kode_pekerjaan',$value)->get();
+        // return tagihan::where('kode_pekerjaan',$value)->get();
+        $users = DB::table('tagihans')
+        ->join('pekerjaans', 'tagihans.kode_pekerjaan', '=', 'pekerjaans.kode_pekerjaan')
+        ->select('tagihans.keterangan','tagihans.id_tagihan', 'pekerjaans.nama_pekerjaan', 'tagihans.tanggal_tagihan','tagihans.jumlah_tagihan','tagihans.sisa_tagihan','pekerjaans.jenis_pekerjaan')
+        ->where('tagihans.kode_pekerjaan','=',$value)
+        ->get();
+        return $users;
     }
 
     public function deleteTagihan($id)
@@ -78,4 +84,13 @@ class tagihan extends Model
         }
     }
 
+    public function searchTagihanKe($kode_pekerjaan)
+    {
+        $count = DB::table('tagihans')
+                ->select('tagihans.keterangan')
+                ->where('tagihans.kode_pekerjaan','=',$kode_pekerjaan)
+                ->count();
+        $idx = $count + 1;
+        return $idx;
+    }
 }

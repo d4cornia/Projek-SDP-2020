@@ -38,6 +38,7 @@
         @enderror
     </div>
     <label for="exampleInputEmail1">Tipe Pekerjaan</label>
+
     <div class="radio" style="display: flex">
         <div class="form-check" style="margin-right: 2vw;">
             <input class="form-check-input" type="radio" name="radio" id="fix" value="0" checked>
@@ -67,7 +68,7 @@
         </div>
         @enderror
     </div>
-
+    <input type="hidden" name="tipe" class="tipe">
     <input type="hidden" name="kodejenis" class="kodejenis">
     <div class="form-group">
         <label for="exampleInputEmail1">Waktu Pembayaran</label>
@@ -100,7 +101,6 @@
 <script>
     $(document).ready(function(){
         $('.dynamic').change(function(){
-
             if($(this).val()!=''){
 
                 var value = $(this).val();
@@ -117,39 +117,23 @@
             }
         });
         $('.isiPekerjaan').change(function () {
-            // if($(this).val()!= '')
-            // {
-            //     var value = $(this).val();
-            //     var _token=$('input[name="_token"]').val();
-            //     $.ajax({
-            //         url:"{{route('cb.fetch1')}}",
-            //         method:"POST",
-            //         data:{value:value,_token:_token},
-            //         success:function(result){
-            //             $(".kodejenis").html("");
-            //             $(".kodejenis").val(result);
-            //         }
-            //     })
-            // }
-        });
-        $("#fix").click(function () {
-            $("#tagihan").prop('disabled', false);
-            if($("#isiPekerjaan").val()!= '')
+            if($(this).val()!= '')
             {
-                var value = $("#isiPekerjaan").val();
+                var value = $(this).val();
                 var _token=$('input[name="_token"]').val();
                 $.ajax({
                     url:"{{route('cb.fetch1')}}",
                     method:"POST",
                     data:{value:value,_token:_token},
                     success:function(result){
-                        // $(".kodejenis").html("");
-                        // $(".kodejenis").val(result);
                         $(".isiTagihan").html("");
                         $(".isiTagihan").html(result);
                     }
                 })
             }
+        });
+        $("#fix").click(function () {
+            $("#tagihan").prop('disabled', false);
         });
         $("#komisi").click(function () {
             $("#tagihan").prop('disabled',true);
