@@ -15,7 +15,6 @@
                         <th scope="col">Total Bahan</th>
                         <th scope="col">Total Jasa</th>
                         <th scope="col">Total Keseluruhan</th>
-                        <th scope="col">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="">
@@ -27,10 +26,6 @@
                                     <td>{{$item->total_bahan}}</td>
                                     <td>{{$item->total_jasa}}</td>
                                     <td>{{$item->total_keseluruhan}}</td>
-                                    <td>
-                                        <a href="/kontraktor/detSpWork/{{encrypt($item->kode_pk)}}" class="btn btn-success">Detail</a>
-                                        <a href="/kontraktor/delSpWork/{{encrypt($item->kode_pk)}}" class="btn btn-danger">Hapus</a>
-                                    </td>
                                 </tr>
                         @endforeach
                     @endisset
@@ -56,7 +51,6 @@
                         <th scope="col">Total Bahan</th>
                         <th scope="col">Total Jasa</th>
                         <th scope="col">Total Keseluruhan</th>
-                        <th scope="col">Aksi</th>
                     </tr>
                 </tfoot>
             </table>
@@ -67,7 +61,7 @@
     @if(session()->get('status')=="mandor"&&$status==1)
         <div class="col-12">
             <label class="mb-2">Bukti Project Selesai</label>
-            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel" style="width: ">
                 <div class="carousel-inner">
                     @php $i=0; @endphp
                     @foreach ($listFoto as $item)
@@ -79,13 +73,14 @@
                             <div class="carousel-item">
                                 <img src="/assets/bukti_pekerjaan/{{$item->nama_foto}}" class="d-block w-100" alt="...">
                             </div>
-                            @php $i++; @endphp
+
                         @endif
+                        @php $i++; @endphp
                     @endforeach
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
+                <span class="sr-only" style="color: black">Previous</span>
                 </a>
                 <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
@@ -185,6 +180,7 @@
     <input type="hidden" name="id" value="{{ $work[0]['kode_pekerjaan'] }}">
     @if($status==0)
         <a href="/mandor/lihatPekerjaan" class="btn btn-secondary">Kembali </a>
+        <a href="/mandor/sProject/{{encrypt($work[0]['id_pekerjaan'])}}" class="btn btn-danger">Selesaikan</a>
     @else
         <a href="/mandor/lihatHistoryPekerjaan" class="btn btn-secondary">Kembali</a>
     @endif

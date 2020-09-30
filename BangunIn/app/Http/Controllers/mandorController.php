@@ -1255,7 +1255,8 @@ class mandorController extends Controller
             $f->uploadFoto($name,$id);
             $file->move(public_path('\assets\bukti_pekerjaan'), $file->getClientOriginalName());
         }
-        redirect('/mandor/lihatPekerjaan');
+        $param["pesan"] = "Project sudah selesai!";
+        return redirect('/mandor/lihatPekerjaan')->wiht($param);
     }
     public function detailWork($id)
     {

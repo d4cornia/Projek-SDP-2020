@@ -1,8 +1,13 @@
 @extends('mandor.navbar');
 
 @section('content')
+@if (isset($pesan))
+    <script>
+        swal("Bagus!", "{{$pesan}}","success");
+    </script>
+@endif
 <h1>List Pekerjaan</h1>
-<div class="option" style="margin-left:60%">
+<div class="option text-right" style="margin-left:60%;">
     <a class="btn btn-primary"  href="/mandor/lihatHistoryPekerjaan">Lihat History Pekerjaan Selesai</a>
 </div>
 <br>
@@ -14,7 +19,6 @@
                 <th scope="col">No</th>
                 <th scope="col">Nama Pekerjaan</th>
                 <th scope="col">Alamat</th>
-                <th scope="col">Persetujuan Harga Awal</th>
                 <th scope="col">Aksi</th>
             </tr>
           </thead>
@@ -24,7 +28,6 @@
                     <th scope="row">{{$loop->iteration}}</th>
                     <td>{{$item->nama_pekerjaan}}</td>
                     <td>{{$item->alamat_pekerjaan}}</td>
-                    <td>Rp. {{number_format($item->harga_deal)}}</td>
                     <td>
                         <a href="/mandor/detWork/{{encrypt($item->kode_pekerjaan)}}" class="btn btn-warning">Detail</a>
                         <a href="/mandor/sProject/{{encrypt($item->kode_pekerjaan)}}" class="btn btn-danger">Selesaikan</a>
@@ -39,7 +42,6 @@
                 <th scope="col">Nama Pekerjaan</th>
                 <th scope="col">Alamat</th>
                 <th scope="col">Persetujuan Harga Awal</th>
-                <th scope="col">Aksi</th>
             </tr>
           </tfoot>
         </table>

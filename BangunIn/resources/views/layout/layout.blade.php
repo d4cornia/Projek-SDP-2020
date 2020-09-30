@@ -214,5 +214,10 @@
         swal("Berhasil input tagihan!", "success");
     </script>
 @endisset
+@if (isset($pesan))
+    <script>
+        swal("Berhasil!", "{{$pesan}}","success");
+    </script>
+@endif
 
 
