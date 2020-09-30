@@ -23,7 +23,7 @@
                 @foreach ($listDataTagihan as $item)
                     <tr>
                         <th scope="row">{{$loop->iteration}}</th>
-                        <td>{{$item->keterangan}}</td>
+                        <td>Tagihan ke - {{$item->keterangan}}</td>
                         <td>{{$item->nama_pekerjaan}}</td>
                         <td>{{$item->tanggal_tagihan}}</td>
                         <td>Rp. {{number_format($item->jumlah_tagihan)}}</td>
