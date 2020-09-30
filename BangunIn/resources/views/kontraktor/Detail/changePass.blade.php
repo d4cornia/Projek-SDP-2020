@@ -8,7 +8,7 @@
         <label for="pass">Kata sandi lama</label>
         <input type="text" class="form-control" name="pass" value="{{$oldPass}}" id="pass">
         @error('pass')
-        <div class="invalid-feedback">
+        <div class="err">
             {{$message}}
         </div>
         @enderror
@@ -17,7 +17,7 @@
         <label for="npass">Kata sandi baru</label>
         <input type="password" class="form-control" name="npass" value="" id="npass">
         @error('npass')
-        <div class="invalid-feedback">
+        <div class="err">
             {{$message}}
         </div>
         @enderror
@@ -26,7 +26,7 @@
         <label for="cpass">Konfirmasi kata sandi baru</label>
         <input type="password" class="form-control" name="cpass" value="" id="cpass">
         @error('cpass')
-        <div class="invalid-feedback">
+        <div class="err">
             {{$message}}
         </div>
         @enderror

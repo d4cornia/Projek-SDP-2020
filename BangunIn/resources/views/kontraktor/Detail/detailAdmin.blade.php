@@ -28,7 +28,7 @@
         <label for="exampleInputEmail1">Nama Pengguna</label>
         <input type="text" class="form-control" name="username" value="{{$admin[0]['username_admin']}}" disabled>
         @error('username')
-        <div class="invalid-feedback">
+        <div class="err">
             {{$message}}
         </div>
         @enderror
@@ -37,7 +37,7 @@
         <label for="exampleInputEmail1">Alamat E-mail</label>
         <input type="email" class="form-control" name="email" value="{{$admin[0]['email_admin']}}" id="email" aria-describedby="emailHelp">
         @error('email')
-        <div class="invalid-feedback">
+        <div class="err">
             {{$message}}
         </div>
         @enderror
