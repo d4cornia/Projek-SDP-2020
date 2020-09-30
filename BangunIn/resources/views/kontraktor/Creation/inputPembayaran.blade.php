@@ -1,11 +1,10 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-
-{{-- {{dd($listDataClient)}} --}}
-{{-- {{dd($listDataPekerjaan)}} --}}
-{{-- {{dd($listNamaClient)}} --}}
-
+<div class="tombol" style="float:right">
+    <a class="btn btn-secondary" href="/kontraktor/listPembayaran">List Pembayaran Client</a>
+</div>
+<br><br>
 <form method="POST" action="/kontraktor/submitPembayaran" class="needs-validation" novalidate>
     @csrf
     <div class="form-group">

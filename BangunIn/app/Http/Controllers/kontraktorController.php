@@ -123,7 +123,7 @@ class kontraktorController extends Controller
             'title' => 'List Pembayaran Komisi',
             'listDataKomisi' => $c->getListKomisi()
         ];
-        return view('kontraktor.List.listPembayaranKomisi',$data);
+        return view('kontraktor.List.listPembayaranKomisi', $data);
     }
 
     public function tambahTagihanDenganKode($kode_pekerjaan)
@@ -251,7 +251,7 @@ class kontraktorController extends Controller
         $data = $b->getTagihan($value);
         $output = "<option value=''>-</option>";
         foreach ($data as $row) {
-            $output .= "<option value='" . $row->id_tagihan . "'>" . $row->keterangan . "</option>";
+            $output .= "<option value='" . $row->id_tagihan . "'>" . "Tagihan ke - ". $row->keterangan . "</option>";
         }
         echo $output;
     }
@@ -307,16 +307,14 @@ class kontraktorController extends Controller
         $c = new tagihan();
         $cekTagihan = $c->cekKodeTagihan(decrypt($id));
         // dd($cekTagihan);
-        if($cekTagihan == false)
-        {
+        if ($cekTagihan == false) {
             $c->deleteTagihan(decrypt($id));
             $data = [
                 'title' => 'Delete Tagihan',
                 'listDataTagihan' => $c->getDataTagihan()
             ];
             return view('kontraktor.List.listTagihan', $data);
-        }
-        else{
+        } else {
             $data = [
                 'title' => 'Delete Tagihan',
                 'listDataTagihan' => $c->getDataTagihan(),
@@ -371,10 +369,9 @@ class kontraktorController extends Controller
             $b->insertPembayaran($data);
             $cek = $b->getSumPembayaran($get);
             $jumlah_bayar = intval($cek);
-            $harga_deal = $d->getTotalHarga($get,$jenisP);
+            $harga_deal = $d->getTotalHarga($get, $jenisP);
             foreach ($harga_deal as $item) {
-                if($jumlah_bayar >= $item)
-                {
+                if ($jumlah_bayar >= $item) {
                     $d->updateLunas($get);
                 }
             }
@@ -864,7 +861,8 @@ class kontraktorController extends Controller
         if (isset($request->addWork)) { // commit add work
             if ($request->type == "0") { // fix didepan
                 $validator = Validator::make($request->all(), [
-                    'name' => ['required', 'string', new cekNamaWork()], // validation database -> sudah kepake belum namanya di pekerjaan yang aktif
+                    //'name' => ['required', 'string', new cekNamaWork()],
+                    'name' => ['required', 'string'], // validation database -> sudah kepake belum namanya di pekerjaan yang aktif
                     'address' => 'required',
                     'dealPrice' => 'required|numeric'
                 ], [
@@ -882,7 +880,8 @@ class kontraktorController extends Controller
                 }
             } else { // komisi
                 $validator = Validator::make($request->all(), [
-                    'name' => ['required', 'string', new cekNamaWork()], // validation database -> sudah kepake belum namanya di pekerjaan yang aktif
+                    //'name' => ['required', 'string', new cekNamaWork()],
+                    'name' => ['required', 'string'], // validation database -> sudah kepake belum namanya di pekerjaan yang aktif
                     'address' => 'required'
                 ], [
                     'name.required' => 'Kolom nama perkejaan belum di isi!',

@@ -43,7 +43,7 @@
             </table>
             </div>
     @else
-        <h1>Tidak Ada Client!</h1>
+        <h1>Tidak Ada Pembayaran Client!</h1>
     @endif
     <script>
         $(document).ready(function() {

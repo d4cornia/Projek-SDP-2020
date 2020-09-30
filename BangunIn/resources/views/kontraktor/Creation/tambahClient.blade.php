@@ -1,7 +1,11 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-
+<div class="tombol" style="float:right">
+    <a class="btn btn-primary" href="/kontraktor/lihatClient">Lihat Client</a>
+    <a class="btn btn-secondary" href="/kontraktor/listDeleteClient">Lihat Client Yang Dihapus</a>
+</div>
+<br><br>
 <form method="POST" action="/kontraktor/submitRegClient" class="needs-validation" novalidate>
     @csrf
     <div class="form-group">
