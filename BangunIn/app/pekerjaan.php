@@ -125,6 +125,7 @@ class pekerjaan extends Model
         return $this::where('jenis_pekerjaan', 0)
                     ->where('kode_kontraktor',$kodeKontraktor)
                     ->where('status_lunas',0)
+                    ->where('status_delete_pekerjaan',0)
                     ->get();
     }
 
