@@ -69,6 +69,7 @@
 </form>
 <script>
     $(document).ready(function(){
+        $(".indexTagihan").prop('disabled',true);
         $('#pekerjaan').change(function(){
             if($(this).val()!=''){
                 var value = $(this).val();
@@ -80,6 +81,7 @@
                     success:function(result){
                         $(".indexTagihan").val("");
                         $(".indexTagihan").val(result);
+                        $(".indexTagihan").prop('disabled',true);
                     }
                 })
             }
