@@ -121,7 +121,11 @@ class pekerjaan extends Model
 
     public function selectPekerjaanFix()
     {
-        return $this::where('jenis_pekerjaan', 0)->get();
+        $kodeKontraktor = session()->get('kode');
+        return $this::where('jenis_pekerjaan', 0)
+                    ->where('kode_kontraktor',$kodeKontraktor)
+                    ->where('status_lunas',0)
+                    ->get();
     }
 
     public function selectPekerjaan($value)

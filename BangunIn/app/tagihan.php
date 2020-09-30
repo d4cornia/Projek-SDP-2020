@@ -44,16 +44,20 @@ class tagihan extends Model
 
     public function getDataTagihan()
     {
+        $kodeKontraktor = session()->get('kode');
         $users = DB::table('tagihans')
         ->join('pekerjaans', 'tagihans.kode_pekerjaan', '=', 'pekerjaans.kode_pekerjaan')
         ->select('tagihans.keterangan','tagihans.id_tagihan', 'pekerjaans.nama_pekerjaan', 'tagihans.tanggal_tagihan','tagihans.jumlah_tagihan','tagihans.sisa_tagihan')
+        ->where('pekerjaans.kode_kontraktor','=',$kodeKontraktor)
         ->get();
         return $users;
     }
 
     public function getTagihan($value)
     {
-        return tagihan::where('kode_pekerjaan',$value)->get();
+        return tagihan::where('kode_pekerjaan',$value)
+                        ->where('status_lunas',0)
+                        ->get();
         // $users = DB::table('tagihans')
         // ->join('pekerjaans', 'tagihans.kode_pekerjaan', '=', 'pekerjaans.kode_pekerjaan')
         // ->select('tagihans.keterangan','tagihans.id_tagihan', 'pekerjaans.nama_pekerjaan', 'tagihans.tanggal_tagihan','tagihans.jumlah_tagihan','tagihans.sisa_tagihan','pekerjaans.jenis_pekerjaan')

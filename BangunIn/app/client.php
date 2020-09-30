@@ -26,7 +26,9 @@ class client extends Model
 
     public function getNamaClient()
     {
-        $data = client::select('*')->get();
+        $kodeKontraktor = session()->get('kode');
+        $data = client::select('*')
+                ->where('kode_kontraktor',$kodeKontraktor)->get();
         return $data;
     }
 
@@ -68,13 +70,18 @@ class client extends Model
 
     public function getDataClient()
     {
-        $data = client::select('*')->get();
+        $kodeKontraktor = session()->get('kode');
+        $data = client::select('*')
+                ->where('kode_kontraktor',$kodeKontraktor)->get();
         return $data;
     }
 
     public function getHapusClient()
     {
-        $data = client::select('*')->where('status_delete_client','1')->get();
+        $kodeKontraktor = session()->get('kode');
+        $data = client::select('*')->where('status_delete_client','1')
+                ->where('kode_kontraktor',$kodeKontraktor)
+                ->get();
         return $data;
     }
 }

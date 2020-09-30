@@ -118,7 +118,6 @@ class kontraktorController extends Controller
     public function showListKomisi()
     {
         $c = new pembayaran_client();
-        $baru = $c->getListKomisi();
         $data = [
             'title' => 'List Pembayaran Komisi',
             'listDataKomisi' => $c->getListKomisi()
