@@ -18,7 +18,8 @@
     </button>
     <div class="dropdown-menu">
         {{--Dropdown Tukang--}}
-        <a class="dropdown-item" href="#"></a>
+        <a class="dropdown-item" href="/tukang/history">Lihat Riwayat absen</a>
+        <a class="dropdown-item" href="/tukang/absen">Absen</a>
     </div>
 </div>
 @endsection

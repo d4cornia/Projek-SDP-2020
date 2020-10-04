@@ -17,8 +17,9 @@ class CreateBuktiAbsens extends Migration
             $table->integerIncrements('kode_absen');
             $table->integer('kode_tukang')->unsigned();
             $table->foreign('kode_tukang')->references('kode_tukang')->on('tukangs');
-            $table->date('tanggal_absen');
+            $table->string('tanggal_absen');
             $table->string('bukti_foto_absen', 100);
+            $table->integer('ongkos_lembur')->unsigned();
             $table->string('konfirmasi_absen', 1);
         });
     }

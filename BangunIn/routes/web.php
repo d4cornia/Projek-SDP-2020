@@ -94,8 +94,8 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::post('/fetch', "kontraktorController@fetch")->name('cbPekerjaan.fetch');
     Route::post('/fetch1', "kontraktorController@getKode")->name('cb.fetch1');
     Route::post('/cekTagihan', "kontraktorController@cekTagihan")->name('cbKirim.cekTagihan');
-    Route::get('/setujui/{m?}',"kontraktorController@setujuiKomisi");
-    Route::get('/batal/{m?}',"kontraktorController@batalSetujui");
+    Route::get('/setujui/{m?}', "kontraktorController@setujuiKomisi");
+    Route::get('/batal/{m?}', "kontraktorController@batalSetujui");
     Route::get('/delClient/{n?}', "kontraktorController@deleteClient");
     Route::get('/resClient/{n?}', "kontraktorController@restoreClient");
     Route::get('/listPembayaran', "kontraktorController@listPembayaranClient");
@@ -176,6 +176,9 @@ Route::group(['prefix' => 'mandor'], function () {
 //tukang
 Route::group(['prefix' => 'tukang'], function () {
     Route::get('/', 'tukangController@index');
+    Route::get('/history', 'tukangController@listRiwayatAbsen');
+    Route::get('/absen', 'tukangController@indexAbsen');
+    Route::post('/upload', 'tukangController@absen');
 });
 
 //admin

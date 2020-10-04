@@ -15,11 +15,13 @@
                     <div class="my-1">
                         <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="work" id="work">
                             <option selected>-</option>
-                            @foreach ($listWork as $item)
-                                <option value="{{$item['kode_pekerjaan']}}" @if ($item['kode_pekerjaan'] == $current['kode_pekerjaan'])
-                                    selected
-                                @endif>{{$item['nama_pekerjaan']}}</option>
-                            @endforeach
+                            @if ($listWork !== null)
+                                @foreach ($listWork as $item)
+                                    <option value="{{$item['kode_pekerjaan']}}" @if ($item['kode_pekerjaan'] == $current['kode_pekerjaan'])
+                                        selected
+                                    @endif>{{$item['nama_pekerjaan']}}</option>
+                                @endforeach
+                            @endif
                         </select>
                         @error('work')
                         <div class="err">
