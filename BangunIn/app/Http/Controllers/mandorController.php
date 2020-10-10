@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\absen_tukang;
 use App\jenis_tukang;
 use App\fotopekerjaan;
 use App\pekerjaan_khusus;
@@ -29,6 +30,36 @@ class mandorController extends Controller
     public function index()
     {
         return view('mandor.navbar');
+    }
+
+    //Absen Tukang
+    public function lihatAbsenTukang()
+    {
+        return view('mandor.List.listAbsenTukang');
+    }
+
+    public function filterAbsen(Request $req)
+    {
+        $b = new absen_tukang();
+        $tanggal = $req->input('tanggalabsen');
+        $date=date_create($tanggal);
+        $format = date_format($date,"d-m-Y");
+        $data = [
+            'title' => 'List Absen Client',
+            'listFilterAbsen' => $b->filterTanggalAbsen($format)
+        ];
+        return view('mandor.List.listAbsenTukang',$data);
+    }
+
+    public function konfirmasiAbsen(Request $req)
+    {
+        $data = $req->input('status');
+        foreach ($data as $item) {
+            $b = new absen_tukang();
+            $b->acceptAbsen($item);
+            $b->insertAbsenHeader();
+            $b->insertAbsenDetail();
+        }
     }
 
     //jenistukang

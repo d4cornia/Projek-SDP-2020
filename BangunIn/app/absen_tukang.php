@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class absen_tukang extends Model
 {
@@ -34,5 +35,35 @@ class absen_tukang extends Model
         $this->konfirmasi_absen = '0';
         // dd($this);
         $this->save();
+    }
+
+    public function filterTanggalAbsen($tanggal)
+    {
+        $kode_mandor = session()->get('kode');
+        $users = DB::table('bukti_absens')
+        ->join('tukangs', 'bukti_absens.kode_tukang', '=', 'tukangs.kode_tukang')
+        ->join('jenis_tukangs', 'tukangs.kode_jenis','=','jenis_tukangs.kode_jenis')
+        ->where('bukti_absens.tanggal_absen','=',$tanggal)
+        ->where('tukangs.kode_mandor','=',$kode_mandor)
+        ->where('bukti_absens.konfirmasi_absen','=',0)
+        ->get();
+        return $users;
+    }
+
+    public function acceptAbsen($kode_absen)
+    {
+        $c = $this->find($kode_absen);
+        $c->konfirmasi_absen = 1;
+        $c->save();
+    }
+
+    public function insertAbsenHeader()
+    {
+
+    }
+
+    public function insertAbsenDetail()
+    {
+
     }
 }

@@ -11,6 +11,7 @@ class mandor extends Model
     public  $timestamps = false;
     protected $primaryKey = 'kode_mandor';
 
+
     public function CekLogin($username, $password)
     {
         //cek login Mandor
@@ -106,4 +107,5 @@ class mandor extends Model
         }
         return true;
     }
+
 }

@@ -45,14 +45,14 @@ class tukangController extends Controller
         ];
         $a = new absen_tukang();
         $date = mktime(8, 0, 0);
-        $data['buka'] = false;
-        if (date('H:i:s') <= date('H:i:s', $date) && $a->doneAbsen($temp[0])) {
-            $data['buka'] = true;
-        } else if (date('H:i:s') > date('H:i:s', $date)) {
-            $data['msg'] = 'Anda Telat!';
-        } else if (!$a->doneAbsen($temp[0])) {
-            $data['msg'] = 'Anda sudah melakukan absen!';
-        }
+        $data['buka'] = true;
+        // if (date('H:i:s') <= date('H:i:s', $date) && $a->doneAbsen($temp[0])) {
+        //     $data['buka'] = true;
+        // } else if (date('H:i:s') > date('H:i:s', $date)) {
+        //     $data['msg'] = 'Anda Telat!';
+        // } else if (!$a->doneAbsen($temp[0])) {
+        //     $data['msg'] = 'Anda sudah melakukan absen!';
+        // }
         return view('tukang.Creation.absen', $data);
     }
 
