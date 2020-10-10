@@ -20,6 +20,7 @@ use App\Rules\cbTukang;
 use App\Rules\cekKembarUpdateJenis;
 use App\Rules\cekMaksimalBayar;
 use App\Rules\cekPwdLama;
+use App\Rules\CekPwdMandor;
 use App\Rules\konfirmasiPwd;
 use App\Rules\pwdlamabeda;
 use App\tukang;
@@ -448,13 +449,19 @@ class mandorController extends Controller
     public function storeGantiPass(Request $request)
     {
         $kodetukang = $request->kodetukang;
+        $kodemandor = $request->session()->get('kode');
+        $mandor = new mandor();
+        $pass = $mandor->getPassword($kodemandor);
+        $pass=substr($pass,2);
+        $pass=substr($pass,0,strlen($pass)-2);
+        //dd($pass);
         //dd($kodetukang);
         $request->validate([
-            'passlama' => ['required',new cekPwdLama($kodetukang)],
+            'passlama' => ['required',new CekPwdMandor($pass)],
             'passbaru'=>['required',new pwdlamabeda($kodetukang)],
             'cpassbaru'=>['required',new konfirmasiPwd($request->passbaru)]
         ],[
-            'passlama.required' => 'Kolom kata sandi belum diisi!',
+            'passlama.required' => 'Kolom kata sandi mandor belum diisi!',
             'passbaru.required'=>'Kata sandi baru belum diisi!',
             'cpassbaru.required'=>'Konfirmasi Kata Sandi baru belum diisi!'
         ]);

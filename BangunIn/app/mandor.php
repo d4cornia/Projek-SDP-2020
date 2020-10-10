@@ -41,6 +41,12 @@ class mandor extends Model
             ->pluck('kode_mandor');
     }
 
+    public function getPassword($kodemandor)
+    {
+        return $this::where('kode_mandor', $kodemandor)
+            ->pluck('password_mandor');
+    }
+
     public function codetoName($id)
     {
         return $this::where('kode_mandor', $id)
