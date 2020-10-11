@@ -1263,7 +1263,7 @@ class mandorController extends Controller
             $file->move(public_path('\assets\bukti_pekerjaan'), $file->getClientOriginalName());
         }
         $param["pesan"] = "Project sudah selesai!";
-        return redirect('/mandor/lihatPekerjaan')->wiht($param);
+        return redirect('/mandor/lihatPekerjaan')->with($param);
     }
     public function detailWork($id)
     {
