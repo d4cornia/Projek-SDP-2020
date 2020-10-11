@@ -37,5 +37,8 @@ class DatabaseSeeder extends Seeder
         DB::table('tukangs')->insert([
             ['kode_tukang' => '100001', 'status_delete_tukang' => 0, 'gaji_pokok_tukang' => 180000, 'kode_jenis' => '100001', 'kode_mandor' => '100001', 'nama_tukang' => 'joe', 'no_hp_tukang' => '087526789502', 'username_tukang' => 'joe', 'email_tukang' => 'joe@gmail.com', 'password_tukang' => 'joe']
         ]);
+        DB::table('tukangs')->insert([
+            ['kode_tukang' => '100002', 'status_delete_tukang' => 0, 'gaji_pokok_tukang' => 180000, 'kode_jenis' => '100001', 'kode_mandor' => '100001', 'nama_tukang' => 'robby', 'no_hp_tukang' => '087526789502', 'username_tukang' => 'robby', 'email_tukang' => 'robby@gmail.com', 'password_tukang' => 'r']
+        ]);
     }
 }

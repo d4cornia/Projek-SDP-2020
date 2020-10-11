@@ -218,6 +218,9 @@
 @isset($succ)
     <script>
         swal("Berhasil Absen","{{$succ}}" , "success");
+        myVar = setTimeout(() => {
+            document.getElementById("succ").style.display = "none";
+        }, 5000);
     </script>
 @endisset
 @if (isset($pesan))

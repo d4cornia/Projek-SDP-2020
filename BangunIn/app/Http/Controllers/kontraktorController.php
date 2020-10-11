@@ -250,7 +250,7 @@ class kontraktorController extends Controller
         $data = $b->getTagihan($value);
         $output = "<option value=''>-</option>";
         foreach ($data as $row) {
-            $output .= "<option value='" . $row->id_tagihan . "'>" . "Tagihan ke - ". $row->keterangan . "</option>";
+            $output .= "<option value='" . $row->id_tagihan . "'>" . "Tagihan ke - " . $row->keterangan . "</option>";
         }
         echo $output;
     }

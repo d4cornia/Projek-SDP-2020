@@ -19,7 +19,7 @@ class CreateAbsenHarians extends Migration
             $table->foreign('kode_pekerjaan')->references('kode_pekerjaan')->on('pekerjaans');
             $table->integer('kode_mandor')->unsigned();
             $table->foreign('kode_mandor')->references('kode_mandor')->on('mandors');
-            $table->date('tanggal_absen');
+            $table->string('tanggal_absen');
         });
     }
 

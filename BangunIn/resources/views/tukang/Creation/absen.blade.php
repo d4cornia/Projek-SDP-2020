@@ -3,8 +3,8 @@
 @section('content')
 <style>
     .preview{
-        width: 860px;
-        height: 550px;
+        width: 800px;
+        height: 650px;
         margin-top: 40px;
         margin-bottom: 40px;
     }
@@ -26,7 +26,7 @@
     @csrf
     <div class="form-group">
         <div class="preview">
-            <img id="blah" src="" alt="" class="imgprev"/>
+            <img id="blah" src="/assets/default_tukang.png" alt="" class="imgprev"/>
         </div>
     </div>
 

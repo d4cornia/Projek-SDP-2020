@@ -112,9 +112,9 @@ Route::group(['prefix' => 'kontraktor'], function () {
 Route::group(['prefix' => 'mandor'], function () {
     Route::get('/', 'mandorController@index');
     //Absen Tukang
-    Route::get('/absenTukang', 'mandorController@lihatAbsenTukang');
-    Route::post('/filterAbsen', 'mandorController@filterAbsen');
-    Route::post('/konfirmasiAbsen', 'mandorController@konfirmasiAbsen');
+    Route::get('/absenTukang', 'mandorAbsenController@lihatAbsenTukang');
+    Route::post('/filterAbsen', 'mandorAbsenController@filterAbsen');
+    Route::post('/konfirmasiAbsen', 'mandorAbsenController@konfirmasiAbsen');
     //jenistukang
     //insert
     Route::get('/tambahJenisTukang', 'mandorController@tambahJenisTukang');
