@@ -1,1 +1,1 @@
-@extends('admin.navbar');
+@extends('admin.navbar')

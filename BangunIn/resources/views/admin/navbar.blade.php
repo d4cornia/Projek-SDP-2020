@@ -13,7 +13,15 @@
             <a class="dropdown-item" href="/logout">Log Out</a>
         </div>
     </div>
-
+    <div class="btn-group nav-side">
+        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Toko Bangunan
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/tambahToko">Tambah Toko Bangunan</a>
+            <a class="dropdown-item" href="/admin/lihatToko">Lihat Toko Bangunan</a>
+        </div>
+    </div>
 
 @endsection
 

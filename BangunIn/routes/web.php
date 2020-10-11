@@ -187,4 +187,9 @@ Route::group(['prefix' => 'tukang'], function () {
 //admin
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'adminController@index');
+    Route::get('/tambahToko','adminController@tambahToko');
+    Route::post('/submitToko','adminController@submitToko');
+    Route::get('/lihatToko','adminController@lihatToko');
+    Route::get('/editToko/{n?}', 'adminController@editToko');
+    Route::post('/storeEditToko','adminController@storeEditToko');
 });

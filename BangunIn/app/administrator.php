@@ -45,6 +45,11 @@ class administrator extends Model
         return $this::where('kode_admin', $id)->get();
     }
 
+    public function getKodeKontraktor($id)
+    {
+        return $this::where('kode_admin', $id)->pluck('kode_kontraktor');
+    }
+
     public function insertAdmin(Request $request)
     {
         $this->kode_kontraktor = session()->get('kode');

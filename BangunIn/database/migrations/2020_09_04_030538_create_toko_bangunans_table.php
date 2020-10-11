@@ -15,7 +15,6 @@ class CreateTokoBangunansTable extends Migration
     {
         Schema::create('toko_bangunans', function (Blueprint $table) {
             $table->integerIncrements('id_kerjasama');
-            $table->integer('kode_toko');
             $table->string('nama_toko',50);
             $table->string('alamat_toko',50);
             $table->string('no_hp_toko',13);
