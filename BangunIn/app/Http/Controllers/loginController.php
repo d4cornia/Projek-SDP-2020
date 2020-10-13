@@ -53,6 +53,7 @@ class loginController extends Controller
         if (count($dataKontraktor) > 0) {
             session()->put('kode', $dataKontraktor[0]->kode_kontraktor);
             session()->put('nama', $dataKontraktor[0]->nama_kontraktor);
+            session()->put('username', $dataKontraktor[0]->username_kontraktor);
             session()->put('nmperusahaan', $dataKontraktor[0]->nama_perusahaan);
             session()->put('lgperusahaan', $dataKontraktor[0]->logo_perusahaan);
             session()->put('status', 'kontraktor');
@@ -66,6 +67,7 @@ class loginController extends Controller
 
                 session()->put('kode', $dataMandor[0]->kode_mandor);
                 session()->put('nama', $dataMandor[0]->nama_mandor);
+                session()->put('username', $dataMandor[0]->username_mandor);
                 session()->put('nmperusahaan', $dtperusahaan[0]->nama_perusahaan);
                 session()->put('lgperusahaan', $dtperusahaan[0]->logo_perusahaan);
                 session()->put('status', 'mandor');
@@ -79,6 +81,7 @@ class loginController extends Controller
                                             ->get();
                     session()->put('kode', $dataTukang[0]->kode_tukang);
                     session()->put('nama', $dataTukang[0]->nama_tukang);
+                    session()->put('username', $dataTukang[0]->username_tukang);
                     session()->put('nmperusahaan', $dtperusahaan[0]->nama_perusahaan);
                     session()->put('lgperusahaan', $dtperusahaan[0]->logo_perusahaan);
                     session()->put('status', 'tukang');
@@ -90,6 +93,7 @@ class loginController extends Controller
                         $dtperusahaan = $kontraktor->where('kode_kontraktor',$dataAdmin[0]->kode_kontraktor)->get();
                         session()->put('kode', $dataAdmin[0]->kode_admin);
                         session()->put('nama', $dataAdmin[0]->nama_admin);
+                        session()->put('username', $dataAdmin[0]->username_admin);
                         session()->put('nmperusahaan', $dtperusahaan[0]->nama_perusahaan);
                         session()->put('lgperusahaan', $dtperusahaan[0]->logo_perusahaan);
                         session()->put('status', 'admin');
