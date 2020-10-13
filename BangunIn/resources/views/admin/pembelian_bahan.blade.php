@@ -65,7 +65,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Harga Bahan</label>
-            <input type="number" class="form-control"  min="0" id="hargabahan" name="hargabahan" required="required" step="500" readonly value="0">
+            <input type="number" class="form-control"  min="0" id="hargabahan" name="hargabahan" required="required" step="500" value="0">
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Jumlah Bahan</label>
@@ -73,7 +73,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Subtotal</label>
-            <input type="number" class="form-control"  min="0" id="subtotal" name="subtotal" required="required" step="500" readonly value="0">
+            <input type="number" class="form-control"  min="0" id="subtotal" name="subtotal" required="required" readonly step="500" value="0">
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Pekerjaan</label>
