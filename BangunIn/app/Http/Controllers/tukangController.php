@@ -38,22 +38,20 @@ class tukangController extends Controller
         date_default_timezone_set("Asia/Bangkok");
         $t = new tukang();
         $temp = $t->nameToCode(session()->get('nama'));
-
-
         $data = [
             'title' => 'Absen',
             'kode' => $temp[0]
         ];
         $a = new absen_tukang();
         $date = mktime(8, 0, 0);
-        $data['buka'] = false;
-        if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
-            $data['buka'] = true;
-        } else if ($a->doneAbsen($temp[0])) {
-            $data['msg'] = 'Anda sudah melakukan absen!';
-        } else if (date('H:i:s') > date('H:i:s', $date)) {
-            $data['msg'] = 'Anda Telat!';
-        }
+        $data['buka'] = true;
+        // if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
+        //     $data['buka'] = true;
+        // } else if ($a->doneAbsen($temp[0])) {
+        //     $data['msg'] = 'Anda sudah melakukan absen!';
+        // } else if (date('H:i:s') > date('H:i:s', $date)) {
+        //     $data['msg'] = 'Anda Telat!';
+        // }
         return view('tukang.Creation.absen', $data);
     }
 
