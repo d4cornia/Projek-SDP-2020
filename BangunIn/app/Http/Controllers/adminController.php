@@ -138,8 +138,19 @@ class adminController extends Controller
         $toko = new toko_bangunan();
         $data = $toko->where("nama_toko",$nmToko)->get();
         $select = "<option disabled selected>Pilih Alamat Toko</option>";
+        if(session()->has('idker')){
+            $idker=session()->get('idker');
+        }
+        else{
+            $idker="";
+        }
         foreach ($data as $key => $value) {
-            $select .= "<option value='".$value->id_kerjasama."'>".$value->alamat_toko."</option>";
+            if($value->id_kerjasama==$idker){
+                $select .= "<option value='".$value->id_kerjasama."' selected='true'>".$value->alamat_toko."</option>";
+            }
+            else{
+                $select .= "<option value='".$value->id_kerjasama."'>".$value->alamat_toko."</option>";
+            }
         }
         echo $select;
     }
@@ -201,13 +212,28 @@ class adminController extends Controller
         $spesial = new pekerjaan_khusus();
         $data = $spesial->where("kode_pekerjaan",$id)->get();
         $select = "<option disabled selected value='-'>Pilih Pekerjaan Khusus</option>";
+        if(session()->has('pk')){
+            $pk = session()->get('pk');
+        }
+        else{
+            $pk="";
+        }
         foreach ($data as $key => $value) {
-            $select .= "<option value='".$value->kode_pk."'>".$value->keterangan_pk."</option>";
+            if($value->kode_pk==$pk){
+                $select .= "<option value='".$value->kode_pk."' selected='true'>".$value->keterangan_pk."</option>";
+            }
+            else{
+                $select .= "<option value='".$value->kode_pk."'>".$value->keterangan_pk."</option>";
+            }
         }
         echo $select;
     }
     public function vnota()
     {
+            $listBeli = [];
+            if(session()->has('arraybeli')){
+                $listBeli=session()->get('arraybeli');
+            }
             $bukti = new bukti_pembelian_mandor();
             $toko = new toko_bangunan();
             $kodeadmin = session()->get('kode');
@@ -229,11 +255,78 @@ class adminController extends Controller
                                         ->where('status_delete_bukti',0)->get();
             $param["listToko"] = $namaku;
             $param["listPekerjaan"] = $daftarpekerjaan;
+            $param["listBeli"] = json_encode($listBeli);
             return view('admin.pembelian_bahan')->with($param);
     }
-    public function pembelianNota(Request $req)
+    public function pembelianNota(Request $request)
     {
-        $param["success"] = "Berhasil Tambah Nota Pembelian";
-        return redirect('/admin/vpembelianNota')->with($param);
+        //$param["success"] = "Berhasil Tambah Nota Pembelian";
+        //return redirect('/admin/vpembelianNota')->with($param);
+        $listBeli=[];
+        if(session()->has('arraybeli')){
+            $listBeli=session()->get('arraybeli');
+        }
+        $nmtk="";$idker="";
+        $pek="";$pk="";
+        if(session()->has('namatoko')){
+            $nmtk=session()->get('namatoko');
+            $idker=session()->get('idker');
+            $pek=session()->get('pek');
+            $pk =session()->get('pk');
+        }
+
+        $namatoko = $request->nama;
+        $idkerjasama = $request->alamat;
+        $pekerjaan = $request->pekerjaan;
+        $pkh = $request->spekerjaan;
+        if(strlen($pkh)==0){
+            $pkh="";
+        }
+        if($nmtk==$namatoko && $idker==$idkerjasama && $pekerjaan==$pek && $pkh==$pk){
+        }
+        else{
+            //ganti toko, maka session dihapus
+            $request->session()->forget('arraybeli');
+            $listBeli=[];
+        }
+
+        $bahanbgg = new bahan_bangunan();
+        $idbahan = $request->bahan;
+        $namabahan = $bahanbgg->where('id_bahan',$idbahan)->pluck('nama_bahan')[0];
+        $jumlah = $request->jumlah;
+        $diskon = $request->diskon;
+        $subtotal = $request->subtotal;
+        $harga = $request->hargabahan;
+        $baru = array(
+            'nama_bahan'=>$namabahan,
+            'jumlah_barang'=>$jumlah,
+            'harga_satuan'=>$harga,
+            'persen_diskon'=>$diskon,
+            'subtotal'=>$subtotal
+        );
+        array_push($listBeli,$baru);
+        session()->put('arraybeli',$listBeli);
+        session()->put('namatoko',$namatoko);
+        session()->put('idker',$idkerjasama);
+        session()->put('pek',$pekerjaan);
+        session()->put('pk',$pkh);
+        return redirect('/admin/vpembelianNota');
+    }
+    public function tabelBeli(Request $request)
+    {
+        $kode = $request->kodeku;
+        $listBeli=[];
+        if(session()->has('arraybeli')){
+            $listBeli=session()->get('arraybeli');
+        }
+        $posisi=-1;
+        for($i=0;$i<count($listBeli);$i++){
+            if($listBeli[$i]['nama_bahan']==$kode){
+                $posisi=$i;
+            }
+        }
+        array_splice($listBeli,$posisi,1);
+        session()->put('arraybeli',$listBeli);
+        return redirect('/admin/vpembelianNota');
     }
 }

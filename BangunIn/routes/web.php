@@ -204,4 +204,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/getSpesial', "adminController@getSpesial")->name('admin.getSpesial');
     Route::get('/vpembelianNota','adminController@vnota');
     Route::post('/pembelianNota','adminController@pembelianNota');
+    Route::post('/tabelBeli','adminController@tabelBeli');
+    Route::post('/simpanPembelian','adminController@simpanPembelian');
 });

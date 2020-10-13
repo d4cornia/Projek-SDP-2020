@@ -47,12 +47,23 @@
                 <option disabled selected>Pilih Nama Toko</option>
                 @php
                     $data = array_unique($listToko,SORT_STRING);
+                    if(session()->has('namatoko')){
+                        $namatoko=session()->get('namatoko');
+                    }
+                    else{
+                        $namatoko="";
+                    }
                 @endphp
                 @foreach ($data as $item)
-                    <option>{{$item}}</option>
+                    @if ($item==$namatoko)
+                        <option value='{{$item}}' selected='true'>{{$item}}</option>
+                    @else
+                        <option value='{{$item}}'>{{$item}}</option>
+                    @endif
                 @endforeach
             </select>
         </div>
+
         <div class="form-group">
             <label for="exampleInputEmail1">Alamat Toko</label>
             <select name="alamat" id="alamat" class="form-control" required="required">
@@ -72,6 +83,10 @@
             <input type="number" class="form-control"  min="0" id="jumlah" name="jumlah" required="required" step="0.01" value="0">
         </div>
         <div class="form-group">
+            <label for="exampleInputEmail1">Persen Diskon</label>
+            <input type="number" class="form-control"  min="0" id="diskon" name="diskon" required="required" step="1" value="0">
+        </div>
+        <div class="form-group">
             <label for="exampleInputEmail1">Subtotal</label>
             <input type="number" class="form-control"  min="0" id="subtotal" name="subtotal" required="required" readonly step="500" value="0">
         </div>
@@ -79,8 +94,20 @@
             <label for="exampleInputEmail1">Pekerjaan</label>
             <select name="pekerjaan" id="pekerjaan" class="form-control" required="required">
                 <option disabled selected>Pilih Pekerjaan</option>
+                @php
+                    if(session()->has('pek')){
+                        $pek=session()->get('pek');
+                    }
+                    else{
+                        $pek="";
+                    }
+                @endphp
                 @foreach ($listPekerjaan as $item)
-                    <option value="{{$item["kode_pekerjaan"]}}">{{$item["nama_pekerjaan"]}}</option>
+                    @if ($item['kode_pekerjaan']==$pek)
+                        <option value="{{$item["kode_pekerjaan"]}}" selected='true'>{{$item["nama_pekerjaan"]}}</option>
+                    @else
+                        <option value="{{$item["kode_pekerjaan"]}}">{{$item["nama_pekerjaan"]}}</option>
+                    @endif
                 @endforeach
             </select>
         </div>
@@ -93,6 +120,69 @@
     </div>
 </form>
 </div>
+    @php
+        $arrBeli = json_decode($listBeli);
+    @endphp
+    <br>
+    @if (count($arrBeli)>0)
+        <form method="POST" action="/admin/tabelBeli" class="needs-validation" novalidate>
+            @csrf
+            @php
+                $total=0;
+                foreach ($arrBeli as $item){
+                    $total+=$item->subtotal;
+                }
+            @endphp
+        <h3>Total : Rp {{number_format($total)}}</h3>
+        <div class="table-responsive">
+            <table id="tabel-beli" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Bahan Bangunan</th>
+                    <th>Jumlah Barang</th>
+                    <th>Harga Satuan</th>
+                    <th>Diskon</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="">
+
+                    @foreach ($arrBeli as $item)
+                        <tr>
+
+                            <th scope="row">{{$loop->iteration}}</th>
+                            <td>{{$item->nama_bahan}}</td>
+                            <td>{{$item->jumlah_barang}}</td>
+                            <td align="right">Rp {{number_format($item->harga_satuan)}}</td>
+                            <td>{{$item->persen_diskon}}</td>
+                            <td align='right'>Rp {{number_format($item->subtotal)}}</td>
+                            <td>
+                            <button type='submit' name='kodeku' value='{{$item->nama_bahan}}' class="btn btn-danger">Batal</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </form>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>No</th>
+                    <th>Bahan Bangunan</th>
+                    <th>Jumlah Barang</th>
+                    <th>Harga Satuan</th>
+                    <th>Diskon</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
+            </table>
+        </div>
+        <form method="POST" action="/admin/simpanPembelian" class="needs-validation" novalidate>
+            @csrf
+            <button type="submit" class="btn btn-success" name='btnSimpan'>Simpan</button>
+        </form>
+    @endif
 @if($msg = Session::get('success'))
     <script>
         swal('Berhasil!', "{{Session::get('success')}}", "success");
@@ -145,6 +235,17 @@
             }
             else{
                 $('#jumlah').val(0);
+            }
+        });
+        $('#diskon').change(function(){
+            if($(this).val()>=0){
+                var diskon =  $('#diskon').val();
+                var sub =  $('#subtotal').val();
+
+                $('#subtotal').val((100-diskon)*sub/100);
+            }
+            else{
+                $('#diskon').val(0);
             }
         });
         $('#pekerjaan').change(function(){
