@@ -9,7 +9,7 @@ use App\Rules\cekNamaToko;
 use App\toko_bangunan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
-
+use App\bahan_bangunan;
 class adminController extends Controller
 {
     public function index()
@@ -109,5 +109,71 @@ class adminController extends Controller
         $toko->updateToko($request,$kode);
         Cookie::queue("berhasilupdate",1,10);
         return redirect('/admin/lihatToko');
+    }
+    public function inputBahan()
+    {
+        $bukti = new bukti_pembelian_mandor();
+        $toko = new toko_bangunan();
+        $kodeadmin = session()->get('kode');
+        $adm = new administrator();
+        $pekerjaan = new pekerjaan();
+        $kodekontraktor = $adm->getKodeKontraktor($kodeadmin)[0];
+        $daftarpekerjaan = $pekerjaan->where('kode_admin',$kodeadmin)->pluck('kode_pekerjaan');
+        $param['listToko'] = $toko->where('kode_kontraktor', $kodekontraktor)->where('status_delete_tb',0)->get();
+        $param['listFoto'] = $bukti->whereIn('kode_pekerjaan', $daftarpekerjaan)->where('status_input',0)
+                                    ->where('status_delete_bukti',0)->get();
+        return view('admin.tambahBahan')->with($param);
+    }
+    public function getAlamat(Request $req)
+    {
+        $nmToko = $req->get('value');
+        $toko = new toko_bangunan();
+        $data = $toko->where("nama_toko",$nmToko)->get();
+        $select = "<option disabled selected>Pilih Alamat Toko</option>";
+        foreach ($data as $key => $value) {
+            $select .= "<option value='".$value->id_kerjasama."'>".$value->alamat_toko."</option>";
+        }
+        echo $select;
+    }
+    public function tambahBahan(Request $req)
+    {
+        $idKerjasama = $req->alamat;
+        $nmbahan = $req->nmbahan;
+        $harga = $req->hargabahan;
+        $bahan  = new bahan_bangunan();
+        $bahan->addBahan($idKerjasama,$nmbahan,$harga);
+        return redirect("admin/inputBahan")->with(['success' => 'Berhasil Menambah Bahan!']);
+    }
+    public function lBahan($id)
+    {
+        $bahan  = new bahan_bangunan();
+        $toko = new toko_bangunan();
+        $param["toko"] = $toko->where("id_kerjasama",$id)->get();
+        $param["listBahan"] = $bahan->where('id_kerjasama',$id)->where('status_delete_bb',0)->get();
+        return view("admin.List.listBahan")->with($param);
+    }
+    public function deleteBahan($idbahan,$id)
+    {
+        $bahan  = new bahan_bangunan();
+        $bahan->deleteBahan($idbahan);
+        return redirect("/admin/lBahan/".$id)->with(['success' => 'Berhasil Menghapus Bahan!']);
+    }
+    public function veditBahan($idbahan,$id)
+    {
+        $bahan  = new bahan_bangunan();
+        $toko = new toko_bangunan();
+        $param["idbahan"] = $idbahan;
+        $param["id"] = $id;
+        $param["toko"] = $toko->where("id_kerjasama",$id)->get();
+        $param["bahan"] = $bahan->find($idbahan);
+        return view('/admin/Edit/vedit')->with($param);
+    }
+    public function editBahan(Request $req)
+    {
+        $idbahan = $req->query('idbahan');
+        $id = $req->query('idkerjasama');
+        $bahan  = new bahan_bangunan();
+        $bahan->editBahan($idbahan,$req->nmbahan,$req->hargabahan);
+        return redirect("/admin/lBahan/".$id)->with(['success' => 'Berhasil Edit Bahan!']);
     }
 }

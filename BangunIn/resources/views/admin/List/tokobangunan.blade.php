@@ -27,6 +27,7 @@
                             <td>{{$item->no_hp_toko}}</td>
                             <td>
                                 <a href="/admin/editToko/{{$item->id_kerjasama}}" class="btn btn-success">Detail</a>
+                                <a href="/admin/lBahan/{{$item->id_kerjasama}}" class="btn btn-warning">List Bahan</a>
                             </td>
                         </tr>
                     @endforeach
@@ -46,6 +47,8 @@
     @else
         <h4>Tidak Ada Toko Bangunan!</h4>
     @endif
+</div>
+
     <script>
         $(document).ready(function() {
             $("#tabel-toko").DataTable();
