@@ -11,8 +11,7 @@
 <div class="row">
     <div class="col-5">
     <form style='margin-top:50px' method="POST" action="/admin/pembelianNota" class="needs-validation" novalidate>
-            @csrf
-
+        @csrf
         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="false" style="width:100%;">
             <div class="carousel-inner">
                 @php $i=0; @endphp
@@ -63,12 +62,17 @@
                 @endforeach
             </select>
         </div>
-
         <div class="form-group">
             <label for="exampleInputEmail1">Alamat Toko</label>
             <select name="alamat" id="alamat" class="form-control" required="required">
             </select>
         </div>
+        @php
+            if(session()->has('idker')){
+                $idker=session()->get('idker');
+
+            }
+        @endphp
         <div class="form-group">
             <label for="exampleInputEmail1">Nama Bahan</label>
             <select name="bahan" id="bahan" class="form-control" required="required">
