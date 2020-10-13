@@ -19,7 +19,7 @@ class tukangController extends Controller
         date_default_timezone_set("Asia/Bangkok");
         $t = new tukang();
         $a = new absen_tukang();
-        $temp = $t->nameToCode(session()->get('nama'));
+        $temp = $t->nameToCode(session()->get('username'));
         $data = [
             'title' => 'Absen',
             'listHistory' => $a->getAllMyHist($temp[0])
@@ -37,7 +37,7 @@ class tukangController extends Controller
     {
         date_default_timezone_set("Asia/Bangkok");
         $t = new tukang();
-        $temp = $t->nameToCode(session()->get('nama'));
+        $temp = $t->nameToCode(session()->get('username'));
         $data = [
             'title' => 'Absen',
             'kode' => $temp[0]
@@ -45,13 +45,13 @@ class tukangController extends Controller
         $a = new absen_tukang();
         $date = mktime(8, 0, 0);
         $data['buka'] = true;
-        // if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
-        //     $data['buka'] = true;
-        // } else if ($a->doneAbsen($temp[0])) {
-        //     $data['msg'] = 'Anda sudah melakukan absen!';
-        // } else if (date('H:i:s') > date('H:i:s', $date)) {
-        //     $data['msg'] = 'Anda Telat!';
-        // }
+        if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
+            $data['buka'] = true;
+        } else if ($a->doneAbsen($temp[0])) {
+            $data['msg'] = 'Anda sudah melakukan absen!';
+        } else if (date('H:i:s') > date('H:i:s', $date)) {
+            $data['msg'] = 'Anda Telat!';
+        }
         return view('tukang.Creation.absen', $data);
     }
 
@@ -71,7 +71,7 @@ class tukangController extends Controller
 
 
         $t = new tukang();
-        $temp = $t->nameToCode(session()->get('nama'));
+        $temp = $t->nameToCode(session()->get('username'));
         $data = [
             'title' => 'Absen',
             'listHistory' => $a->getAllMyHist($temp[0]),
