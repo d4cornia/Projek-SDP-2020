@@ -29,82 +29,91 @@ class mandorAbsenController extends Controller
         $date = date_create($tanggal);
         $format = date_format($date, "d-m-Y");
 
-        // jika sudah dikonfirmasi maka tidak ada konfirmasi lagi
-        if ($ah->doneKonfirmasi($format)) {
-            // jika sudah dikonfirmasi
-            $q = null;
-            $nc = null;
-            $da = new detail_absen();
-            $t = new tukang();
-            foreach ($ah->getHeader($format) as $header) {
-                // untuk header ini yang dikonfrim apa aja
-                foreach ($da->getDetail($header['kode_absen_harians']) as $detail) {
-                    $tem = $p->getWork($header['kode_pekerjaan']);
-                    $tuk = $t->getKodeJenis($detail['kode_tukang']);
-                    $jenis = $jt->getNamaJenis($tuk[0]);
-                    $bukti = $detail['kode_absen'];
-                    if ($detail['kode_absen'] != null) {
-                        $bukti = $b->getBukti($detail['kode_absen']);
-                    } else {
-                        $bukti[] = null;
+        $tgl = mktime(0, 0, 0, 0, 7);
+        if ((intval(date('d-m-Y')) - intval(date('d-m-Y', $tgl))) <= intval(date_format($date, 'd-m-Y')) && intval(date_format($date, 'd-m-Y')) <= intval(date('d-m-Y'))) { // jika sudah dikonfirmasi maka tidak ada konfirmasi lagi
+            if ($ah->doneKonfirmasi($format)) {
+                // jika sudah dikonfirmasi
+                $q = null;
+                $nc = null;
+                $da = new detail_absen();
+                $t = new tukang();
+                foreach ($ah->getHeader($format) as $header) {
+                    // untuk header ini yang dikonfrim apa aja
+                    foreach ($da->getDetail($header['kode_absen_harians']) as $detail) {
+                        $tem = $p->getWork($header['kode_pekerjaan']);
+                        $tuk = $t->getKodeJenis($detail['kode_tukang']);
+                        $jenis = $jt->getNamaJenis($tuk[0]);
+                        $bukti = $detail['kode_absen'];
+                        if ($detail['kode_absen'] != null) {
+                            $bukti = $b->getBukti($detail['kode_absen']);
+                        } else {
+                            $bukti[] = null;
+                        }
+                        $nama = $t->getNamaTukang($detail['kode_tukang']);
+                        $q[] = [
+                            'kode_tukang' => $detail['kode_tukang'],
+                            'nama_tukang' => $nama[0],
+                            'kode_pekerjaan' => $header['kode_pekerjaan'],
+                            'nama_pekerjaan' => $tem[0]['nama_pekerjaan'],
+                            'jenis_tukang' => $jenis[0],
+                            'tanggal_absen' => $header['tanggal_absen'],
+                            'ongkos_lembur' => $detail['ongkos_lembur'],
+                            'bukti' => $bukti[0]
+                        ];
                     }
-                    $nama = $t->getNamaTukang($detail['kode_tukang']);
-                    $q[] = [
-                        'kode_tukang' => $detail['kode_tukang'],
-                        'nama_tukang' => $nama[0],
-                        'kode_pekerjaan' => $header['kode_pekerjaan'],
-                        'nama_pekerjaan' => $tem[0]['nama_pekerjaan'],
-                        'jenis_tukang' => $jenis[0],
-                        'tanggal_absen' => $header['tanggal_absen'],
-                        'bukti' => $bukti[0]
-                    ];
+
+                    // untuk header ini yang ga konfirm apa aja
+                    $tem = $da->getNotConfirm($header['kode_absen_harians']);
+                    if ($tem != null) {
+                        foreach ($tem as $item) {
+                            $jenis = $jt->getNamaJenis($item['kode_jenis']);
+                            $item['jenis_tukang'] = $jenis[0];
+                            $nc[] = $item;
+                        }
+                    }
+                }
+                //tampilkan yang sudah terkonfirmasi absennya
+                $data = [
+                    'title' => 'List Absen Client',
+                    'hid' => '1',
+                    'list' => $q,
+                    'nc' => $nc,
+                    'ctr' => 0
+                ];
+            } else {
+                // jika belum dikonfirmasi
+
+                // tukang yang telat checkbox tidak dicentang
+                $tt = null;
+                if ($b->tukangTelat($format) !== null) {
+                    foreach ($b->tukangTelat($format) as $item) {
+                        $temp = $jt->getNamaJenis($item['kode_jenis']);
+                        $tt[] = [
+                            'kode_tukang' => $item['kode_tukang'],
+                            'kode_mandor' => $item['kode_mandor'],
+                            'jenis_tukang' => $temp[0],
+                            'nama_tukang' => $item['nama_tukang'],
+                        ];
+                    }
                 }
 
-                // untuk header ini yang ga konfirm apa aja
-                $tem = $da->getNotConfirm($header['kode_absen_harians']);
-                if ($tem != null) {
-                    foreach ($tem as $item) {
-                        $jenis = $jt->getNamaJenis($item['kode_jenis']);
-                        $item['jenis_tukang'] = $jenis[0];
-                        $nc[] = $item;
-                    }
-                }
+                $data = [
+                    'title' => 'List Absen Tukang',
+                    'listFilterAbsen' => $b->filterTanggalAbsen($format),
+                    'tukang_telat' => $tt,
+                    'listWork' => $p->getAllWork(),
+                    'hid' => '0',
+                    'tgl' => $format,
+                    'ctr' => 0
+                ];
             }
-            //tampilkan yang sudah terkonfirmasi absennya
-            $data = [
-                'title' => 'List Absen Client',
-                'hid' => '1',
-                'list' => $q,
-                'nc' => $nc,
-                'ctr' => 0
-            ];
         } else {
-            // jika belum dikonfirmasi
-
-            // tukang yang telat checkbox tidak dicentang
-            $tt = null;
-            if ($b->tukangTelat($format) !== null) {
-                foreach ($b->tukangTelat($format) as $item) {
-                    $temp = $jt->getNamaJenis($item['kode_jenis']);
-                    $tt[] = [
-                        'kode_tukang' => $item['kode_tukang'],
-                        'kode_mandor' => $item['kode_mandor'],
-                        'jenis_tukang' => $temp[0],
-                        'nama_tukang' => $item['nama_tukang'],
-                    ];
-                }
-            }
-
             $data = [
-                'title' => 'List Absen Tukang',
-                'listFilterAbsen' => $b->filterTanggalAbsen($format),
-                'tukang_telat' => $tt,
-                'listWork' => $p->getAllWork(),
-                'hid' => '0',
-                'tgl' => $format,
-                'ctr' => 0
+                'errAbsen' => 'Tanggal yang anda pilih melebihi batas'
             ];
         }
+
+
         // dd($data);
         return view('mandor.List.listAbsenTukang', $data);
     }

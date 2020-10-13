@@ -37,7 +37,6 @@ class absen_tukang extends Model
         $this->kode_tukang = decrypt($req->kode_tukang);
         $this->tanggal_absen = date("d-m-Y");
         $this->bukti_foto_absen = session()->get('bukti');
-        $this->ongkos_lembur = 0;
         $this->konfirmasi_absen = '0';
         // dd($this);
         $this->save();
@@ -70,11 +69,10 @@ class absen_tukang extends Model
         return $data;
     }
 
-    public function acceptAbsen($kode_absen, $ongkos)
+    public function acceptAbsen($kode_absen)
     {
         $c = $this->find($kode_absen);
         $c->konfirmasi_absen = 1;
-        $c->ongkos_lembur = $ongkos;
         $c->save();
     }
 
@@ -94,24 +92,24 @@ class absen_tukang extends Model
             $ctr = 0;
             $ah = new absen_harian();
             $data = $req->input('status');
+            $ongkos = $req->input('ongkos');
             foreach ($data as $item) {
                 $da = new detail_absen();
                 $temp = $ah->getKodeHeader($works[$ctr], $tanggal); // get kode header sesuai dengan pekerjaan dan tanggal
                 if ($item == "-1") { // telat, detail ada tpi bukti g ada
-                    $da->insertDetail($temp[0], null, $tukangs[$ctr]);
+                    $da->insertDetail($temp[0], null, $tukangs[$ctr], $ongkos[$ctr]);
                 } else {
-                    $da->insertDetail($temp[0], $item, $tukangs[$ctr]);
+                    $da->insertDetail($temp[0], $item, $tukangs[$ctr], $ongkos[$ctr]);
                 }
                 $ctr++;
             }
 
             //Update
-            $ongkos = $req->input('ongkos');
             // dd($ongkos);
             $ctr = 0;
             foreach ($data as $item) {
                 if ($item != '-1') {
-                    $this->acceptAbsen($item, $ongkos[$ctr]);
+                    $this->acceptAbsen($item);
                 }
                 $ctr++;
             }

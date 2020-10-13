@@ -20,9 +20,21 @@ class tukangController extends Controller
         $t = new tukang();
         $a = new absen_tukang();
         $temp = $t->nameToCode(session()->get('username'));
+        $filter = null;
+        $date = mktime(0, 0, 0, 0, 7);
+        if ($a->getAllMyHist($temp[0]) !== null) {
+            foreach ($a->getAllMyHist($temp[0]) as $item) {
+                $tgl = date_create($item['tanggal_absen']);
+                if ((intval(date('d-m-Y')) - intval(date('d-m-Y', $date))) <= intval(date_format($tgl, 'd-m-Y'))) {
+                    $filter[] = $item;
+                }
+            }
+        }
+        // dd(date('d-m-Y') - intval(date('d-m-Y', $date)));
+
         $data = [
             'title' => 'Absen',
-            'listHistory' => $a->getAllMyHist($temp[0])
+            'listHistory' => $filter
         ];
 
         $date = mktime(8, 0, 0);
@@ -44,7 +56,8 @@ class tukangController extends Controller
         ];
         $a = new absen_tukang();
         $date = mktime(8, 0, 0);
-        $data['buka'] = true;
+        $data['buka'] = false;
+        // dd(date('H:i:s'));
         if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
             $data['buka'] = true;
         } else if ($a->doneAbsen($temp[0])) {
@@ -72,9 +85,20 @@ class tukangController extends Controller
 
         $t = new tukang();
         $temp = $t->nameToCode(session()->get('username'));
+        $filter = null;
+        $date = mktime(0, 0, 0, 0, 7);
+        if ($a->getAllMyHist($temp[0]) !== null) {
+            foreach ($a->getAllMyHist($temp[0]) as $item) {
+                $tgl = date_create($item['tanggal_absen']);
+                if ((intval(date('d-m-Y')) - intval(date('d-m-Y', $date))) <= intval(date_format($tgl, 'd-m-Y'))) {
+                    $filter[] = $item;
+                }
+            }
+        }
+
         $data = [
             'title' => 'Absen',
-            'listHistory' => $a->getAllMyHist($temp[0]),
+            'listHistory' => $filter,
             'title' => 'Riwayat absen',
             'succ' => 'Silahkan tunggu konfirmasi dari mandor'
         ];

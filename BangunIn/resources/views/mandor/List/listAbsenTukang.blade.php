@@ -147,6 +147,7 @@
                 <th scope="col">Pekerjaan</th>
                 <th scope="col">Jenis Tukang</th>
                 <th scope="col">Tanggal Absen</th>
+                <th scope="col">Ongkos Lembur</th>
                 <th scope="col">Bukti</th>
             </tr>
         </thead>
@@ -163,6 +164,7 @@
                         </td>
                         <td>{{$item['jenis_tukang']}}</td>
                         <td>{{$item['tanggal_absen']}}</td>
+                        <td>{{$item['ongkos_lembur']}}</td>
                         <td>@if ($item['bukti'] === null)
                             <a target="_blank" href="/assets/default_tukang.png" alt="/assets/default_tukang.png">
                                 <img src="/assets/default_tukang.png" alt="/assets/default_tukang.png">
@@ -172,7 +174,6 @@
                                 <img src="/assets/absen_tukang/{{$item['bukti']}}" alt="/assets/default_tukang.png">
                             </a>
                         @endif</td>
-                        <input type="hidden" name="kode_tukang[]" value="{{$item['kode_tukang']}}" id="k{{$ctr}}" disabled>
                     </tr>
                 @endforeach
             @endif
@@ -184,6 +185,7 @@
                 <th scope="col">Pekerjaan</th>
                 <th scope="col">Jenis Tukang</th>
                 <th scope="col">Tanggal Absen</th>
+                <th scope="col">Ongkos Lembur</th>
                 <th scope="col">Bukti</th>
             </tr>
         </tfoot>
