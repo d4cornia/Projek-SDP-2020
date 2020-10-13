@@ -10,11 +10,12 @@ class detail_absen extends Model
     public  $timestamps = false;
     public  $incrementing = true;
 
-    public function insertDetail($kodeAH, $kodeB, $kodeT)
+    public function insertDetail($kodeAH, $kodeB, $kodeT, $ongkos)
     {
         $this->kode_absen_harians = $kodeAH;
         $this->kode_absen = $kodeB;
         $this->kode_tukang = $kodeT;
+        $this->ongkos_lembur = $ongkos;
         $this->save();
     }
 

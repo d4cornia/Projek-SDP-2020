@@ -20,6 +20,7 @@ class CreateDetailAbsens extends Migration
             $table->integer('kode_absen')->unsigned()->nullable();
             $table->foreign('kode_absen')->references('kode_absen')->on('bukti_absens');
             $table->integer('kode_tukang')->unsigned();
+            $table->integer('ongkos_lembur')->unsigned();
         });
     }
 

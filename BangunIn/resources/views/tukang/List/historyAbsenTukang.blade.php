@@ -33,7 +33,6 @@
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Tanggal</th>
-                    <th scope="col">Ongkos Lembur</th>
                     <th scope="col">Status</th>
                     <th scope="col">Bukti</th>
                 </tr>
@@ -44,7 +43,6 @@
                             <tr>
                                 <th scope="row">{{$loop->iteration}}</th>
                                 <td>{{$item->tanggal_absen}}</td>
-                                <td>{{$item->ongkos_lembur}}</td>
                                 <td>@if ($item->konfirmasi_absen == '1')
                                         Disetujui Mandor!
                                     @else
@@ -61,7 +59,6 @@
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Tanggal</th>
-                    <th scope="col">Ongkos Lembur</th>
                     <th scope="col">Status</th>
                     <th scope="col">Bukti</th>
                 </tr>

@@ -46,7 +46,7 @@
             margin-top: 30px;
         }
 
-        .succ{
+        .succ, .kon{
             width: 100%;
             margin-top: .25rem;
             font-size: 85%;
@@ -221,6 +221,12 @@
         myVar = setTimeout(() => {
             document.getElementById("succ").style.display = "none";
         }, 5000);
+    </script>
+@endisset
+
+@isset($errAbsen)
+    <script>
+        swal("Gagal","{{$errAbsen}}" , "error");
     </script>
 @endisset
 @isset($kon)
