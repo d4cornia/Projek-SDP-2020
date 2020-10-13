@@ -70,10 +70,11 @@ class absen_tukang extends Model
         return $data;
     }
 
-    public function acceptAbsen($kode_absen)
+    public function acceptAbsen($kode_absen, $ongkos)
     {
         $c = $this->find($kode_absen);
         $c->konfirmasi_absen = 1;
+        $c->ongkos_lembur = $ongkos;
         $c->save();
     }
 
@@ -105,10 +106,14 @@ class absen_tukang extends Model
             }
 
             //Update
+            $ongkos = $req->input('ongkos');
+            // dd($ongkos);
+            $ctr = 0;
             foreach ($data as $item) {
                 if ($item != '-1') {
-                    $this->acceptAbsen($item);
+                    $this->acceptAbsen($item, $ongkos[$ctr]);
                 }
+                $ctr++;
             }
             DB::commit();
         } catch (Exception $e) {
