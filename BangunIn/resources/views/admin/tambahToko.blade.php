@@ -1,15 +1,17 @@
 @extends('admin.navbar')
 
 @section('content')
-<h1>Toko Bangunan
-<div class="option" style="float:right;">
+<h1 class="mb-3">Toko Bangunan</h1>
+<div class="option col-12 text-right mb-5" style="margin-top: 0px">
     <a class="btn btn-primary"  href="/admin/lihatToko" style="width:250px"><font size="3">Lihat Toko Bangunan</font></a>
 </div>
-</h1>
-<form style='margin-top:50px' method="POST" action="/admin/submitToko" class="needs-validation" novalidate>
-    @csrf
-    <div class="kiri" style='width:40%;float:left;margin-right:5%'>
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel" style="width:100%;">
+
+<div class="row">
+    <div class="col-5">
+    <form style='margin-top:50px' method="POST" action="/admin/submitToko" class="needs-validation" novalidate>
+            @csrf
+
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="false" style="width:100%;">
             <div class="carousel-inner">
                 @php $i=0; @endphp
                 @foreach ($listFoto as $item)
@@ -36,7 +38,7 @@
             </a>
         </div>
     </div>
-    <div class="kanan" style='width:50%;float:left;'>
+    <div class="col-7">
         <div class="form-group">
             <label for="exampleInputEmail1">Nama Toko</label>
             <input type="text" class="form-control" name="name" value="{{old('name')}}" required>
@@ -76,7 +78,7 @@
         <button type="submit" class="btn btn-primary">Tambah</button>
     </div>
 </form>
-
+</div>
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function() {

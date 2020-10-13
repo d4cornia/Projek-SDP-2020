@@ -192,4 +192,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/lihatToko','adminController@lihatToko');
     Route::get('/editToko/{n?}', 'adminController@editToko');
     Route::post('/storeEditToko','adminController@storeEditToko');
+    Route::get('/inputBahan', 'adminController@inputBahan');
+    Route::post('/alamatToko', "adminController@getAlamat")->name('admin.getAlamat');
+    Route::post('/addBahan', "adminController@tambahBahan");
+    Route::get('/lBahan/{n?}', "adminController@lBahan");
+    Route::get('/deleteBahan/{n?}/{m?}', "adminController@deleteBahan");
+    Route::get('/veditBahan/{n?}/{m?}', "adminController@veditBahan");
+    Route::post('/editBahan', "adminController@editBahan");
 });

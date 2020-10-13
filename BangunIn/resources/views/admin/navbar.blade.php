@@ -18,8 +18,10 @@
             Toko Bangunan
         </button>
         <div class="dropdown-menu">
+
             <a class="dropdown-item" href="/admin/tambahToko">Tambah Toko Bangunan</a>
             <a class="dropdown-item" href="/admin/lihatToko">Lihat Toko Bangunan</a>
+            <a class="dropdown-item" href="/admin/inputBahan">Input Bahan Bangunan</a>
         </div>
     </div>
 
