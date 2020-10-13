@@ -30,6 +30,12 @@
         }
     }
 </script>
+
+@isset($kon)
+<div class="kon"  id="kon">
+    {{$kon}}
+</div>
+@endisset
     <h1>Absen Tukang</h1>
     <br>
     <div style="width:100%">

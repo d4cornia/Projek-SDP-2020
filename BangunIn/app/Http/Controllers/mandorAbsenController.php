@@ -119,6 +119,9 @@ class mandorAbsenController extends Controller
         // transaction
         $b = new absen_tukang();
         $b->insertAbsen($req, $format);
-        return view('mandor.List.listAbsenTukang');
+        $data = [
+            'kon' => 'Berhasil Konfirmasi Absen'
+        ];
+        return view('mandor.List.listAbsenTukang', $data);
     }
 }
