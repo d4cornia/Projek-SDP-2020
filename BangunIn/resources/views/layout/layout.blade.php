@@ -223,6 +223,14 @@
         }, 5000);
     </script>
 @endisset
+@isset($kon)
+    <script>
+        swal("Berhasil Konfirmasi Absen","{{$kon}}" , "success");
+        myVar = setTimeout(() => {
+            document.getElementById("kon").style.display = "none";
+        }, 5000);
+    </script>
+@endisset
 @if (isset($pesan))
     <script>
         swal("Berhasil!", "{{$pesan}}","success");

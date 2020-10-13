@@ -19,17 +19,23 @@
 <script>
     function disable(ctr) {
         var checkbox = document.getElementById("c" + ctr);
-        var pekerjaan = document.getElementById("cb" + ctr);
-        var kodeTukang = document.getElementById("k" + ctr);
         if(checkbox.checked == true){
             document.getElementById("cb" + ctr).disabled = false;
             document.getElementById("k" + ctr).disabled = false;
+            document.getElementById("o" + ctr).disabled = false;
         }else{
             document.getElementById("cb" + ctr).disabled = true;
             document.getElementById("k" + ctr).disabled = true;
+            document.getElementById("o" + ctr).disabled = true;
         }
     }
 </script>
+
+@isset($kon)
+<div class="kon"  id="kon">
+    {{$kon}}
+</div>
+@endisset
     <h1>Absen Tukang</h1>
     <br>
     <div style="width:100%">
@@ -54,6 +60,7 @@
                         <th scope="col">Nama Tukang</th>
                         <th scope="col">Pekerjaan</th>
                         <th scope="col">Jenis Tukang</th>
+                        <th scope="col">Ongkos Lembur</th>
                         <th scope="col">Tanggal Absen</th>
                         <th scope="col">Bukti</th>
                         <th scope="col">Status</th>
@@ -74,6 +81,7 @@
                                         </select>
                                     </td>
                                     <td>{{$item->nama_jenis}}</td>
+                                    <td><input type="number" name="ongkos[]" value="" id="o{{$ctr}}"></td>
                                     <td>{{$item->tanggal_absen}}</td>
                                     <td style=""><a target="_blank" href="/assets/absen_tukang/{{$item->bukti_foto_absen}}" alt="/assets/no_pic">
                                         <img src="/assets/absen_tukang/{{$item->bukti_foto_absen}}"  alt="/assets/no_pic">
@@ -97,6 +105,7 @@
                                 </select>
                             </td>
                             <td>{{$item['jenis_tukang']}}</td>
+                            <td><input type="number" name="ongkos[]" value="" id="o{{$ctr}}" disabled></td>
                             <td>-</td>
                             <td>-</td>
                             <td>
@@ -113,6 +122,7 @@
                         <th scope="col">Nama Tukang</th>
                         <th scope="col">Pekerjaan</th>
                         <th scope="col">Jenis Tukang</th>
+                        <th scope="col">Ongkos Lembur</th>
                         <th scope="col">Tanggal Absen</th>
                         <th scope="col">Bukti</th>
                         <th scope="col">Status</th>
