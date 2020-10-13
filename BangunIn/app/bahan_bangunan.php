@@ -13,9 +13,9 @@ class bahan_bangunan extends Model
 
     public function addBahan($idKerjasama,$nmbahan,$harga_satuan)
     {
-
-        if(bahan_bangunan::where('nama_bahan','=',$nmbahan)->where('status_delete_bb',0)->count()>0){
-            $bahan  = $this->find($idKerjasama);
+        $bb =bahan_bangunan::where('nama_bahan','=',$nmbahan)->where('id_kerjasama',$idKerjasama)->where('status_delete_bb',0)->get();
+        if(count($bb)>0){
+            $bahan  = $this->find($bb[0]["id_bahan"]);
             $bahan->harga_satuan = $harga_satuan;
             $bahan->save();
         }

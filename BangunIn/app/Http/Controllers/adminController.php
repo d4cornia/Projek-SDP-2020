@@ -119,9 +119,15 @@ class adminController extends Controller
         $pekerjaan = new pekerjaan();
         $kodekontraktor = $adm->getKodeKontraktor($kodeadmin)[0];
         $daftarpekerjaan = $pekerjaan->where('kode_admin',$kodeadmin)->pluck('kode_pekerjaan');
-        $param['listToko'] = $toko->where('kode_kontraktor', $kodekontraktor)->where('status_delete_tb',0)->get();
+        $data = $toko->where('kode_kontraktor', $kodekontraktor)->where('status_delete_tb',0)->pluck('nama_toko');
+        $nama = array();
+        for($i=0;$i<count($data);$i++){
+            array_push($nama,$data[$i]);
+        }
+        $namaku = array_unique($nama);
         $param['listFoto'] = $bukti->whereIn('kode_pekerjaan', $daftarpekerjaan)->where('status_input',0)
                                     ->where('status_delete_bukti',0)->get();
+        $param["listToko"] = $namaku;
         return view('admin.tambahBahan')->with($param);
     }
     public function getAlamat(Request $req)

@@ -37,7 +37,10 @@
                 </tr>
               </tfoot>
             </table>
+            <div class="col-12 mt-5">
+                <a href="/admin/lihatToko" class="btn btn-info">Kembali</a>
             </div>
+        </div>
 
     @else
         <h4>Tidak Bahan!</h4>

@@ -12,7 +12,7 @@
     <form style='margin-top:50px' method="POST" action="/admin/addBahan" class="needs-validation" novalidate>
             @csrf
 
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel" style="width:100%;">
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="false" style="width:100%;">
             <div class="carousel-inner">
                 @php $i=0; @endphp
                 @foreach ($listFoto as $item)
@@ -44,8 +44,11 @@
             <label for="exampleInputEmail1">Nama Toko</label>
             <select name="nama" id="nama" class="form-control">
                 <option disabled selected>Pilih Nama Toko</option>
-                @foreach ($listToko as $item)
-                    <option id="{{$item["id_kerjasama"]}}">{{$item["nama_toko"]}}</option>
+                @php
+                    $data = array_unique($listToko,SORT_STRING);
+                @endphp
+                @foreach ($data as $item)
+                    <option>{{$item}}</option>
                 @endforeach
             </select>
         </div>
