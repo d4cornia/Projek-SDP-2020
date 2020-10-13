@@ -199,4 +199,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/deleteBahan/{n?}/{m?}', "adminController@deleteBahan");
     Route::get('/veditBahan/{n?}/{m?}', "adminController@veditBahan");
     Route::post('/editBahan', "adminController@editBahan");
+
+    Route::post('/getBahan', "adminController@getBahan")->name('admin.getBahan');
+    Route::post('/getSpesial', "adminController@getSpesial")->name('admin.getSpesial');
+    Route::get('/vpembelianNota','adminController@vnota');
+    Route::post('/pembelianNota','adminController@pembelianNota');
 });

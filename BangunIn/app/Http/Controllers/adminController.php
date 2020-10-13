@@ -10,6 +10,8 @@ use App\toko_bangunan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use App\bahan_bangunan;
+use App\pekerjaan_khusus;
+
 class adminController extends Controller
 {
     public function index()
@@ -181,5 +183,57 @@ class adminController extends Controller
         $bahan  = new bahan_bangunan();
         $bahan->editBahan($idbahan,$req->nmbahan,$req->hargabahan);
         return redirect("/admin/lBahan/".$id)->with(['success' => 'Berhasil Edit Bahan!']);
+    }
+    public function getBahan(Request $req)
+    {
+        $id = $req->get('value');
+        $bahan = new bahan_bangunan();
+        $data = $bahan->where("id_kerjasama",$id)->get();
+        $select = "<option disabled selected>Pilih Nama Barang</option>";
+        foreach ($data as $key => $value) {
+            $select .= "<option value='".$value->id_bahan."' harga='".$value->harga_satuan."' >".$value->nama_bahan."</option>";
+        }
+        echo $select;
+    }
+    public function getSpesial(Request $req)
+    {
+        $id = $req->get('value');
+        $spesial = new pekerjaan_khusus();
+        $data = $spesial->where("kode_pekerjaan",$id)->get();
+        $select = "<option disabled selected value='-'>Pilih Pekerjaan Khusus</option>";
+        foreach ($data as $key => $value) {
+            $select .= "<option value='".$value->kode_pk."'>".$value->keterangan_pk."</option>";
+        }
+        echo $select;
+    }
+    public function vnota()
+    {
+            $bukti = new bukti_pembelian_mandor();
+            $toko = new toko_bangunan();
+            $kodeadmin = session()->get('kode');
+            $adm = new administrator();
+            $pekerjaan = new pekerjaan();
+            $kodekontraktor = $adm->getKodeKontraktor($kodeadmin)[0];
+            $daftarpekerjaan = $pekerjaan->where('kode_admin',$kodeadmin)->where('status_delete_pekerjaan',0)->get();
+            $data = $toko->where('kode_kontraktor', $kodekontraktor)->where('status_delete_tb',0)->pluck('nama_toko');
+            $nama = array();
+            for($i=0;$i<count($data);$i++){
+                array_push($nama,$data[$i]);
+            }
+            $namaku = array_unique($nama);
+            $kode =array();
+            for($i=0;$i<count($daftarpekerjaan);$i++){
+                array_push($kode,$daftarpekerjaan[$i]["kode_pekerjaan"]);
+            }
+            $param['listFoto'] = $bukti->whereIn('kode_pekerjaan',$kode )->where('status_input',0)
+                                        ->where('status_delete_bukti',0)->get();
+            $param["listToko"] = $namaku;
+            $param["listPekerjaan"] = $daftarpekerjaan;
+            return view('admin.pembelian_bahan')->with($param);
+    }
+    public function pembelianNota(Request $req)
+    {
+        $param["success"] = "Berhasil Tambah Nota Pembelian";
+        return redirect('/admin/vpembelianNota')->with($param);
     }
 }
