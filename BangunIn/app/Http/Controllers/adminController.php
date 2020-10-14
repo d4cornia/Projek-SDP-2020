@@ -212,19 +212,8 @@ class adminController extends Controller
         $spesial = new pekerjaan_khusus();
         $data = $spesial->where("kode_pekerjaan",$id)->get();
         $select = "<option disabled selected value='-'>Pilih Pekerjaan Khusus</option>";
-        if(session()->has('pk')){
-            $pk = session()->get('pk');
-        }
-        else{
-            $pk="";
-        }
         foreach ($data as $key => $value) {
-            if($value->kode_pk==$pk){
-                $select .= "<option value='".$value->kode_pk."' selected='true'>".$value->keterangan_pk."</option>";
-            }
-            else{
-                $select .= "<option value='".$value->kode_pk."'>".$value->keterangan_pk."</option>";
-            }
+            $select .= "<option value='".$value->kode_pk."'>".$value->keterangan_pk."</option>";
         }
         echo $select;
     }
@@ -267,22 +256,14 @@ class adminController extends Controller
             $listBeli=session()->get('arraybeli');
         }
         $nmtk="";$idker="";
-        $pek="";$pk="";
         if(session()->has('namatoko')){
             $nmtk=session()->get('namatoko');
             $idker=session()->get('idker');
-            $pek=session()->get('pek');
-            $pk =session()->get('pk');
         }
 
         $namatoko = $request->nama;
         $idkerjasama = $request->alamat;
-        $pekerjaan = $request->pekerjaan;
-        $pkh = $request->spekerjaan;
-        if(strlen($pkh)==0){
-            $pkh="";
-        }
-        if($nmtk==$namatoko && $idker==$idkerjasama && $pekerjaan==$pek && $pkh==$pk){
+        if($nmtk==$namatoko && $idker==$idkerjasama){
         }
         else{
             //ganti toko, maka session dihapus
@@ -298,6 +279,7 @@ class adminController extends Controller
         $subtotal = $request->subtotal;
         $harga = $request->hargabahan;
         $baru = array(
+            'id_bahan'=>$idbahan,
             'nama_bahan'=>$namabahan,
             'jumlah_barang'=>$jumlah,
             'harga_satuan'=>$harga,
@@ -308,8 +290,6 @@ class adminController extends Controller
         session()->put('arraybeli',$listBeli);
         session()->put('namatoko',$namatoko);
         session()->put('idker',$idkerjasama);
-        session()->put('pek',$pekerjaan);
-        session()->put('pk',$pkh);
         return redirect('/admin/vpembelianNota');
     }
     public function tabelBeli(Request $request)
