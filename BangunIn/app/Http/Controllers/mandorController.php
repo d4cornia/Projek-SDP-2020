@@ -34,6 +34,15 @@ class mandorController extends Controller
         return view('mandor.navbar');
     }
 
+    public function menuNota()
+    {
+        $b = new pekerjaan();
+        $data = [
+            'listPekerjaan' => $b->listDataPekerjaanMandor()
+        ];
+        return view('mandor.Creation.inputNota', $data);
+    }
+
     //jenistukang
     public function tambahJenisTukang()
     {

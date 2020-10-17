@@ -12,6 +12,17 @@ class pekerjaan extends Model
     protected $primaryKey = 'kode_pekerjaan';
     public  $timestamps = false;
 
+    public function listDataPekerjaanMandor()
+    {
+        $kodeMandor = session()->get('kode');
+        $data = DB::table('mandors')
+        ->join('pekerjaans', 'mandors.kode_mandor', '=', 'pekerjaans.kode_mandor')
+        ->where('mandors.kode_mandor','=',$kodeMandor)
+        ->where('pekerjaans.status_delete_pekerjaan','=',0)
+        ->get();
+        return $data;
+    }
+
     public function getAllWork()
     {
         return $this->all();

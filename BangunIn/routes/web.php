@@ -129,6 +129,7 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/deljenis/{n?}', 'mandorController@deleteJenis');
     //update
     Route::post('/updateJenisTukang', 'mandorController@updateJenisTukang');
+    Route::get('/menuNota', 'mandorController@menuNota');
 
     //tukang
     Route::get('/tambahTukang', 'mandorController@tambahTukang');
