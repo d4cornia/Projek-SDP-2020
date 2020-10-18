@@ -247,11 +247,33 @@
                 option = $(this).find('option:selected');
                 harga = option.attr("harga");
                 $('#hargabahan').val(harga);
+                if($('#jumlah').val()>=0){
+                    var jumlah =  $('#jumlah').val();
+                    var harga =  $('#hargabahan').val();
+
+                    $('#subtotal').val(jumlah*harga);
+                }
+                else{
+                    $('#jumlah').val(0);
+                }
             }
         });
+
         $('#jumlah').change(function(){
 
             if($(this).val()>=0){
+                var jumlah =  $('#jumlah').val();
+                var harga =  $('#hargabahan').val();
+
+                $('#subtotal').val(jumlah*harga);
+            }
+            else{
+                $('#jumlah').val(0);
+            }
+        });
+
+        $('#hargabahan').change(function(){
+            if($('#jumlah').val()>=0){
                 var jumlah =  $('#jumlah').val();
                 var harga =  $('#hargabahan').val();
 
