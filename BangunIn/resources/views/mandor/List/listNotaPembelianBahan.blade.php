@@ -38,7 +38,7 @@
                             <td>{{$item->nama_pekerjaan}}</td>
                             <td>
                                 <a target="_blank" href="/assets/nota_pembelian_bahan_mandor/{{$item->file_bukti}}" alt="{{$item->file_bukti}}">
-                                    <img src="/assets/nota_pembelian_bahan_mandor/{{$item->file_bukti}}"  alt="{{$item->file_bukti}}">
+                                    <img src="/assets/nota_beli/{{$item->file_bukti}}"  alt="{{$item->file_bukti}}">
                                 </a>
                             </td>
                             <td>

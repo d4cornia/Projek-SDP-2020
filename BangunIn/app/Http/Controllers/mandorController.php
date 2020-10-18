@@ -68,7 +68,7 @@ class mandorController extends Controller
         $files = $req->file('bukti');
         foreach ($files as $file) {
             $fileName =  $file->getClientOriginalName();
-            $file->move(public_path('/assets/nota_pembelian_bahan_mandor/'),  $file->getClientOriginalName());
+            $file->move(public_path('/assets/nota_beli/'),  $file->getClientOriginalName());
             session()->put('bukti', $fileName);
             $bpm = new bukti_pembelian_mandor();
             $bpm->insert($req);
