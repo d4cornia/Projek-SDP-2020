@@ -141,7 +141,7 @@ class adminController extends Controller
         $nmToko = $req->get('value');
         $toko = new toko_bangunan();
         $data = $toko->where("nama_toko",$nmToko)->get();
-        $select = "<option disabled >Pilih Alamat Toko</option>";
+        $select = "<option selected value='' >Pilih Alamat Toko</option>";
         if(session()->has('idker')){
             $idker=session()->get('idker');
         }
@@ -201,10 +201,16 @@ class adminController extends Controller
     }
     public function getBahan(Request $req)
     {
-        $id = $req->get('value');
+        if(session()->has('idker'))
+        {
+            $id = session()->get('idker');
+        }
+        else{
+            $id = $req->get('value');
+        }
         $bahan = new bahan_bangunan();
         $data = $bahan->where("id_kerjasama",$id)->get();
-        $select = "<option disabled selected>Pilih Nama Barang</option>";
+        $select = "<option selected value=''>Pilih Nama Barang</option>";
         foreach ($data as $key => $value) {
             $select .= "<option value='".$value->id_bahan."' harga='".$value->harga_satuan."' >".$value->nama_bahan."</option>";
         }
@@ -215,7 +221,7 @@ class adminController extends Controller
         $id = $req->get('value');
         $spesial = new pekerjaan_khusus();
         $data = $spesial->where("kode_pekerjaan",$id)->get();
-        $select = "<option disabled selected value='-'>Pilih Pekerjaan Khusus</option>";
+        $select = "<option selected value=''>Pilih Pekerjaan Khusus</option>";
         foreach ($data as $key => $value) {
             $select .= "<option value='".$value->kode_pk."'>".$value->keterangan_pk."</option>";
         }

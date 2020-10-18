@@ -12,7 +12,7 @@
     <form style='margin-top:50px' method="POST" action="/admin/addBahan" class="needs-validation" novalidate>
             @csrf
 
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="false" style="width:100%;">
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-interval='600000' style="width:100%;">
             <div class="carousel-inner">
                 @php $i=0; @endphp
                 @foreach ($listFoto as $item)
@@ -91,6 +91,6 @@
             }
         });
 
-    })
+    });
 </script>
 @endsection

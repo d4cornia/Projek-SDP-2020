@@ -13,7 +13,7 @@
     <div class="col-5">
     <form style='margin-top:50px' method="POST" action="/admin/pembelianNota" class="needs-validation" novalidate id="form">
         @csrf
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="false" style="width:100%;">
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-interval='600000' style="width:100%;">
             <div class="carousel-inner">
 
                 @php $i=0; @endphp
@@ -216,11 +216,10 @@
             success:function(result){
             $("#alamat").html(result);
             }
-        })
+        });
     }
     function  getBahan(){
         var value = $('#alamat').val();
-
         var _token=$('input[name="_token"]').val();
         $.ajax({
             url:"{{route('admin.getBahan')}}",
@@ -229,7 +228,7 @@
             success:function(result){
                 $("#bahan").html(result);
             }
-        })
+        });
     }
     $(document).ready(function(){
 
