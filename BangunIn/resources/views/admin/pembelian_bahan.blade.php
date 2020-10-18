@@ -85,7 +85,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Jumlah Bahan</label>
-            <input type="number" class="form-control"  min="0" id="jumlah" name="jumlah" required="required" step="0.01" value="0">
+            <input type="number" class="form-control"  min="0" id="jumlah" name="jumlah" required="required" step="0.01" value="1">
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Persen Diskon</label>
