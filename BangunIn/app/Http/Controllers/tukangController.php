@@ -21,16 +21,16 @@ class tukangController extends Controller
         $a = new absen_tukang();
         $temp = $t->nameToCode(session()->get('username'));
         $filter = null;
-        $date = mktime(0, 0, 0, 0, 7);
+
+        $firstday = date('d/m/Y', strtotime("sunday 0 week"));
         if ($a->getAllMyHist($temp[0]) !== null) {
             foreach ($a->getAllMyHist($temp[0]) as $item) {
                 $tgl = date_create($item['tanggal_absen']);
-                if ((intval(date('d-m-Y')) - intval(date('d-m-Y', $date))) <= intval(date_format($tgl, 'd-m-Y'))) {
+                if ((intval(date_format($tgl, 'd-m-Y')) - intval($firstday)) >= 0) {
                     $filter[] = $item;
                 }
             }
         }
-        // dd(date('d-m-Y') - intval(date('d-m-Y', $date)));
 
         $data = [
             'title' => 'Absen',
@@ -70,6 +70,7 @@ class tukangController extends Controller
 
     public function absen(Request $request)
     {
+        date_default_timezone_set("Asia/Bangkok");
         $request->validate([
             'bukti' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ], [

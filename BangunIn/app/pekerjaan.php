@@ -16,10 +16,10 @@ class pekerjaan extends Model
     {
         $kodeMandor = session()->get('kode');
         $data = DB::table('mandors')
-        ->join('pekerjaans', 'mandors.kode_mandor', '=', 'pekerjaans.kode_mandor')
-        ->where('mandors.kode_mandor','=',$kodeMandor)
-        ->where('pekerjaans.status_delete_pekerjaan','=',0)
-        ->get();
+            ->join('pekerjaans', 'mandors.kode_mandor', '=', 'pekerjaans.kode_mandor')
+            ->where('mandors.kode_mandor', '=', $kodeMandor)
+            ->where('pekerjaans.status_delete_pekerjaan', '=', 0)
+            ->get();
         return $data;
     }
 
@@ -78,7 +78,6 @@ class pekerjaan extends Model
             $this->status_delete_pekerjaan = '0';
             $this->save();
             $kode = $this::where('nama_pekerjaan', $request->input('name'))->pluck('kode_pekerjaan');
-
             // detail
             if (session()->get('listSpWork') !== null) {
                 foreach (session()->get('listSpWork') as $item) {
@@ -95,7 +94,27 @@ class pekerjaan extends Model
             }
             DB::commit();
         } catch (Exception $e) {
+            echo $e->getMessage();
             DB::rollback();
+        }
+        $p = $this->orderby('kode_pekerjaan', 'desc')->first();
+        $work = new pekerjaan();
+        $work->updateHargaDeal($p->kode_pekerjaan);
+    }
+
+    public function updateHargaDeal($kode)
+    {
+        $p = $this->find($kode);
+        if ($p->jenis_pekerjaan == 1) {
+            $sp = new pekerjaan_khusus();
+            $spWork = $sp->where('kode_pekerjaan', $kode)
+                ->where('status_delete_pk', 0)->get();
+            $total = 0;
+            foreach ($spWork as $item) {
+                $total += $item['total_keseluruhan'];
+            }
+            $p->harga_deal = $total;
+            $p->save();
         }
     }
 
@@ -188,10 +207,10 @@ class pekerjaan extends Model
         $p->save();
     }
 
-    public function tambahHargaDeal($value,$total)
+    public function tambahHargaDeal($value, $total)
     {
         $p = $this->find($value);
-        $p->harga_deal = $p->harga_deal+$total;
+        $p->harga_deal = $p->harga_deal + $total;
         $p->save();
     }
 }

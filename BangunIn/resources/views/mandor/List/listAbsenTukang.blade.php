@@ -23,6 +23,7 @@
             document.getElementById("cb" + ctr).disabled = false;
             document.getElementById("k" + ctr).disabled = false;
             document.getElementById("o" + ctr).disabled = false;
+            document.getElementById("o" + ctr).value = 0;
         }else{
             document.getElementById("cb" + ctr).disabled = true;
             document.getElementById("k" + ctr).disabled = true;
@@ -81,10 +82,10 @@
                                         </select>
                                     </td>
                                     <td>{{$item->nama_jenis}}</td>
-                                    <td><input type="number" name="ongkos[]" value="" id="o{{$ctr}}"></td>
+                                    <td><input type="number" name="ongkos[]" value="0" id="o{{$ctr}}"></td>
                                     <td>{{$item->tanggal_absen}}</td>
-                                    <td style=""><a target="_blank" href="/assets/absen_tukang/{{$item->bukti_foto_absen}}" alt="/assets/no_pic">
-                                        <img src="/assets/absen_tukang/{{$item->bukti_foto_absen}}"  alt="/assets/no_pic">
+                                    <td style=""><a target="_blank" href="/assets/absen_tukang/{{$item->bukti_foto_absen}}" alt="/assets/default_tukang.png">
+                                        <img src="/assets/absen_tukang/{{$item->bukti_foto_absen}}"  alt="/assets/default_tukang.png">
                                     </a></td>
                                     <td><input style="width: 25%; margin: auto" name="status[]" value="{{$item->kode_absen}}" class="form-control" type="checkbox" name="" id="c{{$ctr}}" checked onclick="disable({{$ctr}})"></td>
                                     <input type="hidden" name="kode_tukang[]" value="{{$item->kode_tukang}}" id="k{{$ctr}}">
@@ -165,7 +166,7 @@
                         <td>{{$item['jenis_tukang']}}</td>
                         <td>{{$item['tanggal_absen']}}</td>
                         <td>{{$item['ongkos_lembur']}}</td>
-                        <td>@if ($item['bukti'] === null)
+                        <td>@if ($item['bukti'] == '-')
                             <a target="_blank" href="/assets/default_tukang.png" alt="/assets/default_tukang.png">
                                 <img src="/assets/default_tukang.png" alt="/assets/default_tukang.png">
                             </a>

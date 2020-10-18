@@ -21,6 +21,7 @@ class mandorAbsenController extends Controller
 
     public function filterAbsen(Request $req)
     {
+        date_default_timezone_set("Asia/Bangkok");
         $b = new absen_tukang();
         $ah = new absen_harian();
         $p = new pekerjaan();
@@ -29,8 +30,8 @@ class mandorAbsenController extends Controller
         $date = date_create($tanggal);
         $format = date_format($date, "d-m-Y");
 
-        $tgl = mktime(0, 0, 0, 0, 7);
-        if ((intval(date('d-m-Y')) - intval(date('d-m-Y', $tgl))) <= intval(date_format($date, 'd-m-Y')) && intval(date_format($date, 'd-m-Y')) <= intval(date('d-m-Y'))) { // jika sudah dikonfirmasi maka tidak ada konfirmasi lagi
+        $firstday = date('d/m/Y', strtotime("sunday 0 week"));
+        if ((intval(date_format($date, 'd-m-Y')) - intval($firstday)) >= 0 && intval(date_format($date, 'd-m-Y')) <= intval(date('d-m-Y'))) { // jika sudah dikonfirmasi maka tidak ada konfirmasi lagi
             if ($ah->doneKonfirmasi($format)) {
                 // jika sudah dikonfirmasi
                 $q = null;
@@ -38,7 +39,7 @@ class mandorAbsenController extends Controller
                 $da = new detail_absen();
                 $t = new tukang();
                 foreach ($ah->getHeader($format) as $header) {
-                    // untuk header ini yang dikonfrim apa aja
+                    // untuk header ini yang dikonfrim siapa aja
                     foreach ($da->getDetail($header['kode_absen_harians']) as $detail) {
                         $tem = $p->getWork($header['kode_pekerjaan']);
                         $tuk = $t->getKodeJenis($detail['kode_tukang']);
@@ -47,7 +48,7 @@ class mandorAbsenController extends Controller
                         if ($detail['kode_absen'] != null) {
                             $bukti = $b->getBukti($detail['kode_absen']);
                         } else {
-                            $bukti[] = null;
+                            $bukti[] = '-';
                         }
                         $nama = $t->getNamaTukang($detail['kode_tukang']);
                         $q[] = [
@@ -62,19 +63,21 @@ class mandorAbsenController extends Controller
                         ];
                     }
 
-                    // untuk header ini yang ga konfirm apa aja
-                    $tem = $da->getNotConfirm($header['kode_absen_harians']);
+                    // untuk header ini yang ga konfirm siapa aja
+                    $tem = $b->notConfirm($format);
                     if ($tem != null) {
                         foreach ($tem as $item) {
-                            $jenis = $jt->getNamaJenis($item['kode_jenis']);
+                            $jenis = $jt->getNamaJenis($t->where('kode_tukang', $item['kode_tukang'])->pluck('kode_jenis')->first());
                             $item['jenis_tukang'] = $jenis[0];
+                            $sem = $t->codetoName($item['kode_tukang']);
+                            $item['nama_tukang'] = $sem[0];
                             $nc[] = $item;
                         }
                     }
                 }
-                //tampilkan yang sudah terkonfirmasi absennya
+                //tampilkan yang sudah terkonfirmasi dan yang belum absennya
                 $data = [
-                    'title' => 'List Absen Client',
+                    'title' => 'List Absen Tukang',
                     'hid' => '1',
                     'list' => $q,
                     'nc' => $nc,
@@ -112,8 +115,6 @@ class mandorAbsenController extends Controller
                 'errAbsen' => 'Tanggal yang anda pilih melebihi batas'
             ];
         }
-
-
         // dd($data);
         return view('mandor.List.listAbsenTukang', $data);
     }

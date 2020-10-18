@@ -19,7 +19,7 @@
     <div class="dropdown-menu">
         <a class="dropdown-item" href="/mandor/lihatPekerjaan">Lihat Pekerjaan</a>
         <a class="dropdown-item" href="/mandor/lihatHistoryPekerjaan">History Pekerjaan</a>
-        <a class="dropdown-item" href="/mandor/menuNota">Input Nota Pembelian Bahan</a>
+        <a class="dropdown-item" href="/mandor/listNota">Lihat Nota Pembelian Bahan</a>
     </div>
 </div>
 <div class="btn-group nav-side">

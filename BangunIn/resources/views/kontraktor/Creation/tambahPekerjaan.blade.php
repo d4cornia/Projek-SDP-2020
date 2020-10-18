@@ -92,13 +92,13 @@
         <label for="inlineRadio1" class="">Jenis Pekerjaan</label>
         <span class="col-6">
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="type" id="type1" value="0" @if(isset($bef)) @if ($bef['type'] == 0)
+                <input class="form-check-input" type="radio" name="type" id="type1" value="0" @if(isset($bef)) @if ($bef['type'] == '0')
                     checked
                 @endif @endif onclick="disable()">
             <label class="form-check-label" for="inlineRadio1">Harga Fix Di Depan</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="type" id="type2" value="1" onclick="disable()" @if(isset($bef)) @if ($bef['type'] == 1)
+                <input class="form-check-input" type="radio" name="type" id="type2" value="1" onclick="disable()" @if(isset($bef)) @if ($bef['type'] == '1')
                 checked
             @endif @endif>
                 <label class="form-check-label" for="inlineRadio2">Komisi</label>

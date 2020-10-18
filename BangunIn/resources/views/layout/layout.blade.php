@@ -224,6 +224,11 @@
     </script>
 @endisset
 
+@isset($succInputNota)
+    <script>
+        swal("Berhasil!","{{$succInputNota}}" , "success");
+    </script>
+@endisset
 @isset($errAbsen)
     <script>
         swal("Gagal","{{$errAbsen}}" , "error");

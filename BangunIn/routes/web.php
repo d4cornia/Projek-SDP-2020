@@ -129,7 +129,6 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/deljenis/{n?}', 'mandorController@deleteJenis');
     //update
     Route::post('/updateJenisTukang', 'mandorController@updateJenisTukang');
-    Route::get('/menuNota', 'mandorController@menuNota');
 
     //tukang
     Route::get('/tambahTukang', 'mandorController@tambahTukang');
@@ -175,6 +174,12 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/detWork/{id?}', "mandorController@detailWork");
     Route::get('/sProject/{id?}', "mandorController@selesaiProject");
     Route::post('/finishWork', "mandorController@finishWork");
+
+    // nota pembelian
+    Route::get('/menuNota', 'mandorController@menuNota');
+    Route::get('/listNota', 'mandorController@indexList');
+    Route::post('/submitNotaPembelian', 'mandorController@inputNota');
+    Route::get('/delNota/{n?}', 'mandorController@deleteNotaPembelian');
 });
 
 //tukang
@@ -188,11 +193,11 @@ Route::group(['prefix' => 'tukang'], function () {
 //admin
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'adminController@index');
-    Route::get('/tambahToko','adminController@tambahToko');
-    Route::post('/submitToko','adminController@submitToko');
-    Route::get('/lihatToko','adminController@lihatToko');
+    Route::get('/tambahToko', 'adminController@tambahToko');
+    Route::post('/submitToko', 'adminController@submitToko');
+    Route::get('/lihatToko', 'adminController@lihatToko');
     Route::get('/editToko/{n?}', 'adminController@editToko');
-    Route::post('/storeEditToko','adminController@storeEditToko');
+    Route::post('/storeEditToko', 'adminController@storeEditToko');
     Route::get('/inputBahan', 'adminController@inputBahan');
     Route::post('/alamatToko', "adminController@getAlamat")->name('admin.getAlamat');
     Route::post('/addBahan', "adminController@tambahBahan");
@@ -204,9 +209,9 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::post('/getBahan', "adminController@getBahan")->name('admin.getBahan');
     Route::post('/getSpesial', "adminController@getSpesial")->name('admin.getSpesial');
-    Route::get('/vpembelianNota','adminController@vnota');
-    Route::post('/pembelianNota','adminController@pembelianNota');
-    Route::post('/tabelBeli','adminController@tabelBeli');
-    Route::post('/simpanPembelian','adminController@simpanPembelian');
-    Route::post('/checkout','adminController@checkout');
+    Route::get('/vpembelianNota', 'adminController@vnota');
+    Route::post('/pembelianNota', 'adminController@pembelianNota');
+    Route::post('/tabelBeli', 'adminController@tabelBeli');
+    Route::post('/simpanPembelian', 'adminController@simpanPembelian');
+    Route::post('/checkout', 'adminController@checkout');
 });

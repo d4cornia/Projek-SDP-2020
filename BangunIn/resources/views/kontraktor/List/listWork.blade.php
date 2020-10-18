@@ -15,7 +15,7 @@
                     <th scope="col">Nama Pekerjaan</th>
                     <th scope="col">Alamat</th>
                     <th scope="col">Jenis Pekerjaan</th>
-                    <th scope="col">Persetujuan Harga Awal</th>
+                    <th scope="col">Harga Pekerjaan</th>
                     <th scope="col">Status</th>
                     <th scope="col">Status Lunas</th>
                     <th scope="col">Aksi</th>
@@ -56,7 +56,7 @@
                     <th scope="col">Nama Pekerjaan</th>
                     <th scope="col">Alamat</th>
                     <th scope="col">Jenis Pekerjaan</th>
-                    <th scope="col">Persetujuan Harga Awal</th>
+                    <th scope="col">Harga Pekerjaan</th>
                     <th scope="col">Status</th>
                     <th scope="col">Status Lunas</th>
                     <th scope="col">Aksi</th>

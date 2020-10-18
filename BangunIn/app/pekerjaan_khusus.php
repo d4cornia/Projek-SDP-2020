@@ -31,6 +31,9 @@ class pekerjaan_khusus extends Model
         $this->total_keseluruhan = ($req->sumJasa + $this->total_bahan);
         $this->status_delete_pk = 0;
         $this->save();
+
+        $p = new pekerjaan();
+        $p->updateHargaDeal($req->kode);
     }
 
     public function updatePekerjaanKhusus(Request $req)
@@ -40,6 +43,9 @@ class pekerjaan_khusus extends Model
         $pk->total_jasa = $req->sumJasa;
         $pk->total_keseluruhan = ($req->sumJasa + $pk->total_bahan);
         $pk->save();
+
+        $p = new pekerjaan();
+        $p->updateHargaDeal($pk->kode_pekerjaan);
     }
 
     public function softDeletePekerjaanKhusus($id)
@@ -47,6 +53,9 @@ class pekerjaan_khusus extends Model
         $pk = $this->find($id);
         $pk->status_delete_pk = 1;
         $pk->save();
+
+        $p = new pekerjaan();
+        $p->updateHargaDeal($pk->kode_pekerjaan);
     }
 
     public function rollbackSpWork($id)
@@ -54,6 +63,9 @@ class pekerjaan_khusus extends Model
         $pk = $this->find($id);
         $pk->status_delete_pk = 0;
         $pk->save();
+
+        $p = new pekerjaan();
+        $p->updateHargaDeal($pk->kode_pekerjaan);
     }
 
     public function revert()
@@ -65,22 +77,29 @@ class pekerjaan_khusus extends Model
             $pk->total_keseluruhan = $item['total_keseluruhan'];
             $pk->status_delete_pk = $item['status_delete_pk'];
             $pk->save();
+
+            $p = new pekerjaan();
+            $p->updateHargaDeal($pk->kode_pekerjaan);
         }
     }
-    public function PembelihanBahan($id,$harga)
+
+    public function PembelihanBahan($id, $harga)
     {
         $p = $this->find($id);
-        $p->membutuhkan_bahan=1;
-        $p->total_bahan = $p->total_bahan+$harga;
-        $p->total_keseluruhan = $p->total_bahan+$p->total_jasa;
+        $p->membutuhkan_bahan = 1;
+        $p->total_bahan = $p->total_bahan + $harga;
+        $p->total_keseluruhan = $p->total_bahan + $p->total_jasa;
         $p->save();
 
+        $w = new pekerjaan();
+        $w->updateHargaDeal($p->kode_pekerjaan);
     }
+
     public function getPK($id)
     {
-        $data = pekerjaan_khusus::where('pekerjaan_khususes.kode_pekerjaan',$id)->where('pekerjaan_khususes.membutuhkan_bahan',1)
-                                ->join('pk_memakai_bahans as pk','pk.kode_pk','pekerjaan_khususes.kode_pk')
-                                ->join('pembelians as p','p.id_pembelian','pk.id_pembelian')->get();
+        $data = pekerjaan_khusus::where('pekerjaan_khususes.kode_pekerjaan', $id)->where('pekerjaan_khususes.membutuhkan_bahan', 1)
+            ->join('pk_memakai_bahans as pk', 'pk.kode_pk', 'pekerjaan_khususes.kode_pk')
+            ->join('pembelians as p', 'p.id_pembelian', 'pk.id_pembelian')->get();
         return $data;
     }
 }

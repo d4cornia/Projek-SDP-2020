@@ -11,11 +11,13 @@ use App\mandor;
 use App\kontraktor;
 use App\administrator;
 use App\bon_tukang;
+use App\bukti_pembelian_mandor;
 use App\memiliki_detail_bon;
 use App\pekerjaan;
 use App\pembayaran_bon_tukang;
 use App\Rules\cbDetBon;
 use App\Rules\cbJenis;
+use App\Rules\cbRequired;
 use App\Rules\cbTukang;
 use App\Rules\cekKembarUpdateJenis;
 use App\Rules\cekMaksimalBayar;
@@ -34,6 +36,8 @@ class mandorController extends Controller
         return view('mandor.navbar');
     }
 
+    // nota pembelian bahan
+
     public function menuNota()
     {
         $b = new pekerjaan();
@@ -43,11 +47,60 @@ class mandorController extends Controller
         return view('mandor.Creation.inputNota', $data);
     }
 
+    public function indexList()
+    {
+        $bpm = new bukti_pembelian_mandor();
+        $data = [
+            'listNota' => $bpm->listNota()
+        ];
+        return view('mandor.List.listNotaPembelianBahan', $data);
+    }
+
+    public function inputNota(Request $req)
+    {
+        $req->validate([
+            'bukti' => 'required',
+            'bukti.*' => 'mimes:jpeg,png,jpg,gif,svg',
+            'work' => [new cbRequired]
+        ], [
+            'bukti.required' => 'Tolong masukkan bukti gambar!'
+        ]);
+        $files = $req->file('bukti');
+        foreach ($files as $file) {
+            $fileName =  $file->getClientOriginalName();
+            $file->move(public_path('/assets/nota_pembelian_bahan_mandor/'),  $file->getClientOriginalName());
+            session()->put('bukti', $fileName);
+            $bpm = new bukti_pembelian_mandor();
+            $bpm->insert($req);
+            session()->forget('bukti');
+        }
+
+        $b = new pekerjaan();
+        $data = [
+            'listPekerjaan' => $b->listDataPekerjaanMandor(),
+            'succInputNota' => 'Berhasil menginputkan nota pembelian!'
+        ];
+        return view('mandor.Creation.inputNota', $data);
+    }
+
+    public function deleteNotaPembelian($id)
+    {
+        $bpm = new bukti_pembelian_mandor();
+        $bpm->deleteNota(decrypt($id));
+
+        $data = [
+            'listNota' => $bpm->listNota(),
+            'del' => 'Berhasil menghapus nota pembelian bahan!'
+        ];
+        return view('mandor.List.listNotaPembelianBahan', $data);
+    }
+
     //jenistukang
     public function tambahJenisTukang()
     {
         return view("mandor.Creation.tambahJenisTukang", ['title' => 'Tambah Jenis Tukang']);
     }
+
     public function rollbackJenisTukang($id)
     {
         $jt = new jenis_tukang();

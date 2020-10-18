@@ -46,11 +46,23 @@
                                 <td>@if ($item->konfirmasi_absen == '1')
                                         Disetujui Mandor!
                                     @else
-                                        Belum disetujui Mandor!
+                                        @if ($item->konfirmasi_absen == '2')
+                                            Tidak disetujui Mandor!
+                                        @else
+                                            @if ($item->konfirmasi_absen == '3')
+                                                Tidak Absen!
+                                            @else
+                                                Belum disetujui Mandor!
+                                            @endif
+                                        @endif
                                 @endif</td>
-                                <td><a target="_blank" href="/assets/absen_tukang/{{$item->bukti_foto_absen}}" alt="/assets/no_pic">
-                                    <img src="/assets/absen_tukang/{{$item->bukti_foto_absen}}"  alt="/assets/no_pic">
+                                @if ($item->bukti_foto_absen == '-')
+                                    <td>-</td>
+                                @else
+                                <td><a target="_blank" href="/assets/absen_tukang/{{$item->bukti_foto_absen}}" alt="/assets/default_tukang.png">
+                                    <img src="/assets/absen_tukang/{{$item->bukti_foto_absen}}"  alt="/assets/default_tukang.png">
                                   </a></td>
+                                @endif
                             </tr>
                     @endforeach
                   @endif

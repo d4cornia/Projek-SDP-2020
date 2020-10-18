@@ -987,9 +987,7 @@ class kontraktorController extends Controller
                     'bef' => $temp
                 ];
             } else {
-                $temp += [
-                    'dealPrice' => 0
-                ];
+                $temp['dealPrice'] = 0;
                 $data = [
                     'title' => 'Tambah Pekerjaan',
                     'listClient' => $c->where('kode_kontraktor', session()->get('kode'))

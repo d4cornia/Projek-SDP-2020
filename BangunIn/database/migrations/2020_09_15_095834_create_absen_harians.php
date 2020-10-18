@@ -15,7 +15,7 @@ class CreateAbsenHarians extends Migration
     {
         Schema::create('absen_harians', function (Blueprint $table) {
             $table->integerIncrements('kode_absen_harians');
-            $table->integer('kode_pekerjaan')->unsigned();
+            $table->integer('kode_pekerjaan')->unsigned()->nullable();
             $table->foreign('kode_pekerjaan')->references('kode_pekerjaan')->on('pekerjaans');
             $table->integer('kode_mandor')->unsigned();
             $table->foreign('kode_mandor')->references('kode_mandor')->on('mandors');

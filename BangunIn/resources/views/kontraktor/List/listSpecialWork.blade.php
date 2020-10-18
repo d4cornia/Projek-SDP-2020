@@ -98,12 +98,6 @@
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
     </div>
-    <div class="row-second">
-        <h2>Tidak ada pekerjaan khusus!</h2>
-        <div class="option">
-            <a class="btn btn-primary" href="/kontraktor/aSpWork">Tambah Pekerjaan Khusus</a>
-        </div>
-    </div>
     @endif
     <script>
         $(document).ready(function() {
