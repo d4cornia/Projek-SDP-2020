@@ -162,6 +162,7 @@ class absen_tukang extends Model
                 $ah = new absen_harian();
                 $ah->insertHeader(null, $tanggal);
 
+                // absen tapi tidak disetujui
                 $data = $this->where('tanggal_absen', $tanggal)->get();
                 foreach ($data as $item) {
                     if ($item['konfirmasi_absen'] == '0') {
