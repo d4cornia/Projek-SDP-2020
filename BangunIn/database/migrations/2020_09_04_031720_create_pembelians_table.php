@@ -22,10 +22,10 @@ class CreatePembeliansTable extends Migration
             $table->integer('kode_pekerjaan')->unsigned();
             $table->foreign('kode_pekerjaan')->references('kode_pekerjaan')->on('pekerjaans');
             $table->integer('total_pembelian');
-            $table->date('tanggal_beli');
-            $table->date('tanggal_bayar');
-            $table->date('tanggal_jatuh_tempo');
-            $table->string('status_lunas_bon_toko',1);
+            $table->date('tanggal_beli')->nullable();
+            $table->date('tanggal_bayar')->nullable();
+            $table->date('tanggal_jatuh_tempo')->nullable();
+            $table->string('status_lunas_bon_toko',1)->nullable();
             $table->string('status_pembayaran_oleh',1);
             $table->string('status_request_dana',1);
         });

@@ -169,10 +169,18 @@ class pekerjaan extends Model
         $p->status_lunas = 1;
         $p->save();
     }
+
     public function batalLunasKomisi($value)
     {
         $p = $this->find($value);
         $p->status_lunas = 0;
+        $p->save();
+    }
+
+    public function tambahHargaDeal($value,$total)
+    {
+        $p = $this->find($value);
+        $p->harga_deal = $p->harga_deal+$total;
         $p->save();
     }
 }

@@ -28,6 +28,7 @@
                             <td>
                                 <a href="/admin/editToko/{{$item->id_kerjasama}}" class="btn btn-success">Detail</a>
                                 <a href="/admin/lBahan/{{$item->id_kerjasama}}" class="btn btn-warning">List Bahan</a>
+                                <a href="/admin/lnota/{{$item->id_kerjasama}}" class="btn btn-info">List Nota</a>
                             </td>
                         </tr>
                     @endforeach
@@ -48,7 +49,11 @@
         <h4>Tidak Ada Toko Bangunan!</h4>
     @endif
 </div>
-
+@if($msg = Session::get('success'))
+    <script>
+        swal('Berhasil!', "{{Session::get('success')}}", "success");
+    </script>
+@endif
     <script>
         $(document).ready(function() {
             $("#tabel-toko").DataTable();

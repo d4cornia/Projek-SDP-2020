@@ -196,6 +196,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/alamatToko', "adminController@getAlamat")->name('admin.getAlamat');
     Route::post('/addBahan', "adminController@tambahBahan");
     Route::get('/lBahan/{n?}', "adminController@lBahan");
+    Route::get('/lnota/{n?}', "adminController@lNota");
     Route::get('/deleteBahan/{n?}/{m?}', "adminController@deleteBahan");
     Route::get('/veditBahan/{n?}/{m?}', "adminController@veditBahan");
     Route::post('/editBahan', "adminController@editBahan");
@@ -206,4 +207,5 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/pembelianNota','adminController@pembelianNota');
     Route::post('/tabelBeli','adminController@tabelBeli');
     Route::post('/simpanPembelian','adminController@simpanPembelian');
+    Route::post('/checkout','adminController@checkout');
 });

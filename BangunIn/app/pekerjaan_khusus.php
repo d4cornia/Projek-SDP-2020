@@ -67,4 +67,20 @@ class pekerjaan_khusus extends Model
             $pk->save();
         }
     }
+    public function PembelihanBahan($id,$harga)
+    {
+        $p = $this->find($id);
+        $p->membutuhkan_bahan=1;
+        $p->total_bahan = $p->total_bahan+$harga;
+        $p->total_keseluruhan = $p->total_bahan+$p->total_jasa;
+        $p->save();
+
+    }
+    public function getPK($id)
+    {
+        $data = pekerjaan_khusus::where('pekerjaan_khususes.kode_pekerjaan',$id)->where('pekerjaan_khususes.membutuhkan_bahan',1)
+                                ->join('pk_memakai_bahans as pk','pk.kode_pk','pekerjaan_khususes.kode_pk')
+                                ->join('pembelians as p','p.id_pembelian','pk.id_pembelian')->get();
+        return $data;
+    }
 }

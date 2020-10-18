@@ -1,6 +1,7 @@
 @extends('admin.navbar')
 
 @section('content')
+
 <h1 class="mb-3">Input Nota Bahan Toko Bangunan</h1>
 <div class="option col-12 text-right mb-5" style="margin-top: 0px">
     <a class="btn btn-primary"  href="/admin/lihatToko" style="width:250px"><font size="3">Lihat Toko Bangunan</font></a>
@@ -10,32 +11,32 @@
 
 <div class="row">
     <div class="col-5">
-    <form style='margin-top:50px' method="POST" action="/admin/pembelianNota" class="needs-validation" novalidate>
+    <form style='margin-top:50px' method="POST" action="/admin/pembelianNota" class="needs-validation" novalidate id="form">
         @csrf
         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="false" style="width:100%;">
             <div class="carousel-inner">
+
                 @php $i=0; @endphp
                 @foreach ($listFoto as $item)
                     @if($i==0)
-                        <div class="carousel-item active">
+                        <div class="carousel-item active" id="{{$item->id_bukti}}">
                             <img src="/assets/nota_beli/{{$item->file_bukti}}" class="d-block w-100" alt="...">
                         </div>
                     @else
-                        <div class="carousel-item">
+                        <div class="carousel-item" id="{{$item->id_bukti}}">
                             <img src="/assets/nota_beli/{{$item->file_bukti}}" class="d-block w-100" alt="...">
                         </div>
-
                     @endif
                     @php $i++; @endphp
                 @endforeach
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <a class="carousel-control-prev" href="#carouselExampleFade"  role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true" ></span>
             <span class="sr-only" style="color: black">Previous</span>
             </a>
             <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
+            <span class="carousel-control-next-icon" aria-hidden="true" ></span>
+            <span class="sr-only" >Next</span>
             </a>
         </div>
     </div>
@@ -95,6 +96,7 @@
             <input type="number" class="form-control"  min="0" id="subtotal" name="subtotal" required="required" readonly step="500" value="0">
         </div>
         <div class="form-group">
+            {{--
             <label for="exampleInputEmail1">Pekerjaan</label>
             <select name="pekerjaan" id="pekerjaan" class="form-control" required="required">
                 <option disabled selected>Pilih Pekerjaan</option>
@@ -115,11 +117,13 @@
                 @endforeach
             </select>
         </div>
+
         <div class="form-group">
             <label for="exampleInputEmail1">Pekerjaan Khusus</label>
             <select name="spekerjaan" id="spekerjaan" class="form-control">
             </select>
-        </div>
+        </div>--}}
+
         <button type="submit" class="btn btn-success">Tambah</button>
     </div>
 </form>
@@ -129,7 +133,7 @@
     @endphp
     <br>
     @if (count($arrBeli)>0)
-        <form method="POST" action="/admin/tabelBeli" class="needs-validation" novalidate>
+        <form method="POST" action="/admin/tabelBeli" class="needs-validation" novalidate id="form ">
             @csrf
             @php
                 $total=0;
@@ -182,9 +186,12 @@
             </tfoot>
             </table>
         </div>
-        <form method="POST" action="/admin/simpanPembelian" class="needs-validation" novalidate>
+        <form method="POST" action="/admin/simpanPembelian" class="needs-validation" novalidate id="simpan">
             @csrf
-            <button type="submit" class="btn btn-success" name='btnSimpan'>Simpan</button>
+            <div class="form-group">
+                <input type="hidden" id="active" name="active">
+             </div>
+            <button type="button" class="btn btn-success" onclick="submits()"name='btnSimpan'>Simpan</button>
         </form>
     @endif
 @if($msg = Session::get('success'))
@@ -192,34 +199,48 @@
         swal('Berhasil!', "{{Session::get('success')}}", "success");
     </script>
 @endif
+
 <script>
+    function submits(){
+        var gambar = $('.active').attr("id");
+        $("#active").val(gambar);
+        document.getElementById('simpan').submit();
+    }
+    function getAlamat(){
+        var value = $("#nama").val();
+        var _token=$('input[name="_token"]').val();
+        $.ajax({
+            url:"{{route('admin.getAlamat')}}",
+            method:"POST",
+            data:{value:value,_token:_token},
+            success:function(result){
+            $("#alamat").html(result);
+            }
+        })
+    }
+    function  getBahan(){
+        var value = $('#alamat').val();
+
+        var _token=$('input[name="_token"]').val();
+        $.ajax({
+            url:"{{route('admin.getBahan')}}",
+            method:"POST",
+            data:{value:value,_token:_token},
+            success:function(result){
+                $("#bahan").html(result);
+            }
+        })
+    }
     $(document).ready(function(){
+
         $('#nama').change(function(){
             if($(this).val()!=''){
-                var value = $(this).val();
-                var _token=$('input[name="_token"]').val();
-                $.ajax({
-                    url:"{{route('admin.getAlamat')}}",
-                    method:"POST",
-                    data:{value:value,_token:_token},
-                    success:function(result){
-                        $("#alamat").html(result);
-                    }
-                })
+                getAlamat();
             }
         });
         $('#alamat').change(function(){
             if($(this).val()!=''){
-                var value = $(this).val();
-                var _token=$('input[name="_token"]').val();
-                $.ajax({
-                    url:"{{route('admin.getBahan')}}",
-                    method:"POST",
-                    data:{value:value,_token:_token},
-                    success:function(result){
-                        $("#bahan").html(result);
-                    }
-                })
+                getBahan();
             }
         });
         $('#bahan').change(function(){
@@ -252,20 +273,13 @@
                 $('#diskon').val(0);
             }
         });
-        $('#pekerjaan').change(function(){
-            if($(this).val()!=''){
-                var value = $(this).val();
-                var _token=$('input[name="_token"]').val();
-                $.ajax({
-                    url:"{{route('admin.getSpesial')}}",
-                    method:"POST",
-                    data:{value:value,_token:_token},
-                    success:function(result){
-                        $("#spekerjaan").html(result);
-                    }
-                })
-            }
-        });
+
     })
 </script>
+@if(session()->has('idker'))
+    <script>
+        getAlamat();
+        getBahan();
+    </script>
+@endif
 @endsection

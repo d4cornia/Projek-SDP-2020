@@ -10,7 +10,11 @@ use App\toko_bangunan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use App\bahan_bangunan;
+use App\memiliki_detail_pembelian;
 use App\pekerjaan_khusus;
+use App\pembelian;
+use App\pk_memakai_bahan;
+use CreateBuktiPembelianMandorsTable;
 
 class adminController extends Controller
 {
@@ -137,7 +141,7 @@ class adminController extends Controller
         $nmToko = $req->get('value');
         $toko = new toko_bangunan();
         $data = $toko->where("nama_toko",$nmToko)->get();
-        $select = "<option disabled selected>Pilih Alamat Toko</option>";
+        $select = "<option disabled >Pilih Alamat Toko</option>";
         if(session()->has('idker')){
             $idker=session()->get('idker');
         }
@@ -146,7 +150,7 @@ class adminController extends Controller
         }
         foreach ($data as $key => $value) {
             if($value->id_kerjasama==$idker){
-                $select .= "<option value='".$value->id_kerjasama."' selected='true'>".$value->alamat_toko."</option>";
+                $select .= "<option value='".$value->id_kerjasama."' selected>".$value->alamat_toko."</option>";
             }
             else{
                 $select .= "<option value='".$value->id_kerjasama."'>".$value->alamat_toko."</option>";
@@ -298,6 +302,7 @@ class adminController extends Controller
         $subtotal = $request->subtotal;
         $harga = $request->hargabahan;
         $baru = array(
+            'id_bahan' => $idbahan,
             'nama_bahan'=>$namabahan,
             'jumlah_barang'=>$jumlah,
             'harga_satuan'=>$harga,
@@ -328,5 +333,97 @@ class adminController extends Controller
         array_splice($listBeli,$posisi,1);
         session()->put('arraybeli',$listBeli);
         return redirect('/admin/vpembelianNota');
+    }
+    public function simpanPembelian(Request $req)
+    {
+        $listBeli = [];
+        if(session()->has('arraybeli')){
+            $listBeli=session()->get('arraybeli');
+        }
+        $kodeadmin = session()->get('kode');
+        $pekerjaan  = new pekerjaan();
+        $toko = new toko_bangunan();
+        $bukti = new bukti_pembelian_mandor();
+        $id = $req->active;
+        $daftarpekerjaan = $pekerjaan->where('kode_admin',$kodeadmin)->where('status_delete_pekerjaan',0)->get();
+        $param["id_foto"] = $id;
+        $param["foto"] = $bukti->where('id_bukti',$id)->get();
+        $param["listBeli"] = json_encode($listBeli);
+        $param["listPekerjaan"] = $daftarpekerjaan;
+        $param["alamat"] = $toko->where('id_kerjasama',session()->get('idker'))->pluck("alamat_toko");
+        return view('admin.detail_pembelian')->with($param);
+    }
+    public function checkout(Request $req)
+    {
+        $listBeli = [];
+        if(session()->has('arraybeli')){
+            $listBeli=session()->get('arraybeli');
+        }
+        $pk = new pekerjaan_khusus();
+        $pek =  new pekerjaan();
+       $pembelian = new pembelian();
+       $detail = new memiliki_detail_pembelian();
+       $bpembelian = new bukti_pembelian_mandor();
+       $pkm = new pk_memakai_bahan();
+       $status = $req->status;
+       $id = $req->now;
+       $total = $req->vtotal;
+       $pekerjaan = $req->pekerjaan;
+       $spekerjaan = $req->spekerjaan;
+       $tanggal_beli = $req->beli;
+       $tanggal_bayar = $req->bayar;
+       $date=date_create($tanggal_beli);
+       date_add($date,date_interval_create_from_date_string("7 days"));
+       $tanggal_jatuh_tempo = date_format($date,"Y-m-d");
+       if($status == "bon"){
+            $pembelian->PembelianBon($id,$pekerjaan,session()->get('idker'),$total,$tanggal_beli,$tanggal_jatuh_tempo);
+
+         }
+       else{
+            $pembelian->PembelianBon($id,$pekerjaan,session()->get('idker'),$total,$tanggal_beli,$tanggal_bayar);
+       }
+       $tipe = $pek->select('jenis_pekerjaan')->first();
+
+
+
+       $idpembelian = $pembelian->max("id_pembelian");
+       foreach ($listBeli as $key => $value) {
+            $detail->insert($idpembelian,$value["id_bahan"],$value["jumlah_barang"],$value["harga_satuan"],$value["persen_diskon"],$value["subtotal"]);
+       }
+       $bpembelian->selesaiInput($id,$idpembelian);
+       if($spekerjaan!=null){
+            $pk->PembelihanBahan($spekerjaan,$total);
+            $pk->getPK($id);
+        }
+        else{
+            if($tipe =='1'){
+                 $pek->tambahHargaDeal($pekerjaan,$total);
+            }
+        }
+        session()->forget('arraybeli');
+        session()->forget('namatoko');
+        session()->forget('idker');
+        session()->forget('pek');
+        session()->forget('pk');
+        return redirect('/admin/lihatToko')->with(["success" => "Berhasil Input Nota Pembelian!"]);
+    }
+    public function lNota($id)
+    {
+        $pembelian = new pembelian();
+        $bukti = new bukti_pembelian_mandor();
+        $detail = new memiliki_detail_pembelian();
+        $pekerjaan = new pekerjaan();
+        $spekerjaan = new pekerjaan_khusus();
+        $pemakaian = new pk_memakai_bahan();
+
+        $param["pembelian"]=$pembelian->where('kode_pekerjaan',$id)->get();
+        $param["foto"] = $pembelian->getFoto($id);
+        $param["pekerjaan"] = $pembelian->where('pembelians.kode_pekerjaan',$id)->join('pekerjaans as p','p.kode_pekerjaan','pembelians.kode_pekerjaan')->get();
+        $param["toko"] = $pembelian->where('pembelians.kode_pekerjaan',$id)
+                                    ->join('toko_bangunans as tb','tb.id_kerjasama','pembelians.id_kerjasama')->get();
+        $param["getPK"] = $spekerjaan->getPK($id);
+        $param["arrBeli"] = $pembelian->getListBahan($id);
+
+        return view('admin.List.listnota')->with($param);
     }
 }
