@@ -114,7 +114,7 @@
                                 @if($pembelian[$i]["status_lunas_bon"]==1)
                                     <div class="stamp"><p style="font-size: 6vh">Lunas</p></div>
                                 @else
-                                    <div class="stamp"><p style="font-size: 6vh">Lunas</p></div>
+                                    <div class="stamp"><p style="font-size: 6vh">Belum Lunas</p></div>
                                 @endif
                             </div>
                         </div>
