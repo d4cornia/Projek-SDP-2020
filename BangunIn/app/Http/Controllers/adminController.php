@@ -362,8 +362,7 @@ class adminController extends Controller
        $tanggal_jatuh_tempo = date_format($date,"Y-m-d");
        if($status == "bon"){
             $pembelian->PembelianBon($id,$pekerjaan,session()->get('idker'),$total,$tanggal_beli,$tanggal_jatuh_tempo);
-
-         }
+        }
        else{
             $pembelian->PembelianBon($id,$pekerjaan,session()->get('idker'),$total,$tanggal_beli,$tanggal_bayar);
        }
