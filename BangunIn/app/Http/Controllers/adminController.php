@@ -141,7 +141,7 @@ class adminController extends Controller
         $nmToko = $req->get('value');
         $toko = new toko_bangunan();
         $data = $toko->where("nama_toko",$nmToko)->get();
-        $select = "<option disabled >Pilih Alamat Toko</option>";
+        $select = "<option selected value='' >Pilih Alamat Toko</option>";
         if(session()->has('idker')){
             $idker=session()->get('idker');
         }
@@ -201,10 +201,16 @@ class adminController extends Controller
     }
     public function getBahan(Request $req)
     {
-        $id = $req->get('value');
+        if(session()->has('idker'))
+        {
+            $id = session()->get('idker');
+        }
+        else{
+            $id = $req->get('value');
+        }
         $bahan = new bahan_bangunan();
         $data = $bahan->where("id_kerjasama",$id)->get();
-        $select = "<option disabled selected>Pilih Nama Barang</option>";
+        $select = "<option selected value=''>Pilih Nama Barang</option>";
         foreach ($data as $key => $value) {
             $select .= "<option value='".$value->id_bahan."' harga='".$value->harga_satuan."' >".$value->nama_bahan."</option>";
         }
@@ -215,7 +221,7 @@ class adminController extends Controller
         $id = $req->get('value');
         $spesial = new pekerjaan_khusus();
         $data = $spesial->where("kode_pekerjaan",$id)->get();
-        $select = "<option disabled selected value='-'>Pilih Pekerjaan Khusus</option>";
+        $select = "<option selected value=''>Pilih Pekerjaan Khusus</option>";
         foreach ($data as $key => $value) {
             $select .= "<option value='".$value->kode_pk."'>".$value->keterangan_pk."</option>";
         }
@@ -255,6 +261,16 @@ class adminController extends Controller
     {
         //$param["success"] = "Berhasil Tambah Nota Pembelian";
         //return redirect('/admin/vpembelianNota')->with($param);
+        $request->validate([
+            'nama' => 'required',
+            'alamat' => 'required',
+            'bahan'=>'required',
+            'hargabahan'=>'required'
+        ],
+        [
+            'required' => 'Harap Isi semua Field',
+        ]);
+
         $listBeli=[];
         if(session()->has('arraybeli')){
             $listBeli=session()->get('arraybeli');
@@ -350,18 +366,20 @@ class adminController extends Controller
        $pekerjaan = $req->pekerjaan;
        $spekerjaan = $req->spekerjaan;
        $tanggal_beli = $req->beli;
-       $tanggal_bayar = $req->bayar;
+       $tanggal_bayar = $tanggal_beli;
        $date=date_create($tanggal_beli);
-       date_add($date,date_interval_create_from_date_string("7 days"));
+
+       date_add($date,date_interval_create_from_date_string("30 days"));
        $tanggal_jatuh_tempo = date_format($date,"Y-m-d");
+
        if($status == "bon"){
             $pembelian->PembelianBon($id,$pekerjaan,session()->get('idker'),$total,$tanggal_beli,$tanggal_jatuh_tempo);
-
-         }
+        }
        else{
-            $pembelian->PembelianBon($id,$pekerjaan,session()->get('idker'),$total,$tanggal_beli,$tanggal_bayar);
+            $pembelian->PembelianLunas($id,$pekerjaan,session()->get('idker'),$total,$tanggal_beli,$tanggal_bayar);
        }
-       $tipe = $pek->select('jenis_pekerjaan')->first();
+
+       $tipe = $pek->where('kode_pekerjaan',$id)->select('jenis_pekerjaan')->first();
 
 
 
@@ -372,11 +390,11 @@ class adminController extends Controller
        $bpembelian->selesaiInput($id,$idpembelian);
        if($spekerjaan!=null){
             $pk->PembelihanBahan($spekerjaan,$total);
-            $pk->getPK($id);
+            $pkm->insert($id,$idpembelian);
         }
         else{
             if($tipe =='1'){
-                 $pek->tambahHargaDeal($pekerjaan,$total);
+                $pek->tambahHargaDeal($pekerjaan,$total);
             }
         }
         session()->forget('arraybeli');
@@ -389,11 +407,7 @@ class adminController extends Controller
     public function lNota($id)
     {
         $pembelian = new pembelian();
-        $bukti = new bukti_pembelian_mandor();
-        $detail = new memiliki_detail_pembelian();
-        $pekerjaan = new pekerjaan();
         $spekerjaan = new pekerjaan_khusus();
-        $pemakaian = new pk_memakai_bahan();
 
         $param["pembelian"]=$pembelian->where('kode_pekerjaan',$id)->get();
         $param["foto"] = $pembelian->getFoto($id);

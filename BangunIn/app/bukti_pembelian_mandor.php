@@ -66,8 +66,7 @@ class bukti_pembelian_mandor extends Model
     public function selesaiInput($id, $idPembelihan)
     {
         $bukti = $this->find($id);
-        $bukti->status_input = 1;
-        $bukti->id_pembelian = $idPembelihan;
+        $bukti->status_input=1;
         $bukti->save();
     }
 }

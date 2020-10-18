@@ -13,7 +13,7 @@
     <div class="col-5">
     <form style='margin-top:50px' method="POST" action="/admin/pembelianNota" class="needs-validation" novalidate id="form">
         @csrf
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="false" style="width:100%;">
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-interval='600000' style="width:100%;">
             <div class="carousel-inner">
 
                 @php $i=0; @endphp
@@ -85,7 +85,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Jumlah Bahan</label>
-            <input type="number" class="form-control"  min="0" id="jumlah" name="jumlah" required="required" step="0.01" value="0">
+            <input type="number" class="form-control"  min="0" id="jumlah" name="jumlah" required="required" step="0.01" value="1">
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Persen Diskon</label>
@@ -191,20 +191,26 @@
             <div class="form-group">
                 <input type="hidden" id="active" name="active">
              </div>
-            <button type="button" class="btn btn-success" onclick="submits()"name='btnSimpan'>Simpan</button>
+            <button type="button" class="btn btn-success" onclick="submits()" name='btnSimpan'>Simpan</button>
         </form>
     @endif
-@if($msg = Session::get('success'))
-    <script>
-        swal('Berhasil!', "{{Session::get('success')}}", "success");
-    </script>
-@endif
+@if($errors->has('nama')||$errors->has('alamat')||$errors->has('bahan')||$errors->has('harga_bahan')))
+<script>
+    swal('Gagal!', "Harap Isi semua field!", "error");
+</script>
 
+@endif
 <script>
     function submits(){
         var gambar = $('.active').attr("id");
         $("#active").val(gambar);
-        document.getElementById('simpan').submit();
+        if($("#active").val()==""||$("#active").val()==null){
+            swal('Gagal!', "Pilih Nota yang akan di input!", "error");
+        }
+        else{
+            document.getElementById('simpan').submit();
+        }
+
     }
     function getAlamat(){
         var value = $("#nama").val();
@@ -216,11 +222,10 @@
             success:function(result){
             $("#alamat").html(result);
             }
-        })
+        });
     }
     function  getBahan(){
         var value = $('#alamat').val();
-
         var _token=$('input[name="_token"]').val();
         $.ajax({
             url:"{{route('admin.getBahan')}}",
@@ -229,7 +234,7 @@
             success:function(result){
                 $("#bahan").html(result);
             }
-        })
+        });
     }
     $(document).ready(function(){
 
@@ -248,11 +253,33 @@
                 option = $(this).find('option:selected');
                 harga = option.attr("harga");
                 $('#hargabahan').val(harga);
+                if($('#jumlah').val()>=0){
+                    var jumlah =  $('#jumlah').val();
+                    var harga =  $('#hargabahan').val();
+
+                    $('#subtotal').val(jumlah*harga);
+                }
+                else{
+                    $('#jumlah').val(0);
+                }
             }
         });
+
         $('#jumlah').change(function(){
 
             if($(this).val()>=0){
+                var jumlah =  $('#jumlah').val();
+                var harga =  $('#hargabahan').val();
+
+                $('#subtotal').val(jumlah*harga);
+            }
+            else{
+                $('#jumlah').val(0);
+            }
+        });
+
+        $('#hargabahan').change(function(){
+            if($('#jumlah').val()>=0){
                 var jumlah =  $('#jumlah').val();
                 var harga =  $('#hargabahan').val();
 
