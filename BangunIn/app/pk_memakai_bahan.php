@@ -13,8 +13,8 @@ class pk_memakai_bahan extends Model
     public function insert($id,$id_pembelihan)
     {
         $pk = new pk_memakai_bahan();
-        $pk->id_pembelihan = $id_pembelihan;
-        $pk->id_pk = $id;
+        $pk->id_pembelian = $id_pembelihan;
+        $pk->kode_pk = $id;
         $pk->save();
     }
 }
