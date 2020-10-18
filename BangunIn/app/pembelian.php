@@ -37,7 +37,7 @@ class pembelian extends Model
         $p->tanggal_beli = $tanggal_beli;
         $p->tanggal_bayar = $tanggal_bayar;
         $p->tanggal_jatuh_tempo = null;
-        $p->status_lunas_bon_toko = null;
+        $p->status_lunas_bon_toko = '1';
         $p->status_pembayaran_oleh ='1';
         $p->status_request_dana ='0';
         $p->save();

@@ -356,17 +356,17 @@ class adminController extends Controller
        $pekerjaan = $req->pekerjaan;
        $spekerjaan = $req->spekerjaan;
        $tanggal_beli = $req->beli;
-       $tanggal_bayar = $req->bayar;
+       $tanggal_bayar = $tanggal_beli;
        $date=date_create($tanggal_beli);
-       date_add($date,date_interval_create_from_date_string("7 days"));
+       date_add($date,date_interval_create_from_date_string("30 days"));
        $tanggal_jatuh_tempo = date_format($date,"Y-m-d");
        if($status == "bon"){
             $pembelian->PembelianBon($id,$pekerjaan,session()->get('idker'),$total,$tanggal_beli,$tanggal_jatuh_tempo);
         }
        else{
-            $pembelian->PembelianBon($id,$pekerjaan,session()->get('idker'),$total,$tanggal_beli,$tanggal_bayar);
+            $pembelian->PembelianLunas($id,$pekerjaan,session()->get('idker'),$total,$tanggal_beli,$tanggal_bayar);
        }
-       $tipe = $pek->select('jenis_pekerjaan')->first();
+       $tipe = $pek->where('kode_pekerjaan',$id)->select('jenis_pekerjaan')->first();
 
 
 
@@ -377,7 +377,7 @@ class adminController extends Controller
        $bpembelian->selesaiInput($id,$idpembelian);
        if($spekerjaan!=null){
             $pk->PembelihanBahan($spekerjaan,$total);
-            $pk->getPK($id);
+            $pkm->insert($id,$idpembelian);
         }
         else{
             if($tipe =='1'){
@@ -394,11 +394,7 @@ class adminController extends Controller
     public function lNota($id)
     {
         $pembelian = new pembelian();
-        $bukti = new bukti_pembelian_mandor();
-        $detail = new memiliki_detail_pembelian();
-        $pekerjaan = new pekerjaan();
         $spekerjaan = new pekerjaan_khusus();
-        $pemakaian = new pk_memakai_bahan();
 
         $param["pembelian"]=$pembelian->where('kode_pekerjaan',$id)->get();
         $param["foto"] = $pembelian->getFoto($id);

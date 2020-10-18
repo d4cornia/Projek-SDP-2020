@@ -119,10 +119,6 @@
                 <label for="exampleInputEmail1">Tanggal Beli</label>
                 <input type="date" name="beli" id="beli" class="form-control" required="required" value="">
             </div>
-            <div class="form-group mt-3 " id="bbayar">
-                <label for="exampleInputEmail1">Tanggal Bayar</label>
-                <input type="date" name="bayar" id="bayar" class="form-control" required="required" value="">
-            </div>
             <a href="/admin/vpembelianNota"><button class="btn btn-info mr-3">Kembali</button></a>
             <button class="btn btn-success" type="submit">Simpan</button>
         </form>
@@ -133,14 +129,6 @@
     @endif
 <script>
     $('#bbayar').hide();
-    function check(id) {
-        if(id==0){
-            $('#bbayar').show();
-        }
-        else{
-            $('#bbayar').hide();
-        }
-    }
     $('#pekerjaan').change(function(){
             if($(this).val()!=''){
                 var value = $(this).val();
