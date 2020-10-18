@@ -22,6 +22,7 @@ class mandor extends Model
         return $result;
     }
 
+
     public function cekMandor($username)
     {
         //cek apakah user sudah terpakai atau belum
