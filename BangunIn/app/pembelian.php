@@ -54,5 +54,11 @@ class pembelian extends Model
         $data = pembelian::where('kode_pekerjaan',$id)->join('memiliki_detail_pembelians as dp',"dp.id_pembelian","pembelians.id_pembelian")->join('bahan_bangunans as bb','bb.id_bahan','dp.id_bahan')->get();
         return $data;
     }
-
+    public function updateLunas($id,$tl)
+    {
+        $beli = $this->find($id);
+        $beli->status_lunas_bon_toko=1;
+        $beli->tanggal_bayar=$tl;
+        $beli->save();
+    }
 }

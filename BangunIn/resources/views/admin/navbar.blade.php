@@ -22,7 +22,15 @@
             <a class="dropdown-item" href="/admin/tambahToko">Tambah Toko Bangunan</a>
             <a class="dropdown-item" href="/admin/lihatToko">Lihat Toko Bangunan</a>
             <a class="dropdown-item" href="/admin/inputBahan">Input Bahan Bangunan</a>
+        </div>
+    </div>
+    <div class="btn-group nav-side">
+        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Pembelian Bahan
+        </button>
+        <div class="dropdown-menu">
             <a class="dropdown-item" href="/admin/vpembelianNota">Input Pembelian Bahan</a>
+            <a class="dropdown-item" href="/admin/vListNotaBon">Pembayaran Bon Bahan</a>
         </div>
     </div>
 

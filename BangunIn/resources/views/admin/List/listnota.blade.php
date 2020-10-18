@@ -111,7 +111,7 @@
                             <div class="col-8">
                             </div>
                             <div class="col-4">
-                                @if($pembelian[$i]["status_lunas_bon"]==1)
+                                @if($pembelian[$i]["status_lunas_bon_toko"]==1)
                                     <div class="stamp"><p style="font-size: 6vh">Lunas</p></div>
                                 @else
                                     <div class="stamp"><p style="font-size: 6vh">Belum Lunas</p></div>
@@ -183,8 +183,8 @@
                             <input type="date" name="bayar" id="bayar" class="form-control" required="required" readonly="readonly" value="{{$pembelian[$i]["tanggal_jatuh_tempo"]}}">
                             </div>
                         @endif
-                        @if($pembelian[$i]["tanggal_jatuh_tempo"]!=null&&$pembelian[$i]["tanggal_bayar"]==null)
-                            <a href="/bayarBon/{{ $pembelian[$i]["id_pembelian"]}}"><button class="btn btn-danger" type="button">Bayar Bon</button></a>
+                        @if($pembelian[$i]["status_lunas_bon_toko"]==0)
+                            <a href="/admin/detnotabeli/{{ $pembelian[$i]["id_pembelian"]}}"><button class="btn btn-danger" type="button">Bayar Bon</button></a>
                         @endif
                         </form>
                     </div>

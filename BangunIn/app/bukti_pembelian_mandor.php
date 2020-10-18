@@ -69,4 +69,10 @@ class bukti_pembelian_mandor extends Model
         $bukti->status_input=1;
         $bukti->save();
     }
+    public function updateBukti($idbukti,$buktibaru)
+    {
+        $bukti = $this->find($idbukti);
+        $bukti->file_bukti=$buktibaru;
+        $bukti->save();
+    }
 }

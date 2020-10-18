@@ -419,4 +419,54 @@ class adminController extends Controller
 
         return view('admin.List.listnota')->with($param);
     }
+    public function vnotabon()
+    {
+        $pembelian = new pembelian();
+        $toko = new toko_bangunan();
+        $pekerjaan = new pekerjaan();
+        $param["pembelian"] = $pembelian->where('status_lunas_bon_toko','0')->orderBy('tanggal_beli')->get();
+        $param["toko"] = $toko->get();
+        $param["pekerjaan"] = $pekerjaan->get();
+        return view('admin.List.listBon')->with($param);
+    }
+    public function detnotabeli($id)
+    {
+        $detailbeli = new memiliki_detail_pembelian();
+        $pembelian = new pembelian();
+        $pkmemakaibahan = new pk_memakai_bahan();
+        $toko = new toko_bangunan();
+        $pekerjaan = new pekerjaan();
+        $pk = new pekerjaan_khusus();
+        $bahan = new bahan_bangunan();
+        $buktipembelian = new bukti_pembelian_mandor();
+        $param['pembelian'] = $pembelian->where('id_pembelian',$id)->get();
+        $param['detailbeli'] = $detailbeli->where('id_pembelian',$id)->get();
+        $param["toko"] = $toko->get();
+        $param["pekerjaan"] = $pekerjaan->get();
+        $param['pk']=$pk->get();
+        $param['bahan']=$bahan->get();
+        $param['bukti']=$buktipembelian->get();
+        $hitung = $pkmemakaibahan->where('id_pembelian',$id)->count();
+        if($hitung>0){
+            $param['pkmemakaibahan']=$pkmemakaibahan->where('id_pembelian',$id)->get();
+        }
+        else{
+            $param['pkmemakaibahan']="";
+        }
+        return view('admin.List.detailNotaBon')->with($param);
+    }
+    public function pembayaranBonBahan(Request $request)
+    {
+        $kodepembelian = $request->kodepembelian;
+        $idbukti = $request->idbukti;
+
+        $bukti = new bukti_pembelian_mandor();
+        $buktibaru = $request->foto;
+        $tanggal = $request->tanggal;
+        $bukti->updateBukti($idbukti,$buktibaru);
+
+        $pembelian = new pembelian();
+        $pembelian->updateLunas($kodepembelian,$tanggal);
+        return redirect('/admin/vListNotaBon')->with(["success" => "Berhasil Melunasi Nota Pembelian!"]);
+    }
 }
