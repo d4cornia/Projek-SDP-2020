@@ -152,6 +152,9 @@
                             <input type="date" name="bayar" id="bayar" class="form-control" required="required" readonly="readonly" value="{{$pembelian[$i]["tanggal_jatuh_tempo"]}}">
                             </div>
                         @endif
+                        @if($pembelian[$i]["tanggal_jatuh_tempo"]!=null&&$pembelian[$i]["tanggal_bayar"]==null)
+                            <a href="/bayarBon/{{ $pembelian[$i]["id_pembelian"]}}"><button class="btn btn-danger" type="button">Bayar Bon</button></a>
+                        @endif
                         </form>
                     </div>
                 </div>
