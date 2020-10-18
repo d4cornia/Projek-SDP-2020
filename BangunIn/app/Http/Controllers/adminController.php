@@ -261,6 +261,16 @@ class adminController extends Controller
     {
         //$param["success"] = "Berhasil Tambah Nota Pembelian";
         //return redirect('/admin/vpembelianNota')->with($param);
+        $request->validate([
+            'nama' => 'required',
+            'alamat' => 'required',
+            'bahan'=>'required',
+            'hargabahan'=>'required'
+        ],
+        [
+            'required' => 'Harap Isi semua Field',
+        ]);
+
         $listBeli=[];
         if(session()->has('arraybeli')){
             $listBeli=session()->get('arraybeli');
@@ -358,14 +368,17 @@ class adminController extends Controller
        $tanggal_beli = $req->beli;
        $tanggal_bayar = $tanggal_beli;
        $date=date_create($tanggal_beli);
+
        date_add($date,date_interval_create_from_date_string("30 days"));
        $tanggal_jatuh_tempo = date_format($date,"Y-m-d");
+
        if($status == "bon"){
             $pembelian->PembelianBon($id,$pekerjaan,session()->get('idker'),$total,$tanggal_beli,$tanggal_jatuh_tempo);
         }
        else{
             $pembelian->PembelianLunas($id,$pekerjaan,session()->get('idker'),$total,$tanggal_beli,$tanggal_bayar);
        }
+
        $tipe = $pek->where('kode_pekerjaan',$id)->select('jenis_pekerjaan')->first();
 
 
@@ -381,7 +394,7 @@ class adminController extends Controller
         }
         else{
             if($tipe =='1'){
-                 $pek->tambahHargaDeal($pekerjaan,$total);
+                $pek->tambahHargaDeal($pekerjaan,$total);
             }
         }
         session()->forget('arraybeli');

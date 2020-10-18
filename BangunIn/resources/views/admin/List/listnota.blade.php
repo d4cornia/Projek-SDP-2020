@@ -1,11 +1,22 @@
 @extends('admin.navbar')
 
 @section('content')
+<style>
+    .stamp{
+        border: 5px solid tomato;
+        text-align: center;
+        width: auto;
+        font-family: 'Bebas Neue', cursive;
+        height: 80%;
 
+        color:tomato;
+    }
+</style>
 <h1 class="mb-5">Detail Pembelian</h1>
 
 
     @if(count($pembelian)>0)
+
         <div class="row mb-5">
             <div class="col-8">
                 <h4>Detail Pembelian bahan  {{$toko[0]["nama_toko"]}}</h4>
@@ -96,6 +107,17 @@
                         <img src="/assets/nota_beli/{{$foto[$i]->file_bukti}}" class="d-block w-100" alt="...">
                     </div>
                     <div class="col-7">
+                        <div class="row">
+                            <div class="col-8">
+                            </div>
+                            <div class="col-4">
+                                @if($pembelian[$i]["status_lunas_bon"]==1)
+                                    <div class="stamp"><p style="font-size: 6vh">Lunas</p></div>
+                                @else
+                                    <div class="stamp"><p style="font-size: 6vh">Lunas</p></div>
+                                @endif
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Nama Toko</label>
                             <input type="text" name="nama" id="nama" class="form-control" required="required" readonly="readonly" value="{{$toko[$i]["nama_toko"]}}">
@@ -115,23 +137,32 @@
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Pekerjaan Khusus</label>
-                            <input type="text" name="pk" id="pk" class="form-control" required="required" readonly="readonly" value="{{$getPK[$i]["keterangan_pk"]}}">
+                            @if(isset($getPK[$i]["keterangan_pk"]))
+                                @php
+                                    $pk = $getPK[$i]["keterangan_pk"];
+                                @endphp
+                            @else
+                                @php
+                                    $pk = "";
+                                @endphp
+                            @endif
+                            <input type="text" name="pk" id="pk" class="form-control" required="required" readonly="readonly" value="{{$pk}}">
                         </div>
 
                         <div class="form-check form-check-inline mr-5">
                             @if($pembelian[$i]["status_pembayaran_oleh"]==1)
-                                <input class="form-check-input" type="radio"  name="status" value="lunas" id="inlineRadio1"  checked>
+                                <input class="form-check-input" type="radio"  name="status" value="lunas" id="inlineRadio1"  checked disabled>
                             @else
-                                <input class="form-check-input" type="radio"  name="status" value="lunas" id="inlineRadio1"  >
+                                <input class="form-check-input" type="radio"  name="status" value="lunas" id="inlineRadio1"  disabled>
                             @endif
                             <label class="form-check-label" for="inlineRadio1">Lunas</label>
                         </div>
 
                         <div class="form-check form-check-inline ml-5">
                             @if($pembelian[$i]["status_pembayaran_oleh"]==2)
-                                <input class="form-check-input" type="radio" onchange="check(1)" name="status" value="bon" id="inlineRadio1" checked>
+                                <input class="form-check-input" type="radio" onchange="check(1)" name="status" value="bon" id="inlineRadio1" checked disabled>
                             @else
-                                <input class="form-check-input" type="radio" onchange="check(1)" name="status" value="bon" id="inlineRadio1">
+                                <input class="form-check-input" type="radio" onchange="check(1)" name="status" value="bon" id="inlineRadio1" disabled>
                             @endif
                             <label class="form-check-label" for="inlineRadio1">Bon</label>
                         </div>

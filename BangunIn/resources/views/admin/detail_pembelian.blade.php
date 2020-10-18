@@ -30,7 +30,6 @@
                 <th>Harga Satuan</th>
                 <th>Diskon</th>
                 <th>Subtotal</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody id="">
@@ -44,9 +43,7 @@
                         <td align="right">Rp {{number_format($item->harga_satuan)}}</td>
                         <td>{{$item->persen_diskon}}</td>
                         <td align='right'>Rp {{number_format($item->subtotal)}}</td>
-                        <td>
-                        <button type='submit' name='kodeku' value='{{$item->nama_bahan}}' class="btn btn-danger">Batal</button>
-                        </td>
+
                     </tr>
                 @endforeach
         </tbody>
@@ -58,7 +55,6 @@
                 <th>Harga Satuan</th>
                 <th>Diskon</th>
                 <th>Subtotal</th>
-                <th>Action</th>
             </tr>
         </tfoot>
         </table>
@@ -127,6 +123,7 @@
 </div>
 
     @endif
+
 <script>
     $('#bbayar').hide();
     $('#pekerjaan').change(function(){

@@ -191,20 +191,26 @@
             <div class="form-group">
                 <input type="hidden" id="active" name="active">
              </div>
-            <button type="button" class="btn btn-success" onclick="submits()"name='btnSimpan'>Simpan</button>
+            <button type="button" class="btn btn-success" onclick="submits()" name='btnSimpan'>Simpan</button>
         </form>
     @endif
-@if($msg = Session::get('success'))
-    <script>
-        swal('Berhasil!', "{{Session::get('success')}}", "success");
-    </script>
-@endif
+@if($errors->has('nama')||$errors->has('alamat')||$errors->has('bahan')||$errors->has('harga_bahan')))
+<script>
+    swal('Gagal!', "Harap Isi semua field!", "error");
+</script>
 
+@endif
 <script>
     function submits(){
         var gambar = $('.active').attr("id");
         $("#active").val(gambar);
-        document.getElementById('simpan').submit();
+        if($("#active").val()==""||$("#active").val()==null){
+            swal('Gagal!', "Pilih Nota yang akan di input!", "error");
+        }
+        else{
+            document.getElementById('simpan').submit();
+        }
+
     }
     function getAlamat(){
         var value = $("#nama").val();

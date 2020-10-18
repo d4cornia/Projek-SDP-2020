@@ -11,7 +11,7 @@ class pembelian extends Model
     public $timestamps = false;
     public  $incrementing = true;
 
-    public function PembelianBon($id_bukti,$id_kerjasama,$kode_pekerjaan,$total_pembelian,$tanggal_beli,$tanggal_jatuh_tempo)
+    public function PembelianBon($id_bukti,$kode_pekerjaan,$id_kerjasama,$total_pembelian,$tanggal_beli,$tanggal_jatuh_tempo)
     {
         $p = new pembelian();
         $p->id_bukti = $id_bukti;
@@ -27,7 +27,7 @@ class pembelian extends Model
         $p->save();
     }
 
-    public function PembelianLunas($id_bukti,$id_kerjasama,$kode_pekerjaan,$total_pembelian,$tanggal_beli,$tanggal_bayar)
+    public function PembelianLunas($id_bukti,$kode_pekerjaan,$id_kerjasama,$total_pembelian,$tanggal_beli,$tanggal_bayar)
     {
         $p = new pembelian();
         $p->id_bukti = $id_bukti;
