@@ -61,7 +61,7 @@
     <img style='width:500px;height:500px;' src='{{$pathsaya}}'><br>
     <br>
     <b>
-    <form method='post' action='/admin/bayarBonBahan'>
+    <form method='post' action='/admin/bayarBonBahan' enctype="multipart/form-data">
         @csrf
         <input type='hidden' name='kodepembelian' value='{{$pembelian[0]->id_pembelian}}'>
         <input type='hidden' name='idbukti' value='{{$pembelian[0]->id_bukti}}'>

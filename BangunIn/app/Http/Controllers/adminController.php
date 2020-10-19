@@ -461,12 +461,16 @@ class adminController extends Controller
         $idbukti = $request->idbukti;
 
         $bukti = new bukti_pembelian_mandor();
-        $buktibaru = $request->foto;
+        $buktib = $request->file('foto');
+        $buktibaru = $buktib->getClientOriginalName();
+        $buktib->move(public_path('/assets/nota_beli/'),  $buktib->getClientOriginalName());
+
         $tanggal = $request->tanggal;
         $bukti->updateBukti($idbukti,$buktibaru);
 
         $pembelian = new pembelian();
         $pembelian->updateLunas($kodepembelian,$tanggal);
+
         return redirect('/admin/vListNotaBon')->with(["success" => "Berhasil Melunasi Nota Pembelian!"]);
     }
 }
