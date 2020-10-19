@@ -421,13 +421,21 @@ class adminController extends Controller
     }
     public function vnotabon()
     {
+        $data=[];
+        if(Cookie::has('sudahbayar')){
+            $data = [
+                'title' => 'Bayar Bon Bahan',
+                'error' => 19
+            ];
+            Cookie::queue('sudahbayar','1',-10);
+        }
         $pembelian = new pembelian();
         $toko = new toko_bangunan();
         $pekerjaan = new pekerjaan();
         $param["pembelian"] = $pembelian->where('status_lunas_bon_toko','0')->orderBy('tanggal_beli')->get();
         $param["toko"] = $toko->get();
         $param["pekerjaan"] = $pekerjaan->get();
-        return view('admin.List.listBon')->with($param);
+        return view('admin.List.listBon',$data)->with($param);
     }
     public function detnotabeli($id)
     {
@@ -471,6 +479,7 @@ class adminController extends Controller
         $pembelian = new pembelian();
         $pembelian->updateLunas($kodepembelian,$tanggal);
 
+        Cookie::queue('sudahbayar','1',10);
         return redirect('/admin/vListNotaBon')->with(["success" => "Berhasil Melunasi Nota Pembelian!"]);
     }
 }

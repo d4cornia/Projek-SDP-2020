@@ -91,6 +91,11 @@
 
 {{-- berhasil/gagal tambah --}}
 @isset($error)
+    @if ($error == 19)
+    <script>
+        swal("Berhasil Melunasi Bon Bahan!", "Pembayaran Bon Bahan berhasil!","success");
+    </script>
+    @endif
     @if ($error == 18)
     <script>
         swal("Gagal delete tagihan!", "Pembayaran dengan tagihan tersebut masih ada!","error");
