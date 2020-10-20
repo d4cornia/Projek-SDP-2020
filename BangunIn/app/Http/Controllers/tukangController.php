@@ -22,7 +22,7 @@ class tukangController extends Controller
         $temp = $t->nameToCode(session()->get('username'));
         $filter = null;
 
-        $firstday = date('d/m/Y', strtotime("sunday 0 week"));
+        $firstday = date('d/m/Y', strtotime("sunday -1 week"));
         if ($a->getAllMyHist($temp[0]) !== null) {
             foreach ($a->getAllMyHist($temp[0]) as $item) {
                 $tgl = date_create($item['tanggal_absen']);

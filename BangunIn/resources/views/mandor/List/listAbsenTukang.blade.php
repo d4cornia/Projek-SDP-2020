@@ -165,7 +165,7 @@
                         </td>
                         <td>{{$item['jenis_tukang']}}</td>
                         <td>{{$item['tanggal_absen']}}</td>
-                        <td>{{$item['ongkos_lembur']}}</td>
+                        <td>Rp. {{number_format($item['ongkos_lembur'])}}</td>
                         <td>@if ($item['bukti'] == '-')
                             <a target="_blank" href="/assets/default_tukang.png" alt="/assets/default_tukang.png">
                                 <img src="/assets/default_tukang.png" alt="/assets/default_tukang.png">

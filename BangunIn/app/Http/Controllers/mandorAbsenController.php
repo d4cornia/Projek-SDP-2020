@@ -30,7 +30,8 @@ class mandorAbsenController extends Controller
         $date = date_create($tanggal);
         $format = date_format($date, "d-m-Y");
 
-        $firstday = date('d/m/Y', strtotime("sunday 0 week"));
+        $firstday = date('d/m/Y', strtotime("sunday -1 week"));
+        // dd(date('d/m/Y', strtotime("sunday 0 week")));
         if ((intval(date_format($date, 'd-m-Y')) - intval($firstday)) >= 0 && intval(date_format($date, 'd-m-Y')) <= intval(date('d-m-Y'))) { // jika sudah dikonfirmasi maka tidak ada konfirmasi lagi
             if ($ah->doneKonfirmasi($format)) {
                 // jika sudah dikonfirmasi
@@ -67,11 +68,13 @@ class mandorAbsenController extends Controller
                     $tem = $b->notConfirm($format);
                     if ($tem != null) {
                         foreach ($tem as $item) {
-                            $jenis = $jt->getNamaJenis($t->where('kode_tukang', $item['kode_tukang'])->pluck('kode_jenis')->first());
-                            $item['jenis_tukang'] = $jenis[0];
-                            $sem = $t->codetoName($item['kode_tukang']);
-                            $item['nama_tukang'] = $sem[0];
-                            $nc[] = $item;
+                            foreach ($item as $val) {
+                                $jenis = $jt->getNamaJenis($t->where('kode_tukang', $val['kode_tukang'])->pluck('kode_jenis')->first());
+                                $val['jenis_tukang'] = $jenis[0];
+                                $sem = $t->codetoName($val['kode_tukang']);
+                                $val['nama_tukang'] = $sem[0];
+                                $nc[] = $val;
+                            }
                         }
                     }
                 }

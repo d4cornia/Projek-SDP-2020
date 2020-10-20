@@ -194,6 +194,9 @@ class absen_tukang extends Model
 
     public function notConfirm($tanggal)
     {
-        return $this->where('tanggal_absen', $tanggal)->where('konfirmasi_absen', '2')->orWhere('konfirmasi_absen', '3')->get();
+        $temp = null;
+        $temp[] = $this->where('tanggal_absen', $tanggal)->where('konfirmasi_absen', '2')->get();
+        $temp[] = $this->where('tanggal_absen', $tanggal)->where('konfirmasi_absen', '3')->get();
+        return $temp;
     }
 }
