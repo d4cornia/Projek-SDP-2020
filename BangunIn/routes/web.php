@@ -111,10 +111,17 @@ Route::group(['prefix' => 'kontraktor'], function () {
 //mandor
 Route::group(['prefix' => 'mandor'], function () {
     Route::get('/', 'mandorController@index');
+    //Pekerjaan khusus
+    Route::get('/indexSpWork', 'mandorController@indexSpecWork');
+    Route::get('/editSpWork', 'mandorController@editSpWork');
+    Route::post('/searchSpWork', 'mandorController@searchSpWork');
+    Route::post('/saveAssign', 'mandorController@assign');
+
     //Absen Tukang
     Route::get('/absenTukang', 'mandorAbsenController@lihatAbsenTukang');
     Route::post('/filterAbsen', 'mandorAbsenController@filterAbsen');
     Route::post('/konfirmasiAbsen', 'mandorAbsenController@konfirmasiAbsen');
+
     //jenistukang
     //insert
     Route::get('/tambahJenisTukang', 'mandorController@tambahJenisTukang');
@@ -193,11 +200,11 @@ Route::group(['prefix' => 'tukang'], function () {
 //admin
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'adminController@index');
-    Route::get('/tambahToko','adminController@tambahToko');
-    Route::post('/submitToko','adminController@submitToko');
-    Route::get('/lihatToko','adminController@lihatToko');
+    Route::get('/tambahToko', 'adminController@tambahToko');
+    Route::post('/submitToko', 'adminController@submitToko');
+    Route::get('/lihatToko', 'adminController@lihatToko');
     Route::get('/editToko/{n?}', 'adminController@editToko');
-    Route::post('/storeEditToko','adminController@storeEditToko');
+    Route::post('/storeEditToko', 'adminController@storeEditToko');
     Route::get('/inputBahan', 'adminController@inputBahan');
     Route::post('/alamatToko', "adminController@getAlamat")->name('admin.getAlamat');
     Route::post('/addBahan', "adminController@tambahBahan");
@@ -209,13 +216,13 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::post('/getBahan', "adminController@getBahan")->name('admin.getBahan');
     Route::post('/getSpesial', "adminController@getSpesial")->name('admin.getSpesial');
-    Route::get('/vpembelianNota','adminController@vnota');
-    Route::post('/pembelianNota','adminController@pembelianNota');
-    Route::post('/tabelBeli','adminController@tabelBeli');
-    Route::post('/simpanPembelian','adminController@simpanPembelian');
-    Route::post('/checkout','adminController@checkout');
+    Route::get('/vpembelianNota', 'adminController@vnota');
+    Route::post('/pembelianNota', 'adminController@pembelianNota');
+    Route::post('/tabelBeli', 'adminController@tabelBeli');
+    Route::post('/simpanPembelian', 'adminController@simpanPembelian');
+    Route::post('/checkout', 'adminController@checkout');
 
-    Route::get('/vListNotaBon','adminController@vnotabon');
-    Route::get('/detnotabeli/{n?}','adminController@detnotabeli');
-    Route::post('/bayarBonBahan','adminController@pembayaranBonBahan');
+    Route::get('/vListNotaBon', 'adminController@vnotabon');
+    Route::get('/detnotabeli/{n?}', 'adminController@detnotabeli');
+    Route::post('/bayarBonBahan', 'adminController@pembayaranBonBahan');
 });

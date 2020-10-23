@@ -36,6 +36,66 @@ class mandorController extends Controller
         return view('mandor.navbar');
     }
 
+    // assign pekerjaan khusus
+
+    public function indexSpecWork()
+    {
+        $p = new pekerjaan();
+        $data = [
+            'title' => 'Pekerjaan Khusus',
+            'listWork' => $p->where('kode_mandor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get(),
+            'listSpWork' => null
+        ];
+        return view('kontraktor.List.listSpecialWork', $data);
+    }
+
+    public function searchSpWork(Request $req)
+    {
+        $p = new pekerjaan();
+        $pk = new pekerjaan_khusus();
+        $req->validate([
+            'work' => [new cbRequired()]
+        ]);
+        $data = [
+            'title' => 'List Pekerjaan Khusus',
+            'listWork' => $p->where('kode_mandor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get(),
+            'listSpWork' => $pk->where('kode_pekerjaan', $req->work)
+                ->where('status_delete_pk', 0)
+                ->get(),
+            'current' => $p->find($req->work),
+            'mode' => 1
+        ];
+        session()->put('listWork', $data['listWork']);
+        session()->put('listSpWork', $data['listSpWork']);
+        session()->put('current', $data['current']);
+        return view('kontraktor.List.listSpecialWork', $data);
+    }
+
+    public function editSpWork(Request $req)
+    {
+        $req->validate([
+            'work' => [new cbRequired()]
+        ]);
+        $data = [
+            'title' => 'List Pekerjaan Khusus',
+            'listWork' => session()->get('listWork'),
+            'listSpWork' => session()->get('listSpWork'),
+            'current' => session()->get('current'),
+            'mode' => 2
+        ];
+        return view('kontraktor.List.listSpecialWork', $data);
+    }
+
+    public function assign(Request $req)
+    {
+        # code...
+    }
+
+
     // nota pembelian bahan
 
     public function menuNota()

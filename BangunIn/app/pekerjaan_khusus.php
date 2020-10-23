@@ -29,6 +29,8 @@ class pekerjaan_khusus extends Model
         $this->keterangan_pk = $req->ketPK;
         $this->total_jasa = $req->sumJasa;
         $this->total_keseluruhan = ($req->sumJasa + $this->total_bahan);
+        $this->kode_tukang = null;
+        $this->status_selesai = 0;
         $this->status_delete_pk = 0;
         $this->save();
 
