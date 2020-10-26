@@ -104,4 +104,18 @@ class pekerjaan_khusus extends Model
             ->join('pembelians as p', 'p.id_pembelian', 'pk.id_pembelian')->get();
         return $data;
     }
+
+    public function assign($id, $kode_tukang)
+    {
+        $p = $this->find($id);
+        $p->kode_tukang = $kode_tukang;
+        $p->save();
+    }
+
+    public function donePk($id, $status)
+    {
+        $p = $this->find($id);
+        $p->status_selesai = $status;
+        $p->save();
+    }
 }

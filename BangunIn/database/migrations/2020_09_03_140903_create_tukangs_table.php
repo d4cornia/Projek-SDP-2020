@@ -19,12 +19,12 @@ class CreateTukangsTable extends Migration
             $table->foreign('kode_jenis')->references('kode_jenis')->on('jenis_tukangs');
             $table->integer('kode_mandor')->unsigned();
             $table->foreign('kode_mandor')->references('kode_mandor')->on('mandors');
-            $table->string('nama_tukang',50);
-            $table->string('username_tukang',50);
-            $table->string('no_hp_tukang',13);
-            $table->string('email_tukang',50);
+            $table->string('nama_tukang', 50);
+            $table->string('username_tukang', 50);
+            $table->string('no_hp_tukang', 13);
+            $table->string('email_tukang', 50);
             $table->integer('gaji_pokok_tukang');
-            $table->string('password_tukang',30);
+            $table->string('password_tukang', 30);
             $table->string('status_delete_tukang', 1);
         });
     }

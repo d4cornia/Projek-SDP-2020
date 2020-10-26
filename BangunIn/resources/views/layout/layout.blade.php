@@ -205,6 +205,30 @@
         swal("Berhasil Ubah!", "{{$upd}}", "success");
     </script>
 @endisset
+@if(session()->has('upd'))
+    <script>
+        swal("Berhasil Ubah!", "{{session()->get('upd')}}", "success");
+    </script>
+@php
+    session()->forget('upd')
+@endphp
+@endif
+@if(session()->has('done'))
+    <script>
+        swal("Berhasil!", "{{session()->get('done')}}", "success");
+    </script>
+@php
+    session()->forget('done')
+@endphp
+@endif
+@if(session()->has('err'))
+    <script>
+        swal("Gagal!", "{{session()->get('err')}}", "error");
+    </script>
+@php
+    session()->forget('err')
+@endphp
+@endif
 @isset($del)
     <script>
         swal("Berhasil Hapus!", "{{$del}}", "success");

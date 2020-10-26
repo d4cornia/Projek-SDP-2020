@@ -115,7 +115,7 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/indexSpWork', 'mandorController@indexSpecWork');
     Route::get('/editSpWork', 'mandorController@editSpWork');
     Route::post('/searchSpWork', 'mandorController@searchSpWork');
-    Route::post('/saveAssign', 'mandorController@assign');
+    Route::post('/assignSpWork', 'mandorController@assign');
 
     //Absen Tukang
     Route::get('/absenTukang', 'mandorAbsenController@lihatAbsenTukang');

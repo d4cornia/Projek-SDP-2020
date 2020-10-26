@@ -87,7 +87,7 @@
                                     <td style=""><a target="_blank" href="/assets/absen_tukang/{{$item->bukti_foto_absen}}" alt="/assets/default_tukang.png">
                                         <img src="/assets/absen_tukang/{{$item->bukti_foto_absen}}"  alt="/assets/default_tukang.png">
                                     </a></td>
-                                    <td><input style="width: 25%; margin: auto" name="status[]" value="{{$item->kode_absen}}" class="form-control" type="checkbox" name="" id="c{{$ctr}}" checked onclick="disable({{$ctr}})"></td>
+                                    <td><input style="width: 25%; margin: auto" name="status[]" value="{{$item->kode_absen}}" class="form-control" type="checkbox" id="c{{$ctr}}" checked onclick="disable({{$ctr}})"></td>
                                     <input type="hidden" name="kode_tukang[]" value="{{$item->kode_tukang}}" id="k{{$ctr}}">
                                 </tr>
                             @endforeach

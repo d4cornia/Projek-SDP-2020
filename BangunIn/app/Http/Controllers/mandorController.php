@@ -26,8 +26,10 @@ use App\Rules\CekPwdMandor;
 use App\Rules\konfirmasiPwd;
 use App\Rules\pwdlamabeda;
 use App\tukang;
+use Dotenv\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator as FacadesValidator;
 
 class mandorController extends Controller
 {
@@ -48,16 +50,24 @@ class mandorController extends Controller
                 ->get(),
             'listSpWork' => null
         ];
-        return view('kontraktor.List.listSpecialWork', $data);
+        return view('mandor.List.listSpecialWork', $data);
     }
 
     public function searchSpWork(Request $req)
     {
         $p = new pekerjaan();
         $pk = new pekerjaan_khusus();
-        $req->validate([
+        $t = new tukang();
+
+        $validator = FacadesValidator::make($req->all(), [
             'work' => [new cbRequired()]
         ]);
+
+        if ($validator->fails()) {
+            return redirect('/mandor/indexSpWork')
+                ->withErrors($validator)
+                ->withInput();
+        }
         $data = [
             'title' => 'List Pekerjaan Khusus',
             'listWork' => $p->where('kode_mandor', session()->get('kode'))
@@ -66,13 +76,17 @@ class mandorController extends Controller
             'listSpWork' => $pk->where('kode_pekerjaan', $req->work)
                 ->where('status_delete_pk', 0)
                 ->get(),
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))
+                ->get(),
             'current' => $p->find($req->work),
             'mode' => 1
         ];
+        session()->put('kode_p', $req->work);
         session()->put('listWork', $data['listWork']);
         session()->put('listSpWork', $data['listSpWork']);
+        session()->put('listTukang', $data['listTukang']);
         session()->put('current', $data['current']);
-        return view('kontraktor.List.listSpecialWork', $data);
+        return view('mandor.List.listSpecialWork', $data);
     }
 
     public function editSpWork(Request $req)
@@ -84,15 +98,62 @@ class mandorController extends Controller
             'title' => 'List Pekerjaan Khusus',
             'listWork' => session()->get('listWork'),
             'listSpWork' => session()->get('listSpWork'),
+            'listTukang' => session()->get('listTukang'),
             'current' => session()->get('current'),
             'mode' => 2
         ];
-        return view('kontraktor.List.listSpecialWork', $data);
+        return view('mandor.List.listSpecialWork', $data);
     }
 
     public function assign(Request $req)
     {
-        # code...
+        // dd($req->input());
+        $pk = new pekerjaan_khusus();
+        $ctr = 0;
+        foreach ($req->tukang as $tuk) {
+            if ($tuk != "-") {
+                $pk->assign($req->id[$ctr], $tuk);
+            } else {
+                $pk->assign($req->id[$ctr], null);
+            }
+            $ctr++;
+        }
+
+
+        $temp = null;
+        foreach ($req->id as $item) {
+            $flag = true;
+            if ($req->status !== null) {
+                foreach ($req->status as $val) {
+                    if ($req->id[$val] == $item) {
+                        $flag = false; // index yang dicentang
+                    }
+                }
+            }
+            if ($flag) {
+                $temp[] = $item; // index yang tidak dicentang
+            }
+        }
+        // dd($temp);
+        if ($temp !== null) {
+            foreach ($temp as $item) {
+                $pk->donePk($item, 0);
+            }
+        }
+
+        // pekerjaan yang selesai (checked)
+        if ($req->status !== null) {
+            foreach ($req->status as $item) {
+                if ($req->tukang[$item] != "-") {
+                    $pk->donePk($req->id[$item], 1);
+                } else {
+                    session()->put('err', 'Ada pekerjaan khusus yang diselesaikan tanpa tukang!');
+                    return redirect('/mandor/indexSpWork');
+                }
+            }
+        }
+        session()->put('upd', 'Berhasil mengubah data!');
+        return redirect('/mandor/indexSpWork');
     }
 
 
