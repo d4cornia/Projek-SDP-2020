@@ -24,20 +24,37 @@
 @if ($buka)
 <form  method="POST" action="/tukang/upload" enctype="multipart/form-data">
     @csrf
-    <div class="form-group">
+    {{-- <div class="form-group">
         <div class="preview">
             <img id="blah" src="/assets/default_tukang.png" alt="" class="imgprev"/>
         </div>
+    </div> --}}
+    <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="my_camera"></div>
+                    <br/>
+                    <input type=button value="Take Snapshot" onClick="take_snapshot()">
+                    <input type="hidden" name="image" class="image-tag">
+                </div>
+                <div class="col-md-6">
+                    <div id="results">Your captured image will appear here...</div>
+                    <input type="hidden" name="hasilfoto" id="hasilfoto">
+                </div>
+                <div class="col-md-12 text-center">
+                    <br/>
+                </div>
+            </div>
     </div>
 
-    <div class="form-group">
+    {{-- <div class="form-group">
         <input type='file' name='bukti' onchange="readURL(this);"/>
         @error('bukti')
         <div class="err">
             {{$message}}
         </div>
         @enderror
-    </div>
+    </div> --}}
     <div class="form-group">
         <input type="submit" value="Upload" class="btn btn-info">
     </div>
@@ -56,6 +73,24 @@
 
             reader.readAsDataURL(input.files[0]);
         }
+    }
+
+    Webcam.set({
+        width: 490,
+        height: 390,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+
+    Webcam.attach( '#my_camera' );
+
+    function take_snapshot() {
+        Webcam.snap( function(data_uri) {
+            $(".image-tag").val(data_uri);
+            $("#hasilfoto").val(data_uri);
+
+            document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+        } );
     }
 </script>
 @else
