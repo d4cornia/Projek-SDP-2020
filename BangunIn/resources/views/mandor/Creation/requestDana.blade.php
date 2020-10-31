@@ -32,6 +32,10 @@
         <input type="text" class="form-control" name="nota" id="nota" readonly required>
     </div>
     <div class="form-group">
+        <label for="exampleInputEmail1">Gaji Tukang</label>
+        <input type="text" class="form-control" name="gaji" id="gaji" readonly required>
+    </div>
+    <div class="form-group">
         <label for="exampleInputEmail1">Request Bon Tukang</label>
         <input type="text" class="form-control" name="bon" id="bon" readonly required>
     </div>
@@ -119,6 +123,15 @@
                     success:function(result){
                         //alert("Res"+result);
                         $("#nota").val(result);
+                    }
+                });
+                $.ajax({
+                    url:"{{route('querygaji')}}",
+                    method:"POST",
+                    data:{value:value,_token:_token},
+                    success:function(result){
+                        //alert("Res"+result);
+                        $("#gaji").val(result);
                     }
                 });
                 //alert('masuk');

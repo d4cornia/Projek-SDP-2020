@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\absen_harian;
 use App\bon_tukang;
+use App\detail_absen;
 use App\pekerjaan;
 use App\pekerjaan_khusus;
 use App\pembelian;
@@ -134,5 +136,54 @@ class mandorRequestController extends Controller
             }
             echo $jumlah;
         }
+    }
+    public function querygaji(Request $request)
+    {
+        $kode_pekerjaan=$request->value;
+        $maxbulan = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        $tahun = date('Y');
+        $bulan = date('m');
+        $tanggal = date('d');
+        $fulldate= $tahun."-".$bulan."-".$tanggal;
+        $date=date_create($fulldate);
+        $harike=date_format($date,"N");
+        for($i = 1; $i < $harike; $i++) //1 karena hari senin
+        {
+            $tanggal-=1;
+            if($tanggal == 0) {
+                if($bulan == 1)
+                { $tanggal+=31; }
+                else
+                { $tanggal+=$maxbulan[$bulan - 2]; }
+                $bulan-=1;
+            }
+        }
+        $tanggalawal = date_create($tahun."-".$bulan."-".$tanggal);
+
+        $absenharian = new absen_harian();
+        $absenharianku = $absenharian->where('kode_pekerjaan',$kode_pekerjaan)->whereDate('tanggal_absen',">=",$tanggalawal)->get();
+
+        $arrabsen = [];
+        foreach($absenharianku as $item){
+            array_push($arrabsen,$item->kode_absen_harians);
+        }
+        $detailabsen = new detail_absen();
+        $mydet = $detailabsen->whereIn('kode_absen_harians',$arrabsen)->get();
+
+        $tukang = new tukang();
+        $listTukang = $tukang->all();
+
+        $jumlah=0;
+        foreach($mydet as $item){
+            $jumlah+=$item->ongkos_lembur;
+            foreach($listTukang as $tkg){
+                if($tkg->kode_tukang == $item->kode_tukang){
+                    $jumlah+=$tkg->gaji_pokok_tukang;
+                }
+            }
+        }
+
+        echo $jumlah;
     }
 }

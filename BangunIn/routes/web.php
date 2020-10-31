@@ -195,6 +195,7 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::post('/querypkall', "mandorRequestController@querypkall")->name('querypkall');
     Route::post('/queryjumpkall', "mandorRequestController@querypkalls")->name('queryjumpkall');
     Route::post('/hitungpk', "mandorRequestController@hitungpk")->name('hitungpk');
+    Route::post('/querygaji', "mandorRequestController@querygaji")->name('querygaji');
 });
 
 //tukang
