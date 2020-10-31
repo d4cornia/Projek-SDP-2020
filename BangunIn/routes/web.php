@@ -187,6 +187,15 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::get('/listNota', 'mandorController@indexList');
     Route::post('/submitNotaPembelian', 'mandorController@inputNota');
     Route::get('/delNota/{n?}', 'mandorController@deleteNotaPembelian');
+
+    //dana
+    Route::get('/requestDana', 'mandorRequestController@index');
+    Route::post('/querynota', "mandorRequestController@querynota")->name('querynota');
+    Route::post('/querybon', "mandorRequestController@querybon")->name('querybon');
+    Route::post('/querypkall', "mandorRequestController@querypkall")->name('querypkall');
+    Route::post('/queryjumpkall', "mandorRequestController@querypkalls")->name('queryjumpkall');
+    Route::post('/hitungpk', "mandorRequestController@hitungpk")->name('hitungpk');
+    Route::post('/querygaji', "mandorRequestController@querygaji")->name('querygaji');
 });
 
 //tukang

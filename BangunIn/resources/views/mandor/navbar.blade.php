@@ -53,4 +53,12 @@
         <a class="dropdown-item" href="/mandor/lihatRincianPembayaran">Lihat Pembayaran Bon</a>
     </div>
 </div>
+<div class="btn-group nav-side">
+    <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Dana
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="/mandor/requestDana">Request Dana</a>
+    </div>
+</div>
 @endsection
