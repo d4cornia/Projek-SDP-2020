@@ -15,6 +15,7 @@ use App\bukti_pembelian_mandor;
 use App\memiliki_detail_bon;
 use App\pekerjaan;
 use App\pembayaran_bon_tukang;
+use App\pk_dana;
 use App\Rules\cbDetBon;
 use App\Rules\cbJenis;
 use App\Rules\cbRequired;
@@ -75,12 +76,14 @@ class mandorController extends Controller
                 ->get(),
             'listSpWork' => $pk->where('kode_pekerjaan', $req->work)
                 ->where('status_delete_pk', 0)
+                // ->where('id_detail_permintaan_uang', '<>', null)
                 ->get(),
             'listTukang' => $t->where('kode_mandor', session()->get('kode'))
                 ->get(),
             'current' => $p->find($req->work),
             'mode' => 1
         ];
+        // dd($data['listSpWork'][0]->pk_dana);
         session()->put('kode_p', $req->work);
         session()->put('listWork', $data['listWork']);
         session()->put('listSpWork', $data['listSpWork']);
@@ -110,16 +113,6 @@ class mandorController extends Controller
         // dd($req->input());
         $pk = new pekerjaan_khusus();
         $ctr = 0;
-        foreach ($req->tukang as $tuk) {
-            if ($tuk != "-") {
-                $pk->assign($req->id[$ctr], $tuk);
-            } else {
-                $pk->assign($req->id[$ctr], null);
-            }
-            $ctr++;
-        }
-
-
         $temp = null;
         foreach ($req->id as $item) {
             $flag = true;
@@ -150,6 +143,39 @@ class mandorController extends Controller
                     session()->put('err', 'Ada pekerjaan khusus yang diselesaikan tanpa tukang!');
                     return redirect('/mandor/indexSpWork');
                 }
+            }
+        }
+        foreach ($req->tukang as $tuk) {
+            if ($tuk != "-") {
+                $pk->assign($req->id[$ctr], $tuk);
+            } else {
+                $pk->assign($req->id[$ctr], null);
+            }
+            $ctr++;
+        }
+
+
+        $files = $req->file('bukti_dana');
+        if ($files !== null) {
+            foreach ($files as $file) {
+                $fileName[] = $file->getClientOriginalName();
+                $file->move(public_path('/assets/bukti_dana_pk/'),  $file->getClientOriginalName());
+            }
+
+            $ctr = 0;
+            foreach ($req->type_file as $item) {
+                $pkd = new pk_dana();
+                $pkd->insert($req->id[$item], $fileName[$ctr], $req->dana[$item]);
+                $ctr++;
+            }
+        }
+
+        $pkd = new pk_dana();
+        $ctr = 0;
+        if ($req->idpkd !== null) {
+            foreach ($req->idpkd as $item) {
+                $pkd->updateJumlah($req->dana[$req->upd[$ctr]], $item);
+                $ctr++;
             }
         }
         session()->put('upd', 'Berhasil mengubah data!');

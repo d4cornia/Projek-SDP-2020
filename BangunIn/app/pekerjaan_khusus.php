@@ -11,6 +11,11 @@ class pekerjaan_khusus extends Model
     public  $timestamps = false;
 
 
+    public function pk_dana()
+    {
+        return $this->hasOne(pk_dana::class, 'kode_pk');
+    }
+
     public function getSpWork($id)
     {
         return $this::where('kode_pk', $id)->get();
@@ -32,7 +37,7 @@ class pekerjaan_khusus extends Model
         $this->kode_tukang = null;
         $this->status_selesai = 0;
         $this->status_delete_pk = 0;
-        $this->id_detail_permintaan_uang=null;
+        $this->id_detail_permintaan_uang = null;
         $this->save();
 
         $p = new pekerjaan();

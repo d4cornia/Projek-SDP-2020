@@ -33,7 +33,7 @@ class tukangController extends Controller
         }
 
         $data = [
-            'title' => 'Absen',
+            'title' => 'Riwayat Absen',
             'listHistory' => $filter
         ];
 
@@ -70,6 +70,7 @@ class tukangController extends Controller
 
     public function absen(Request $request)
     {
+        date_default_timezone_set("Asia/Bangkok");
         $img = $request->input('image');
         $folderPath = public_path('/assets/absen_tukang/');
 
@@ -83,44 +84,11 @@ class tukangController extends Controller
         $file = $folderPath . $fileName;
         file_put_contents($file, $image_base64);
 
-        // date_default_timezone_set("Asia/Bangkok");
-        // $request->validate([
-        //     'bukti' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-        // ], [
-        //     'bukti.required' => 'Tolong masukkan bukti gambar anda untuk absen!'
-        // ]);
-        // $fileName =  "image-" . time() . '.' . $request->file('bukti')->getClientOriginalName();
-        // $request->file('bukti')->move(public_path('/assets/absen_tukang'), $fileName);
+        session()->put('bukti', $fileName);
+        $a = new absen_tukang();
+        $a->insert($request);
 
-        // session()->put('bukti', $fileName);
-        // $a = new absen_tukang();
-        // $a->insert($request);
-
-
-        // $t = new tukang();
-        // $temp = $t->nameToCode(session()->get('username'));
-        // $filter = null;
-        // $date = mktime(0, 0, 0, 0, 7);
-        // if ($a->getAllMyHist($temp[0]) !== null) {
-        //     foreach ($a->getAllMyHist($temp[0]) as $item) {
-        //         $tgl = date_create($item['tanggal_absen']);
-        //         if ((intval(date('d-m-Y')) - intval(date('d-m-Y', $date))) <= intval(date_format($tgl, 'd-m-Y'))) {
-        //             $filter[] = $item;
-        //         }
-        //     }
-        // }
-
-        // $data = [
-        //     'title' => 'Absen',
-        //     'listHistory' => $filter,
-        //     'title' => 'Riwayat absen',
-        //     'succ' => 'Silahkan tunggu konfirmasi dari mandor'
-        // ];
-        // $date = mktime(8, 0, 0);
-        // $data['buka'] = false;
-        // if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
-        //     $data['buka'] = true;
-        // }
-        // return view('tukang.List.historyAbsenTukang', $data);
+        session()->put('done', 'Silahkan tunggu konfirmasi dari mandor!');
+        return redirect('/tukang/history');
     }
 }

@@ -222,6 +222,8 @@
     session()->forget('done')
 @endphp
 @endif
+
+@endif
 @if(session()->has('err'))
     <script>
         swal("Gagal!", "{{session()->get('err')}}", "error");

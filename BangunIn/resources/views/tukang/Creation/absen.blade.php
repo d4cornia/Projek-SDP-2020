@@ -38,7 +38,9 @@
                     <input type="hidden" name="image" class="image-tag">
                 </div>
                 <div class="col-md-6">
-                    <div id="results">Your captured image will appear here...</div>
+                    <div class="preview">
+                        <div id="results" class="imgprev">Your captured image will appear here...</div>
+                    </div>
                     <input type="hidden" name="hasilfoto" id="hasilfoto">
                 </div>
                 <div class="col-md-12 text-center">
@@ -47,14 +49,6 @@
             </div>
     </div>
 
-    {{-- <div class="form-group">
-        <input type='file' name='bukti' onchange="readURL(this);"/>
-        @error('bukti')
-        <div class="err">
-            {{$message}}
-        </div>
-        @enderror
-    </div> --}}
     <div class="form-group">
         <input type="submit" value="Upload" class="btn btn-info">
     </div>
@@ -89,7 +83,7 @@
             $(".image-tag").val(data_uri);
             $("#hasilfoto").val(data_uri);
 
-            document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+            document.getElementById('results').innerHTML = '<img  class="imgprev" src="'+data_uri+'"/>';
         } );
     }
 </script>

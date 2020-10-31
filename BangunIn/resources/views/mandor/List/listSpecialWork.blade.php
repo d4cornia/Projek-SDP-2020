@@ -1,18 +1,27 @@
 @extends('mandor.navbar')
 
 @section('content')
-{{--
+
 <script>
     function disable(ctr) {
-        var cb = document.getElementById("t" + ctr);
-        if(cb.val == "-"){
-            document.getElementById("i" + ctr).disabled = true;
-        }else{
-            document.getElementById("i" + ctr).disabled = false;
-        }
+        document.getElementById("t" + ctr).disabled = false;
     }
-</script> --}}
+</script>
 
+<style>
+    img {
+      border: 1px solid #ddd; /* Gray border */
+      border-radius: 4px;  /* Rounded border */
+      padding: 5px; /* Some padding */
+      width: 120px; /* Set a small width */
+      height: 100px;
+    }
+
+    /* Add a hover effect (blue shadow) */
+    img:hover {
+      box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+    }
+</style>
 
     @if ($listSpWork !== null)
     <h1>Daftar Pekerjaan Khusus</h1>
@@ -42,7 +51,7 @@
                 <button type="submit" class="btn btn-primary">Search</button>
         </div>
     </form>
-    <form action="/mandor/assignSpWork" method="post">
+    <form action="/mandor/assignSpWork" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
         @csrf
         <div class="row-second">
                 <div class="table-responsive">
@@ -52,6 +61,8 @@
                         <th scope="col">No</th>
                         <th scope="col">Keterangan Pekerjaan Khusus</th>
                         <th scope="col">Tukang</th>
+                        <th scope="col">Bukti</th>
+                        <th scope="col">Jumlah dana</th>
                         <th scope="col">Status Selesai</th>
                     </tr>
                 </thead>
@@ -72,6 +83,22 @@
                                                 @endforeach
                                             @endif
                                         </select>
+                                    </td>
+                                    <td>
+                                        @if ($item->pk_dana !== null)
+                                        <a target="_blank" href="/assets/bukti_dana_pk/{{$item->pk_dana->bukti_tsf_dana}}" alt="/assets/default_tukang.png">
+                                            <img src="/assets/bukti_dana_pk/{{$item->pk_dana->bukti_tsf_dana}}"  alt="/assets/default_tukang.png">
+                                        </a>
+                                        @else
+                                        -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($item->pk_dana !== null)
+                                            Rp. {{number_format($item->pk_dana->dana)}}
+                                        @else
+                                        -
+                                        @endif
                                     </td>
                                     <td>
                                         <input style="width: 25%; margin: auto" class="form-control" type="checkbox" @if ($item->status_selesai == 1)
@@ -98,9 +125,34 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <input style="width: 25%; margin: auto" class="form-control" name="status[]" @if ($item->status_selesai == 1)
-                                            checked
-                                        @endif value="{{$loop->iteration - 1}}" type="checkbox">
+                                            @if ($item->pk_dana !== null)
+                                                <a target="_blank" href="/assets/bukti_dana_pk/{{$item->pk_dana->bukti_tsf_dana}}" alt="/assets/default_tukang.png">
+                                                    <img src="/assets/bukti_dana_pk/{{$item->pk_dana->bukti_tsf_dana}}"  alt="/assets/default_tukang.png">
+                                                </a>
+                                            @else
+                                                <input type='file' name='bukti_dana[]' onchange="disable({{$loop->iteration}})"/>
+                                                <input type="hidden" name="type_file[]" id="t{{$loop->iteration}}" value="{{$loop->iteration - 1}}" disabled>
+                                                @error('bukti_dana')
+                                                <div class="err">
+                                                    {{$message}}
+                                                </div>
+                                                @enderror
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($item->pk_dana !== null)
+                                                <input type="number" name="dana[]" value="{{$item->pk_dana->dana}}" id="">
+                                                <input type="hidden" name="idpkd[]" value="{{$item->pk_dana->kode_pk_dana}}">
+                                                <input type="hidden" name="upd[]" value="{{$loop->iteration - 1}}">
+                                            @else
+                                                <input type="number" name="dana[]" value="0" id="">
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <input style="width: 25%; margin: auto" class="form-control" name="status[]"
+                                            @if ($item->status_selesai == 1)
+                                                checked
+                                            @endif value="{{$loop->iteration - 1}}" type="checkbox">
                                         </td>
                                         <input type="hidden" name="id[]" value="{{$item['kode_pk']}}">
                                     </tr>
@@ -112,6 +164,8 @@
                         <th scope="col">No</th>
                         <th scope="col">Keterangan Pekerjaan Khusus</th>
                         <th scope="col">Tukang</th>
+                        <th scope="col">Bukti</th>
+                        <th scope="col">Jumlah dana</th>
                         <th scope="col">Status Selesai</th>
                     </tr>
                 </tfoot>
