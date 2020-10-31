@@ -90,6 +90,7 @@ class pekerjaan extends Model
                     $pk->total_keseluruhan = $item['sumJasa'];
                     $pk->kode_tukang = null;
                     $pk->status_selesai = 0;
+                    $pk->id_detail_permintaan_uang=null;
                     $pk->status_delete_pk = 0;
                     $pk->save();
                 }

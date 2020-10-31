@@ -25,6 +25,7 @@ class CreatePekerjaanKhususesTable extends Migration
             $table->integer('kode_tukang')->unsigned()->nullable();
             $table->foreign('kode_tukang')->references('kode_tukang')->on('tukangs');
             $table->string('status_selesai', 1);
+            $table->integer('id_detail_permintaan_uang')->unsigned()->nullable();
             $table->string('status_delete_pk', 1);
         });
     }

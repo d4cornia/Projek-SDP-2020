@@ -21,8 +21,9 @@ class CreateDetailPermintaanUangsTable extends Migration
             $table->foreign('kode_pekerjaan')->references('kode_pekerjaan')->on('pekerjaans');
             $table->integer('claim_nota_pembelian');
             $table->integer('total_gaji_tukang');
+            $table->integer('total_pk');
             $table->integer('total_bon_tukang');
-            $table->integer('total_gaji_mandor');
+            $table->integer('total_dari_sistem');
             $table->integer('real_total');
             $table->string('keterangan',100);
         });

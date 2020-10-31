@@ -32,6 +32,7 @@ class pekerjaan_khusus extends Model
         $this->kode_tukang = null;
         $this->status_selesai = 0;
         $this->status_delete_pk = 0;
+        $this->id_detail_permintaan_uang=null;
         $this->save();
 
         $p = new pekerjaan();
