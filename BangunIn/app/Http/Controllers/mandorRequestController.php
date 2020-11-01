@@ -24,8 +24,9 @@ class mandorRequestController extends Controller
     {
         $tanggal = date('Y-m-d');
         $permintaanuang = new permintaan_uang();
-        $mypermintaan = $permintaanuang->where('tanggal_permintaan_uang',$tanggal)->get();
-        if($mypermintaan==null){
+        $mypermintaan = $permintaanuang->whereDate('tanggal_permintaan_uang','=',$tanggal)->get();
+        //dd(count($mypermintaan));
+        if(count($mypermintaan)==0){
             $arrreqdana=[];
             if(session()->has('reqdana')){
                 $arrreqdana=session()->get('reqdana');
@@ -127,7 +128,7 @@ class mandorRequestController extends Controller
         }
 
         $kalimat="";
-        foreach($mypk as $pk){
+        foreach($arrpk as $pk){
             $kalimat.="<input type='checkbox' name='pk[]' onclick='ganti();' checked value='$pk->kode_pk'>$pk->keterangan_pk.<br>";
         }
         echo $kalimat;
