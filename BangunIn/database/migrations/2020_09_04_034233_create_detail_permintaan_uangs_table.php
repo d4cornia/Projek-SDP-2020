@@ -22,10 +22,7 @@ class CreateDetailPermintaanUangsTable extends Migration
             $table->integer('claim_nota_pembelian');
             $table->integer('total_gaji_tukang');
             $table->integer('total_pk');
-            $table->integer('total_bon_tukang');
-            $table->integer('total_dari_sistem');
-            $table->integer('real_total');
-            $table->string('keterangan',100);
+            $table->integer('subtotal');
         });
     }
 
