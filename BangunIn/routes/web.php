@@ -196,6 +196,11 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::post('/queryjumpkall', "mandorRequestController@querypkalls")->name('queryjumpkall');
     Route::post('/hitungpk', "mandorRequestController@hitungpk")->name('hitungpk');
     Route::post('/querygaji', "mandorRequestController@querygaji")->name('querygaji');
+
+    // complain
+    Route::get('/complain', 'mandorComplainController@indexComplain');
+    Route::get('/accComp', 'mandorComplainController@accComplain');
+    Route::get('/decComp', 'mandorComplainController@decComplain');
 });
 
 //tukang
@@ -203,6 +208,11 @@ Route::group(['prefix' => 'tukang'], function () {
     Route::get('/', 'tukangController@index');
     Route::get('/history', 'tukangController@listRiwayatAbsen');
     Route::get('/absen', 'tukangController@indexAbsen');
+    Route::post('/confirmAbsen', 'tukangController@confirmAbsen');
+    Route::get('/komplain', 'tukangController@complainMode');
+    Route::get('/selesaiComplain', 'tukangController@doneComplain');
+    Route::get('/complainA/{n?}', 'tukangController@complain');
+    Route::get('/batal/{n?}', 'tukangController@batal');
     Route::post('/upload', 'tukangController@absen');
 });
 

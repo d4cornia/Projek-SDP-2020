@@ -41,8 +41,66 @@ class tukangController extends Controller
         $data['buka'] = false;
         if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
             $data['buka'] = true;
+        } else {
+            $mode = "0";
+            if (session()->has('mode')) {
+                $mode = '2'; // mode komplain
+            } else if (date('l') == "Saturday") { // di hari sabtu dan absen sudah ditutup
+                $mode = "1"; // saatnya konfirmasi absen dan mengajukan komplain
+
+                if ($filter !== null) {
+                    if ($filter[0]->status_komplain == '2') {
+                        $mode = '0';
+                    }
+                }
+            }
+            $data['mode'] = $mode;
         }
         return view('tukang.List.historyAbsenTukang', $data);
+    }
+
+    public function confirmAbsen(Request $req)
+    {
+        $a = new absen_tukang();
+        foreach ($req->idAbsen as $item) {
+            $temp = $a->where('kode_absen', $item)->pluck('status_komplain')->first();
+            if ($temp == "1") {
+                session()->flash('err', 'Masih ada absen yang sedang di komplain!');
+                return redirect('/tukang/history');
+            }
+        }
+        foreach ($req->idAbsen as $item) {
+            $a->confirm($item); // ubah status mnjadi 4
+        }
+        return redirect('/tukang/history');
+    }
+
+    public function complainMode()
+    {
+        session()->put('mode', '2');
+        return redirect('/tukang/history');
+    }
+
+    public function doneComplain()
+    {
+        session()->forget('mode');
+        return redirect('/tukang/history');
+    }
+
+    public function complain($kode_absen)
+    {
+        $a = new absen_tukang();
+        $a->complain($kode_absen); // ubah status complain mnjadi 1
+
+        return redirect('/tukang/history');
+    }
+
+    public function batal($kode_absen)
+    {
+        $a = new absen_tukang();
+        $a->batal($kode_absen); // ubah status complain mnjadi 0
+
+        return redirect('/tukang/history');
     }
 
     public function indexAbsen()
