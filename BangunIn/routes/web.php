@@ -196,6 +196,13 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::post('/queryjumpkall', "mandorRequestController@querypkalls")->name('queryjumpkall');
     Route::post('/hitungpk', "mandorRequestController@hitungpk")->name('hitungpk');
     Route::post('/querygaji', "mandorRequestController@querygaji")->name('querygaji');
+    Route::post('/tambahRequestDana',"mandorRequestController@tambahRequestDana");
+    Route::get('/tabelReq/{n?}',"mandorRequestController@batalReq");
+    Route::post('/hitungtotal', "mandorRequestController@hitungtotal")->name('hitungtotal');
+    Route::post('/simpanReqDana',"mandorRequestController@simpanReqDana");
+
+    Route::get('/lihatRequestDana',"mandorRequestController@listReqDana");
+    Route::get('/detReq/{n?}',"mandorRequestController@detailrequest");
 });
 
 //tukang
