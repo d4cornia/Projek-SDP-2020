@@ -29,6 +29,11 @@ class kontraktorKonfirmDanaController extends Controller
 
         $param['listReq']=$mypermintaan;
         $param['listMandor']=$pilmandor;
+        if(Cookie::has('sudahbyrequest'))
+        {
+            echo "<script>alert('Pembayaran Berhasil');</script>";
+            Cookie::queue('berhasilreq',"",-10);
+        }
         return view('kontraktor.List.listRequestDana')->with($param);
     }
 
@@ -76,6 +81,7 @@ class kontraktorKonfirmDanaController extends Controller
         $mypermintaan->konfirmasi_kontraktor_telah_transfer=1;
         $mypermintaan->bukti_trf_req=$buktibaru;
         $mypermintaan->save();
+        Cookie::queue('sudahbyrequest',"1",10);
         return redirect('/kontraktor/lihatRequest')->with(["success" => "Berhasil Melunasi Nota Pembelian!"]);
     }
 }
