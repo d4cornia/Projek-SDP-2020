@@ -62,6 +62,15 @@
             <a class="dropdown-item" href="/kontraktor/lAdmin">Lihat Admin</a>
         </div>
     </div>
+    <div class="btn-group nav-side">
+        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Request Dana
+        </button>
+        <div class="dropdown-menu">
+            {{--Dropdown Admin--}}
+            <a class="dropdown-item" href="/kontraktor/lihatRequest">Konfirmasi Dana</a>
+        </div>
+    </div>
 
 @endsection
 

@@ -1,19 +1,26 @@
-@extends('mandor.navbar')
+@extends('kontraktor.navbar')
 
 @section('content')
     <h1>Detail Request Dana</h1>
     <br>
     @if ($header->konfirmasi_kontraktor_telah_transfer==1)
-        <img style='width:200px;height:200px;' src="/assets/buktikontraktor/{{$header->bukti_trf_req}}">
+        <img src="/assets/buktikontraktor/{{$item->bukti_trf_req}}">
     @endif
     <h3>Nama : {{$nama}}</h3>
     <h4 style='color:red;'>Bon : Rp {{number_format($sisa)}}</h4>
     <h3>Tanggal : {{$header->tanggal_permintaan_uang}}</h3>
     <h5>Total dari Pekerjaan : Rp {{number_format($header->total_detail)}}</h5>
-    <h5>Jumlah Bon Minggu Ini: Rp {{number_format($header->total_bon)}}</h5>
+    <h5>Jumlah Bon Minggu Ini : Rp {{number_format($header->total_bon)}}</h5>
     <h3>Jumlah Keseluruhan : Rp {{number_format($header->total_sistem)}}</h3>
     <h3>Jumlah Request : Rp {{number_format($header->real_total)}}</h3>
     <h3>Keterangan : {{$header->keterangan}}</h3>
+    <form method='post' action='/kontraktor/bayarRequest' enctype="multipart/form-data">
+        @csrf
+        <input type='hidden' name='idheader' value='{{$header->id_permintaan_uang}}'>
+        Bukti pembayaran : <input type='file' name='foto'><br>
+        <input type='submit' value='Bayar' class='btn-success'>
+        <br><br>
+    </form>
     <hr>
     <table border='1'>
         <tr>
@@ -58,7 +65,7 @@
     @endforeach
     </table>
     <br>
-    <a class="btn btn-secondary" href="/mandor/lihatRequestDana">Kembali</a>
+    <a class="btn btn-secondary" href="/kontraktor/lihatRequest">Kembali</a>
 
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
