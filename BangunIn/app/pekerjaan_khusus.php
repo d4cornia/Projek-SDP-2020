@@ -105,7 +105,10 @@ class pekerjaan_khusus extends Model
 
     public function getPK($id)
     {
-        $data = pekerjaan_khusus::where('pekerjaan_khususes.kode_pekerjaan', $id)->where('pekerjaan_khususes.membutuhkan_bahan', 1)
+        $data = pekerjaan_khusus::join('pembelians','pembelians.id_kerjasama',$id)
+            ->join('pekerjaans as pp','pp.kode_pekerjaan','pembelians.kode_pekerjaan')
+            ->where('pekerjaan_khususes.kode_pekerjaan','pp.kode_pekerjaan')
+            ->where('pekerjaan_khususes.membutuhkan_bahan', 1)
             ->join('pk_memakai_bahans as pk', 'pk.kode_pk', 'pekerjaan_khususes.kode_pk')
             ->join('pembelians as p', 'p.id_pembelian', 'pk.id_pembelian')->get();
         return $data;

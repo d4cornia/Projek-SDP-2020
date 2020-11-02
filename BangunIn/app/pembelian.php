@@ -44,7 +44,7 @@ class pembelian extends Model
     }
     public function getFoto($id)
     {
-        $data = DB::table('pembelians')->where('pembelians.kode_pekerjaan',$id)
+        $data = DB::table('pembelians')->where('pembelians.id_kerjasama',$id)
                             ->join('bukti_pembelian_mandors as bp','bp.id_bukti','pembelians.id_bukti')
                             ->select('bp.file_bukti')->get();
 
