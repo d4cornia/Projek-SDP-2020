@@ -426,7 +426,26 @@ class mandorRequestController extends Controller
     {
         $permintaanuang = new permintaan_uang();
         $kode_mandor = session()->get('kode');
-        $param['listReq'] = $permintaanuang->where('konfirmasi_kontraktor_telah_transfer',0)->where('kode_mandor',$kode_mandor)->get();
+        $maxbulan = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        $tahun = date('Y');
+        $bulan = date('m');
+        $tanggal = date('d');
+        $fulldate= $tahun."-".$bulan."-".$tanggal;
+        $date=date_create($fulldate);
+        $harike=date_format($date,"N");
+        for($i = 1; $i < $harike; $i++) //1 karena hari senin
+        {
+            $tanggal-=1;
+            if($tanggal == 0) {
+                if($bulan == 1)
+                { $tanggal+=31; }
+                else
+                { $tanggal+=$maxbulan[$bulan - 2]; }
+                $bulan-=1;
+            }
+        }
+        $tanggalawal = date_create($tahun."-".$bulan."-".$tanggal);
+        $param['listReq'] = $permintaanuang->whereDate('tanggal_permintaan_uang','>=',$tanggalawal)->where('kode_mandor',$kode_mandor)->get();
 
         return view('mandor.List.ReqDana')->with($param);
     }
@@ -439,6 +458,7 @@ class mandorRequestController extends Controller
         $namamandor = $mandor->where('kode_mandor',$kode)->get()[0]->nama_mandor;
 
 
+
         $permintaanuang = new permintaan_uang();
         $param['header']=$permintaanuang->where('id_permintaan_uang',$id)->get()[0];
 
@@ -448,6 +468,16 @@ class mandorRequestController extends Controller
 
         $pekerjaan = new pekerjaan();
         $param['pekerjaan']=$pekerjaan->get();
+
+        $permintaancekbon = $permintaanuang->where('kode_mandor',$kode)->get();
+        $totalbon =0;
+        $selisih =0;
+        foreach($permintaancekbon as $item){
+            $totalbon+=$item->total_bon;
+            $selisih+=$item->total_sistem-$item->real_total;
+        }
+        $sisa=$totalbon-$selisih;
+        $param['sisa']=$sisa;
 
         $pekerjaankhusus = new pekerjaan_khusus();
         $param['pekerjaan_khusus']=$pekerjaankhusus->get();

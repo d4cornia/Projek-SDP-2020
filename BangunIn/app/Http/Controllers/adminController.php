@@ -280,6 +280,7 @@ class adminController extends Controller
 
         $namatoko = $request->nama;
         $idkerjasama = $request->alamat;
+
         if($nmtk==$namatoko && $idker==$idkerjasama){
         }
         else{
@@ -295,6 +296,7 @@ class adminController extends Controller
         $ada = $bahanbgg->where('id_kerjasama',$idkerjasama)->where('nama_bahan',$nmbahan)->count();
         if($ada<=0){
             $idbahan = $bahanbgg->addBahan($idkerjasama,$nmbahan,$harga);
+
         }
         $namabahan = $nmbahan;
         $jumlah = $request->jumlah;
@@ -332,6 +334,7 @@ class adminController extends Controller
         session()->put('arraybeli',$listBeli);
         return redirect('/admin/vpembelianNota');
     }
+
     public function simpanPembelian(Request $req)
     {
         $listBeli = [];
@@ -351,12 +354,14 @@ class adminController extends Controller
         $param["alamat"] = $toko->where('id_kerjasama',session()->get('idker'))->pluck("alamat_toko");
         return view('admin.detail_pembelian')->with($param);
     }
+
     public function checkout(Request $req)
     {
         $listBeli = [];
         if(session()->has('arraybeli')){
             $listBeli=session()->get('arraybeli');
         }
+
         $pk = new pekerjaan_khusus();
         $pek =  new pekerjaan();
        $pembelian = new pembelian();
@@ -411,13 +416,18 @@ class adminController extends Controller
     {
         $pembelian = new pembelian();
         $spekerjaan = new pekerjaan_khusus();
-
-        $param["pembelian"]=$pembelian->where('kode_pekerjaan',$id)->get();
+        $param["nmToko"] = toko_bangunan::where('id_kerjasama',$id)->pluck('nama_toko');
+        $param["pembelian"]=$pembelian->where('id_kerjasama',$id)->get();
         $param["foto"] = $pembelian->getFoto($id);
-        $param["pekerjaan"] = $pembelian->where('pembelians.kode_pekerjaan',$id)->join('pekerjaans as p','p.kode_pekerjaan','pembelians.kode_pekerjaan')->get();
-        $param["toko"] = $pembelian->where('pembelians.kode_pekerjaan',$id)
+        $param["pekerjaan"] = $pembelian->where('pembelians.id_kerjasama',$id)->join('pekerjaans as p','p.kode_pekerjaan','pembelians.kode_pekerjaan')->get();
+        $param["toko"] = $pembelian->where('pembelians.id_kerjasama',$id)
                                     ->join('toko_bangunans as tb','tb.id_kerjasama','pembelians.id_kerjasama')->get();
-        $param["getPK"] = $spekerjaan->getPK($id);
+        $param["getPK"] =$pembelian->where('pembelians.id_kerjasama',$id)
+                                    ->join('pekerjaans as pp','pp.kode_pekerjaan','pembelians.kode_pekerjaan')
+                                    ->join('pekerjaan_khususes','pekerjaan_khususes.kode_pekerjaan','pp.kode_pekerjaan')
+                                    ->where('pekerjaan_khususes.membutuhkan_bahan', 1)
+                                    ->join('pk_memakai_bahans as pk', 'pk.kode_pk', 'pekerjaan_khususes.kode_pk')
+                                    ->join('pembelians as p', 'p.id_pembelian', 'pk.id_pembelian')->get();
         $param["arrBeli"] = $pembelian->getListBahan($id);
 
         return view('admin.List.listnota')->with($param);
