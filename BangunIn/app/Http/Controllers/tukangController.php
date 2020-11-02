@@ -70,7 +70,7 @@ class tukangController extends Controller
             }
         }
         foreach ($req->idAbsen as $item) {
-            $a->confirm($item); // ubah status mnjadi 4
+            $a->confirm($item); // ubah status komplain mnjadi 2
         }
         return redirect('/tukang/history');
     }
