@@ -20,6 +20,7 @@ class CreateBuktiAbsens extends Migration
             $table->string('tanggal_absen');
             $table->string('bukti_foto_absen', 100);
             $table->string('konfirmasi_absen', 1);
+            $table->string('status_komplain', 1);
         });
     }
 

@@ -92,6 +92,11 @@
 
 {{-- berhasil/gagal tambah --}}
 @isset($error)
+    @if ($error == 20)
+    <script>
+        swal("Berhasil Request Dana!", "Request Dana berhasil!","success");
+    </script>
+    @endif
     @if ($error == 19)
     <script>
         swal("Berhasil Melunasi Bon Bahan!", "Pembayaran Bon Bahan berhasil!","success");

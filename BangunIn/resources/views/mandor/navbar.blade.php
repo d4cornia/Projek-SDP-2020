@@ -46,11 +46,12 @@
     <div class="dropdown-menu">
         <a class="dropdown-item" href="/mandor/lihatTukang">Lihat Tukang</a>
         <a class="dropdown-item" href="/mandor/tambahTukang">Tambah Tukang</a>
-        <a class="dropdown-item" href="/mandor/absenTukang">Lihat Absen Tukang</a>
         <a class="dropdown-item" href="/mandor/lihatBon">Lihat Bon</a>
         <a class="dropdown-item" href="/mandor/tambahBon">Tambah Bon</a>
         <a class="dropdown-item" href="/mandor/tambahPembayaranBon">Pembayaran Bon</a>
         <a class="dropdown-item" href="/mandor/lihatRincianPembayaran">Lihat Pembayaran Bon</a>
+        <a class="dropdown-item" href="/mandor/absenTukang">Lihat Absen Tukang</a>
+        <a class="dropdown-item" href="/mandor/complain">Lihat Komplain Absen</a>
     </div>
 </div>
 <div class="btn-group nav-side">

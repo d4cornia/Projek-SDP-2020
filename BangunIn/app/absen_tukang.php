@@ -37,8 +37,8 @@ class absen_tukang extends Model
         $this->kode_tukang = decrypt($req->kode_tukang);
         $this->tanggal_absen = date("d-m-Y");
         $this->bukti_foto_absen = session()->get('bukti');
-        $this->konfirmasi_absen = '0';
-        // dd($this);
+        $this->konfirmasi_absen = '0'; // menunggu persetujuan mandor
+        $this->status_komplain = '0';
         $this->save();
     }
 
@@ -48,7 +48,8 @@ class absen_tukang extends Model
         $ba->kode_tukang = $kode;
         $ba->tanggal_absen = $tanggal;
         $ba->bukti_foto_absen = '-';
-        $ba->konfirmasi_absen = '3';
+        $ba->konfirmasi_absen = '3'; // tidak masuk
+        $ba->status_komplain = '0';
         $ba->save();
     }
 
@@ -120,6 +121,7 @@ class absen_tukang extends Model
                         $ba->tanggal_absen = $tanggal;
                         $ba->bukti_foto_absen = '-';
                         $ba->konfirmasi_absen = '1';
+                        $ba->status_komplain = '0';
                         $ba->save();
                         $da->insertDetail($temp[0], $ba->orderby('kode_absen', 'desc')->pluck('kode_absen')->first(), $tukangs[$ctr], $ongkos[$ctr]);
                     } else { // tidak telat, bukti sudah ada
@@ -198,5 +200,31 @@ class absen_tukang extends Model
         $temp[] = $this->where('tanggal_absen', $tanggal)->where('konfirmasi_absen', '2')->get();
         $temp[] = $this->where('tanggal_absen', $tanggal)->where('konfirmasi_absen', '3')->get();
         return $temp;
+    }
+
+    public function confirm($kode_absen)
+    {
+        $c = $this->find($kode_absen);
+        $c->status_komplain = '2'; // sudah dikonfirmasi kedua pihak
+        $c->save();
+    }
+
+    public function complain($kode_absen)
+    {
+        $c = $this->find($kode_absen);
+        $c->status_komplain = '1'; // ajukan komplain / cek ulang
+        $c->save();
+    }
+
+    public function batal($kode_absen)
+    {
+        $c = $this->find($kode_absen);
+        $c->status_komplain = '0'; // menunggu konfirmasi tukang, jika sampe akhir 0 maka tidak ada complainan
+        $c->save();
+    }
+
+    public function getAllComplain()
+    {
+        return $this->where('status_komplain', '1')->get();
     }
 }
