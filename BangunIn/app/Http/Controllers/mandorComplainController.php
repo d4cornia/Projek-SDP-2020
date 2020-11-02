@@ -14,7 +14,7 @@ class mandorComplainController extends Controller
             'title' => 'Komplain',
             'listComp' => $a->getAllComplain()
         ];
-        dd($data);
+        // dd($data);
         return view('listComplain', $data);
     }
 
