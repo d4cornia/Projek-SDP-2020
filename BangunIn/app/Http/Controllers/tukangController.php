@@ -45,7 +45,7 @@ class tukangController extends Controller
             $mode = "0";
             if (session()->has('mode')) {
                 $mode = '2'; // mode komplain
-            } else if (date('l') == "Saturday") { // di hari sabtu dan absen sudah ditutup
+            } else if (true) { // di hari sabtu dan absen sudah ditutup date('l') == "Saturday"
                 $mode = "1"; // saatnya konfirmasi absen dan mengajukan komplain
 
                 if ($filter !== null) {
@@ -115,15 +115,14 @@ class tukangController extends Controller
         $a = new absen_tukang();
         $date = mktime(8, 0, 0);
         $data['buka'] = true;
-        // dd(date('H:i:s'));
-        // if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
-        //     $data['buka'] = true;
-        // }
-        // else if ($a->doneAbsen($temp[0])) {
-        //     $data['msg'] = 'Anda sudah melakukan absen!';
-        // } else if (date('H:i:s') > date('H:i:s', $date)) {
-        //     $data['msg'] = 'Anda Telat!';
-        // }
+        dd(date('H:i:s'));
+        if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
+            $data['buka'] = true;
+        } else if ($a->doneAbsen($temp[0])) {
+            $data['msg'] = 'Anda sudah melakukan absen!';
+        } else if (date('H:i:s') > date('H:i:s', $date)) {
+            $data['msg'] = 'Anda Telat!';
+        }
         return view('tukang.Creation.absen', $data);
     }
 

@@ -196,18 +196,18 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::post('/queryjumpkall', "mandorRequestController@querypkalls")->name('queryjumpkall');
     Route::post('/hitungpk', "mandorRequestController@hitungpk")->name('hitungpk');
     Route::post('/querygaji', "mandorRequestController@querygaji")->name('querygaji');
-    Route::post('/tambahRequestDana',"mandorRequestController@tambahRequestDana");
-    Route::get('/tabelReq/{n?}',"mandorRequestController@batalReq");
+    Route::post('/tambahRequestDana', "mandorRequestController@tambahRequestDana");
+    Route::get('/tabelReq/{n?}', "mandorRequestController@batalReq");
     Route::post('/hitungtotal', "mandorRequestController@hitungtotal")->name('hitungtotal');
-    Route::post('/simpanReqDana',"mandorRequestController@simpanReqDana");
+    Route::post('/simpanReqDana', "mandorRequestController@simpanReqDana");
 
-    Route::get('/lihatRequestDana',"mandorRequestController@listReqDana");
-    Route::get('/detReq/{n?}',"mandorRequestController@detailrequest");
-    
+    Route::get('/lihatRequestDana', "mandorRequestController@listReqDana");
+    Route::get('/detReq/{n?}', "mandorRequestController@detailrequest");
+
     // complain
     Route::get('/complain', 'mandorComplainController@indexComplain');
-    Route::get('/accComp', 'mandorComplainController@accComplain');
-    Route::get('/decComp', 'mandorComplainController@decComplain');
+    Route::post('/accComp', 'mandorComplainController@accComplain');
+    Route::get('/decComp/{n?}', 'mandorComplainController@decComplain');
 });
 
 //tukang

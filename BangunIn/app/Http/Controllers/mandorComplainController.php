@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\absen_tukang;
+use App\pekerjaan;
 use Illuminate\Http\Request;
 
 class mandorComplainController extends Controller
@@ -10,25 +11,26 @@ class mandorComplainController extends Controller
     public function indexComplain()
     {
         $a = new absen_tukang();
+        $p = new pekerjaan();
         $data = [
             'title' => 'Komplain',
-            'listComp' => $a->getAllComplain()
+            'listComp' => $a->getAllComplain(),
+            'listWork' => $p->getAllWork()
         ];
-        // dd($data);
-        return view('listComplain', $data);
+        return view('mandor.List.listComplain', $data);
     }
 
-    public function accComplain($kode_absen)
+    public function accComplain(Request $req)
     {
         $a = new absen_tukang();
-        $a->accComp($kode_absen);
-        return redirect('/mandor/listComp');
+        $a->accComp($req);
+        return redirect('/mandor/complain');
     }
 
     public function decComplain($kode_absen)
     {
         $a = new absen_tukang();
         $a->decComp($kode_absen);
-        return redirect('/mandor/listComp');
+        return redirect('/mandor/complain');
     }
 }

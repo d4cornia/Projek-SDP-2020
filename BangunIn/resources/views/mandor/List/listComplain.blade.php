@@ -23,54 +23,78 @@
       <thead>
         <tr>
             <th scope="col">No</th>
+            <th scope="col">Nama Tukang</th>
             <th scope="col">Tanggal</th>
-            <th scope="col">Status</th>
+            <th scope="col">Status Terakhir</th>
             <th scope="col">Bukti</th>
+            <th scope="col">Ongkos Lembur</th>
+            <th scope="col">Pekerjaan</th>
             <th scope="col">Aksi</th>
         </tr>
       </thead>
-      <tbody id="">
+      <tbody>
         @if ($listComp !== null)
             @foreach ($listComp as $item)
-                    <tr>
-                        <th scope="row">{{$loop->iteration}}</th>
-                        <td>{{$item->tanggal_absen}}</td>
-                        <td>
-                            @if ($item->konfirmasi_absen == '1')
-                                Disetujui Mandor!
-                            @else
-                                @if ($item->konfirmasi_absen == '2')
-                                    Tidak disetujui Mandor!
-                                @else
-                                    @if ($item->konfirmasi_absen == '3')
-                                        Tidak Absen!
-                                    @else
-                                        Belum disetujui Mandor!
-                                    @endif
-                                @endif
-                            @endif
-                        </td>
-                        @if ($item->bukti_foto_absen == '-')
-                            <td>-</td>
+            <tr>
+                <form action="/mandor/accComp" method="post">
+                @csrf
+                <th scope="row">{{$loop->iteration}}</th>
+                <td>{{$item->tukangs->nama_tukang}}</td>
+                <td>{{$item->tanggal_absen}}</td>
+                <td>
+                    @if ($item->konfirmasi_absen == '1')
+                        Disetujui Mandor!
+                    @else
+                        @if ($item->konfirmasi_absen == '2')
+                            Tidak disetujui Mandor!
                         @else
-                        <td><a target="_blank" href="/assets/absen_tukang/{{$item->bukti_foto_absen}}" alt="/assets/default_tukang.png">
-                            <img src="/assets/absen_tukang/{{$item->bukti_foto_absen}}"  alt="/assets/default_tukang.png">
-                          </a></td>
+                            @if ($item->konfirmasi_absen == '3')
+                                Tidak Absen!
+                            @else
+                                Belum disetujui Mandor!
+                            @endif
                         @endif
-                        <td>
-                            <a class="btn btn-success" href="/mandor/accComp/{{$item->kode_absen}}">Setuju</a>
-                            <a class="btn btn-danger" href="/mandor/decComp/{{$item->kode_absen}}">Tidak Setuju</a>
-                        </td>
-                    </tr>
+                    @endif
+                </td>
+                @if ($item->bukti_foto_absen == '-')
+                    <td>-</td>
+                @else
+                <td><a target="_blank" href="/assets/absen_tukang/{{$item->bukti_foto_absen}}" alt="/assets/default_tukang.png">
+                    <img src="/assets/absen_tukang/{{$item->bukti_foto_absen}}"  alt="/assets/default_tukang.png">
+                  </a></td>
+                @endif
+                <td>
+                    <input type="number" name="ongkos" id="">
+                    <input type="hidden" name="kode_absen" value="{{$item->kode_absen}}">
+                </td>
+                <td>
+                    <select name="kode_pekerjaan" id="">
+                        <option value="-">-</option>
+                        @if($listWork !== null)
+                            @foreach ($listWork as $work)
+                                <option value="{{$work['kode_pekerjaan']}}">{{$work['nama_pekerjaan']}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </td>
+                <td>
+                    <input class="btn btn-success" type="submit" value="Setuju">
+                    <a class="btn btn-danger" href="/mandor/decComp/{{$item->kode_absen}}">Tolak</a>
+                </td>
+                </form>
+            </tr>
             @endforeach
         @endif
       </tbody>
       <tfoot>
         <tr>
             <th scope="col">No</th>
+            <th scope="col">Nama Tukang</th>
             <th scope="col">Tanggal</th>
-            <th scope="col">Status</th>
+            <th scope="col">Status Terakhir</th>
             <th scope="col">Bukti</th>
+            <th scope="col">Ongkos Lembur</th>
+            <th scope="col">Pekerjaan</th>
             <th scope="col">Aksi</th>
         </tr>
       </tfoot>
