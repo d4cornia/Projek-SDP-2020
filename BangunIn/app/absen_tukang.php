@@ -227,4 +227,20 @@ class absen_tukang extends Model
     {
         return $this->where('status_komplain', '1')->get();
     }
+
+    public function accComp($kode_absen)
+    {
+        $c = $this->find($kode_absen);
+        $c->status_komplain = '3'; // keputusan final
+        $c->konfirmasi_absen = '1'; // disetujui mandor
+        $c->save();
+    }
+
+    public function decComp($kode_absen)
+    {
+        $c = $this->find($kode_absen);
+        $c->status_komplain = '3'; // keputusan final
+        $c->konfirmasi_absen = '2'; // tidak disetujui mandor
+        $c->save();
+    }
 }

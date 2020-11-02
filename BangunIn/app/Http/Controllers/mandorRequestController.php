@@ -207,7 +207,7 @@ class mandorRequestController extends Controller
             $bulans=$arrxplode[1];
             $tahuns=$arrxplode[2];
             $date = date_create($tahuns."-".$bulans."-".$tanggals);
-            if($date>$tanggalawal){
+            if($date>=$tanggalawal){
                 array_push($arrabsen,$item->kode_absen_harians);
             }
         }

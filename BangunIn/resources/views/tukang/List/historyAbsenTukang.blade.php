@@ -34,6 +34,7 @@
                     <th scope="col">No</th>
                     <th scope="col">Tanggal</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Status Komplain</th>
                     <th scope="col">Bukti</th>
                     @if ($mode == 2){{-- Komplain --}}
                         <th scope="col">Aksi</th>
@@ -47,24 +48,29 @@
                                 <th scope="row">{{$loop->iteration}}</th>
                                 <td>{{$item->tanggal_absen}}</td>
                                 <td>
+                                    @if ($item->konfirmasi_absen == '1')
+                                        Disetujui Mandor!
+                                    @else
+                                        @if ($item->konfirmasi_absen == '2')
+                                            Tidak disetujui Mandor!
+                                        @else
+                                            @if ($item->konfirmasi_absen == '3')
+                                                Tidak Absen!
+                                            @else
+                                                Belum disetujui Mandor!
+                                            @endif
+                                        @endif
+                                    @endif
+                                </td>
+                                <td>
                                     @if ($item->status_komplain == '1')
                                         Komplain diajukan
                                     @elseif ($item->status_komplain == '2')
                                         Absen Terkonfirmasi
+                                    @elseif ($item->status_komplain == '3')
+                                        Komplain telah diputuskan
                                     @else
-                                        @if ($item->konfirmasi_absen == '1')
-                                            Disetujui Mandor!
-                                        @else
-                                            @if ($item->konfirmasi_absen == '2')
-                                                Tidak disetujui Mandor!
-                                            @else
-                                                @if ($item->konfirmasi_absen == '3')
-                                                    Tidak Absen!
-                                                @else
-                                                    Belum disetujui Mandor!
-                                                @endif
-                                            @endif
-                                        @endif
+                                        Tidak ada Komplain
                                     @endif
                                 </td>
                                 @if ($item->bukti_foto_absen == '-')
@@ -94,6 +100,7 @@
                     <th scope="col">No</th>
                     <th scope="col">Tanggal</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Status Komplain</th>
                     <th scope="col">Bukti</th>
                     @if ($mode == 2){{-- Komplain --}}
                         <th scope="col">Aksi</th>
