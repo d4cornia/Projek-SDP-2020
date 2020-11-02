@@ -21,12 +21,14 @@ class mandorComplainController extends Controller
     public function accComplain($kode_absen)
     {
         $a = new absen_tukang();
+        $a->accComp($kode_absen);
         return redirect('/mandor/listComp');
     }
 
     public function decComplain($kode_absen)
     {
         $a = new absen_tukang();
+        $a->decComp($kode_absen);
         return redirect('/mandor/listComp');
     }
 }
