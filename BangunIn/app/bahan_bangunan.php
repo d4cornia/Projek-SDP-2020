@@ -26,6 +26,7 @@ class bahan_bangunan extends Model
             $bahan->harga_satuan = $harga_satuan;
             $bahan->status_delete_bb = 0;
             $bahan->save();
+            return $bahan->id;
         }
 
     }

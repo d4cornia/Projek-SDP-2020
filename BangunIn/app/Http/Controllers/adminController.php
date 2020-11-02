@@ -210,11 +210,8 @@ class adminController extends Controller
         }
         $bahan = new bahan_bangunan();
         $data = $bahan->where("id_kerjasama",$id)->get();
-        $select = "<option selected value=''>Pilih Nama Barang</option>";
-        foreach ($data as $key => $value) {
-            $select .= "<option value='".$value->id_bahan."' harga='".$value->harga_satuan."' >".$value->nama_bahan."</option>";
-        }
-        echo $select;
+        $d = json_encode($data);
+        echo $d;
     }
     public function getSpesial(Request $req)
     {
@@ -293,11 +290,16 @@ class adminController extends Controller
 
         $bahanbgg = new bahan_bangunan();
         $idbahan = $request->bahan;
-        $namabahan = $bahanbgg->where('id_bahan',$idbahan)->pluck('nama_bahan')[0];
+        $nmbahan = $request->nmbahan;
+        $harga = $request->hargabahan;
+        $ada = $bahanbgg->where('id_kerjasama',$idkerjasama)->where('nama_bahan',$nmbahan)->count();
+        if($ada<=0){
+            $idbahan = $bahanbgg->addBahan($idkerjasama,$nmbahan,$harga);
+        }
+        $namabahan = $nmbahan;
         $jumlah = $request->jumlah;
         $diskon = $request->diskon;
         $subtotal = $request->subtotal;
-        $harga = $request->hargabahan;
         $baru = array(
             'id_bahan' => $idbahan,
             'nama_bahan'=>$namabahan,
@@ -311,6 +313,7 @@ class adminController extends Controller
         session()->put('namatoko',$namatoko);
         session()->put('idker',$idkerjasama);
         return redirect('/admin/vpembelianNota');
+
     }
     public function tabelBeli(Request $request)
     {
