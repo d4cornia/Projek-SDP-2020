@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\absen_tukang;
+use App\detail_absen;
+use App\detail_permintaan_uang;
+use App\pekerjaan;
+use App\pekerjaan_khusus;
+use App\permintaan_uang;
 use App\tukang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -149,5 +154,56 @@ class tukangController extends Controller
 
         session()->put('done', 'Silahkan tunggu konfirmasi dari mandor!');
         return redirect('/tukang/history');
+    }
+
+    public function menuKonfirmasiDana()
+    {
+        $b = new absen_tukang();
+        $res = $b->getAbsenStatus();
+        foreach ($res as $value) {
+            $kode = $value->kode_tukang;
+            $kodemandor = $value->kode_mandor;
+            $c = new pekerjaan_khusus();
+            $hasil = $c->getDataPekerjaanKhusus($kode);
+            if(count($hasil) < 1)
+            {
+                $d = new tukang();
+                $gajitotal = $d->getGajiPokokTukang($kode);
+                foreach ($gajitotal as $key) {
+                    $kodemandor = $key->kode_mandor;
+                    $tot = $key->gaji_pokok_tukang;
+                }
+                $e = new detail_absen();
+                $ongkoslembur = $e->getOngkosLembur($kode);
+                foreach ($ongkoslembur as $val) {
+                    $totalgajitukang = $tot + $val->ongkos_lembur;
+                }
+
+            }
+            else
+            {
+                $gaji_pk = $hasil[0]->total_keseluruhan;
+                $d = new tukang();
+                $gajitotal = $d->getGajiPokokTukang($kode);
+                foreach ($gajitotal as $key) {
+                    $kodemandor = $key->kode_mandor;
+                    $tot = $gaji_pk + $key->gaji_pokok_tukang;
+                }
+                $e = new detail_absen();
+                $ongkoslembur = $e->getOngkosLembur($kode);
+                foreach ($ongkoslembur as $val) {
+                    $totalgajitukang = $tot + $val->ongkos_lembur;
+                }
+            }
+        }
+        $p = new permintaan_uang();
+        $r = $p->getDataPembayaranTukang($kodemandor,$kode);
+
+        $data = [
+            'title' => 'Konfirmasi Pembayaran Tukang',
+            'listDataKonfirmasi' => $r,
+            'total' => $totalgajitukang
+        ];
+        return view('tukang.List.konfirmasiDana',$data);
     }
 }

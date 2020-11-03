@@ -203,7 +203,7 @@ Route::group(['prefix' => 'mandor'], function () {
 
     Route::get('/lihatRequestDana',"mandorRequestController@listReqDana");
     Route::get('/detReq/{n?}',"mandorRequestController@detailrequest");
-    
+
     // complain
     Route::get('/complain', 'mandorComplainController@indexComplain');
     Route::get('/accComp', 'mandorComplainController@accComplain');
@@ -218,6 +218,7 @@ Route::group(['prefix' => 'tukang'], function () {
     Route::post('/confirmAbsen', 'tukangController@confirmAbsen');
     Route::get('/komplain', 'tukangController@complainMode');
     Route::get('/selesaiComplain', 'tukangController@doneComplain');
+    Route::get('/konfirmasi', 'tukangController@menuKonfirmasiDana');
     Route::get('/complainA/{n?}', 'tukangController@complain');
     Route::get('/batal/{n?}', 'tukangController@batal');
     Route::post('/upload', 'tukangController@absen');

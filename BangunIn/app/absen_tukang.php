@@ -243,4 +243,10 @@ class absen_tukang extends Model
         $c->konfirmasi_absen = '2'; // tidak disetujui mandor
         $c->save();
     }
+
+    public function getAbsenStatus()//Mencari bukti absen yang konfirmasi absen = 1 dan status komplain 2
+    {
+        $kodetukang = session()->get('kode');
+        return $this::where('konfirmasi_absen',1)->where('status_komplain',2)->where('kode_tukang',$kodetukang)->get();
+    }
 }

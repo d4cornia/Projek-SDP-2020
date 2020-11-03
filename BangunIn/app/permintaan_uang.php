@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class permintaan_uang extends Model
 {
@@ -26,5 +27,18 @@ class permintaan_uang extends Model
     }
     public function getMaxKode(){
         return $this::max('id_permintaan_uang');
+    }
+
+    public function getDataPembayaranTukang($kodemandor,$kodetukang)
+    {
+        $users = DB::table('permintaan_uangs')
+        ->join('detail_permintaan_uangs', 'permintaan_uangs.id_permintaan_uang', '=', 'detail_permintaan_uangs.id_permintaan_uang')
+        ->join('mandors','permintaan_uangs.kode_mandor','=','mandors.kode_mandor')
+        ->join('pekerjaans','pekerjaans.kode_pekerjaan','=','detail_permintaan_uangs.kode_pekerjaan')
+        ->join('tukangs','mandors.kode_mandor','=','tukangs.kode_mandor')
+        ->where('mandors.kode_mandor','=',$kodemandor)
+        ->where('tukangs.kode_tukang','=',$kodetukang)
+        ->get();
+        return $users;
     }
 }

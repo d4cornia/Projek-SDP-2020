@@ -36,4 +36,5 @@ class detail_permintaan_uang extends Model
     public function getMaxKode(){
         return $this::max('id_detail_permintaan_uang');
     }
+
 }

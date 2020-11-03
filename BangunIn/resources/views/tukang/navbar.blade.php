@@ -20,6 +20,7 @@
         {{--Dropdown Tukang--}}
         <a class="dropdown-item" href="/tukang/history">Lihat Riwayat absen</a>
         <a class="dropdown-item" href="/tukang/absen">Absen</a>
+        <a class="dropdown-item" href="/tukang/konfirmasi">Konfirmasi Penerimaan Dana</a>
     </div>
 </div>
 @endsection

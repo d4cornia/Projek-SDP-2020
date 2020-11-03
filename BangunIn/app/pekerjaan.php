@@ -216,4 +216,11 @@ class pekerjaan extends Model
         $p->harga_deal = $p->harga_deal + $total;
         $p->save();
     }
+
+    public function getDataPekerjaanMandor($kodeMandor)
+    {
+        return $this::where('kode_mandor',$kodeMandor)->get();
+    }
+
+
 }

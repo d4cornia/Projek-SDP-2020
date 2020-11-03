@@ -124,4 +124,10 @@ class pekerjaan_khusus extends Model
         $p->status_selesai = $status;
         $p->save();
     }
+
+    public function getDataPekerjaanKhusus($kodetukang)
+    {
+        return $this::where('kode_tukang',$kodetukang)->get();
+    }
 }
+

@@ -24,4 +24,9 @@ class detail_absen extends Model
         return $this->where('kode_absen_harians', $kode)
             ->get();
     }
+
+    public function getOngkosLembur($kodetukang)
+    {
+        return $this::where('kode_tukang',$kodetukang)->get();
+    }
 }
