@@ -147,4 +147,9 @@ class tukang extends Model
         $datalama->password_tukang = $request->passbaru;
         $datalama->save();
     }
+
+    public function getGajiPokokTukang($kodetukang)
+    {
+        return $this::where('kode_tukang', $kodetukang)->get();
+    }
 }

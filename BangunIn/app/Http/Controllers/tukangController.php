@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\absen_tukang;
+use App\bon_tukang;
+use App\memiliki_detail_bon;
+use App\pekerjaan_khusus;
+use App\pembayaran_bon_tukang;
+use App\pk_dana;
 use App\tukang;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
@@ -23,10 +29,12 @@ class tukangController extends Controller
         $filter = null;
 
         $firstday = date('d/m/Y', strtotime("sunday -1 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("sunday -1 week")));
         if ($a->getAllMyHist($temp[0]) !== null) {
             foreach ($a->getAllMyHist($temp[0]) as $item) {
                 $tgl = date_create($item['tanggal_absen']);
-                if ((intval(date_format($tgl, 'd-m-Y')) - intval($firstday)) >= 0) {
+                $tgla = new DateTime(date('Y/m/d', strtotime($item['tanggal_absen'])));
+                if ($fd->diff($tgla)->days < 7 && (intval(date_format($tgl, 'd-m-Y')) - intval($firstday)) >= 0) {
                     $filter[] = $item;
                 }
             }
@@ -115,7 +123,6 @@ class tukangController extends Controller
         $a = new absen_tukang();
         $date = mktime(8, 0, 0);
         $data['buka'] = true;
-        dd(date('H:i:s'));
         if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
             $data['buka'] = true;
         } else if ($a->doneAbsen($temp[0])) {
@@ -148,5 +155,64 @@ class tukangController extends Controller
 
         session()->put('done', 'Silahkan tunggu konfirmasi dari mandor!');
         return redirect('/tukang/history');
+    }
+
+    public function konfirmasiPenerimaanDana()
+    {
+        $kodetukang = session()->get('kode');
+        //Cari di bukti absen
+        $b = new absen_tukang();
+        $result = $b->getTukangAbsen($kodetukang);
+        if (count($result) < 1) {
+        } else {
+            $jumlah_absen = count($result);
+            $c = new tukang();
+            $gajipokok = $c->getGajiPokokTukang($kodetukang);
+            $kodemandor = $gajipokok[0]->kode_mandor;
+            $totalgajipokok = $jumlah_absen * $gajipokok[0]->gaji_pokok_tukang;
+        }
+
+        $pk = new pekerjaan_khusus();
+        $pekerjaankhusus = $pk->getPekerjaanKhususTukang($kodetukang);
+        if (count($pekerjaankhusus) < 1) {
+            $totalgajipokokdankhusus = 0;
+        } else {
+            $kodepk = $pekerjaankhusus[0]->kode_pk;
+            $d = new pk_dana();
+            $pkdana = $d->getDanaPK($kodepk);
+            $totalgajipokokdankhusus = $pkdana[0]->dana;
+        }
+
+        $firstday = new DateTime(date('Y/m/d', strtotime("sunday -1 week")));
+        $e = new pembayaran_bon_tukang();
+        $pembayaranbon = $e->getBonTukang($kodemandor);
+        foreach ($pembayaranbon as $key) {
+            $tglbon = new DateTime(date('Y/m/d', strtotime($key->tanggal_pembayaran_bon)));
+            // dd(intval(date('d/m/Y', strtotime($key->tanggal_pembayaran_bon))));
+            // dd(intval(date('d/m/Y', strtotime("sunday -1 week"))));
+            // dd($tglbon->diff($firstday)->days);
+            if ($tglbon->diff($firstday)->days < 7 && (intval(date('d/m/Y', strtotime($key->tanggal_pembayaran_bon))) - intval(date('d/m/Y', strtotime("sunday -1 week")))) >= 0) {
+                $kodepembayaranbon = $key->kode_pembayaran_bon;
+                $f = new memiliki_detail_bon();
+                $detailbon = $f->getDetailBon($kodepembayaranbon);
+                foreach ($detailbon as $item) {
+                    $jumlah_pembayaran_bon = $item->jumlah_pembayaran_bon;
+                    $kodebon = $item->kode_bon;
+                    $g = new bon_tukang();
+                    // $bontukang = $g->
+                }
+            }
+        }
+
+
+
+
+        $data = [
+            'title' => 'Data Konfirmasi Pembayaran',
+            'totalAbsen' => $totalgajipokok,
+            'countAbsen' => $jumlah_absen,
+            'pekerjaanKhusus' => $pekerjaankhusus,
+            'totalPekerjaanKhusus' => $totalgajipokokdankhusus
+        ];
     }
 }

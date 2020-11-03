@@ -108,9 +108,9 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/hapusTagihan/{n?}', "kontraktorController@hapusTagihan");
 
     //dana
-    Route::get('/lihatRequest',"kontraktorKonfirmDanaController@index");
+    Route::get('/lihatRequest', "kontraktorKonfirmDanaController@index");
     Route::get('/konfirmasiRequest/{n?}', "kontraktorKonfirmDanaController@konfirmasiReq");
-    Route::post('/bayarRequest',"kontraktorKonfirmDanaController@bayar");
+    Route::post('/bayarRequest', "kontraktorKonfirmDanaController@bayar");
 });
 
 //mandor
@@ -226,6 +226,7 @@ Route::group(['prefix' => 'tukang'], function () {
     Route::get('/complainA/{n?}', 'tukangController@complain');
     Route::get('/batal/{n?}', 'tukangController@batal');
     Route::post('/upload', 'tukangController@absen');
+    Route::get('/konfirmasi', 'tukangController@konfirmasiPenerimaanDana');
 });
 
 //admin

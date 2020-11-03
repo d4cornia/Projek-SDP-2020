@@ -12,13 +12,19 @@ class pembayaran_bon_tukang extends Model
     public  $timestamps = false;
     public  $incrementing = true;
 
-    public function insertByr($request,$tanggal)
+    public function insertByr($request, $tanggal)
     {
-        $this->kode_mandor=session()->get('kode');
-        $this->tanggal_pembayaran_bon=$tanggal;
+        $this->kode_mandor = session()->get('kode');
+        $this->tanggal_pembayaran_bon = $tanggal;
         $this->save();
     }
-    public function getMaxKode(){
+    public function getMaxKode()
+    {
         return $this::max('kode_pembayaran_bon');
+    }
+
+    public function getBonTukang($kodemandor)
+    {
+        return $this::where('kode_mandor', $kodemandor)->get();
     }
 }

@@ -273,4 +273,9 @@ class absen_tukang extends Model
         $c->status_komplain = '3'; // keputusan final
         $c->save();
     }
+
+    public function getTukangAbsen($kodetukang)
+    {
+        return $this::where('kode_tukang', $kodetukang)->where('konfirmasi_absen', '1')->where('status_komplain', '<>', '1')->get();
+    }
 }
