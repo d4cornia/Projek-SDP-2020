@@ -14,6 +14,11 @@ class absen_tukang extends Model
     public  $timestamps = false;
     public  $incrementing = true;
 
+    public function tukangs()
+    {
+        return $this->belongsTo(tukang::class, 'kode_tukang');
+    }
+
     public function getAllMyHist($id)
     {
         return $this->where('kode_tukang', $id)->orderby('tanggal_absen')->get();
@@ -138,7 +143,7 @@ class absen_tukang extends Model
                     $ctr++;
                 }
 
-                // yang tidak dikonfirmasi tapi sudah absen
+                // absen tapi tidak disetujui
                 $data = $this->where('tanggal_absen', $tanggal)->get();
                 foreach ($data as $item) {
                     if ($item['konfirmasi_absen'] == '0') {
@@ -228,25 +233,49 @@ class absen_tukang extends Model
         return $this->where('status_komplain', '1')->get();
     }
 
-    public function accComp($kode_absen)
+    public function accComp(Request $req)
     {
-        $c = $this->find($kode_absen);
+        $c = $this->find($req->kode_absen);
+        $h = new absen_harian();
+        $da = new detail_absen();
         $c->status_komplain = '3'; // keputusan final
         $c->konfirmasi_absen = '1'; // disetujui mandor
         $c->save();
+
+        $kode_header = $h->getKodeHeader($req->kode_pekerjaan, $c->tanggal_absen);
+        if (count($kode_header) == 0) { // jika headernya null
+            $kode_header = $h->where('tanggal_absen', $c->tanggal_absen)
+                ->where('kode_pekerjaan', null)
+                ->where('kode_mandor', session()->get('kode'))
+                ->pluck('kode_absen_harians');
+
+            if (count($kode_header) == 0) { // jika null sudah ga ada buat header dengan kode pekerjaan baru
+                $h->insertHeader($req->kode_pekerjaan, $c->tanggal_absen);
+                $kode_header = $h->getKodeHeader($req->kode_pekerjaan, $c->tanggal_absen);
+            } else { // null tadi diganti kode pekerjaan yang baru
+                $he = $h->find($kode_header[0]);
+                $he->kode_pekerjaan = $req->kode_pekerjaan;
+                $he->save();
+            }
+        }
+        if (count($kode_header) > 0) {
+            if (!$da->where('kode_absen_harians', $kode_header[0])
+                ->where('kode_absen', $req->kode_absen)
+                ->exists()) {
+                $da->insertDetail($kode_header[0], $req->kode_absen, $c->kode_tukang, $req->ongkos);
+            }
+        }
     }
 
     public function decComp($kode_absen)
     {
         $c = $this->find($kode_absen);
         $c->status_komplain = '3'; // keputusan final
-        $c->konfirmasi_absen = '2'; // tidak disetujui mandor
         $c->save();
     }
 
-    public function getAbsenStatus()//Mencari bukti absen yang konfirmasi absen = 1 dan status komplain 2
+    public function getTukangAbsen($kodetukang)
     {
-        $kodetukang = session()->get('kode');
-        return $this::where('konfirmasi_absen',1)->where('status_komplain',2)->where('kode_tukang',$kodetukang)->get();
+        return $this::where('kode_tukang', $kodetukang)->where('konfirmasi_absen', '1')->where('status_komplain', '<>', '1')->get();
     }
 }

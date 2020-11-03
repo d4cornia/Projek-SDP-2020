@@ -34,14 +34,15 @@ class mandorRequestController extends Controller
             $kodemandor = session()->get('kode');
             $pekerjaan = new pekerjaan();
             $pekerjaankhusus = new pekerjaan_khusus();
-            if(Cookie::has('berhasilreq')){
-                echo "<script>alert('Request Dana Berhasil');</script>";
+
+            if(session()->has('sudahberhasilsimpan')){
                 $data=[
+                    'error'=>0,
                     'listPk'=>$pekerjaankhusus->get(),
                     'listReq'=>$arrreqdana,
-                    'listPekerjaan'=>$pekerjaan->where('kode_mandor',$kodemandor)->where('status_selesai',0)->get(),
+                    'listPekerjaan'=>$pekerjaan->where('kode_mandor',$kodemandor)->where('status_selesai',0)->get()
                 ];
-                Cookie::queue('berhasilreq',"",-10);
+                session()->forget('sudahberhasilsimpan');
             }
             else{
                 $data=[
@@ -54,7 +55,14 @@ class mandorRequestController extends Controller
             return view('mandor.Creation.requestDana',$data);
         }
         else{
-            return view('mandor.Creation.tidakbolehrequest');
+            $data=[];
+            if(session()->has('sudahberhasilsimpan')){
+                $data=[
+                    'error'=>0
+                ];
+                session()->forget('sudahberhasilsimpan');
+            }
+            return view('mandor.Creation.tidakbolehrequest',$data);
         }
     }
     public function querynota(Request $request)
@@ -414,11 +422,19 @@ class mandorRequestController extends Controller
             $subtotal=$item["subtotal"];
             $pk=$item["pekerjaankhusus"];
             $det->insertdetail($kodemax,$kodepekerjaan,$totalnota,$totalgaji,$totalpk,$subtotal,$pk);
+
+            $pembelian = new pembelian();
+            $mypembelian = $pembelian->where('kode_pekerjaan',$kodepekerjaan)->where('status_pembayaran_oleh','1')
+                            ->where('status_request_dana',0)->get();
+            foreach($mypembelian as $beli){
+                $beli->status_request_dana=1;
+                $beli->save();
+            }
         }
         //hapus session
+        session()->put('sudahberhasilsimpan',"abc");
         session()->forget('reqdana');
         //return redirect
-        Cookie::queue('berhasilreq',"0",10);
         return redirect('/mandor/requestDana');
     }
 
@@ -426,7 +442,26 @@ class mandorRequestController extends Controller
     {
         $permintaanuang = new permintaan_uang();
         $kode_mandor = session()->get('kode');
-        $param['listReq'] = $permintaanuang->where('konfirmasi_kontraktor_telah_transfer',0)->where('kode_mandor',$kode_mandor)->get();
+        $maxbulan = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        $tahun = date('Y');
+        $bulan = date('m');
+        $tanggal = date('d');
+        $fulldate= $tahun."-".$bulan."-".$tanggal;
+        $date=date_create($fulldate);
+        $harike=date_format($date,"N");
+        for($i = 1; $i < $harike; $i++) //1 karena hari senin
+        {
+            $tanggal-=1;
+            if($tanggal == 0) {
+                if($bulan == 1)
+                { $tanggal+=31; }
+                else
+                { $tanggal+=$maxbulan[$bulan - 2]; }
+                $bulan-=1;
+            }
+        }
+        $tanggalawal = date_create($tahun."-".$bulan."-".$tanggal);
+        $param['listReq'] = $permintaanuang->whereDate('tanggal_permintaan_uang','>=',$tanggalawal)->where('kode_mandor',$kode_mandor)->get();
 
         return view('mandor.List.ReqDana')->with($param);
     }
@@ -439,6 +474,7 @@ class mandorRequestController extends Controller
         $namamandor = $mandor->where('kode_mandor',$kode)->get()[0]->nama_mandor;
 
 
+
         $permintaanuang = new permintaan_uang();
         $param['header']=$permintaanuang->where('id_permintaan_uang',$id)->get()[0];
 
@@ -448,6 +484,16 @@ class mandorRequestController extends Controller
 
         $pekerjaan = new pekerjaan();
         $param['pekerjaan']=$pekerjaan->get();
+
+        $permintaancekbon = $permintaanuang->where('kode_mandor',$kode)->get();
+        $totalbon =0;
+        $selisih =0;
+        foreach($permintaancekbon as $item){
+            $totalbon+=$item->total_bon;
+            $selisih+=$item->total_sistem-$item->real_total;
+        }
+        $sisa=$totalbon-$selisih;
+        $param['sisa']=$sisa;
 
         $pekerjaankhusus = new pekerjaan_khusus();
         $param['pekerjaan_khusus']=$pekerjaankhusus->get();

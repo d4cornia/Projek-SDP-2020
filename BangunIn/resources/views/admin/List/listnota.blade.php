@@ -13,18 +13,17 @@
     }
 </style>
 <h1 class="mb-5">Detail Pembelian</h1>
-
+    <div class="row mb-5">
+        <div class="col-8">
+            <h4>Detail Pembelian bahan  {{$nmToko[0]}}</h4>
+        </div>
+        <div class="col-4 text-right">
+            <a href="/admin/lihatToko"><button class="btn btn-info">Kembali Ke List</button></a>
+        </div>
+    </div>
 
     @if(count($pembelian)>0)
 
-        <div class="row mb-5">
-            <div class="col-8">
-                <h4>Detail Pembelian bahan  {{$toko[0]["nama_toko"]}}</h4>
-            </div>
-            <div class="col-4 text-right">
-                <a href="/admin/lihatToko"><button class="btn btn-info">Kembali Ke List</button></a>
-            </div>
-        </div>
         @for($i=0;$i<count($pembelian);$i++)
         <div id="p{{$i}}">
             <div class="col-md-12 mb-5">

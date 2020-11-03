@@ -25,4 +25,9 @@ class pk_dana extends Model
         $pkd->dana = $nom;
         $pkd->save();
     }
+
+    public function getDanaPK($kodepk)
+    {
+        return $this::where('kode_pk', $kodepk)->get();
+    }
 }

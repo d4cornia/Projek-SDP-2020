@@ -148,15 +148,8 @@ class tukang extends Model
         $datalama->save();
     }
 
-    public function getMandorTukang($kodetukang)
-    {
-        return $this::where('kode_tukang', $kodetukang)
-            ->pluck('kode_mandor');
-    }
-
     public function getGajiPokokTukang($kodetukang)
     {
-        return $this::where('kode_tukang', $kodetukang)
-        ->get();
+        return $this::where('kode_tukang', $kodetukang)->get();
     }
 }

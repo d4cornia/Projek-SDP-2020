@@ -92,6 +92,14 @@
 
 {{-- berhasil/gagal tambah --}}
 @isset($error)
+    @if ($error == 21)
+    <script>
+        swal("Berhasil Melakukan Pembayaran!", "", "success");
+        myVar = setTimeout(() => {
+            document.getElementById("succ").style.display = "none";
+        }, 5000);
+    </script>
+    @endif
     @if ($error == 20)
     <script>
         swal("Berhasil Request Dana!", "Request Dana berhasil!","success");

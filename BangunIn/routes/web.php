@@ -106,6 +106,11 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/listKomisi', 'kontraktorController@showListKomisi');
     Route::get('/tambahTagihan/{n?}', "kontraktorController@tambahTagihanDenganKode");
     Route::get('/hapusTagihan/{n?}', "kontraktorController@hapusTagihan");
+
+    //dana
+    Route::get('/lihatRequest', "kontraktorKonfirmDanaController@index");
+    Route::get('/konfirmasiRequest/{n?}', "kontraktorKonfirmDanaController@konfirmasiReq");
+    Route::post('/bayarRequest', "kontraktorKonfirmDanaController@bayar");
 });
 
 //mandor
@@ -196,18 +201,18 @@ Route::group(['prefix' => 'mandor'], function () {
     Route::post('/queryjumpkall', "mandorRequestController@querypkalls")->name('queryjumpkall');
     Route::post('/hitungpk', "mandorRequestController@hitungpk")->name('hitungpk');
     Route::post('/querygaji', "mandorRequestController@querygaji")->name('querygaji');
-    Route::post('/tambahRequestDana',"mandorRequestController@tambahRequestDana");
-    Route::get('/tabelReq/{n?}',"mandorRequestController@batalReq");
+    Route::post('/tambahRequestDana', "mandorRequestController@tambahRequestDana");
+    Route::get('/tabelReq/{n?}', "mandorRequestController@batalReq");
     Route::post('/hitungtotal', "mandorRequestController@hitungtotal")->name('hitungtotal');
-    Route::post('/simpanReqDana',"mandorRequestController@simpanReqDana");
+    Route::post('/simpanReqDana', "mandorRequestController@simpanReqDana");
 
-    Route::get('/lihatRequestDana',"mandorRequestController@listReqDana");
-    Route::get('/detReq/{n?}',"mandorRequestController@detailrequest");
+    Route::get('/lihatRequestDana', "mandorRequestController@listReqDana");
+    Route::get('/detReq/{n?}', "mandorRequestController@detailrequest");
 
     // complain
     Route::get('/complain', 'mandorComplainController@indexComplain');
-    Route::get('/accComp', 'mandorComplainController@accComplain');
-    Route::get('/decComp', 'mandorComplainController@decComplain');
+    Route::post('/accComp', 'mandorComplainController@accComplain');
+    Route::get('/decComp/{n?}', 'mandorComplainController@decComplain');
 });
 
 //tukang
@@ -222,6 +227,7 @@ Route::group(['prefix' => 'tukang'], function () {
     Route::get('/complainA/{n?}', 'tukangController@complain');
     Route::get('/batal/{n?}', 'tukangController@batal');
     Route::post('/upload', 'tukangController@absen');
+    Route::get('/konfirmasi', 'tukangController@konfirmasiPenerimaanDana');
 });
 
 //admin

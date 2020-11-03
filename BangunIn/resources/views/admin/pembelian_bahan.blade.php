@@ -1,7 +1,8 @@
 @extends('admin.navbar')
 
 @section('content')
-
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <h1 class="mb-3">Input Nota Bahan Toko Bangunan</h1>
 <div class="option col-12 text-right mb-5" style="margin-top: 0px">
     <a class="btn btn-primary"  href="/admin/lihatToko" style="width:250px"><font size="3">Lihat Toko Bangunan</font></a>
@@ -76,7 +77,8 @@
         @endphp
         <div class="form-group">
             <label for="exampleInputEmail1">Nama Bahan</label>
-            <select name="bahan" id="bahan" class="form-control" required="required">
+            <input type="text" class="form-control" name="nmbahan" id="nmbahan">
+            <input type="hidden" name="bahan" id="bahan" value="-1">
             </select>
         </div>
         <div class="form-group">
@@ -201,6 +203,8 @@
 
 @endif
 <script>
+    var bahan;
+    var suges = [];
     function submits(){
         var gambar = $('.active').attr("id");
         $("#active").val(gambar);
@@ -220,7 +224,7 @@
             method:"POST",
             data:{value:value,_token:_token},
             success:function(result){
-            $("#alamat").html(result);
+                $("#alamat").html(result);
             }
         });
     }
@@ -232,7 +236,15 @@
             method:"POST",
             data:{value:value,_token:_token},
             success:function(result){
-                $("#bahan").html(result);
+                bahan = JSON.parse(result,true);
+                for (let i = 0; i < bahan.length; i++) {
+                    suges.push(bahan[i]["nama_bahan"]);
+                }
+                console.log(suges);
+                $( "#nmbahan" ).autocomplete({
+                    source: suges
+                });
+                $("#nmbahan").html(result);
             }
         });
     }
@@ -248,11 +260,17 @@
                 getBahan();
             }
         });
-        $('#bahan').change(function(){
+        $('#nmbahan').change(function(){
             if($(this).val()!=''){
-                option = $(this).find('option:selected');
-                harga = option.attr("harga");
-                $('#hargabahan').val(harga);
+                nama = $(this).val();
+                harga = 0;
+                for (let i = 0; i < suges.length; i++) {
+                   if(suges[i] == nama){
+                        $('#hargabahan').val(bahan[i]["harga_satuan"]);
+                        $('#bahan').val(bahan[i]["id_bahan"]);
+                   }
+                }
+
                 if($('#jumlah').val()>=0){
                     var jumlah =  $('#jumlah').val();
                     var harga =  $('#hargabahan').val();
