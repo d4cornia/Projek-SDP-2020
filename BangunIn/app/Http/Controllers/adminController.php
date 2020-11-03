@@ -427,9 +427,9 @@ class adminController extends Controller
                                     ->join('pekerjaan_khususes','pekerjaan_khususes.kode_pekerjaan','pp.kode_pekerjaan')
                                     ->where('pekerjaan_khususes.membutuhkan_bahan', 1)
                                     ->join('pk_memakai_bahans as pk', 'pk.kode_pk', 'pekerjaan_khususes.kode_pk')
-                                    ->join('pembelians as p', 'p.id_pembelian', 'pk.id_pembelian')->get();
+                                    ->join('pembelians as p', 'p.id_pembelian', 'pk.id_pembelian')
+                                    ->get();
         $param["arrBeli"] = $pembelian->getListBahan($id);
-
         return view('admin.List.listnota')->with($param);
     }
     public function vnotabon()

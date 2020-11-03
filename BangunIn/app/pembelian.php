@@ -51,7 +51,7 @@ class pembelian extends Model
         return $data;
     }
     public function getListBahan($id){
-        $data = pembelian::where('kode_pekerjaan',$id)->join('memiliki_detail_pembelians as dp',"dp.id_pembelian","pembelians.id_pembelian")->join('bahan_bangunans as bb','bb.id_bahan','dp.id_bahan')->get();
+        $data = pembelian::where('pembelians.id_kerjasama',$id)->join('memiliki_detail_pembelians as dp',"dp.id_pembelian","pembelians.id_pembelian")->join('bahan_bangunans as bb','bb.id_bahan','dp.id_bahan')->get();
         return $data;
     }
     public function updateLunas($id,$tl)
