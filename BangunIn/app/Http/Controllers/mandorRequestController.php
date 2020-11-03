@@ -34,14 +34,15 @@ class mandorRequestController extends Controller
             $kodemandor = session()->get('kode');
             $pekerjaan = new pekerjaan();
             $pekerjaankhusus = new pekerjaan_khusus();
-            if(Cookie::has('berhasilreq')){
-                echo "<script>alert('Request Dana Berhasil');</script>";
+
+            if(session()->has('sudahberhasilsimpan')){
                 $data=[
+                    'error'=>0,
                     'listPk'=>$pekerjaankhusus->get(),
                     'listReq'=>$arrreqdana,
-                    'listPekerjaan'=>$pekerjaan->where('kode_mandor',$kodemandor)->where('status_selesai',0)->get(),
+                    'listPekerjaan'=>$pekerjaan->where('kode_mandor',$kodemandor)->where('status_selesai',0)->get()
                 ];
-                Cookie::queue('berhasilreq',"",-10);
+                session()->forget('sudahberhasilsimpan');
             }
             else{
                 $data=[
@@ -54,7 +55,14 @@ class mandorRequestController extends Controller
             return view('mandor.Creation.requestDana',$data);
         }
         else{
-            return view('mandor.Creation.tidakbolehrequest');
+            $data=[];
+            if(session()->has('sudahberhasilsimpan')){
+                $data=[
+                    'error'=>0
+                ];
+                session()->forget('sudahberhasilsimpan');
+            }
+            return view('mandor.Creation.tidakbolehrequest',$data);
         }
     }
     public function querynota(Request $request)
@@ -424,9 +432,9 @@ class mandorRequestController extends Controller
             }
         }
         //hapus session
+        session()->put('sudahberhasilsimpan',"abc");
         session()->forget('reqdana');
         //return redirect
-        Cookie::queue('berhasilreq',"0",10);
         return redirect('/mandor/requestDana');
     }
 
