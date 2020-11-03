@@ -44,7 +44,7 @@
         @endphp
         <td>
             @php
-                $listPK = $pekerjaan_khusus->where('id_detail_permintaan_khusus',$item->id_detail_permintaan_khusus)->where('kode_pekerjaan',$item->kode_pekerjaan);
+                $listPK = $pekerjaan_khusus->where('id_detail_permintaan_uang',$item->id_detail_permintaan_uang)->where('kode_pekerjaan',$item->kode_pekerjaan);
                 if($listPK!=null){
                     echo "<ul>";
                         foreach ($listPK as $items) {
