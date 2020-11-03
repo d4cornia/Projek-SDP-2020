@@ -414,6 +414,14 @@ class mandorRequestController extends Controller
             $subtotal=$item["subtotal"];
             $pk=$item["pekerjaankhusus"];
             $det->insertdetail($kodemax,$kodepekerjaan,$totalnota,$totalgaji,$totalpk,$subtotal,$pk);
+
+            $pembelian = new pembelian();
+            $mypembelian = $pembelian->where('kode_pekerjaan',$kodepekerjaan)->where('status_pembayaran_oleh','1')
+                            ->where('status_request_dana',0)->get();
+            foreach($mypembelian as $beli){
+                $beli->status_request_dana=1;
+                $beli->save();
+            }
         }
         //hapus session
         session()->forget('reqdana');
