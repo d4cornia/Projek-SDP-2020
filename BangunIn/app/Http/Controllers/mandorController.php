@@ -182,6 +182,52 @@ class mandorController extends Controller
         return redirect('/mandor/indexSpWork');
     }
 
+    public function ieditBuktiTsf($kode)
+    {
+        $pkd = new pk_dana();
+        $data = [
+            'pk_dana' => $pkd->where('kode_pk_dana', $kode)->get()->first()
+        ];
+        // dd($data);
+        return view('mandor.Detail.detailEditBuktiTsf', $data);
+    }
+
+    public function confirmEditBukti(Request $req)
+    {
+        $pkd = new pk_dana();
+
+        $file = $req->file('buktiBaru');
+        $fileName = $file->getClientOriginalName();
+        $file->move(public_path('/assets/bukti_dana_pk/'),  $file->getClientOriginalName());
+
+        $pkd->updateBuktiBaru($req->kode_pk_dana, $fileName);
+
+        session()->put('upd', 'Berhasil mengubah data!');
+        return redirect('/mandor/backToEditSpWork');
+    }
+
+    public function backToEditSpWork()
+    {
+        $p = new pekerjaan();
+        $pk = new pekerjaan_khusus();
+        $t = new tukang();
+        $data = [
+            'title' => 'List Pekerjaan Khusus',
+            'listWork' => $p->where('kode_mandor', session()->get('kode'))
+                ->where('status_delete_pekerjaan', 0)
+                ->get(),
+            'listSpWork' => $pk->where('kode_pekerjaan', session()->get('kode_p'))
+                ->where('status_delete_pk', 0)
+                // ->where('id_detail_permintaan_uang', '<>', null)
+                ->get(),
+            'listTukang' => $t->where('kode_mandor', session()->get('kode'))
+                ->get(),
+            'current' => $p->find(session()->get('kode_p')),
+            'mode' => 2
+        ];
+        return view('mandor.List.listSpecialWork', $data);
+    }
+
 
     // nota pembelian bahan
 

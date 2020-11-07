@@ -129,6 +129,7 @@
                                                 <a target="_blank" href="/assets/bukti_dana_pk/{{$item->pk_dana->bukti_tsf_dana}}" alt="/assets/default_tukang.png">
                                                     <img src="/assets/bukti_dana_pk/{{$item->pk_dana->bukti_tsf_dana}}"  alt="/assets/default_tukang.png">
                                                 </a>
+                                                <a class="btn btn-secondary" href="/mandor/ieditBuktiTsf/{{$item->pk_dana->kode_pk_dana}}">Ubah Bukti Transfer</a>
                                             @else
                                                 <input type='file' name='bukti_dana[]' onchange="disable({{$loop->iteration}})"/>
                                                 <input type="hidden" name="type_file[]" id="t{{$loop->iteration}}" value="{{$loop->iteration - 1}}" disabled>
