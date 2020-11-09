@@ -24,11 +24,6 @@
 @if ($buka)
 <form  method="POST" action="/tukang/upload" enctype="multipart/form-data">
     @csrf
-    {{-- <div class="form-group">
-        <div class="preview">
-            <img id="blah" src="/assets/default_tukang.png" alt="" class="imgprev"/>
-        </div>
-    </div> --}}
     <div class="form-group">
             <div class="row">
                 <div class="col-md-6">

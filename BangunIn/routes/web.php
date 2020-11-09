@@ -116,11 +116,6 @@ Route::group(['prefix' => 'kontraktor'], function () {
 //mandor
 Route::group(['prefix' => 'mandor'], function () {
     Route::get('/', 'mandorController@index');
-    //Pekerjaan khusus
-    Route::get('/indexSpWork', 'mandorController@indexSpecWork');
-    Route::get('/editSpWork', 'mandorController@editSpWork');
-    Route::post('/searchSpWork', 'mandorController@searchSpWork');
-    Route::post('/assignSpWork', 'mandorController@assign');
 
     //Absen Tukang
     Route::get('/absenTukang', 'mandorAbsenController@lihatAbsenTukang');
@@ -208,6 +203,15 @@ Route::group(['prefix' => 'mandor'], function () {
 
     Route::get('/lihatRequestDana', "mandorRequestController@listReqDana");
     Route::get('/detReq/{n?}', "mandorRequestController@detailrequest");
+
+    //Pekerjaan khusus
+    Route::get('/indexSpWork', 'mandorController@indexSpecWork');
+    Route::get('/editSpWork', 'mandorController@editSpWork');
+    Route::post('/searchSpWork', 'mandorController@searchSpWork');
+    Route::post('/assignSpWork', 'mandorController@assign');
+    Route::get('/ieditBuktiTsf/{n?}', 'mandorController@ieditBuktiTsf');
+    Route::post('/confirmEditBukti', 'mandorController@confirmEditBukti');
+    Route::get('/backToEditSpWork', 'mandorController@backToEditSpWork');
 
     // complain
     Route::get('/complain', 'mandorComplainController@indexComplain');

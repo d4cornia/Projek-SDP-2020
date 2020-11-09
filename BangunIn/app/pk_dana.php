@@ -30,4 +30,11 @@ class pk_dana extends Model
     {
         return $this::where('kode_pk', $kodepk)->get();
     }
+
+    public function updateBuktiBaru($kode_pk, $bukti)
+    {
+        $pkd = $this->find($kode_pk);
+        $pkd->bukti_tsf_dana = $bukti;
+        $pkd->save();
+    }
 }
