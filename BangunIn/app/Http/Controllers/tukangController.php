@@ -169,7 +169,7 @@ class tukangController extends Controller
             $c = new tukang();
             $gajipokok = $c->getGajiPokokTukang($kodetukang);
             $kodemandor = $gajipokok[0]->kode_mandor;
-            $totalgajipokok = $jumlah_absen * $gajipokok[0]->gaji_pokok_tukang;
+            $totalgajipokok = ($jumlah_absen/5) * $gajipokok[0]->gaji_pokok_tukang;
         }
 
         $pk = new pekerjaan_khusus();
@@ -186,33 +186,61 @@ class tukangController extends Controller
         $firstday = new DateTime(date('Y/m/d', strtotime("sunday -1 week")));
         $e = new pembayaran_bon_tukang();
         $pembayaranbon = $e->getBonTukang($kodemandor);
-        foreach ($pembayaranbon as $key) {
-            $tglbon = new DateTime(date('Y/m/d', strtotime($key->tanggal_pembayaran_bon)));
-            // dd(intval(date('d/m/Y', strtotime($key->tanggal_pembayaran_bon))));
-            // dd(intval(date('d/m/Y', strtotime("sunday -1 week"))));
-            // dd($tglbon->diff($firstday)->days);
-            if ($tglbon->diff($firstday)->days < 7 && (intval(date('d/m/Y', strtotime($key->tanggal_pembayaran_bon))) - intval(date('d/m/Y', strtotime("sunday -1 week")))) >= 0) {
-                $kodepembayaranbon = $key->kode_pembayaran_bon;
-                $f = new memiliki_detail_bon();
-                $detailbon = $f->getDetailBon($kodepembayaranbon);
-                foreach ($detailbon as $item) {
-                    $jumlah_pembayaran_bon = $item->jumlah_pembayaran_bon;
-                    $kodebon = $item->kode_bon;
-                    $g = new bon_tukang();
-                    // $bontukang = $g->
+        if(count($pembayaranbon) < 1)
+        {
+            $totalBon = 0;
+        }
+        else
+        {
+            // $totalBon = 222222;
+            foreach ($pembayaranbon as $key) {
+                $tglbon = new DateTime(date('Y/m/d', strtotime($key->tanggal_pembayaran_bon)));
+                // dd(intval(date('d/m/Y', strtotime($key->tanggal_pembayaran_bon))));
+                // dd(intval(date('d/m/Y', strtotime("sunday -1 week"))));
+                // dd($tglbon->diff($firstday)->days);
+                if ($tglbon->diff($firstday)->days < 7 && (intval(date('d/m/Y', strtotime($key->tanggal_pembayaran_bon))) - intval(date('d/m/Y', strtotime("sunday -1 week")))) >= 0) {
+                    $kodepembayaranbon = $key->kode_pembayaran_bon;
+                    $f = new memiliki_detail_bon();
+                    $detailbon = $f->getDetailBon($kodepembayaranbon);
+                    $totalBon = 0;
+                    foreach ($detailbon as $item) {
+                        $jumlah_pembayaran_bon = $item->jumlah_pembayaran_bon;
+                        $kodebon = $item->kode_bon;
+                        $g = new bon_tukang();
+                        $bontukang = $g->selectBonTukang($kodetukang,$kodebon);
+                        if(count($bontukang) < 1)
+                        {
+                            $jumlah_bon = 0;
+                            $totalBon = 0;
+                        }
+                        else
+                        {
+                            $jumlah_bon = count($bontukang);
+                            $totalBon += $bontukang[0]->jumlah_bon;
+                        }
+                    }
                 }
             }
         }
 
-
-
+        $totalGajiDapat = ($totalgajipokok + $totalgajipokokdankhusus) - $totalBon;
 
         $data = [
             'title' => 'Data Konfirmasi Pembayaran',
             'totalAbsen' => $totalgajipokok,
             'countAbsen' => $jumlah_absen,
-            'pekerjaanKhusus' => $pekerjaankhusus,
-            'totalPekerjaanKhusus' => $totalgajipokokdankhusus
+            'pekerjaanKhusus' => count($pekerjaankhusus),
+            'totalPekerjaanKhusus' => $totalgajipokokdankhusus,
+            'jumlahBon' => $jumlah_bon,
+            'totalBonTukang' => $totalBon,
+            'totalGajiDapat' => $totalGajiDapat
         ];
+
+        return view('tukang.List.konfirmasiDana',$data);
+    }
+
+    public function confirmDana()
+    {
+
     }
 }

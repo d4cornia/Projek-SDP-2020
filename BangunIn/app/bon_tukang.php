@@ -68,4 +68,9 @@ class bon_tukang extends Model
             ->count();
         return $ada;
     }
+
+    public function selectBonTukang($kodetukang,$kodebon)
+    {
+        return $this::where('kode_tukang',$kodetukang)->where('kode_bon',$kodebon)->get();
+    }
 }

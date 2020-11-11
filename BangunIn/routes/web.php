@@ -231,6 +231,7 @@ Route::group(['prefix' => 'tukang'], function () {
     Route::get('/complainA/{n?}', 'tukangController@complain');
     Route::get('/batal/{n?}', 'tukangController@batal');
     Route::post('/upload', 'tukangController@absen');
+    Route::post('/confirmDana', 'tukangController@confirmDana');
     Route::get('/konfirmasi', 'tukangController@konfirmasiPenerimaanDana');
 });
 
