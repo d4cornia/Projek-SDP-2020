@@ -169,7 +169,7 @@ class tukangController extends Controller
             $c = new tukang();
             $gajipokok = $c->getGajiPokokTukang($kodetukang);
             $kodemandor = $gajipokok[0]->kode_mandor;
-            $totalgajipokok = ($jumlah_absen/5) * $gajipokok[0]->gaji_pokok_tukang;
+            $totalgajipokok = $jumlah_absen * $gajipokok[0]->gaji_pokok_tukang;
         }
 
         $pk = new pekerjaan_khusus();
