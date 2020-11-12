@@ -79,7 +79,6 @@
 <body>
    <div class="row">
     <div class="col-lg-2 col-md-2 p-5" id="side-nav">
-
         @yield('side-navbar')
     </div>
     <div class="col-lg-10 col-md-10 p-5" id="content">

@@ -14,7 +14,7 @@ class CreatePkMemakaiBahansTable extends Migration
     public function up()
     {
         Schema::create('pk_memakai_bahans', function (Blueprint $table) {
-            $table->integerIncrements('id_pk_memakai_bahan',1);
+            $table->integerIncrements('id_pk_memakai_bahan', 1);
             $table->integer('id_pembelian')->unsigned();
             $table->foreign('id_pembelian')->references('id_pembelian')->on('pembelians');
             $table->integer('kode_pk')->unsigned();

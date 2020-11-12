@@ -56,14 +56,15 @@ class loginController extends Controller
             session()->put('username', $dataKontraktor[0]->username_kontraktor);
             session()->put('nmperusahaan', $dataKontraktor[0]->nama_perusahaan);
             session()->put('lgperusahaan', $dataKontraktor[0]->logo_perusahaan);
+            session()->put('alamat', $dataKontraktor[0]->alamat_perusahaan);
+            session()->put('no', $dataKontraktor[0]->nomer_perusahaan);
             session()->put('status', 'kontraktor');
             return redirect('kontraktor/');
-        }
-        else { //mandor/tukang/admin
+        } else { //mandor/tukang/admin
             $mandor = new mandor();
             $dataMandor = $mandor->CekLogin($username, $password);
             if (count($dataMandor) > 0) { //mandor
-                $dtperusahaan = $kontraktor->where('kode_kontraktor',$dataMandor[0]->kode_kontraktor)->get();
+                $dtperusahaan = $kontraktor->where('kode_kontraktor', $dataMandor[0]->kode_kontraktor)->get();
 
                 session()->put('kode', $dataMandor[0]->kode_mandor);
                 session()->put('nama', $dataMandor[0]->nama_mandor);
@@ -76,9 +77,9 @@ class loginController extends Controller
                 $tukang = new tukang();
                 $dataTukang = $tukang->CekLogin($username, $password);
                 if (count($dataTukang) > 0) { //tukang
-                    $dataMandor = $mandor->where('kode_mandor',$dataTukang[0]->kode_mandor)->get();
-                    $dtperusahaan = $kontraktor->where('kode_kontraktor',$dataMandor[0]->kode_kontraktor)
-                                            ->get();
+                    $dataMandor = $mandor->where('kode_mandor', $dataTukang[0]->kode_mandor)->get();
+                    $dtperusahaan = $kontraktor->where('kode_kontraktor', $dataMandor[0]->kode_kontraktor)
+                        ->get();
                     session()->put('kode', $dataTukang[0]->kode_tukang);
                     session()->put('nama', $dataTukang[0]->nama_tukang);
                     session()->put('username', $dataTukang[0]->username_tukang);
@@ -90,7 +91,7 @@ class loginController extends Controller
                     $admin = new administrator();
                     $dataAdmin = $admin->CekLogin($username, $password);
                     if (count($dataAdmin) > 0) { //admin
-                        $dtperusahaan = $kontraktor->where('kode_kontraktor',$dataAdmin[0]->kode_kontraktor)->get();
+                        $dtperusahaan = $kontraktor->where('kode_kontraktor', $dataAdmin[0]->kode_kontraktor)->get();
                         session()->put('kode', $dataAdmin[0]->kode_admin);
                         session()->put('nama', $dataAdmin[0]->nama_admin);
                         session()->put('username', $dataAdmin[0]->username_admin);
@@ -124,7 +125,7 @@ class loginController extends Controller
             $nmperushaan = $request->nmperusahaan;
             $alperushaan = $request->alperusahaan;
             $logo = $request->file('logo');
-            $nmlogo =$logo->getClientOriginalName();
+            $nmlogo = $logo->getClientOriginalName();
             $tujuan_upload = '/assets/logo_perusahaan';
 
             $kontraktor = new kontraktor();
@@ -132,21 +133,20 @@ class loginController extends Controller
             $admin = new administrator();
             $tukang = new tukang();
             $result = $kontraktor->CekUsername($username);
-            if (count($result) > 0||$mandor->cekMandor($username)==false||$admin->cekAdmin($username)==false||$tukang->cekTukang($username)==false) { //jika username sudah ada
+            if (count($result) > 0 || $mandor->cekMandor($username) == false || $admin->cekAdmin($username) == false || $tukang->cekTukang($username) == false) { //jika username sudah ada
                 $param["error"] = "Username telah digunakan";
                 return view('Login.register')->with($param);
             } else { //jkika username belum ada
-                $logo->move(public_path('\assets\logo_perusahaan'),$logo->getClientOriginalName());
-                $kontraktor->TambahKontraktor($username, $password, $nama, $email, $nomer,$nmperushaan,$noperushaan,$alperushaan,$nmlogo);
+                $logo->move(public_path('\assets\logo_perusahaan'), $logo->getClientOriginalName());
+                $kontraktor->TambahKontraktor($username, $password, $nama, $email, $nomer, $nmperushaan, $noperushaan, $alperushaan, $nmlogo);
                 return redirect('/vlogin?regis=1');
             }
         } else {
-            if($request->nm){
+            if ($request->nm) {
                 $param["nm"] = $request->nm;
                 $param["no"] = $request->no;
-            }
-            else{
-                $param["nm"]="";
+            } else {
+                $param["nm"] = "";
             }
             return view('Login.register')->with($param);
         }

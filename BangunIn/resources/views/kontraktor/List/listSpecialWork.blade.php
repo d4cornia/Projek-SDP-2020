@@ -1,11 +1,12 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-    @if ($listSpWork !== null)
+@if ($listSpWork !== null)
     <h1>Daftar Pekerjaan Khusus</h1>
     <div class="option" style="float: right; margin:5px 0px 40px 0px;">
         <a class="btn btn-primary" href="/kontraktor/aSpWork/{{$current['kode_pekerjaan']}}">Tambah Pekerjaan Khusus</a>
         <a class="btn btn-secondary" href="/kontraktor/sSpDelWork/{{$current['kode_pekerjaan']}}">Lihat Pekerjaan Khusus Yang Dihapus</a>
+        <a href="/report/pekerjaan/{{$current['kode_pekerjaan']}}" class="btn btn-info">Laporan</a>
     </div>
         <div class="row-first" style=" margin:80px 0px 50px 0px;">
             <form action="/kontraktor/search" method="post">

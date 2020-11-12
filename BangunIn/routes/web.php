@@ -264,3 +264,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/detnotabeli/{n?}', 'adminController@detnotabeli');
     Route::post('/bayarBonBahan', 'adminController@pembayaranBonBahan');
 });
+
+
+Route::group(['prefix' => 'report'], function () {
+    Route::get('/pekerjaan/{n?}', 'reportController@rPekerjaan');
+    Route::get('/budgetMandor/{n?}', 'reportController@rBudgetingMandor');
+});

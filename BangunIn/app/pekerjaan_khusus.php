@@ -132,5 +132,9 @@ class pekerjaan_khusus extends Model
     {
         return $this::where('kode_tukang', $kodetukang)->get();
     }
-}
 
+    public function bahans()
+    {
+        return $this->hasMany(pk_memakai_bahan::class, 'kode_pk');
+    }
+}

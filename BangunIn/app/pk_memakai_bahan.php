@@ -10,11 +10,16 @@ class pk_memakai_bahan extends Model
     public $timestamps = false;
     public  $incrementing = true;
 
-    public function insert($id,$id_pembelihan)
+    public function insert($id, $id_pembelihan)
     {
         $pk = new pk_memakai_bahan();
         $pk->id_pembelian = $id_pembelihan;
         $pk->kode_pk = $id;
         $pk->save();
+    }
+
+    public function pembelian()
+    {
+        return $this->belongsTo(pembelian::class, 'id_pembelian');
     }
 }

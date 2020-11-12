@@ -9,7 +9,7 @@ class memiliki_detail_pembelian extends Model
     protected $primaryKey = 'id_detail_pembelian';
     public $timestamps = false;
     public  $incrementing = true;
-    public function insert($id_pembelian,$id_bahan,$jumlah,$harga,$diskon,$subtotal)
+    public function insert($id_pembelian, $id_bahan, $jumlah, $harga, $diskon, $subtotal)
     {
         $id = new memiliki_detail_pembelian();
         $id->id_pembelian = $id_pembelian;
@@ -19,5 +19,10 @@ class memiliki_detail_pembelian extends Model
         $id->persen_diskon = $diskon;
         $id->subtotal = $subtotal;
         $id->save();
+    }
+
+    public function bhn()
+    {
+        return $this->belongsTo(bahan_bangunan::class, 'id_bahan');
     }
 }
