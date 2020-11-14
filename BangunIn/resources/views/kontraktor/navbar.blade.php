@@ -71,6 +71,15 @@
             <a class="dropdown-item" href="/kontraktor/lihatRequest">Konfirmasi Dana</a>
         </div>
     </div>
+    <div class="btn-group nav-side">
+        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Laporan
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/report/uangKeseluruhanProyek">Laporan total keseluruhan proyek</a>
+            <a class="dropdown-item" href="/report/budgetMandor">Laporan pengeluaran mandor</a>
+        </div>
+    </div>
 
 @endsection
 

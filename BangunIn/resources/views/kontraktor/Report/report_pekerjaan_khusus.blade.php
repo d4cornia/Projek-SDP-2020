@@ -124,9 +124,9 @@
                         </table>
                     @endforeach
                 @endif
-                <h6>Total Keseluruhan Pembelian Bahan : {{number_format($pk->total_bahan)}} </h6><br>
-                <h6>Total Jasa : {{number_format($pk->total_jasa)}} </h6><br>
-                <h6>Total Keseluruhan : {{number_format($pk->total_keseluruhan)}} </h6>
+                <h6>Total Keseluruhan Pembelian Bahan : Rp. {{number_format($pk->total_bahan)}} </h6><br>
+                <h6>Total Jasa : Rp. {{number_format($pk->total_jasa)}} </h6><br>
+                <h6>Total Keseluruhan : Rp. {{number_format($pk->total_keseluruhan)}} </h6>
                 <br><br><br><br><br>
                 <br><br><br><br><br>
             @endforeach

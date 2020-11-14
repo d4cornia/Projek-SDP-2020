@@ -22,9 +22,9 @@ class CreatePermintaanUangsTable extends Migration
             $table->integer('total_bon');
             $table->integer('total_sistem');
             $table->integer('real_total');
-            $table->string('keterangan',100);
-            $table->string('konfirmasi_kontraktor_telah_transfer',1);
-            $table->string('bukti_trf_req',100)->nullable();
+            $table->string('keterangan', 100);
+            $table->string('konfirmasi_kontraktor_telah_transfer', 1);
+            $table->string('bukti_trf_req', 100)->nullable();
         });
     }
 

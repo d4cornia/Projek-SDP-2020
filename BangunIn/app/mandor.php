@@ -115,4 +115,8 @@ class mandor extends Model
         return true;
     }
 
+    public function pu()
+    {
+        return $this->hasMany(permintaan_uang::class, 'kode_mandor');
+    }
 }

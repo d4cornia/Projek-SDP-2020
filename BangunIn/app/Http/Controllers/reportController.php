@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\kontraktor;
+use App\mandor;
 use App\pekerjaan;
 use App\pekerjaan_khusus;
+use App\permintaan_uang;
+use DateTime;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -31,8 +34,37 @@ class reportController extends Controller
         return view('kontraktor.Report.report_pekerjaan_khusus', $data);
     }
 
-    public function rBudgetingMandor($kode)
+    public function rBudgetingMandor()
     {
-        # code...
+        $m = new mandor();
+        $pu = new permintaan_uang();
+        $mandors = $m->where('kode_kontraktor', session()->get('kode'))->get();
+        $req = null;
+
+        $temp = $pu->orderBy('tanggal_permintaan_uang', 'asc')->get();
+        $firstday = date('d/m/Y', strtotime("sunday -1 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("sunday -1 week")));
+        if ($temp !== null) {
+            foreach ($temp as $item) {
+                $tgl = date_create($item['tanggal_permintaan_uang']);
+                $tgla = new DateTime(date('Y/m/d', strtotime($item['tanggal_permintaan_uang'])));
+                if ($fd->diff($tgla)->days < 7 && (intval(date_format($tgl, 'd-m-Y')) - intval($firstday)) >= 0) {
+                    $req[] = $item;
+                }
+            }
+        }
+
+        $data = [
+            'mans' => $mandors,
+            'req' => $req
+        ];
+        // dd($data);
+        return view('kontraktor.Report.report_request_dana_mandor', $data);
+    }
+
+    public function uangKeseluruhanProyek()
+    {
+        $data = [];
+        return view('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
     }
 }
