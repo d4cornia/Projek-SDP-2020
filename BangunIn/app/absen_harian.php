@@ -47,4 +47,9 @@ class absen_harian extends Model
             ->where('kode_mandor', session()->get('kode'))
             ->get();
     }
+
+    public function details()
+    {
+        return $this->hasMany(detail_absen::class, 'kode_absen_harians');
+    }
 }

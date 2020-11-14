@@ -27,6 +27,11 @@ class detail_absen extends Model
 
     public function getOngkosLembur($kodetukang)
     {
-        return $this::where('kode_tukang',$kodetukang)->get();
+        return $this::where('kode_tukang', $kodetukang)->get();
+    }
+
+    public function buktiAbsen()
+    {
+        return $this->hasOne(absen_tukang::class, 'kode_absen');
     }
 }

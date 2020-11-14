@@ -90,7 +90,7 @@ class pekerjaan extends Model
                     $pk->total_keseluruhan = $item['sumJasa'];
                     $pk->kode_tukang = null;
                     $pk->status_selesai = 0;
-                    $pk->id_detail_permintaan_uang=null;
+                    $pk->id_detail_permintaan_uang = null;
                     $pk->status_delete_pk = 0;
                     $pk->save();
                 }
@@ -219,8 +219,17 @@ class pekerjaan extends Model
 
     public function getDataPekerjaanMandor($kodeMandor)
     {
-        return $this::where('kode_mandor',$kodeMandor)->get();
+        return $this::where('kode_mandor', $kodeMandor)->get();
+    }
+
+    public function pk()
+    {
+        return $this->hasMany(pekerjaan_khusus::class, 'kode_pekerjaan');
     }
 
 
+    public function bahans()
+    {
+        return $this->hasMany(pembelian::class, 'kode_pekerjaan');
+    }
 }

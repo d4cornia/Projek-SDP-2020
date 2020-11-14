@@ -119,4 +119,9 @@ class mandor extends Model
     {
         return $this->hasMany(permintaan_uang::class, 'kode_mandor');
     }
+
+    public function tukangs()
+    {
+        return $this->hasMany(tukang::class, 'kode_mandor');
+    }
 }

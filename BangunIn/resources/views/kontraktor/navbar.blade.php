@@ -76,7 +76,7 @@
             Laporan
         </button>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="/report/uangKeseluruhanProyek">Laporan total keseluruhan proyek</a>
+            <a class="dropdown-item" href="/report/iuangKeseluruhan">Laporan total keseluruhan proyek</a>
             <a class="dropdown-item" href="/report/budgetMandor">Laporan pengeluaran mandor</a>
         </div>
     </div>

@@ -269,5 +269,6 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'report'], function () {
     Route::get('/pekerjaan/{n?}', 'reportController@rPekerjaan');
     Route::get('/budgetMandor', 'reportController@rBudgetingMandor');
-    Route::get('/uangKeseluruhanProyek', 'reportController@uangKeseluruhanProyek');
+    Route::get('/iuangKeseluruhan', 'reportController@indexKeseluruhan');
+    Route::post('/search', 'reportController@uangKeseluruhanProyek');
 });

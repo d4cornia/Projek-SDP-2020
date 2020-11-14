@@ -28,7 +28,7 @@ class mandorAbsenController extends Controller
         $jt = new jenis_tukang();
         $tanggal = $req->input('tanggalabsen');
         $date = date_create($tanggal);
-        $format = date_format($date, "d-m-Y");
+        $format = date_format($date, "Y-m-d");
 
         $firstday = date('d/m/Y', strtotime("sunday -1 week"));
         // dd(date('d/m/Y', strtotime("sunday 0 week")));
@@ -127,7 +127,7 @@ class mandorAbsenController extends Controller
         // dd($req->input());
         $tanggal = $req->input('tgl');
         $date = date_create($tanggal);
-        $format = date_format($date, "d-m-Y");
+        $format = date_format($date, "Y-m-d");
 
         // transaction
         $b = new absen_tukang();

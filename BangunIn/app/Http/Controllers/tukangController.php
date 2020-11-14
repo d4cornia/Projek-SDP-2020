@@ -53,7 +53,7 @@ class tukangController extends Controller
             $mode = "0";
             if (session()->has('mode')) {
                 $mode = '2'; // mode komplain
-            } else if (true) { // di hari sabtu dan absen sudah ditutup date('l') == "Saturday"
+            } else if (date('l') == "Saturday") { // di hari sabtu dan absen sudah ditutup date('l') == "Saturday"
                 $mode = "1"; // saatnya konfirmasi absen dan mengajukan komplain
 
                 if ($filter !== null) {
@@ -186,12 +186,9 @@ class tukangController extends Controller
         $firstday = new DateTime(date('Y/m/d', strtotime("sunday -1 week")));
         $e = new pembayaran_bon_tukang();
         $pembayaranbon = $e->getBonTukang($kodemandor);
-        if(count($pembayaranbon) < 1)
-        {
+        if (count($pembayaranbon) < 1) {
             $totalBon = 0;
-        }
-        else
-        {
+        } else {
             // $totalBon = 222222;
             foreach ($pembayaranbon as $key) {
                 $tglbon = new DateTime(date('Y/m/d', strtotime($key->tanggal_pembayaran_bon)));
@@ -207,14 +204,11 @@ class tukangController extends Controller
                         $jumlah_pembayaran_bon = $item->jumlah_pembayaran_bon;
                         $kodebon = $item->kode_bon;
                         $g = new bon_tukang();
-                        $bontukang = $g->selectBonTukang($kodetukang,$kodebon);
-                        if(count($bontukang) < 1)
-                        {
+                        $bontukang = $g->selectBonTukang($kodetukang, $kodebon);
+                        if (count($bontukang) < 1) {
                             $jumlah_bon = 0;
                             $totalBon = 0;
-                        }
-                        else
-                        {
+                        } else {
                             $jumlah_bon = count($bontukang);
                             $totalBon += $bontukang[0]->jumlah_bon;
                         }
@@ -236,11 +230,10 @@ class tukangController extends Controller
             'totalGajiDapat' => $totalGajiDapat
         ];
 
-        return view('tukang.List.konfirmasiDana',$data);
+        return view('tukang.List.konfirmasiDana', $data);
     }
 
     public function confirmDana()
     {
-
     }
 }

@@ -40,7 +40,7 @@ class absen_tukang extends Model
     public function insert(Request $req)
     {
         $this->kode_tukang = decrypt($req->kode_tukang);
-        $this->tanggal_absen = date("d-m-Y");
+        $this->tanggal_absen = date("Y-m-d");
         $this->bukti_foto_absen = session()->get('bukti');
         $this->konfirmasi_absen = '0'; // menunggu persetujuan mandor
         $this->status_komplain = '0';

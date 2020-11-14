@@ -73,62 +73,47 @@
     </div>
     <br/>
     <div class="invoice">
-        @foreach ($mans as $m)
-            <center><h1>Mandor {{$m->nama_mandor}}</h1></center>
-            <br><br>
-            @if ($req !== null)
-                @foreach ($req as $pu)
-                    @if($pu->kode_mandor == $m->kode_mandor)
-                        <h3>Tanggal {{$pu->tanggal_permintaan_uang}}</h3><br>
+        <center><h1>Laporan Keseluruhan Proyek</h1></center>
+        <hr>
+        <h4>Pekerjaan : {{$work->nama_pekerjaan}}</h4>
+        <h4>Client : {{$work->nama_pekerjaan}}</h4>
+        <h4>Total Pembayaran : Rp. {{number_format($total_pembayaran)}}</h4><br>
 
-                        @if ($pu->detail_pu !== null && count($pu->detail_pu) > 0)
-                            @foreach ($pu->detail_pu as $d)
-                                <h6>Nama Pekerjaan : {{$d->pekerjaan->nama_pekerjaan}}</h6>
-                                <table width="100%" class="table table-striped" style="margin-top: 30px;">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Keterangan</th>
-                                            <th>Jumlah</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Claim Nota Kembalian</td>
-                                            <td>Rp. {{number_format($d->claim_nota_pembelian)}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Total Gaji</td>
-                                            <td>Rp. {{number_format($d->totalgaji)}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Total Pekerjaan Khusus</td>
-                                            <td>Rp. {{number_format($d->totalpk)}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>#</td>
-                                            <td>Sub Total</td>
-                                            <td>Rp. {{number_format($d->subtotal)}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <br><br>
-                            @endforeach
-                        @endif
-                        <h6>Total Detail : Rp. {{number_format($pu->total_detail)}} </h6>
-                        <h6>Total Bon : Rp. {{number_format($pu->total_bon)}} </h6>
-                        <h6>Total Sistem : Rp. {{number_format($pu->total_sistem)}} </h6>
-                        <h5>Total Yang Diminta : Rp. {{number_format($pu->real_total)}} </h5>
-                        <h5>Keterangan : {{$pu->keterangan}}</h5>
-                        <br><br><br><br><br>
-                        <br><br><br><br><br>
-                    @endif
-                @endforeach
-            @endif
-        @endforeach
+
+        <table width="100%" class="table table-striped" style="margin-top: 30px;">
+            <thead class="thead-dark">
+                <tr>
+                    <th>No</th>
+                    <th>Keterangan</th>
+                    <th>Jumlah</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Claim Nota Kembalian</td>
+                    <td>Rp. {{number_format($d->claim_nota_pembelian)}}</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Total Gaji</td>
+                    <td>Rp. {{number_format($d->totalgaji)}}</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Total Pekerjaan Khusus</td>
+                    <td>Rp. {{number_format($d->totalpk)}}</td>
+                </tr>
+                <tr>
+                    <td>#</td>
+                    <td>Sub Total</td>
+                    <td>Rp. {{number_format($d->subtotal)}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Total Pengeluaran : Rp. </h2>
+        <h2>Sisa Uang : Rp. </h2>
+        <br><br>
     </div>
 
     {{-- <div class="information" style="position: absolute; bottom: 0;">
