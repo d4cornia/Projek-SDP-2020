@@ -75,44 +75,48 @@
     <div class="invoice">
         <center><h1>Laporan Keseluruhan Proyek</h1></center>
         <hr>
+        <h4>Client : {{$work->client->nama_client}}</h4>
         <h4>Pekerjaan : {{$work->nama_pekerjaan}}</h4>
-        <h4>Client : {{$work->nama_pekerjaan}}</h4>
-        <h4>Total Pembayaran : Rp. {{number_format($total_pembayaran)}}</h4><br>
-
+        <h4>Status pekerjaan : @if ($work->status_selesai == 0)
+            Belum selesai
+            @else
+            Selesai
+        @endif</h4>
+        <h4>Total Pembayaran : Rp. {{number_format($total_pembayaran)}}</h4>
+        <hr>
 
         <table width="100%" class="table table-striped" style="margin-top: 30px;">
             <thead class="thead-dark">
                 <tr>
-                    <th>No</th>
                     <th>Keterangan</th>
                     <th>Jumlah</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>Claim Nota Kembalian</td>
-                    <td>Rp. {{number_format($d->claim_nota_pembelian)}}</td>
+                    <td>
+                        Pembayaran Tukang @if ($minggu > 0) {{$minggu}} Minggu @endif @if ($hari > 0)
+                            {{$hari}} Hari
+                        @endif
+                    </td>
+                    <td>Rp. {{number_format($tukang)}}</td>
                 </tr>
                 <tr>
-                    <td>2</td>
-                    <td>Total Gaji</td>
-                    <td>Rp. {{number_format($d->totalgaji)}}</td>
+                    <td>Pembelian Bahan</td>
+                    <td>Rp. {{number_format($bahan)}}</td>
                 </tr>
                 <tr>
-                    <td>3</td>
-                    <td>Total Pekerjaan Khusus</td>
-                    <td>Rp. {{number_format($d->totalpk)}}</td>
-                </tr>
-                <tr>
-                    <td>#</td>
-                    <td>Sub Total</td>
-                    <td>Rp. {{number_format($d->subtotal)}}</td>
+                    <td>Pekerjaan Khusus</td>
+                    <td>Rp. {{number_format($pk)}}</td>
                 </tr>
             </tbody>
         </table>
-        <h2>Total Pengeluaran : Rp. </h2>
-        <h2>Sisa Uang : Rp. </h2>
+        <h2>Total Pengeluaran : Rp. {{number_format($pk + $bahan + $tukang)}}</h2>
+        @if ($total_pembayaran - ($pk + $bahan + $tukang) < 0)
+            <h2 style="color: red;">Sisa Uang : Rp. -{{ (($pk + $bahan + $tukang) - $total_pembayaran) }}</h2>
+        @else
+            <h2 style="color: green;">Sisa Uang : Rp. {{ ($total_pembayaran - ($pk + $bahan + $tukang)) }}</h2>
+        @endif
         <br><br>
     </div>
 

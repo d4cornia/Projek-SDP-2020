@@ -30,8 +30,7 @@ class mandorAbsenController extends Controller
         $date = date_create($tanggal);
         $format = date_format($date, "Y-m-d");
 
-        $firstday = date('d/m/Y', strtotime("sunday -1 week"));
-        // dd(date('d/m/Y', strtotime("sunday 0 week")));
+        $firstday = date('d/m/Y', strtotime("monday -1 week"));
         if ((intval(date_format($date, 'd-m-Y')) - intval($firstday)) >= 0 && intval(date_format($date, 'd-m-Y')) <= intval(date('d-m-Y'))) { // jika sudah dikonfirmasi maka tidak ada konfirmasi lagi
             if ($ah->doneKonfirmasi($format)) {
                 // jika sudah dikonfirmasi

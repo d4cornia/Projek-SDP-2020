@@ -28,8 +28,8 @@ class tukangController extends Controller
         $temp = $t->nameToCode(session()->get('username'));
         $filter = null;
 
-        $firstday = date('d/m/Y', strtotime("sunday -1 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("sunday -1 week")));
+        $firstday = date('d/m/Y', strtotime("monday -1 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
         if ($a->getAllMyHist($temp[0]) !== null) {
             foreach ($a->getAllMyHist($temp[0]) as $item) {
                 $tgl = date_create($item['tanggal_absen']);
@@ -183,7 +183,7 @@ class tukangController extends Controller
             $totalgajipokokdankhusus = $pkdana[0]->dana;
         }
 
-        $firstday = new DateTime(date('Y/m/d', strtotime("sunday -1 week")));
+        $firstday = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
         $e = new pembayaran_bon_tukang();
         $pembayaranbon = $e->getBonTukang($kodemandor);
         if (count($pembayaranbon) < 1) {
@@ -193,9 +193,9 @@ class tukangController extends Controller
             foreach ($pembayaranbon as $key) {
                 $tglbon = new DateTime(date('Y/m/d', strtotime($key->tanggal_pembayaran_bon)));
                 // dd(intval(date('d/m/Y', strtotime($key->tanggal_pembayaran_bon))));
-                // dd(intval(date('d/m/Y', strtotime("sunday -1 week"))));
+                // dd(intval(date('d/m/Y', strtotime("monday -1 week"))));
                 // dd($tglbon->diff($firstday)->days);
-                if ($tglbon->diff($firstday)->days < 7 && (intval(date('d/m/Y', strtotime($key->tanggal_pembayaran_bon))) - intval(date('d/m/Y', strtotime("sunday -1 week")))) >= 0) {
+                if ($tglbon->diff($firstday)->days < 7 && (intval(date('d/m/Y', strtotime($key->tanggal_pembayaran_bon))) - intval(date('d/m/Y', strtotime("monday -1 week")))) >= 0) {
                     $kodepembayaranbon = $key->kode_pembayaran_bon;
                     $f = new memiliki_detail_bon();
                     $detailbon = $f->getDetailBon($kodepembayaranbon);

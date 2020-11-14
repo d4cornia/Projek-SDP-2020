@@ -53,8 +53,8 @@ class reportController extends Controller
         $req = null;
 
         $temp = $pu->orderBy('tanggal_permintaan_uang', 'asc')->get();
-        $firstday = date('d/m/Y', strtotime("sunday -1 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("sunday -1 week")));
+        $firstday = date('d/m/Y', strtotime("monday -1 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
         if ($temp !== null) {
             foreach ($temp as $item) {
                 $tgl = date_create($item['tanggal_permintaan_uang']);
@@ -105,7 +105,8 @@ class reportController extends Controller
 
         $fd = new DateTime(date('Y/m/d', strtotime("today")));
         $tgla = new DateTime(date('Y/m/d', strtotime($firstAbsen['tanggal_absen'])));
-        dd((int)($fd->diff($tgla)->days / 7));
+        // dd($tgla);
+        // dd((int)($fd->diff($tgla)->days / 7));
 
         $total = 0;
         $bahan = 0;
@@ -120,15 +121,17 @@ class reportController extends Controller
                 foreach ($header as $h) {
                     if ($h->details !== null) {
                         foreach ($h->details as $d) {
-                            if ($d->kode_tukang == $item['kode_tukang'] && $d->buktiAbsen->konfirmasi_absen == '1') {
-                                $ctr++;
-                                $lembur += $d->ongkos_lembur;
+                            if ($d->kode_tukang == $item['kode_tukang']) {
+                                if ($d->buktiAbsen->konfirmasi_absen == '1') {
+                                    $ctr++;
+                                    $lembur += $d->ongkos_lembur;
+                                }
                             }
                         }
                     }
                 }
 
-                $total += (($ctr / 6) * $item['gaji_pokok_tukang']) + $lembur;
+                $total += ($ctr * $item['gaji_pokok_tukang']) + $lembur;
             }
         }
 
@@ -140,11 +143,16 @@ class reportController extends Controller
 
         if ($work->pembelian !== null) {
             foreach ($work->pembelian as $item) {
-                $pk += $item['total_keseluruhan'];
+                $bahan += $item['total_pembelian'];
             }
         }
 
         // total pembayaran client
+        if ($work->pc !== null) {
+            foreach ($work->pc as $item) {
+                $tp += $item['jumlah_pembayaran_client'];
+            }
+        }
 
         $data = [
             'work' => $work,
@@ -156,5 +164,31 @@ class reportController extends Controller
             'total_pembayaran' => $tp
         ];
         return view('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
+    }
+
+    public function gajiAllTukang()
+    {
+        $m = new mandor();
+        $ab = new absen_harian();
+
+        $temp = $ab->orderBy('tanggal_absen', 'asc')->get();
+        $firstday = date('d/m/Y', strtotime("monday -1 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
+        if ($temp !== null) {
+            foreach ($temp as $item) {
+                $tgl = date_create($item['tanggal_absen']);
+                $tgla = new DateTime(date('Y/m/d', strtotime($item['tanggal_absen'])));
+                if ($fd->diff($tgla)->days < 7 && (intval(date_format($tgl, 'd-m-Y')) - intval($firstday)) >= 0) {
+                    $header[] = $item;
+                }
+            }
+        }
+
+        $data = [
+            'mans' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
+            'header' => $header
+        ];
+        // dd($data);
+        return view('kontraktor.Report.report_all_gaji_tukang', $data);
     }
 }

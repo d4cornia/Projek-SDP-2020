@@ -101,12 +101,12 @@
                                         <tr>
                                             <td>2</td>
                                             <td>Total Gaji</td>
-                                            <td>Rp. {{number_format($d->totalgaji)}}</td>
+                                            <td>Rp. {{number_format($d->total_gaji_tukang)}}</td>
                                         </tr>
                                         <tr>
                                             <td>3</td>
                                             <td>Total Pekerjaan Khusus</td>
-                                            <td>Rp. {{number_format($d->totalpk)}}</td>
+                                            <td>Rp. {{number_format($d->total_pk)}}</td>
                                         </tr>
                                         <tr>
                                             <td>#</td>
@@ -123,7 +123,7 @@
                         <h6>Total Sistem : Rp. {{number_format($pu->total_sistem)}} </h6>
                         <h5>Total Yang Diminta : Rp. {{number_format($pu->real_total)}} </h5>
                         <h5>Keterangan : {{$pu->keterangan}}</h5>
-                        <br><br><br><br><br>
+                        <hr>
                         <br><br><br><br><br>
                     @endif
                 @endforeach

@@ -77,7 +77,9 @@
         </button>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="/report/iuangKeseluruhan">Laporan total keseluruhan proyek</a>
+            <a class="dropdown-item" href="/kontraktor/iSpWork">Laporan Detail Pekerjaan</a>
             <a class="dropdown-item" href="/report/budgetMandor">Laporan pengeluaran mandor</a>
+            <a class="dropdown-item" href="/report/gajiAllTukang">Laporan gaji tukang</a>
         </div>
     </div>
 
