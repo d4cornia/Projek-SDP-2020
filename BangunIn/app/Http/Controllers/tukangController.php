@@ -28,8 +28,8 @@ class tukangController extends Controller
         $temp = $t->nameToCode(session()->get('username'));
         $filter = null;
 
-        $firstday = date('d/m/Y', strtotime("monday -1 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
+        $firstday = date('d/m/Y', strtotime("monday 0 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("monday 0 week")));
         if ($a->getAllMyHist($temp[0]) !== null) {
             foreach ($a->getAllMyHist($temp[0]) as $item) {
                 $tgl = date_create($item['tanggal_absen']);
@@ -122,7 +122,7 @@ class tukangController extends Controller
         ];
         $a = new absen_tukang();
         $date = mktime(8, 0, 0);
-        $data['buka'] = true;
+        $data['buka'] = false;
         if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
             $data['buka'] = true;
         } else if ($a->doneAbsen($temp[0])) {
@@ -183,7 +183,7 @@ class tukangController extends Controller
             $totalgajipokokdankhusus = $pkdana[0]->dana;
         }
 
-        $firstday = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
+        $firstday = new DateTime(date('Y/m/d', strtotime("monday 0 week")));
         $e = new pembayaran_bon_tukang();
         $pembayaranbon = $e->getBonTukang($kodemandor);
         if (count($pembayaranbon) < 1) {
