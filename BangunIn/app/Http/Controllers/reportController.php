@@ -18,6 +18,7 @@ use App\pk_dana;
 use App\Rules\cbRequired;
 use App\tukang;
 use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\Snappy\Facades\SnappyPdf as sPDF;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;

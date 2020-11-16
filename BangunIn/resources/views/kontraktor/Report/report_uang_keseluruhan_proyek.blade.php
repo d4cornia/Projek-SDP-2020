@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Laporan pekerjaan</title>
-    {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"> --}}
+    <link rel="stylesheet" type="text/css" href="/css/cssB/bootstrap.min.css">
 
     <style type="text/css">
         .page-break {
@@ -56,7 +56,7 @@
         <table width="100%">
             <tr>
                 <td align="left" style="width: 20%;">
-                    <img src="/assets/logo_perusahaan/{{session()->get('lgperusahaan')}}" alt="Logo" width="128" class="logo"/>
+                    <img src="{{public_path()}}/assets/logo_perusahaan/{{session()->get('lgperusahaan')}}" alt="Logo" width="128" class="logo"/>
                 </td>
                 <td align="center">
                     <h1 style="font-size: 32px; margin-left: 155px">{{session()->get('nmperusahaan')}}</h1>
@@ -88,7 +88,7 @@
         <h4>Total Pembayaran : Rp. {{number_format($total_pembayaran)}}</h4>
         <hr>
 
-        <table width="100%" class="table table-striped" style="margin-top: 30px;">
+        <table width="100%" class="table table-striped" style="margin-top: 30px;"  border="1">
             <thead class="thead-dark">
                 <tr>
                     <th>Keterangan</th>
