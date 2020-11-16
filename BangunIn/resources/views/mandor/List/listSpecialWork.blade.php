@@ -9,7 +9,7 @@
 </script>
 
 <style>
-    img {
+    #img {
       border: 1px solid #ddd; /* Gray border */
       border-radius: 4px;  /* Rounded border */
       padding: 5px; /* Some padding */
@@ -87,7 +87,7 @@
                                     <td>
                                         @if ($item->pk_dana !== null)
                                         <a target="_blank" href="/assets/bukti_dana_pk/{{$item->pk_dana->bukti_tsf_dana}}" alt="/assets/default_tukang.png">
-                                            <img src="/assets/bukti_dana_pk/{{$item->pk_dana->bukti_tsf_dana}}"  alt="/assets/default_tukang.png">
+                                            <img src="/assets/bukti_dana_pk/{{$item->pk_dana->bukti_tsf_dana}}" id="bukti" alt="/assets/default_tukang.png">
                                         </a>
                                         @else
                                         -
@@ -127,7 +127,7 @@
                                         <td>
                                             @if ($item->pk_dana !== null)
                                                 <a target="_blank" href="/assets/bukti_dana_pk/{{$item->pk_dana->bukti_tsf_dana}}" alt="/assets/default_tukang.png">
-                                                    <img src="/assets/bukti_dana_pk/{{$item->pk_dana->bukti_tsf_dana}}"  alt="/assets/default_tukang.png">
+                                                    <img src="/assets/bukti_dana_pk/{{$item->pk_dana->bukti_tsf_dana}}" id="bukti" alt="/assets/default_tukang.png">
                                                 </a>
                                                 <a class="btn btn-secondary" href="/mandor/ieditBuktiTsf/{{$item->pk_dana->kode_pk_dana}}">Ubah Bukti Transfer</a>
                                             @else
