@@ -17,10 +17,11 @@ use App\permintaan_uang;
 use App\pk_dana;
 use App\Rules\cbRequired;
 use App\tukang;
+use Barryvdh\DomPDF\Facade as PDF;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
-use PDF;
 
 class reportController extends Controller
 {
@@ -40,9 +41,12 @@ class reportController extends Controller
             'spWork' => $spWork,
             'work' => $work
         ];
-        // $pdf = PDF::loadview('kontraktor.Report.report_pekerjaan_khusus', $data);
-        // return $pdf->download('pekerjaan_' . $work->nama_pekerjaan . '.pdf');
-        return view('kontraktor.Report.report_pekerjaan_khusus', $data);
+
+        // $pdf = App::make('dompdf.wrapper');
+        // $pdf->loadHTML('<h1>Test</h1>');
+        $pdf = PDF::loadView('kontraktor.Report.report_pekerjaan_khusus', $data);
+        return $pdf->stream();
+        // return view('kontraktor.Report.report_pekerjaan_khusus', $data);
     }
 
     public function rBudgetingMandor()
@@ -70,7 +74,10 @@ class reportController extends Controller
             'req' => $req
         ];
         // dd($data);
-        return view('kontraktor.Report.report_request_dana_mandor', $data);
+
+        $pdf = PDF::loadView('kontraktor.Report.report_request_dana_mandor', $data);
+        return $pdf->stream();
+        // return view('kontraktor.Report.report_request_dana_mandor', $data);
     }
 
     public function indexKeseluruhan()
@@ -165,7 +172,10 @@ class reportController extends Controller
             'pk' => $pk,
             'total_pembayaran' => $tp
         ];
-        return view('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
+
+        $pdf = PDF::loadView('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
+        return $pdf->stream();
+        // return view('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
     }
 
     public function gajiAllTukang()
@@ -191,6 +201,8 @@ class reportController extends Controller
             'header' => $header
         ];
         // dd($data);
-        return view('kontraktor.Report.report_all_gaji_tukang', $data);
+        $pdf = PDF::loadView('kontraktor.Report.report_all_gaji_tukang', $data);
+        return $pdf->stream();
+        // return view('kontraktor.Report.report_all_gaji_tukang', $data);
     }
 }

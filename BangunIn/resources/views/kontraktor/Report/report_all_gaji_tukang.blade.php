@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Laporan pekerjaan</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"> --}}
 
     <style type="text/css">
+        .page-break {
+            page-break-after: always;
+        }
         @page {
             margin: 0px;
         }
@@ -37,8 +40,8 @@
             padding: 10px;
         }
         .report{
-            padding-left: 25%;
-            padding-right: 25%;
+            padding-left: 5%;
+            padding-right: 5%;
         }
         .isi {
             padding-right: 25px;
@@ -135,7 +138,7 @@
                     <h4>Total Ongkos Lembur : Rp. {{number_format($to)}}</h4>
                     <h4>Gaji dari absen : Rp. {{number_format($t->gaji_pokok_tukang * $ctr)}}</h4>
                     <h4>Total Gaji : Rp. {{number_format(($t->gaji_pokok_tukang * $ctr) + $to)}}</h4>
-                    <br><hr><br>
+                    <br><br>
                 @endforeach
             @endif
         @endforeach

@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Laporan pekerjaan</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"> --}}
 
     <style type="text/css">
+        .page-break {
+            page-break-after: always;
+        }
         @page {
             margin: 0px;
         }
@@ -37,8 +40,8 @@
             padding: 10px;
         }
         .report{
-            padding-left: 25%;
-            padding-right: 25%;
+            padding-left: 5%;
+            padding-right: 5%;
         }
         .isi {
             padding-right: 25px;
@@ -75,15 +78,15 @@
     <div class="invoice">
         @foreach ($mans as $m)
             <center><h1>Mandor {{$m->nama_mandor}}</h1></center>
-            <br><br>
+            <hr>
             @if ($req !== null)
                 @foreach ($req as $pu)
                     @if($pu->kode_mandor == $m->kode_mandor)
-                        <h3>Tanggal {{$pu->tanggal_permintaan_uang}}</h3><br>
+                        <h3>Tanggal {{$pu->tanggal_permintaan_uang}}</h3>
 
                         @if ($pu->detail_pu !== null && count($pu->detail_pu) > 0)
                             @foreach ($pu->detail_pu as $d)
-                                <h6>Nama Pekerjaan : {{$d->pekerjaan->nama_pekerjaan}}</h6>
+                                <h5>Nama Pekerjaan : {{$d->pekerjaan->nama_pekerjaan}}</h5>
                                 <table width="100%" class="table table-striped" style="margin-top: 30px;">
                                     <thead class="thead-dark">
                                         <tr>
@@ -123,11 +126,11 @@
                         <h6>Total Sistem : Rp. {{number_format($pu->total_sistem)}} </h6>
                         <h5>Total Yang Diminta : Rp. {{number_format($pu->real_total)}} </h5>
                         <h5>Keterangan : {{$pu->keterangan}}</h5>
-                        <hr>
                         <br><br><br><br><br>
                     @endif
                 @endforeach
             @endif
+            <br>
         @endforeach
     </div>
 

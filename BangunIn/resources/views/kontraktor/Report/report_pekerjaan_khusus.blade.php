@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Laporan pekerjaan</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"> --}}
+
 
     <style type="text/css">
+        .page-break {
+            page-break-after: always;
+        }
         @page {
             margin: 0px;
         }
@@ -37,8 +41,8 @@
             padding: 10px;
         }
         .report{
-            padding-left: 25%;
-            padding-right: 25%;
+            padding-left: 5%;
+            padding-right: 5%;
         }
         .isi {
             padding-right: 25px;
@@ -74,10 +78,10 @@
     <br/>
     <div class="invoice">
         <center><h1>{{$work->nama_pekerjaan}}</h1></center>
-        <br><br>
+        <hr>
         @if ($spWork !== null)
             @foreach ($spWork as $pk)
-                <h3>Pekerjaan Khusus {{$pk->keterangan_pk}}</h3><br>
+                <h3>Pekerjaan Khusus {{$pk->keterangan_pk}}</h3>
 
                 @if ($pk->bahans !== null && count($pk->bahans) > 0)
                     @foreach ($pk->bahans as $b)
@@ -124,11 +128,10 @@
                         </table>
                     @endforeach
                 @endif
-                <h6>Total Keseluruhan Pembelian Bahan : Rp. {{number_format($pk->total_bahan)}} </h6><br>
-                <h6>Total Jasa : Rp. {{number_format($pk->total_jasa)}} </h6><br>
+                <h6>Total Keseluruhan Pembelian Bahan : Rp. {{number_format($pk->total_bahan)}} </h6>
+                <h6>Total Jasa : Rp. {{number_format($pk->total_jasa)}} </h6>
                 <h6>Total Keseluruhan : Rp. {{number_format($pk->total_keseluruhan)}} </h6>
-                <br><br><br><br><br>
-                <br><br><br><br><br>
+                <br><br><br>
             @endforeach
         @endif
     </div>
