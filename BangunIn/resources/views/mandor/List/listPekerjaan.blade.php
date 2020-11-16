@@ -7,7 +7,7 @@
     </script>
 @endif
 <h1>List Pekerjaan</h1>
-<div class="option text-right" style="margin-left:60%;">
+<div class="col-12 text-right">
     <a class="btn btn-primary"  href="/mandor/lihatHistoryPekerjaan">Lihat History Pekerjaan Selesai</a>
 </div>
 <br>

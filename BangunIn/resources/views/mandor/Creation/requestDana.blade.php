@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>Request Dana</h1>
-<div class="option" style="margin-left:78%">
+<div class="col-12 text-right mt-5 mb-5">
     <a class="btn btn-primary"  href="/mandor/lihatRequestDana" style="width:250px"><font size="3">Lihat Request Dana</font></a>
 </div>
 <form method="POST" action="/mandor/tambahRequestDana" class="needs-validation" novalidate>

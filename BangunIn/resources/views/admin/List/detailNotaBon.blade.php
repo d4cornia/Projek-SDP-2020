@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Detail Bon Pembelian Bahan</h1>
-    <div class="option" style="float:right;margin-bottom:10px">
+    <div class="option mb-5" style="float:right;margin-bottom:10px">
         <a class="btn btn-primary"  href="/admin/vListNotaBon">List Bon Pembelian Bahan</a>
     </div>
     <br>
@@ -58,7 +58,7 @@
     @php
         $pathsaya = "/assets/nota_beli/".$pathfoto;
     @endphp
-    <img style='width:500px;height:500px;' src='{{$pathsaya}}'><br>
+    <img style='width:500px;height:500px;' class="img-fluid mt-3" src='{{$pathsaya}}'><br>
     <br>
     <b>
     <form method='post' action='/admin/bayarBonBahan' enctype="multipart/form-data">

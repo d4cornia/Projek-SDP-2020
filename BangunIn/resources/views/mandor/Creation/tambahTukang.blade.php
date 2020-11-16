@@ -2,8 +2,9 @@
 
 @section('content')
 <h1>Tambah Tukang</h1>
-<div class="option" style="margin-left:78%">
-    <a class="btn btn-primary"  href="/mandor/lihatTukang" style="width:250px"><font size="3">Lihat Tukang</font></a>
+
+<div class="col-12  mt-3 mb-3 text-right" >
+    <a class="btn btn-primary"  href="/mandor/lihatTukang" ><font size="3">Lihat Tukang</font></a>
 </div>
 <form method="POST" action="/mandor/submitRegTukang" class="needs-validation" novalidate>
     @csrf

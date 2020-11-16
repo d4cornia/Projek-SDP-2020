@@ -16,7 +16,7 @@
             echo number_format($jumbon);
         @endphp
     </h3>
-    <div class="option" style="margin-left:76%">
+    <div class="col-12 text-right">
         <a class="btn btn-primary"  href="/mandor/tambahBon">Tambah Bon</a>
         <a class="btn btn-secondary"  href="/mandor/tambahPembayaranBon">Pembayaran Bon</a>
     </div>

@@ -6,6 +6,7 @@
         <a class="btn btn-primary"  href="/admin/tambahToko">Tambah Toko Bangunan</a>
     </div>
     <br>
+
     @if (count($listToko) > 0)
         <div class="table-responsive" style='margin-top:50px'>
             <table id="tabel-toko" class="table table-bordered table-striped">
