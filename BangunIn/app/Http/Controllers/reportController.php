@@ -113,18 +113,20 @@ class reportController extends Controller
         $pk = 0;
         $tp = 0;
 
-        if (count($temp->tukangs) > 0) {
+        if ($temp->tukangs !== null && count($temp->tukangs) > 0) {
             foreach ($temp->tukangs as $item) {
                 $ctr = 0;
                 $lembur = 0;
                 $header = $ab->where('kode_pekerjaan', $req->work)->get(); // header per hari
-                foreach ($header as $h) {
-                    if ($h->details !== null) {
-                        foreach ($h->details as $d) {
-                            if ($d->kode_tukang == $item['kode_tukang']) {
-                                if ($d->buktiAbsen->konfirmasi_absen == '1') {
-                                    $ctr++;
-                                    $lembur += $d->ongkos_lembur;
+                if ($header !== null) {
+                    foreach ($header as $h) {
+                        if ($h->details !== null) {
+                            foreach ($h->details as $d) {
+                                if ($d->kode_tukang == $item['kode_tukang']) {
+                                    if ($d->buktiAbsen->konfirmasi_absen == '1') {
+                                        $ctr++;
+                                        $lembur += $d->ongkos_lembur;
+                                    }
                                 }
                             }
                         }
