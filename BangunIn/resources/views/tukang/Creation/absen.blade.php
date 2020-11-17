@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="preview">
-                        <div id="results" class="imgprev">Your captured image will appear here...</div>
+                        <div id="results" class="imgprev" style="width: 100%;">Your captured image will appear here...</div>
                     </div>
                     <input type="hidden" name="hasilfoto" id="hasilfoto">
                 </div>

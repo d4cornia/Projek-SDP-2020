@@ -79,6 +79,10 @@
 
         <center><h1>Client : {{$pembayaranPekerjaan->client->nama_client}}</h1></center>
         <hr>
+        @php
+            $total = 0;
+
+        @endphp
         @if ($pembayaranPekerjaan->pc !== null)
             <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
                 <thead class="thead-dark">
@@ -92,15 +96,17 @@
                     @foreach ($pembayaranPekerjaan->pc as $pk)
                     <tr>
                     <td>{{$pk->id_tagihan}}</td>
-                    <td>{{$pk->jumlah_pembayaran_client}}</td>
+                    <td>Rp. {{number_format($pk->jumlah_pembayaran_client)}}</td>
                     <td>{{$pk->tanggal_pembayan_client}}</td>
+                    @php
+                        $total += $pk->jumlah_pembayaran_client;
+                    @endphp
                     </tr>
                     @endforeach
                 </tbody>
             </table>
-                {{-- <h6>Total Keseluruhan Pembelian Bahan : Rp. {{number_format($pk->total_bahan)}} </h6>
-                <h6>Total Jasa : Rp. {{number_format($pk->total_jasa)}} </h6> --}}
                 <h3>Total Keseluruhan : Rp. {{number_format($pembayaranPekerjaan->harga_deal)}} </h3>
+                <h3>Total Pembayaran : Rp. {{number_format($total)}}</h3>
                 @if ($pembayaranPekerjaan->status_lunas == 0)
                     <h3>Belum Lunas</h3>
                 @else
