@@ -77,7 +77,9 @@
     </style>
 </head>
 <body>
-
+    <div class="col-12 d-lg-none">
+        @yield('mob-navbar')
+    </div>
    <div class="row">
     <div class="col-lg-2 col-md-2 pl-2" id="side-nav" style="box-shadow:10px 0px 20px rgb(233, 233, 233);height:100%">
         @yield('side-navbar')
