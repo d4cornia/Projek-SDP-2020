@@ -218,7 +218,7 @@ class mandorController extends Controller
                 ->get(),
             'listSpWork' => $pk->where('kode_pekerjaan', session()->get('kode_p'))
                 ->where('status_delete_pk', 0)
-                ->where('id_detail_permintaan_uang', '<>', null)
+                // ->where('id_detail_permintaan_uang', '<>', null)
                 ->get(),
             'listTukang' => $t->where('kode_mandor', session()->get('kode'))
                 ->get(),

@@ -80,7 +80,7 @@
         @foreach ($mans as $m)
             <h3>Mandor {{$m->nama_mandor}}</h3>
             <hr>
-            @if ($m->tukangs !== null)
+            @if ($m->tukangs !== null && count($m->tukangs) > 0)
                 @foreach ($m->tukangs as $t)
                     <h5>Tukang {{$t->nama_tukang}}</h5>
 
@@ -102,24 +102,30 @@
                                 @foreach ($header as $h)
                                     @php
                                         $flag = false;
+                                        $id = 0;
+                                        $ctr2 = 0;
                                     @endphp
                                     @if ($h->details !== null)
                                         @foreach ($h->details as $d)
                                             @if ($d->kode_tukang == $t->kode_tukang)
                                                 @php
+                                                    $id = $ctr2;
                                                     $flag = true;
                                                 @endphp
                                             @endif
+                                            @php
+                                                $ctr2++;
+                                            @endphp
                                         @endforeach
                                         @if($flag)
                                             <tr>
                                                 <td>{{$loop->iteration}}</td>
                                                 <td>{{$h->tanggal_absen}}</td>
-                                                <td>Rp. {{number_format($d->ongkos_lembur)}}</td>
+                                                <td>Rp. {{number_format($h->details[$id]->ongkos_lembur)}}</td>
                                                 <td><input type="checkbox" name="" id="" checked disabled></td>
                                             </tr>
                                             @php
-                                                $to += $d->ongkos_lembur;
+                                                $to += $h->details[$id]->ongkos_lembur;
                                                 $ctr++;
                                             @endphp
                                         @else
@@ -138,8 +144,10 @@
                     <h4>Total Ongkos Lembur : Rp. {{number_format($to)}}</h4>
                     <h4>Gaji dari absen : Rp. {{number_format($t->gaji_pokok_tukang * $ctr)}}</h4>
                     <h4>Total Gaji : Rp. {{number_format(($t->gaji_pokok_tukang * $ctr) + $to)}}</h4>
-                    <br><br>
+                    <br><br><br>
                 @endforeach
+            @else
+                <center><h3>Tidak Ada Tukang</h3></center>
             @endif
         @endforeach
     </div>

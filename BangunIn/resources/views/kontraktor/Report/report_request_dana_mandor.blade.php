@@ -79,10 +79,16 @@
         @foreach ($mans as $m)
             <center><h1>Mandor {{$m->nama_mandor}}</h1></center>
             <hr>
+            @php
+                $flag = false;
+            @endphp
             @if ($req !== null)
                 @foreach ($req as $pu)
                     @if($pu->kode_mandor == $m->kode_mandor)
                         <h3>Tanggal {{$pu->tanggal_permintaan_uang}}</h3>
+                        @php
+                            $flag = true;
+                        @endphp
 
                         @if ($pu->detail_pu !== null && count($pu->detail_pu) > 0)
                             @foreach ($pu->detail_pu as $d)
@@ -98,7 +104,7 @@
                                     <tbody>
                                         <tr>
                                             <td>1</td>
-                                            <td>Claim Nota Kembalian</td>
+                                            <td>Claim Nota Pembelian</td>
                                             <td>Rp. {{number_format($d->claim_nota_pembelian)}}</td>
                                         </tr>
                                         <tr>
@@ -121,14 +127,17 @@
                                 <br>
                             @endforeach
                         @endif
-                        <h6>Total Detail : Rp. {{number_format($pu->total_detail)}} </h6>
-                        <h6>Total Bon : Rp. {{number_format($pu->total_bon)}} </h6>
-                        <h6>Total Sistem : Rp. {{number_format($pu->total_sistem)}} </h6>
-                        <h5>Total Yang Diminta : Rp. {{number_format($pu->real_total)}} </h5>
-                        <h5>Keterangan : {{$pu->keterangan}}</h5>
+                        <h5>Total Detail : Rp. {{number_format($pu->total_detail)}} </h5>
+                        <h5>Total Bon : Rp. {{number_format($pu->total_bon)}} </h5>
+                        <h5>Total Sistem : Rp. {{number_format($pu->total_sistem)}} </h5>
+                        <h4>Total Yang Diminta : Rp. {{number_format($pu->real_total)}} </h4>
+                        <h4>Keterangan : {{$pu->keterangan}}</h4>
                         <br><br><br><br><br>
                     @endif
                 @endforeach
+            @endif
+            @if (!$flag)
+                <center><h3>Tidak Melakukan Request</h3></center>
             @endif
             <br>
         @endforeach

@@ -59,12 +59,13 @@ class reportController extends Controller
         $req = null;
 
         $temp = $pu->orderBy('tanggal_permintaan_uang', 'asc')->get();
-        $firstday = date('d/m/Y', strtotime("monday 0 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("monday 0 week")));
+        $firstday = date('d/m/Y', strtotime("monday -1 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
         if ($temp !== null) {
             foreach ($temp as $item) {
                 $tgl = date_create($item['tanggal_permintaan_uang']);
                 $tgla = new DateTime(date('Y/m/d', strtotime($item['tanggal_permintaan_uang'])));
+                // dd($fd);
                 if ($fd->diff($tgla)->days < 7 && (intval(date_format($tgl, 'd-m-Y')) - intval($firstday)) >= 0) {
                     $req[] = $item;
                 }
@@ -193,8 +194,8 @@ class reportController extends Controller
         $ab = new absen_harian();
 
         $temp = $ab->orderBy('tanggal_absen', 'asc')->get();
-        $firstday = date('d/m/Y', strtotime("monday 0 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("monday 0 week")));
+        $firstday = date('d/m/Y', strtotime("monday -1 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
         $header = null;
         if ($temp !== null) {
             foreach ($temp as $item) {
@@ -219,7 +220,7 @@ class reportController extends Controller
     public function indexBuktiPembayaran()
     {
         $allPekerjaan = pekerjaan::all();
-        return view('kontraktor.Report.index_bukti_pembayaran',['listPekerjaan' => $allPekerjaan]);
+        return view('kontraktor.Report.index_bukti_pembayaran', ['listPekerjaan' => $allPekerjaan]);
     }
 
     public function searchPembayaran(Request $request)
