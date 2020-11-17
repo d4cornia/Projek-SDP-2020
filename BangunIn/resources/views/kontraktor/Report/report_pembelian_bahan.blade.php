@@ -13,13 +13,13 @@
         <div class="information">
             <table width="100%">
                 <tr>
-                    <td align="left" style="width: 20%;">
-                        <img src="{{public_path()}}/assets/logo_perusahaan/{{session()->get('lgperusahaan')}}" alt="Logo" width="128" class="logo"/>
+                    <td align="left" style="width: 10%;">
+                        <img src="{{public_path()}}/assets/logo_perusahaan/{{session()->get('lgperusahaan')}}" alt="Logo" width="128" style="margin-right:20%;" class="logo"/>
                     </td>
                     <td align="center">
-                        <h1 style="font-size: 32px; margin-left: 155px">{{session()->get('nmperusahaan')}}</h1>
+                        <h1 style="font-size: 32px; margin-left: 50px">{{session()->get('nmperusahaan')}}</h1>
                     </td>
-                    <td align="right" style="width: 20%;">
+                    <td align="right" style="width: 10%;">
                         <div class="isi">
                             <h3 style="font-size: 20px; color: white; margin-top: 30px;">{{session()->get('nama')}}</h3>
                             <pre style="font-size: 13px; font-weight: bold;margin-bottom: 0px;color: white;">
@@ -45,7 +45,7 @@
                 <h4>TANGGAL PEMBELIAN : {{$item->tanggal_beli}}</h4>
                 <h4>TOTAL PEMBELIAN   : Rp. {{number_format($total)}}</h4>
                 <hr>
-
+                <div style="padding: 2%">
                 <table width="100%" class="table table-light" style="margin-top: 30px;"  >
                     <thead class="thead-dark">
                         <tr>
@@ -68,6 +68,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                </div>
                 <h4 style="margin-bottom: 10%;text-align:right;">Total  : Rp. {{number_format($total)}}</h4>
             @endforeach
         </div>
