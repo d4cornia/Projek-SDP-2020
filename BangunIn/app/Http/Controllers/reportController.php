@@ -52,7 +52,70 @@ class reportController extends Controller
         // return view('kontraktor.Report.report_pekerjaan_khusus', $data);
     }
 
-    public function rBudgetingMandor()
+    public function indexPeriode()
+    {
+        return view('kontraktor.Report.index_periode');
+    }
+
+    public function searchPeriode(Request $req)
+    {
+        $fday = intval(date('d', strtotime($req->periodeAwal)));
+        $fmonth = intval(date('m', strtotime($req->periodeAwal)));
+        $fyear = intval(date('Y', strtotime($req->periodeAwal)));
+        $eday = intval(date('d', strtotime($req->periodeAkhir)));
+        $emonth = intval(date('m', strtotime($req->periodeAkhir)));
+        $eyear = intval(date('Y', strtotime($req->periodeAkhir)));
+        if ($eyear >= $fyear && $emonth >= $fmonth && $eday >= $fday) {
+            if ($req->mode == "all_proyek") {
+                // return redirect('/report/budgetMandor/' . $req->periodeAwal . '/' . $req->periodeAkhir);
+            } else if ($req->mode == "req_mandor") {
+                return redirect('/report/budgetMandor/' . $req->periodeAwal . '/' . $req->periodeAkhir);
+            } else if ($req->mode == "gaji_tukang") {
+                return redirect('/report/gajiAllTukang/' . $req->periodeAwal . '/' . $req->periodeAkhir);
+            }
+        }
+        return view('kontraktor.Report.index_periode');
+    }
+
+    public function gajiAllTukang($tglAwal, $tglAkhir)
+    {
+        $m = new mandor();
+        $ab = new absen_harian();
+
+        $temp = $ab->orderBy('tanggal_absen', 'asc')->get();
+        $fday = intval(date('d', strtotime($tglAwal)));
+        $fmonth = intval(date('m', strtotime($tglAwal)));
+        $fyear = intval(date('Y', strtotime($tglAwal)));
+        $eday = intval(date('d', strtotime($tglAkhir)));
+        $emonth = intval(date('m', strtotime($tglAkhir)));
+        $eyear = intval(date('Y', strtotime($tglAkhir)));
+        $header = null;
+        if ($temp !== null) {
+            foreach ($temp as $item) {
+                $tglHari = intval(date('d', strtotime($item['tanggal_absen'])));
+                $tglBulan = intval(date('m', strtotime($item['tanggal_absen'])));
+                $tglTahun = intval(date('Y', strtotime($item['tanggal_absen'])));
+                // dd($tglHari);
+                if (
+                    $tglTahun >= $fyear && $tglTahun <= $eyear
+                    && $tglBulan >= $fmonth && $tglBulan <= $emonth
+                    && $tglHari >= $fday && $tglHari <= $eday
+                ) {
+                    $header[] = $item;
+                }
+            }
+        }
+
+        $data = [
+            'mans' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
+            'header' => $header
+        ];
+        // dd($data);
+        $pdf = PDF::loadView('kontraktor.Report.report_all_gaji_tukang', $data);
+        return $pdf->stream();
+    }
+
+    public function rBudgetingMandor($tglAwal, $tglAkhir)
     {
         $m = new mandor();
         $pu = new permintaan_uang();
@@ -83,6 +146,7 @@ class reportController extends Controller
         return $pdf->stream();
         // return view('kontraktor.Report.report_request_dana_mandor', $data);
     }
+
 
     public function indexKeseluruhan()
     {
@@ -189,35 +253,6 @@ class reportController extends Controller
         return redirect('/kontraktor');
     }
 
-    public function gajiAllTukang()
-    {
-        $m = new mandor();
-        $ab = new absen_harian();
-
-        $temp = $ab->orderBy('tanggal_absen', 'asc')->get();
-        $firstday = date('d/m/Y', strtotime("monday -1 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
-        $header = null;
-        if ($temp !== null) {
-            foreach ($temp as $item) {
-                $tgl = date_create($item['tanggal_absen']);
-                $tgla = new DateTime(date('Y/m/d', strtotime($item['tanggal_absen'])));
-                if ($fd->diff($tgla)->days < 7 && (intval(date_format($tgl, 'd-m-Y')) - intval($firstday)) >= 0) {
-                    $header[] = $item;
-                }
-            }
-        }
-
-        $data = [
-            'mans' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
-            'header' => $header
-        ];
-        // dd($data);
-        $pdf = PDF::loadView('kontraktor.Report.report_all_gaji_tukang', $data);
-        return $pdf->stream();
-        // return view('kontraktor.Report.report_all_gaji_tukang', $data);
-    }
-
     public function indexBuktiPembayaran()
     {
         $allPekerjaan = pekerjaan::all();
@@ -247,16 +282,16 @@ class reportController extends Controller
             join bahan_bangunans as b  on md.id_bahan = b.id_bahan
         */
 
-        $param["toko"] =  DB::table('pembelians as p')->where('p.kode_pekerjaan',$id)
-                    ->join("toko_bangunans as t","t.id_kerjasama","p.id_kerjasama")
-                    ->get();
+        $param["toko"] =  DB::table('pembelians as p')->where('p.kode_pekerjaan', $id)
+            ->join("toko_bangunans as t", "t.id_kerjasama", "p.id_kerjasama")
+            ->get();
 
         $param["data"] = DB::table('memiliki_detail_pembelians as md')
-        ->join("pembelians as p","md.id_pembelian","p.id_pembelian")
-        ->where('p.kode_pekerjaan',$id)
-        ->join("toko_bangunans as t","t.id_kerjasama","p.id_kerjasama")
-        ->join("bahan_bangunans as b","b.id_bahan","md.id_bahan")
-        ->get();
+            ->join("pembelians as p", "md.id_pembelian", "p.id_pembelian")
+            ->where('p.kode_pekerjaan', $id)
+            ->join("toko_bangunans as t", "t.id_kerjasama", "p.id_kerjasama")
+            ->join("bahan_bangunans as b", "b.id_bahan", "md.id_bahan")
+            ->get();
         $pdf = PDF::loadView('kontraktor.Report.report_pembelian_bahan', $param);
         return $pdf->stream();
         //return view('kontraktor.Report.report_pembelian_bahan')->with($param);

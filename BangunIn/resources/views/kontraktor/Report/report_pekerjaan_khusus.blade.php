@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Laporan pekerjaan</title>
 
+    <link href="{{public_path()}}/css/report.css" rel="stylesheet">
     <style type="text/css">
         .page-break {
             page-break-after: always;
@@ -73,17 +74,60 @@
             </tr>
         </table>
     </div>
-    <br/>
     <div class="invoice">
-        <center><h1>{{$work->nama_pekerjaan}}</h1></center>
         <hr>
-        @if ($spWork !== null)
+        <center><h1>Rekap Pekerjaan {{$work->nama_pekerjaan}}</h1></center>
+        <hr>
+        @if ($spWork !== null && count($spWork) > 0)
+            <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>No</th>
+                        <th>Keterangan Pekerjaan Khusus</th>
+                        <th>Total Pembelian Bahan</th>
+                        <th>Total Jasa</th>
+                        <th>Total Keseluruhan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        @php
+                            $gt = 0;
+                        @endphp
+                        @foreach ($spWork as $pk)
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$pk->keterangan_pk}}</td>
+                                <td align="right">Rp. {{number_format($pk->total_bahan)}}</td>
+                                <td align="right">Rp. {{number_format($pk->total_jasa)}}</td>
+                                <td align="right">Rp. {{number_format($pk->total_keseluruhan)}}</td>
+                            </tr>
+                            @php
+                                $gt += $pk->total_keseluruhan;
+                            @endphp
+                        @endforeach
+                        <tr class="table-info">
+                            <td colspan="3"></td>
+                            <td>Grand Total</td>
+                            <td align="right">
+                                Rp. {{number_format($gt)}}
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+        @else
+            <h3>Tidak Ada Pekerjaan Khusus</h3>
+        @endif
+        <div class="page-break"></div>
+        <br><hr>
+        <center><h1>Detail Pekerjaan Khusus</h1></center>
+        <hr>
+        @if ($spWork !== null && count($spWork) > 0)
             @foreach ($spWork as $pk)
-                <h3>Pekerjaan Khusus {{$pk->keterangan_pk}}</h3>
+                <h2>Pekerjaan Khusus {{$pk->keterangan_pk}}</h2>
 
                 @if ($pk->bahans !== null && count($pk->bahans) > 0)
                     @foreach ($pk->bahans as $b)
-                        <h6>Tanggal beli : {{$b->pembelian->tanggal_beli}}</h6>
+                        <h5>Tanggal beli : {{$b->pembelian->tanggal_beli}}</h5>
                         <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
                             <thead class="thead-dark">
                                 <tr>
@@ -102,9 +146,9 @@
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$item->bhn->nama_bahan}}</td>
                                             <td>{{$item->jumlah_barang}}</td>
-                                            <td align="left">Rp. {{number_format($item->harga_satuan)}}</td>
-                                            <td align="left">{{$item->persen_diskon}}%</td>
-                                            <td align="left">Rp. {{number_format($item->subtotal)}}</td>
+                                            <td align="right">Rp. {{number_format($item->harga_satuan)}}</td>
+                                            <td align="right">{{$item->persen_diskon}}%</td>
+                                            <td align="right">Rp. {{number_format($item->subtotal)}}</td>
                                         </tr>
                                     @endforeach
                                 @else
@@ -112,13 +156,13 @@
                                         <td>#</td>
                                         <td>-</td>
                                         <td>-</td>
-                                        <td align="left">-</td>
+                                        <td align="right">-</td>
                                     </tr>
                                 @endif
                                 <tr  class="table-info">
                                     <td colspan="4"></td>
                                     <td>Total Pembelian Bahan </td>
-                                    <td align="left">
+                                    <td align="right">
                                         Rp. {{number_format($b->pembelian->total_pembelian)}}
                                     </td>
                                 </tr>
@@ -126,26 +170,15 @@
                         </table>
                     @endforeach
                 @endif
-                <h6>Total Keseluruhan Pembelian Bahan : Rp. {{number_format($pk->total_bahan)}} </h6>
-                <h6>Total Jasa : Rp. {{number_format($pk->total_jasa)}} </h6>
-                <h6>Total Keseluruhan : Rp. {{number_format($pk->total_keseluruhan)}} </h6>
-                <br><br><br>
+                <h5>Total Keseluruhan Pembelian Bahan : Rp. {{number_format($pk->total_bahan)}} </h5>
+                <h5>Total Jasa : Rp. {{number_format($pk->total_jasa)}} </h5>
+                <h5>Total Keseluruhan : Rp. {{number_format($pk->total_keseluruhan)}} </h5>
+                <br>
             @endforeach
+        @else
+            <h3>Tidak Ada Pekerjaan Khusus</h3>
         @endif
     </div>
-
-    {{-- <div class="information" style="position: absolute; bottom: 0;">
-        <table>
-            <tr>
-                <td align="left" style="width: 50%;">
-                    &copy; {{ date('Y') }} {{ config('app.url') }} - All rights reserved.
-                </td>
-                <td align="right" style="width: 50%;">
-                    Company Slogan
-                </td>
-            </tr>
-        </table>
-    </div> --}}
 </div>
 </body>
 </html>
