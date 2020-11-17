@@ -59,8 +59,8 @@ class reportController extends Controller
         $req = null;
 
         $temp = $pu->orderBy('tanggal_permintaan_uang', 'asc')->get();
-        $firstday = date('d/m/Y', strtotime("monday -1 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
+        $firstday = date('d/m/Y', strtotime("monday 0 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("monday 0 week")));
         if ($temp !== null) {
             foreach ($temp as $item) {
                 $tgl = date_create($item['tanggal_permintaan_uang']);
@@ -108,76 +108,83 @@ class reportController extends Controller
         $ab = new absen_harian();
         $work = $p->where('kode_pekerjaan', $req->work)->get()->first();
         $temp = $m->find($work->kode_mandor)->get()->first();
-        $firstAbsen = $ab->where('kode_pekerjaan', $req->work)
+        if ($ab->where('kode_pekerjaan', $req->work)
             ->orderBy('tanggal_absen', 'asc')
-            ->get()->first();
+            ->exists()
+        ) {
+            $firstAbsen = $ab->where('kode_pekerjaan', $req->work)
+                ->orderBy('tanggal_absen', 'asc')
+                ->get()->first();
 
-        $fd = new DateTime(date('Y/m/d', strtotime("today")));
-        $tgla = new DateTime(date('Y/m/d', strtotime($firstAbsen['tanggal_absen'])));
-        // dd($tgla);
-        // dd((int)($fd->diff($tgla)->days / 7));
+            $fd = new DateTime(date('Y/m/d', strtotime("today")));
+            $tgla = new DateTime(date('Y/m/d', strtotime($firstAbsen['tanggal_absen'])));
+            // dd($tgla);
+            // dd((int)($fd->diff($tgla)->days / 7));
 
-        $total = 0;
-        $bahan = 0;
-        $pk = 0;
-        $tp = 0;
+            $total = 0;
+            $bahan = 0;
+            $pk = 0;
+            $tp = 0;
 
-        if ($temp->tukangs !== null && count($temp->tukangs) > 0) {
-            foreach ($temp->tukangs as $item) {
-                $ctr = 0;
-                $lembur = 0;
-                $header = $ab->where('kode_pekerjaan', $req->work)->get(); // header per hari
-                if ($header !== null) {
-                    foreach ($header as $h) {
-                        if ($h->details !== null) {
-                            foreach ($h->details as $d) {
-                                if ($d->kode_tukang == $item['kode_tukang']) {
-                                    if ($d->buktiAbsen->konfirmasi_absen == '1') {
-                                        $ctr++;
-                                        $lembur += $d->ongkos_lembur;
+            if ($temp->tukangs !== null && count($temp->tukangs) > 0) {
+                foreach ($temp->tukangs as $item) {
+                    $ctr = 0;
+                    $lembur = 0;
+                    $header = $ab->where('kode_pekerjaan', $req->work)->get(); // header per hari
+                    if ($header !== null) {
+                        foreach ($header as $h) {
+                            if ($h->details !== null) {
+                                foreach ($h->details as $d) {
+                                    if ($d->kode_tukang == $item['kode_tukang']) {
+                                        if ($d->buktiAbsen->konfirmasi_absen == '1') {
+                                            $ctr++;
+                                            $lembur += $d->ongkos_lembur;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+
+                    $total += ($ctr * $item['gaji_pokok_tukang']) + $lembur;
                 }
-
-                $total += ($ctr * $item['gaji_pokok_tukang']) + $lembur;
             }
+
+            if ($work->pk !== null) {
+                foreach ($work->pk as $item) {
+                    $pk += $item['total_keseluruhan'];
+                }
+            }
+
+            if ($work->pembelian !== null) {
+                foreach ($work->pembelian as $item) {
+                    $bahan += $item['total_pembelian'];
+                }
+            }
+
+            // total pembayaran client
+            if ($work->pc !== null) {
+                foreach ($work->pc as $item) {
+                    $tp += $item['jumlah_pembayaran_client'];
+                }
+            }
+
+            $data = [
+                'work' => $work,
+                'tukang' => $total,
+                'minggu' => ((int)($fd->diff($tgla)->days / 7)),
+                'hari' => (($fd->diff($tgla)->days % 7)),
+                'bahan' => $bahan,
+                'pk' => $pk,
+                'total_pembayaran' => $tp
+            ];
+
+            $pdf = PDF::loadView('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
+            return $pdf->stream();
         }
 
-        if ($work->pk !== null) {
-            foreach ($work->pk as $item) {
-                $pk += $item['total_keseluruhan'];
-            }
-        }
-
-        if ($work->pembelian !== null) {
-            foreach ($work->pembelian as $item) {
-                $bahan += $item['total_pembelian'];
-            }
-        }
-
-        // total pembayaran client
-        if ($work->pc !== null) {
-            foreach ($work->pc as $item) {
-                $tp += $item['jumlah_pembayaran_client'];
-            }
-        }
-
-        $data = [
-            'work' => $work,
-            'tukang' => $total,
-            'minggu' => ((int)($fd->diff($tgla)->days / 7)),
-            'hari' => (($fd->diff($tgla)->days % 7)),
-            'bahan' => $bahan,
-            'pk' => $pk,
-            'total_pembayaran' => $tp
-        ];
-
-        $pdf = PDF::loadView('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
-        return $pdf->stream();
-        // return view('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
+        session()->put('err', 'Belum ada absen!');
+        return redirect('/kontraktor');
     }
 
     public function gajiAllTukang()
@@ -186,8 +193,9 @@ class reportController extends Controller
         $ab = new absen_harian();
 
         $temp = $ab->orderBy('tanggal_absen', 'asc')->get();
-        $firstday = date('d/m/Y', strtotime("monday -1 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
+        $firstday = date('d/m/Y', strtotime("monday 0 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("monday 0 week")));
+        $header = null;
         if ($temp !== null) {
             foreach ($temp as $item) {
                 $tgl = date_create($item['tanggal_absen']);
