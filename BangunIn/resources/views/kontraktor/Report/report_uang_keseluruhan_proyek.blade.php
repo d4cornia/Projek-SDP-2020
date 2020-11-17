@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Laporan pekerjaan</title>
-    <link rel="stylesheet" type="text/css" href="{{public_path()}}/css/cssB/bootstrap.min.css">
-
     <style type="text/css">
         .page-break {
             page-break-after: always;
