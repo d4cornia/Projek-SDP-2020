@@ -24,7 +24,7 @@
     }
     </style>
     <div class="d-none d-lg-block text-center" style="height: 100%;overflow-y:auto">
-        tetst
+
         <img class="mx-auto mt-5" style="padding-left: 4vh" width="50%" src="/assets/logo_perusahaan/{{session()->get('lgperusahaan')}}">
             <h4 class="judul pt-3">{{session()->get('nmperusahaan')}}</h4>
             <hr>
