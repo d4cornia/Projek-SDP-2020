@@ -1,89 +1,96 @@
 @extends('layout.layout')
 
 @section('side-navbar')
-<div class="d-none d-lg-block">
-    <img class="mx-auto" style="padding-left: 4vh" width="80%" src="/assets/logo_perusahaan/{{session()->get('lgperusahaan')}}">
+<style>
+    .dropdowns{
+        background-color: white;
+        color:#4c4c4c;
+        text-align: left;
+        margin-top: 2vh;
+        margin-bottom: 2vh;
+    }
+    .dropdowns:hover{
+        background-color: white;
+        color:#4c4c4c;
+    }
+    .but:{
+        border: 2px solid white;
+    }.dropdown-toggle{
+        margin-bottom: 10%;
+    }
+    ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+</style>
+<div class="d-none d-lg-block text-center" style="height: 100%;overflow-y:auto">
+    <img class="mx-auto mt-5" style="padding-left: 4vh" width="50%" src="/assets/logo_perusahaan/{{session()->get('lgperusahaan')}}">
     <h4 class="judul pt-3">{{session()->get('nmperusahaan')}}</h4>
     <hr>
-    <div class="btn-group nav-side">
-        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Welcome,<br>{{session()->get('nama')}}
-        </button>
-        <div class="dropdown-menu">
-            {{--Dropdown Client--}}
-            <a class="dropdown-item" href="/logout">Log Out</a>
-            <a class="dropdown-item" href="/kontraktor/edProfile">Edit Profile Perusahaan</a>
-        </div>
-    </div>
 
-    <div class="btn-group nav-side">
-        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Client
-        </button>
-        <div class="dropdown-menu">
-            {{--Dropdown Client--}}
-            <a class="dropdown-item" href="/kontraktor/lihatClient">Lihat Client</a>
-            <a class="dropdown-item" href="/kontraktor/addClient">Tambah Client</a>
-            <a class="dropdown-item" href="/kontraktor/show">Input Pembayaran Client</a>
-            <a class="dropdown-item" href="/kontraktor/listPembayaran">List Pembayaran Client</a>
-            <a class="dropdown-item" href="/kontraktor/listDeleteClient">List Delete Client</a>
-            <a class="dropdown-item" href="/kontraktor/inputTagihan">Input Tagihan</a>
-            <a class="dropdown-item" href="/kontraktor/listTagihan">List Tagihan</a>
-            <a class="dropdown-item" href="/kontraktor/listKomisi">List Pembayaran Komisi</a>
-        </div>
-    </div>
+        <div class=" p-4" style="background-color: white">
+            <button type="button" class="btn btn-link dropdown-toggle w-100  but" data-toggle="collapse" data-target="#tukang2" aria-haspopup="true" aria-expanded="false">
+                Welcome,<br>{{session()->get('nama')}}
+            </button>
+            <div class="collapse" id="tukang2" style="font-size: 2vh">
+                <a class="dropdown-item dropdowns" href="/logout">Log Out</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/edProfile">Edit Profile Perusahaan</a>
 
-    <div class="btn-group nav-side">
-        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Pekerjaan
-        </button>
-        <div class="dropdown-menu">
-            {{--Dropdown Pekerjaan--}}
-            <a class="dropdown-item" href="/kontraktor/lWork">Lihat Pekerjaan</a>
-            <a class="dropdown-item" href="/kontraktor/iSpWork">Lihat Pekerjaan Khusus</a>
-        </div>
-    </div>
+            </div>
+            <button type="button" class="btn btn-link dropdown-toggle w-100  but" data-toggle="collapse" data-target="#tukang3" aria-haspopup="true" aria-expanded="false">
+                Client
+            </button>
+            <div class="collapse" id="tukang3" style="font-size: 2vh">
+                {{--Dropdown Tukang--}}
+                <a class="dropdown-item dropdowns" href="/kontraktor/lihatClient">Lihat Client</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/addClient">Tambah Client</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/show">Input Pembayaran Client</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/listPembayaran">List Pembayaran Client</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/listDeleteClient">List Delete Client</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/inputTagihan">Input Tagihan</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/listTagihan">List Tagihan</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/listKomisi">List Pembayaran Komisi</a>
+            </div>
+            <button type="button" class="btn btn-link dropdown-toggle w-100  but" data-toggle="collapse" data-target="#tukang4" aria-haspopup="true" aria-expanded="false">
+                Pekerjaan
+            </button>
+            <div class="collapse" id="tukang4" style="font-size: 2vh">
+                <a class="dropdown-item dropdowns" href="/kontraktor/lWork">Lihat Pekerjaan</a>
+            <a class="dropdown-item dropdowns" href="/kontraktor/iSpWork">Lihat Pekerjaan Khusus</a>
+            </div>
+            <button type="button" class="btn btn-link dropdown-toggle w-100 but" data-toggle="collapse" data-target="#tukang5" aria-haspopup="true" aria-expanded="false">
+                Mandor
+            </button>
+            <div class="collapse" id="tukang5" style="font-size: 2vh">
+                {{--Dropdown Tukang--}}
+                <a class="dropdown-item dropdowns" href="/kontraktor/lMandor">Lihat Mandor</a>
+            </div>
+            <button type="button" class="btn btn-link dropdown-toggle w-100  but" data-toggle="collapse" data-target="#tukang6" aria-haspopup="true" aria-expanded="false">
+                 Admin
+            </button>
+            <div class="collapse" id="tukang6" style="font-size: 2vh">
+                <a class="dropdown-item dropdowns" href="/kontraktor/lAdmin">Lihat Admin</a>
+            </div>
+            <button type="button" class="btn btn-link dropdown-toggle w-100 but" data-toggle="collapse" data-target="#tukang7" aria-haspopup="true" aria-expanded="false">
+                Request Dana
+           </button>
+           <div class="collapse" id="tukang7" style="font-size: 2vh">
+                <a class="dropdown-item dropdowns" href="/kontraktor/lihatRequest">Konfirmasi Dana</a>
+           </div>
 
-    <div class="btn-group nav-side">
-        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Mandor
-        </button>
-        <div class="dropdown-menu">
-            {{--Dropdown Mandor--}}
-            <a class="dropdown-item" href="/kontraktor/lMandor">Lihat Mandor</a>
-        </div>
-    </div>
-
-    <div class="btn-group nav-side">
-        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Admin
-        </button>
-        <div class="dropdown-menu">
-            {{--Dropdown Admin--}}
-            <a class="dropdown-item" href="/kontraktor/lAdmin">Lihat Admin</a>
-        </div>
-    </div>
-    <div class="btn-group nav-side">
-        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Request Dana
-        </button>
-        <div class="dropdown-menu">
-            {{--Dropdown Admin--}}
-            <a class="dropdown-item" href="/kontraktor/lihatRequest">Konfirmasi Dana</a>
-        </div>
-    </div>
-    <div class="btn-group nav-side">
-        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           <button type="button" class="btn btn-link dropdown-toggle w-100 but" data-toggle="collapse" data-target="#d" aria-haspopup="true" aria-expanded="false">
             Laporan
-        </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="/report/iuangKeseluruhan">Laporan total keseluruhan proyek</a>
-            <a class="dropdown-item" href="/kontraktor/iSpWork">Laporan Detail Pekerjaan</a>
-            <a class="dropdown-item" href="/report/budgetMandor">Laporan pengeluaran mandor</a>
-            <a class="dropdown-item" href="/report/gajiAllTukang">Laporan gaji tukang</a>
-            <a class="dropdown-item" href="/report/buktiPembayaran">Bukti Pembayaran Client</a>
+            </button>
+            <div class="collapse" id="d" style="font-size: 2vh">
+               <a class="dropdown-item" href="/report/iuangKeseluruhan">Laporan total keseluruhan <br>proyek</a>
+            <a class="dropdown-item" href="/kontraktor/iSpWork">Laporan Detail <br>Pekerjaan</a>
+            <a class="dropdown-item" href="/report/budgetMandor">Laporan pengeluaran<br> mandor</a>
+            <a class="dropdown-item" href="/report/gajiAllTukang">Laporan gaji <br>tukang</a>
+            <a class="dropdown-item" href="/report/buktiPembayaran">Bukti Pembayaran <br>Client</a>
+            <a class="dropdown-item" href="/report/iPembelian">Laporan Pembelian Bahan</a>
+            </div>
         </div>
-    </div>
+
 </div>
 @endsection
 @section('mob-navbar')

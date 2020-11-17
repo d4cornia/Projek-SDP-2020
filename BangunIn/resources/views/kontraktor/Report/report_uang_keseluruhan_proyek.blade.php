@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Laporan pekerjaan</title>
-    <link rel="stylesheet" type="text/css" href="/css/cssB/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{public_path()}}/css/cssB/bootstrap.min.css">
 
     <style type="text/css">
         .page-break {
@@ -50,9 +50,10 @@
 
 </head>
 <body>
-
 <div class="report">
+
     <div class="information">
+
         <table width="100%">
             <tr>
                 <td align="left" style="width: 20%;">

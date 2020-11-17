@@ -1,0 +1,316 @@
+
+    .page-break {
+            page-break-after: always;
+        }
+        @page {
+            margin: 0px;
+        }
+        body {
+            margin: 0px;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+        table {
+            font-size: small;
+        }
+        tfoot tr td {
+            font-weight: bold;
+            font-size: small;
+        }
+        .information {
+            background-color: #4698db;
+            color: #FFF;
+        }
+        .information .logo {
+            margin: 15px;
+        }
+        .information table {
+            padding: 10px;
+        }
+
+        .isi {
+            padding-right: 25px;
+        }
+
+
+
+        :root {
+            --blue: #007bff;
+            --indigo: #6610f2;
+            --purple: #6f42c1;
+            --pink: #e83e8c;
+            --red: #dc3545;
+            --orange: #fd7e14;
+            --yellow: #ffc107;
+            --green: #28a745;
+            --teal: #20c997;
+            --cyan: #17a2b8;
+            --white: #fff;
+            --gray: #6c757d;
+            --gray-dark: #343a40;
+            --primary: #007bff;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --breakpoint-xs: 0;
+            --breakpoint-sm: 576px;
+            --breakpoint-md: 768px;
+            --breakpoint-lg: 992px;
+            --breakpoint-xl: 1200px;
+            --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+          }
+            .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 1rem;
+            background-color: transparent;
+          }
+
+          .table th,
+          .table td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+          }
+
+          .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+          }
+
+          .table tbody + tbody {
+            border-top: 2px solid #dee2e6;
+          }
+
+          .table .table {
+            background-color: #fff;
+          }
+
+          .table-sm th,
+          .table-sm td {
+            padding: 0.3rem;
+          }
+
+          .table-bordered {
+            border: 1px solid #dee2e6;
+          }
+
+          .table-bordered th,
+          .table-bordered td {
+            border: 1px solid #dee2e6;
+          }
+
+          .table-bordered thead th,
+          .table-bordered thead td {
+            border-bottom-width: 2px;
+          }
+
+          .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+
+          .table-hover tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.075);
+          }
+
+          .table-primary,
+          .table-primary > th,
+          .table-primary > td {
+            background-color: #b8daff;
+          }
+
+          .table-hover .table-primary:hover {
+            background-color: #9fcdff;
+          }
+
+          .table-hover .table-primary:hover > td,
+          .table-hover .table-primary:hover > th {
+            background-color: #9fcdff;
+          }
+
+          .table-secondary,
+          .table-secondary > th,
+          .table-secondary > td {
+            background-color: #d6d8db;
+          }
+
+          .table-hover .table-secondary:hover {
+            background-color: #c8cbcf;
+          }
+
+          .table-hover .table-secondary:hover > td,
+          .table-hover .table-secondary:hover > th {
+            background-color: #c8cbcf;
+          }
+
+          .table-success,
+          .table-success > th,
+          .table-success > td {
+            background-color: #c3e6cb;
+          }
+
+          .table-hover .table-success:hover {
+            background-color: #b1dfbb;
+          }
+
+          .table-hover .table-success:hover > td,
+          .table-hover .table-success:hover > th {
+            background-color: #b1dfbb;
+          }
+
+          .table-info,
+          .table-info > th,
+          .table-info > td {
+            background-color: #bee5eb;
+          }
+
+          .table-hover .table-info:hover {
+            background-color: #abdde5;
+          }
+
+          .table-hover .table-info:hover > td,
+          .table-hover .table-info:hover > th {
+            background-color: #abdde5;
+          }
+
+          .table-warning,
+          .table-warning > th,
+          .table-warning > td {
+            background-color: #ffeeba;
+          }
+
+          .table-hover .table-warning:hover {
+            background-color: #ffe8a1;
+          }
+
+          .table-hover .table-warning:hover > td,
+          .table-hover .table-warning:hover > th {
+            background-color: #ffe8a1;
+          }
+
+          .table-danger,
+          .table-danger > th,
+          .table-danger > td {
+            background-color: #f5c6cb;
+          }
+
+          .table-hover .table-danger:hover {
+            background-color: #f1b0b7;
+          }
+          .table-dark.table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(255, 255, 255, 0.05);
+          }
+          @font-face {
+            font-family: myfont;
+            src: url(Raleway-VariableFont_wght.ttf);
+          }
+          html {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            line-height: 1.15;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            -ms-overflow-style: scrollbar;
+            -webkit-tap-highlight-color: transparent;
+          }
+          body {
+            margin: 0;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            text-align: left;
+            background-color: #fff;
+          }
+          h1, h2, h3, h4, h5, h6 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+          }p {
+            margin-top: 0;
+            margin-bottom: 1rem;
+          }hr {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+          }
+          .container {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+          }
+
+          @media (min-width: 576px) {
+            .container {
+              max-width: 540px;
+            }
+          }
+
+          @media (min-width: 768px) {
+            .container {
+              max-width: 720px;
+            }
+          }
+
+          @media (min-width: 992px) {
+            .container {
+              max-width: 960px;
+            }
+          }
+
+          @media (min-width: 1200px) {
+            .container {
+              max-width: 1140px;
+            }
+          }
+          h1, h2, h3, h4, h5, h6,
+          .h1, .h2, .h3, .h4, .h5, .h6 {
+            margin-bottom: 0.5rem;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-weight: 500;
+            line-height: 1.2;
+            color: inherit;
+          }
+          .row {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+          }
+          .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col,
+          .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm,
+          .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md,
+          .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg,
+          .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl,
+          .col-xl-auto {
+            position: relative;
+            width: 100%;
+            min-height: 1px;
+            padding-right: 15px;
+            padding-left: 15px;
+          }
+          .col-3 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+            max-width: 25%;
+          }
+          .col-4 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 33.333333%;
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+          }

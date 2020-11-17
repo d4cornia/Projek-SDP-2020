@@ -79,11 +79,13 @@
 <body>
     @yield('mob-navbar')
    <div class="row">
-    <div class="col-lg-2 col-md-2 p-5" id="side-nav">
+    <div class="col-lg-2 col-md-2 pl-2" id="side-nav" style="box-shadow:10px 0px 20px rgb(233, 233, 233);height:100%">
         @yield('side-navbar')
     </div>
     <div class="col-lg-10 col-md-12 p-5 d-none d-lg-block" id="content">
+        <div class="pl-5">
         @yield('content')
+        </div>
     </div>
     <div class="col-lg-10 col-md-12 pl-5 pb-5 pr-5 d-lg-none d-sm-block d-md-block "  style="padding-top: 20%">
         @yield('content')
