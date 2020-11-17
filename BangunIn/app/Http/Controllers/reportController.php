@@ -23,6 +23,7 @@ use Barryvdh\Snappy\Facades\SnappyPdf as sPDF;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class reportController extends Controller
@@ -59,12 +60,13 @@ class reportController extends Controller
         $req = null;
 
         $temp = $pu->orderBy('tanggal_permintaan_uang', 'asc')->get();
-        $firstday = date('d/m/Y', strtotime("monday 0 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("monday 0 week")));
+        $firstday = date('d/m/Y', strtotime("monday -1 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
         if ($temp !== null) {
             foreach ($temp as $item) {
                 $tgl = date_create($item['tanggal_permintaan_uang']);
                 $tgla = new DateTime(date('Y/m/d', strtotime($item['tanggal_permintaan_uang'])));
+                // dd($fd);
                 if ($fd->diff($tgla)->days < 7 && (intval(date_format($tgl, 'd-m-Y')) - intval($firstday)) >= 0) {
                     $req[] = $item;
                 }
@@ -193,8 +195,8 @@ class reportController extends Controller
         $ab = new absen_harian();
 
         $temp = $ab->orderBy('tanggal_absen', 'asc')->get();
-        $firstday = date('d/m/Y', strtotime("monday 0 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("monday 0 week")));
+        $firstday = date('d/m/Y', strtotime("monday -1 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
         $header = null;
         if ($temp !== null) {
             foreach ($temp as $item) {
@@ -219,7 +221,7 @@ class reportController extends Controller
     public function indexBuktiPembayaran()
     {
         $allPekerjaan = pekerjaan::all();
-        return view('kontraktor.Report.index_bukti_pembayaran',['listPekerjaan' => $allPekerjaan]);
+        return view('kontraktor.Report.index_bukti_pembayaran', ['listPekerjaan' => $allPekerjaan]);
     }
 
     public function searchPembayaran(Request $request)
@@ -233,5 +235,38 @@ class reportController extends Controller
 
         $pdf = PDF::loadView('kontraktor.Report.report_bukti_pembayaran', $data);
         return $pdf->stream();
+    }
+
+    public function reportPembelian(Request $req)
+    {
+        $id = $req->id_project;
+        /*
+            SELECT t.nama_toko,p.tanggal_beli,b.nama_bahan,b.harga_satuan,md.jumlah_barang,md.subtotal,p.total_pembelian FROM `memiliki_detail_pembelians` as md
+            join pembelians as p on p.id_pembelian = md.id_pembelian
+            join toko_bangunans as t on t.id_kerjasama = p.id_kerjasama
+            join bahan_bangunans as b  on md.id_bahan = b.id_bahan
+        */
+
+        $param["toko"] =  DB::table('pembelians as p')->where('p.kode_pekerjaan',$id)
+                    ->join("toko_bangunans as t","t.id_kerjasama","p.id_kerjasama")
+                    ->get();
+
+        $param["data"] = DB::table('memiliki_detail_pembelians as md')
+        ->join("pembelians as p","md.id_pembelian","p.id_pembelian")
+        ->where('p.kode_pekerjaan',$id)
+        ->join("toko_bangunans as t","t.id_kerjasama","p.id_kerjasama")
+        ->join("bahan_bangunans as b","b.id_bahan","md.id_bahan")
+        ->get();
+        $pdf = PDF::loadView('kontraktor.Report.report_pembelian_bahan', $param);
+        return $pdf->stream();
+        //return view('kontraktor.Report.report_pembelian_bahan')->with($param);
+    }
+    public function indexPembelian()
+    {
+        $p = new pekerjaan();
+        $data = [
+            'work' => $p->where('kode_kontraktor', session()->get('kode'))->get()
+        ];
+        return view('kontraktor.Report.index_report_pembelian_bahan', $data);
     }
 }
