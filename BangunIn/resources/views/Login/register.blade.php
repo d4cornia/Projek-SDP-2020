@@ -27,8 +27,8 @@
       href="assets/homepage/logo.png">
 </head>
 <body class="hold-transition sidebar-mini">
-    <div class="content">
-        <div class="card col-md-4-sm-12 " style="width: 40vw;margin: auto; margin-top: 2vh;box-shadow: 5px 5px 5px rgba(0,0,0,0.4);">
+    <div class="content p-3">
+        <div class="card col-md-6 col-sm-12 " style="margin: auto; margin-top: 2vh;box-shadow: 5px 5px 5px rgba(0,0,0,0.4);">
             <div class="card-header">
                 <h3 style="text-align: center">Register Akun</h3>
             </div>
@@ -117,7 +117,7 @@
             </form>
 
         </div>
-        <div class="card col-md-4-sm-12  p-4 mt-4" style="width: 40vw;margin: auto;box-shadow: 5px 5px 5px rgba(0,0,0,0.4);">
+        <div class="card col-md-6 col-sm-12  p-4 mt-4" style="margin: auto;box-shadow: 5px 5px 5px rgba(0,0,0,0.4);">
             <div class="row">
                 <div class="col-6 my-auto mx-auto ">
                         <h6 class="text-center my-auto">Kembali Ke Home</h6>

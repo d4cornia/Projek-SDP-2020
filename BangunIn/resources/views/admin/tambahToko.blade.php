@@ -7,7 +7,7 @@
 </div>
 
 <div class="row">
-    <div class="col-5">
+    <div class="col-lg-5 col-md-12 col-lg-12">
     <form style='margin-top:50px' method="POST" action="/admin/submitToko" class="needs-validation" novalidate>
             @csrf
 
@@ -38,7 +38,7 @@
             </a>
         </div>
     </div>
-    <div class="col-7">
+    <div class="col-lg-7 col-md-12 col-lg-12">
         <div class="form-group">
             <label for="exampleInputEmail1">Nama Toko</label>
             <input type="text" class="form-control" name="name" value="{{old('name')}}" required>

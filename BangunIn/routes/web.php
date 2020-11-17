@@ -269,6 +269,9 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'report'], function () {
     Route::get('/pekerjaan/{n?}', 'reportController@rPekerjaan');
     Route::get('/budgetMandor', 'reportController@rBudgetingMandor');
+    Route::get('/gajiAllTukang', 'reportController@gajiAllTukang');
     Route::get('/iuangKeseluruhan', 'reportController@indexKeseluruhan');
+    Route::get('/buktiPembayaran', 'reportController@indexBuktiPembayaran');
     Route::post('/search', 'reportController@uangKeseluruhanProyek');
+    Route::post('/searchPembayaran', 'reportController@searchPembayaran');
 });

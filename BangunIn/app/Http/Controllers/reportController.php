@@ -13,14 +13,17 @@ use App\memiliki_detail_bon;
 use App\pekerjaan;
 use App\pekerjaan_khusus;
 use App\pembayaran_bon_tukang;
+use App\pembayaran_client;
 use App\permintaan_uang;
 use App\pk_dana;
 use App\Rules\cbRequired;
 use App\tukang;
+use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\Snappy\Facades\SnappyPdf as sPDF;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
-use PDF;
 
 class reportController extends Controller
 {
@@ -40,9 +43,12 @@ class reportController extends Controller
             'spWork' => $spWork,
             'work' => $work
         ];
-        // $pdf = PDF::loadview('kontraktor.Report.report_pekerjaan_khusus', $data);
-        // return $pdf->download('pekerjaan_' . $work->nama_pekerjaan . '.pdf');
-        return view('kontraktor.Report.report_pekerjaan_khusus', $data);
+
+        // $pdf = App::make('dompdf.wrapper');
+        // $pdf->loadHTML('<h1>Test</h1>');
+        $pdf = PDF::loadView('kontraktor.Report.report_pekerjaan_khusus', $data);
+        return $pdf->stream();
+        // return view('kontraktor.Report.report_pekerjaan_khusus', $data);
     }
 
     public function rBudgetingMandor()
@@ -53,8 +59,8 @@ class reportController extends Controller
         $req = null;
 
         $temp = $pu->orderBy('tanggal_permintaan_uang', 'asc')->get();
-        $firstday = date('d/m/Y', strtotime("sunday -1 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("sunday -1 week")));
+        $firstday = date('d/m/Y', strtotime("monday -1 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
         if ($temp !== null) {
             foreach ($temp as $item) {
                 $tgl = date_create($item['tanggal_permintaan_uang']);
@@ -70,7 +76,10 @@ class reportController extends Controller
             'req' => $req
         ];
         // dd($data);
-        return view('kontraktor.Report.report_request_dana_mandor', $data);
+
+        $pdf = PDF::loadView('kontraktor.Report.report_request_dana_mandor', $data);
+        return $pdf->stream();
+        // return view('kontraktor.Report.report_request_dana_mandor', $data);
     }
 
     public function indexKeseluruhan()
@@ -105,30 +114,35 @@ class reportController extends Controller
 
         $fd = new DateTime(date('Y/m/d', strtotime("today")));
         $tgla = new DateTime(date('Y/m/d', strtotime($firstAbsen['tanggal_absen'])));
-        dd((int)($fd->diff($tgla)->days / 7));
+        // dd($tgla);
+        // dd((int)($fd->diff($tgla)->days / 7));
 
         $total = 0;
         $bahan = 0;
         $pk = 0;
         $tp = 0;
 
-        if (count($temp->tukangs) > 0) {
+        if ($temp->tukangs !== null && count($temp->tukangs) > 0) {
             foreach ($temp->tukangs as $item) {
                 $ctr = 0;
                 $lembur = 0;
                 $header = $ab->where('kode_pekerjaan', $req->work)->get(); // header per hari
-                foreach ($header as $h) {
-                    if ($h->details !== null) {
-                        foreach ($h->details as $d) {
-                            if ($d->kode_tukang == $item['kode_tukang'] && $d->buktiAbsen->konfirmasi_absen == '1') {
-                                $ctr++;
-                                $lembur += $d->ongkos_lembur;
+                if ($header !== null) {
+                    foreach ($header as $h) {
+                        if ($h->details !== null) {
+                            foreach ($h->details as $d) {
+                                if ($d->kode_tukang == $item['kode_tukang']) {
+                                    if ($d->buktiAbsen->konfirmasi_absen == '1') {
+                                        $ctr++;
+                                        $lembur += $d->ongkos_lembur;
+                                    }
+                                }
                             }
                         }
                     }
                 }
 
-                $total += (($ctr / 6) * $item['gaji_pokok_tukang']) + $lembur;
+                $total += ($ctr * $item['gaji_pokok_tukang']) + $lembur;
             }
         }
 
@@ -140,11 +154,16 @@ class reportController extends Controller
 
         if ($work->pembelian !== null) {
             foreach ($work->pembelian as $item) {
-                $pk += $item['total_keseluruhan'];
+                $bahan += $item['total_pembelian'];
             }
         }
 
         // total pembayaran client
+        if ($work->pc !== null) {
+            foreach ($work->pc as $item) {
+                $tp += $item['jumlah_pembayaran_client'];
+            }
+        }
 
         $data = [
             'work' => $work,
@@ -155,6 +174,56 @@ class reportController extends Controller
             'pk' => $pk,
             'total_pembayaran' => $tp
         ];
-        return view('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
+
+        $pdf = PDF::loadView('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
+        return $pdf->stream();
+        // return view('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
+    }
+
+    public function gajiAllTukang()
+    {
+        $m = new mandor();
+        $ab = new absen_harian();
+
+        $temp = $ab->orderBy('tanggal_absen', 'asc')->get();
+        $firstday = date('d/m/Y', strtotime("monday -1 week"));
+        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
+        if ($temp !== null) {
+            foreach ($temp as $item) {
+                $tgl = date_create($item['tanggal_absen']);
+                $tgla = new DateTime(date('Y/m/d', strtotime($item['tanggal_absen'])));
+                if ($fd->diff($tgla)->days < 7 && (intval(date_format($tgl, 'd-m-Y')) - intval($firstday)) >= 0) {
+                    $header[] = $item;
+                }
+            }
+        }
+
+        $data = [
+            'mans' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
+            'header' => $header
+        ];
+        // dd($data);
+        $pdf = PDF::loadView('kontraktor.Report.report_all_gaji_tukang', $data);
+        return $pdf->stream();
+        // return view('kontraktor.Report.report_all_gaji_tukang', $data);
+    }
+
+    public function indexBuktiPembayaran()
+    {
+        $allPekerjaan = pekerjaan::all();
+        return view('kontraktor.Report.index_bukti_pembayaran',['listPekerjaan' => $allPekerjaan]);
+    }
+
+    public function searchPembayaran(Request $request)
+    {
+        $work = $request->input('work');
+        $w = new pekerjaan();
+        $tmp = $w->find($work);
+        $data = [
+            'pembayaranPekerjaan' => $tmp
+        ];
+
+        $pdf = PDF::loadView('kontraktor.Report.report_bukti_pembayaran', $data);
+        return $pdf->stream();
     }
 }

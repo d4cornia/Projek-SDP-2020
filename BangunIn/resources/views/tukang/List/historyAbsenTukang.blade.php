@@ -79,7 +79,7 @@
                                         <td>-</td>
                                     @else
                                     <td><a target="_blank" href="/assets/absen_tukang/{{$item->bukti_foto_absen}}" alt="/assets/default_tukang.png">
-                                        <img src="/assets/absen_tukang/{{$item->bukti_foto_absen}}"  alt="/assets/default_tukang.png">
+                                        <img src="/assets/absen_tukang/{{$item->bukti_foto_absen}}" class="img-fluid" alt="/assets/default_tukang.png">
                                     </a></td>
                                     @endif
                                     @if ($mode == 2 && $item->status_komplain == '0' && $item->konfirmasi_absen != '1'){{-- Komplain --}}

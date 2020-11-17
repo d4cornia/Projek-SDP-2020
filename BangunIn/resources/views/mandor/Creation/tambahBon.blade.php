@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>Tambah Bon</h1>
-<div class="option" style="margin-left:91%">
+<div class="col-12 text-right">
     <a class="btn btn-primary"  href="/mandor/lihatBon">Lihat Bon</a>
 </div>
 <form method="POST" action="/mandor/submitRegBon" class="needs-validation" novalidate>

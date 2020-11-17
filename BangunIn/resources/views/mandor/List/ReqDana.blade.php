@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>List Request Dana</h1>
-    <div class="option" style="float:right;">
+    <div class="col-12 text-right">
         <a class="btn btn-primary"  href="/mandor/requestDana">Tambah Request Dana</a>
     </div>
     <br>

@@ -30,6 +30,14 @@
                             <td style="color: green;">+{{$totalPekerjaanKhusus}}</td>
                         </tr>
                         <tr>
+                            @isset($ongkos_lembur)
+                                <td>Ongkos Lembur</td>
+                                <td>{{$pekerjaanKhusus}}</td>
+                                <td style="color: green;">+{{$ongkos_lembur}}</td>
+                            @endisset
+
+                        </tr>
+                        <tr>
                             @isset($totalBonTukang)
                                 <td>Bon Tukang</td>
                                 <td>{{$jumlahBon}}</td>

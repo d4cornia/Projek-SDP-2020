@@ -222,14 +222,24 @@ class pekerjaan extends Model
         return $this::where('kode_mandor', $kodeMandor)->get();
     }
 
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'kode_client');
+    }
+
     public function pk()
     {
         return $this->hasMany(pekerjaan_khusus::class, 'kode_pekerjaan');
     }
 
 
-    public function bahans()
+    public function pembelian()
     {
         return $this->hasMany(pembelian::class, 'kode_pekerjaan');
+    }
+
+    public function pc()
+    {
+        return $this->hasMany(pembayaran_client::class, 'kode_pekerjaan');
     }
 }

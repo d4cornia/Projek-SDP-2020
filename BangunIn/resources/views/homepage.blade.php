@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pushbar.js@1.0.0/src/pushbar.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/pushbar.js@1.0.0/src/pushbar.min.css" rel="stylesheet">
     <link rel="icon"
       type="image/png"
       href="assets/homepage/logo.png">
@@ -57,12 +59,25 @@
             transform: scale(1.02);
             box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
         }
-
+        .dropdowns{
+                background-color: #2d3338;
+                color:white;
+                text-align: center;
+                padding: 20px;
+            }
+            .dropdowns:hover{
+                background-color: #2d3338;
+                color:white;
+            }
+            .but:{
+                border: 2px solid white;
+            }
 
     </style>
 </head>
 <body >
-    <div class="container" id="home">
+
+    <div class="container d-none d-md-block d-lg-block" id="home">
         <div class="w-100 " style="position: fixed;z-index:2;">
             <div class="row tops pt-4 pb-2" id="nav">
                 <span><img src="assets/homepage/logo.png" width="35vh" style="margin-top: 15%"></span>
@@ -80,27 +95,52 @@
                 </div>
             </div>
         </div>
+
+    </div>
+        <div class="pos-f-t d-lg-none d-md-none fixed-top">
+            <div class="w-100 text-center">
+                <nav class="navbar navbar-dark bg-dark" >
+                    <div class="row w-100">
+                        <div class="col-9">
+                                <h4 class="header menu " style="text-align: left"><span><img src="assets/homepage/logo.png" width="35vh" class="mr-2"></span>Bangun.in</h4>
+                        </div>
+                        <div class="col-3 pl-5">
+                            <button class="navbar-toggler mr-auto" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="panel-collapse collapse" id="navbarToggleExternalContent">
+                        <a href="#home" class="dropdown-item dropdowns">Beranda</a>
+                        <a href="#fitur" class="dropdown-item dropdowns">Fitur</a>
+                        <a href="#contact" class="dropdown-item dropdowns">Contact Us</a>
+                        <a href="/vlogin" class="dropdown-item dropdowns">Login</a>
+                </div>
+              </div>
+          </div>
     </div>
     <section class="w-100" style="background-color:#1e88e5; height:100vh" id="tentang">
         <div class="container pt-3" >
             <div class="row">
-                <div class="col-5">
+                <div class="col-lg-5 col-sm-12">
                     <h1 class="header" style="margin-top: 25vh;font-size:7vh">Atur semua <br>Project pembangunan <br>dalam satu web</h1>
                     <a href="/register"><button type="button" class="btn btn-outline-light w-50 mt-3" style="border-radius: 200px">Daftar Sekarang</button><br></a>
                     <img src="/assets/homepage/shadow.png" class="mt-5"style="width: 30vh">
                 </div>
-                <div class="col-7">
+                <div class="col-7 d-none d-md-block d-lg-block">
                     <img src="/assets/homepage/home.png" style="width: 100vh;margin-top:20%;margin-right:5% ">
                 </div>
             </div>
         </div>
     </section>
-    <div class="col-12" style="position: sticky;width:100%;height:80px;background-color:#1e88e5;top: 0;color:#4c4c4c;z-index:1"></div>
-    <section  class="w-100 " id="fitur" style="height:100vh;padding-top:10%;margin-bottom:5%;">
+    <div class="col-12 d-none d-md-block d-lg-block" style="position: sticky;width:100%;height:80px;background-color:#1e88e5;top: 0;color:#4c4c4c;z-index:1"></div>
+    <section  class="w-100 " id="fitur" style="height:auto;padding-top:10%;margin-bottom:5%;">
         <div class="container">
             <h2 class=" heading text-center mb-3"  style="color:#1e88e5">Fitur Bangun.in</h2>
             <hr class="text-center" style="width: 20%">
-            <ul class="nav nav-pills mb-3 text-center" style="padding-left: 40vh;" id="pills-tab" role="tablist">
+            <ul class="nav nav-pills mb-3 text-center"  style="padding-left:30%;" id="pills-tab" role="tablist">
                 <li class="nav-item">
                   <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Kontraktor</a>
                 </li>
@@ -117,7 +157,7 @@
             <div class="tab-content mx-auto" id="pills-tabContent" style="padding:5%;color:#1e88e5;padding-top:2%">
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-lg-3 col-sm-12">
                             <div class="card text-center heading hoverable" >
                                 <div class="col-12">
                                     <ion-icon name="person-add-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -137,10 +177,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-6 col-sm-12">
                             <div class="card text-center heading hoverable" >
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-lg-6 col-sm-12">
                                         <div class="col-12">
                                             <ion-icon name="folder-open-outline" class="pt-4" style="font-size: 5vh;"></ion-icon>
                                          </div>
@@ -149,7 +189,7 @@
                                             <p class="card-text" style="font-size: 2vh">Kontraktor dapat menambah data Pekerjaan baru</p>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-lg-6 col-sm-12">
                                         <div class="col-12">
                                             <ion-icon name="albums-outline" class="pt-4" style="font-size: 5vh;"></ion-icon>
                                         </div>
@@ -161,7 +201,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="card text-center heading hoverable mt-3 pt-4 pb-3" >
                                         <div class="col-12">
                                             <ion-icon name="bar-chart-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -172,7 +212,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="card text-center heading hoverable mt-3 pt-4 pb-3" >
                                         <div class="col-12">
                                             <ion-icon name="eye-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -185,7 +225,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-3 col-sm-12">
                             <div class="card text-center heading hoverable" >
                                 <div class="col-12">
                                     <ion-icon name="wallet-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -201,10 +241,10 @@
                 </div>
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-lg-6 col-sm-12">
                             <div class="card text-center heading hoverable mt-2 pt-4 pb-3" >
                                 <div class="row">
-                                    <div class="col-6" style="border-right: 2px solid gray;">
+                                    <div class="col-lg-6 col-sm-12" style="border-right: 2px solid gray;">
                                         <div class="col-12">
                                             <ion-icon name="construct-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
                                         </div>
@@ -213,7 +253,7 @@
                                             <p class="card-text" style="font-size: 2vh">Mandor dapat menambah data tukang baru</p>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-lg-6 col-sm-12">
                                         <div class="col-12">
                                             <ion-icon name="build-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
                                         </div>
@@ -225,7 +265,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="card text-center heading hoverable mt-2 pt-4 pb-3" >
                                         <div class="col-12">
                                             <ion-icon name="cash-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -236,7 +276,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="card text-center heading hoverable mt-2 pt-4 pb-3" >
                                         <div class="col-12">
                                             <ion-icon name="newspaper-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -249,7 +289,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-3 col-sm-12">
                             <div class="card text-center heading hoverable mt-2 pt-4 pb-3" >
                                 <div class="col-12">
                                     <ion-icon name="checkmark-done-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -269,7 +309,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-3 col-sm-12">
                             <div class="card text-center heading hoverable mt-2 pt-4 pb-3" >
                                 <div class="col-12">
                                     <ion-icon name="calendar-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -293,7 +333,7 @@
                 </div>
                 <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-lg-3 col-sm-12">
                             <div class="card text-center heading hoverable mt-2 pt-4 pb-3" >
                                 <div class="col-12">
                                     <ion-icon name="home-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -306,7 +346,7 @@
 
 
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-3 col-sm-12">
                             <div class="card text-center heading hoverable mt-2 pt-4 pb-3" >
                                 <div class="col-12">
                                     <ion-icon name="document-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -317,7 +357,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-3 col-sm-12">
                             <div class="card text-center heading hoverable mt-2 pt-4 pb-3" >
                                 <div class="col-12">
                                     <ion-icon name="cube-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -332,7 +372,7 @@
                 </div>
                 <div class="tab-pane fade" id="pills-tukang" role="tabpanel" aria-labelledby="pills-profile-tukang">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-lg-3 col-sm-12">
                             <div class="card text-center heading hoverable mt-2 pt-4 pb-3" >
                                 <div class="col-12">
                                     <ion-icon name="calendar-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -343,7 +383,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-3 col-sm-12">
                             <div class="card text-center heading hoverable mt-2 pt-4 pb-3" >
                                 <div class="col-12">
                                     <ion-icon name="checkmark-done-outline" class="pt-3" style="font-size: 5vh;"></ion-icon>
@@ -360,21 +400,21 @@
         </div>
     </section>
     <div class="col-12" style="position: sticky;width:100%;height:80px;background-color:#1e88e5;top: 0;color:#4c4c4c;z-index:1"></div>
-    <section style="height:115vh;padding-top:10%;background-color:#1e88e5;" id="contact">
+    <section style="height:auto;padding-top:10%;background-color:#1e88e5;" id="contact">
         <div class="container" style="padding-top: 1%;padding-bottom: 2%;box-shadow: 0px 0px 20px #145d9c;margin-top:1%;">
-            <div class="col-12" style="padding-bottom: 5%;">
+            <div class="col-lg-12 col-sm-12" style="padding-bottom: 5%;">
                 <h1 class="text-center header" style="margin-top: 6%">Segera Daftarkan Perusahaan anda</h1>
                 <form action="/register" method="get" class="mt-5">
                     @csrf
                     <div class="row">
-                        <div class="col-1 mr-5"></div>
-                        <div class="col-4">
+                        <div class="col-lg-1 col-sm-0 mr-5"></div>
+                        <div class="col-lg-4 col-sm-2 mb-2">
                             <input type="text" name="nm" class="form-control" placeholder="Nama Perusahaan">
                         </div>
-                        <div class="col-4">
+                        <div class="col-lg-4 col-sm-2 mb-2">
                             <input type="text" name="no" class="form-control" placeholder="Nomer Perusahaan">
                         </div>
-                        <div class="col-2">
+                        <div class="col-lg-2">
                             <input type="submit" class="btn btn-outline-light" value="Daftarkan">
                         </div>
                     </div>
@@ -430,3 +470,9 @@
         console.log('ok');
     }
 </script>
+<script type="text/javascript">
+    new Pushbar({
+    blur: true,
+    verlay: true,
+    });
+    </script>

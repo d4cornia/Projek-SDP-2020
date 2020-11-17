@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Laporan pekerjaan</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/cssB/bootstrap.min.css">
 
     <style type="text/css">
+        .page-break {
+            page-break-after: always;
+        }
         @page {
             margin: 0px;
         }
@@ -37,8 +40,8 @@
             padding: 10px;
         }
         .report{
-            padding-left: 25%;
-            padding-right: 25%;
+            padding-left: 5%;
+            padding-right: 5%;
         }
         .isi {
             padding-right: 25px;
@@ -53,7 +56,7 @@
         <table width="100%">
             <tr>
                 <td align="left" style="width: 20%;">
-                    <img src="/assets/logo_perusahaan/{{session()->get('lgperusahaan')}}" alt="Logo" width="128" class="logo"/>
+                    <img src="{{public_path()}}/assets/logo_perusahaan/{{session()->get('lgperusahaan')}}" alt="Logo" width="128" class="logo"/>
                 </td>
                 <td align="center">
                     <h1 style="font-size: 32px; margin-left: 155px">{{session()->get('nmperusahaan')}}</h1>
@@ -75,16 +78,16 @@
     <div class="invoice">
         @foreach ($mans as $m)
             <center><h1>Mandor {{$m->nama_mandor}}</h1></center>
-            <br><br>
+            <hr>
             @if ($req !== null)
                 @foreach ($req as $pu)
                     @if($pu->kode_mandor == $m->kode_mandor)
-                        <h3>Tanggal {{$pu->tanggal_permintaan_uang}}</h3><br>
+                        <h3>Tanggal {{$pu->tanggal_permintaan_uang}}</h3>
 
                         @if ($pu->detail_pu !== null && count($pu->detail_pu) > 0)
                             @foreach ($pu->detail_pu as $d)
-                                <h6>Nama Pekerjaan : {{$d->pekerjaan->nama_pekerjaan}}</h6>
-                                <table width="100%" class="table table-striped" style="margin-top: 30px;">
+                                <h5>Nama Pekerjaan : {{$d->pekerjaan->nama_pekerjaan}}</h5>
+                                <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>No</th>
@@ -101,12 +104,12 @@
                                         <tr>
                                             <td>2</td>
                                             <td>Total Gaji</td>
-                                            <td>Rp. {{number_format($d->totalgaji)}}</td>
+                                            <td>Rp. {{number_format($d->total_gaji_tukang)}}</td>
                                         </tr>
                                         <tr>
                                             <td>3</td>
                                             <td>Total Pekerjaan Khusus</td>
-                                            <td>Rp. {{number_format($d->totalpk)}}</td>
+                                            <td>Rp. {{number_format($d->total_pk)}}</td>
                                         </tr>
                                         <tr>
                                             <td>#</td>
@@ -115,7 +118,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <br><br>
+                                <br>
                             @endforeach
                         @endif
                         <h6>Total Detail : Rp. {{number_format($pu->total_detail)}} </h6>
@@ -124,10 +127,10 @@
                         <h5>Total Yang Diminta : Rp. {{number_format($pu->real_total)}} </h5>
                         <h5>Keterangan : {{$pu->keterangan}}</h5>
                         <br><br><br><br><br>
-                        <br><br><br><br><br>
                     @endif
                 @endforeach
             @endif
+            <br>
         @endforeach
     </div>
 

@@ -32,6 +32,6 @@ class detail_absen extends Model
 
     public function buktiAbsen()
     {
-        return $this->hasOne(absen_tukang::class, 'kode_absen');
+        return $this->belongsTo(absen_tukang::class, 'kode_absen');
     }
 }

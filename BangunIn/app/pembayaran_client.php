@@ -14,6 +14,7 @@ class pembayaran_client extends Model
     public function insertPembayaran($data)
     {
         $this->kode_pekerjaan = $data['pekerjaan_kode'];
+        $this->id_tagihan = $data['id_tagihan'];
         $this->kode_client = $data['client_kode'];
         $this->tanggal_pembayan_client = $data['waktu'];
         $this->jumlah_pembayaran_client = $data['total'];
@@ -51,4 +52,6 @@ class pembayaran_client extends Model
         ->get();
         return $users;
     }
+
+
 }

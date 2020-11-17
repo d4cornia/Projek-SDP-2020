@@ -356,6 +356,7 @@ class kontraktorController extends Controller
             $client = new client();
             $data = [
                 'pekerjaan_kode' => $req->input('pekerjaan'),
+                'id_tagihan' => $idtagihan,
                 'client_kode' => $req->input('namaClient'),
                 'waktu' => $req->input('waktuPembayaran'),
                 'total' => $req->input('total'),
@@ -466,11 +467,7 @@ class kontraktorController extends Controller
         ];
         return view('kontraktor.List.listPembayaranClient', $data);
     }
-
-
-
     // Mandor
-
     public function indexRegisterMandor()
     {
         session()->forget('listSpWork');

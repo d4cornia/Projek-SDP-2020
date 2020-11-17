@@ -17,7 +17,7 @@
 @endphp
 
 @endisset
-<div class="option" style="margin-left:81%">
+<div class="col-12 text-right">
     <a class="btn btn-primary"  href="/mandor/lihatRincianPembayaran">Rincian Pembayaran Bon</a>
 </div>
 <br>

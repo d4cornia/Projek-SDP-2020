@@ -42,9 +42,17 @@
     <div style="width:100%">
         <form action="/mandor/filterAbsen" method="post">
             @csrf
-            <label for="exampleInputEmail1" style="float:left;margin-top:1%;"><h6>Tanggal Absen</h6></label>
-            <input type="date" class="form-control" name="tanggalabsen" value="" style='width:20%;float:left;margin-left:2%' required>&nbsp;
-            <button type='submit' class="btn btn-primary" style="float:left;margin-left:2%">Lihat Absen</button>
+            <div class="row">
+                <div class="col-2">
+                    <label for="exampleInputEmail1" style="float:left;margin-top:1%;"><h6>Tanggal Absen</h6></label>
+                </div>
+                <div class="col-4">
+                    <input type="date" class="form-control" name="tanggalabsen" value="" style='float:left;margin-left:2%' required>&nbsp;
+                </div>
+                <div class="col-6">
+                    <button type='submit' class="btn btn-primary" style="float:left;margin-left:2%">Lihat Absen</button>
+                </div>
+            </div>
         </form>
     </div>
     <br><br>
