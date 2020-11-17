@@ -274,4 +274,7 @@ Route::group(['prefix' => 'report'], function () {
     Route::get('/buktiPembayaran', 'reportController@indexBuktiPembayaran');
     Route::post('/search', 'reportController@uangKeseluruhanProyek');
     Route::post('/searchPembayaran', 'reportController@searchPembayaran');
+    Route::post('/reportPembelian', 'reportController@reportPembelian');
+    Route::get('/iPembelian', 'reportController@indexPembelian');
+
 });
