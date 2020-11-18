@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Laporan pekerjaan</title>
 
+    <link href="{{public_path()}}/css/report.css" rel="stylesheet">
     <style type="text/css">
         .page-break {
             page-break-after: always;
@@ -75,7 +76,72 @@
     </div>
     <br/>
     <div class="invoice">
-        <center><h1>Gaji Semua Tukang</h1></center>
+        <hr>
+        <center><h1>Rekap Gaji Tukang</h1></center>
+        <hr>
+        @foreach ($mans as $m)
+            <h3>Mandor {{$m->nama_mandor}}</h3>
+            @if ($m->tukangs !== null && count($m->tukangs) > 0)
+                <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Tukang</th>
+                            <th>Jumlah Absen</th>
+                            <th>Gaji Pokok/th>
+                            <th>Total Gaji Absen</th>
+                            <th>Total Jumlah Ongkos Lembur</th>
+                            <th>Total Keseluruhan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($m->tukangs as $t)
+                            @php
+                                $ongkosLembur = 0;
+                                $ctrAbsen = 0;
+                            @endphp
+                            @foreach ($header as $h)
+                                @if ($h->details !== null)
+                                    @foreach ($h->details as $d)
+                                        @if ($d->kode_tukang == $t->kode_tukang)
+                                            @php
+                                                $ongkosLembur+=$d->ongkos_lembur;
+                                                $ctrAbsen++;
+                                            @endphp
+                                        @endif
+                                    @endforeach
+                                @endif
+                            @endforeach
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$t->nama_tukang}}</td>
+                                <td align="right">Rp. {{number_format($ctrAbsen)}}</td>
+                                <td align="right">Rp. {{number_format($t->gaji_pokok_tukang)}}</td>
+                                <td align="right">Rp. {{number_format($ctrAbsen * $t->gaji_pokok_tukang)}}</td>
+                                <td align="right">Rp. {{number_format($ongkosLembur)}}</td>
+                                <td align="right">Rp. {{number_format(($ctrAbsen * $t->gaji_pokok_tukang) + $ongkosLembur)}}</td>
+                            </tr>
+                            @php
+                                $gt += (($ctrAbsen * $t->gaji_pokok_tukang) + $ongkosLembur);
+                            @endphp
+                        @endforeach
+                        <tr class="table-info">
+                            <td colspan="5"></td>
+                            <td>Grand Total</td>
+                            <td align="right">
+                                Rp. {{number_format($gt)}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            @else
+                <h3>Tidak Ada Tukang</h3>
+            @endif
+        @endforeach
+        <div class="page-break"></div>
+        <br><hr>
+        <center><h1>Detail Gaji Tukang</h1></center>
+        <hr>
         @foreach ($mans as $m)
             <h3>Mandor {{$m->nama_mandor}}</h3>
             <hr>
