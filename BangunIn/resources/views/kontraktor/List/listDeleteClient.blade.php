@@ -36,6 +36,7 @@
             </div>
     @else
         <h1>Tidak Ada Client yang dihapus!</h1>
+        <hr>
     @endif
     <script>
         $(document).ready(function() {

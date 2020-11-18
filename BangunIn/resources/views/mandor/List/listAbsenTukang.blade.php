@@ -38,7 +38,7 @@
 </div>
 @endisset
     <h1>Absen Tukang</h1>
-    <br>
+    <hr>
     <div style="width:100%">
         <form action="/mandor/filterAbsen" method="post">
             @csrf

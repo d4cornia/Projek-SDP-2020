@@ -392,7 +392,6 @@ class kontraktorController extends Controller
 
             $pdf = PDF::loadView('kontraktor.Report.report_pembayaran_client', $data)->setPaper('a5', 'landscape');
             return $pdf->stream();
-
         } else {
             $b = new client();
             $req->validate([
@@ -1387,9 +1386,17 @@ class kontraktorController extends Controller
     {
         $p = new pekerjaan();
         $pk = new pekerjaan_khusus();
-        $req->validate([
-            'work' => [new cbRequired()]
+
+        $validator = Validator::make($req->all(), [
+            'work' => [new cbRequired]
         ]);
+
+        if ($validator->fails()) {
+            return redirect('/kontraktor/iSpWork')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $data = [
             'title' => 'List Pekerjaan Khusus',
             'listWork' => $p->where('kode_kontraktor', session()->get('kode'))

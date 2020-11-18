@@ -46,6 +46,14 @@
         .isi {
             padding-right: 25px;
         }
+
+        .label {
+            margin: 0px 0px 0px 60px;
+        }
+        .ket {
+            width: 50px;
+            height: 30px;
+        }
     </style>
 
 </head>
@@ -81,13 +89,12 @@
         <center><h1>Laporan Keseluruhan Proyek</h1></center>
         <hr>
         <div  align="right"><h3>Periode : {{$tglAwal}} - {{$tglAkhir}}</h3></div>
-            <table width="100%" class="table table-striped" style="margin-top: 30px;"  border="1">
+            <table width="100%" class="table table-striped" style="margin-top: 10px;">
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
                         <th>Nama Pekerjaan</th>
                         <th>Client</th>
-                        <th>Status</th>
                         <th>Absen Tukang</th>
                         <th>Pembelian Bahan</th>
                         <th>Pekerjaan Khusus</th>
@@ -125,7 +132,7 @@
                                         if($item->details !== null && count($item->details) > 0){
                                             foreach($item->details as $d){
                                                 if($d->buktiAbsen->konfirmasi_absen == 1){
-                                                    $tukang += $d->buktiAbsen->tukangs->gaji_pokok_tukang;
+                                                    $tukang += $d->buktiAbsen->tukangs->gaji_pokok_tukang + $d->ongkos_lembur;
                                                 }
                                             }
                                         }
@@ -169,28 +176,36 @@
                                 }
                             }
                         @endphp
-                        <tr>
-                            <td>{{$loop->iteration}}</td>
-                            <td>{{$w->nama_pekerjaan}}</td>
-                            <td>{{$w->client->nama_client}}</td>
-                            <td>
-                                @if ($w->status_selesai == 0)
-                                    Belum selesai
-                                @else
-                                    Selesai
-                                @endif
-                            </td>
-                            <td align="right">Rp. {{number_format($tukang)}}</td>
-                            <td align="right">Rp. {{number_format($bahan)}}</td>
-                            <td align="right">Rp. {{number_format($pk)}}</td>
-                            <td align="right">Rp. {{number_format($pk + $bahan + $tukang)}}</td>
-                            @php
-                                $gt += $pk + $bahan + $tukang;
-                            @endphp
-                        </tr>
+                        @if ($w->status_selesai == 0)
+                            <tr style="background-color:rgb(211, 102, 102);">
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$w->nama_pekerjaan}}</td>
+                                <td>{{$w->client->nama_client}}</td>
+                                <td align="right">Rp. {{number_format($tukang)}}</td>
+                                <td align="right">Rp. {{number_format($bahan)}}</td>
+                                <td align="right">Rp. {{number_format($pk)}}</td>
+                                <td align="right">Rp. {{number_format($pk + $bahan + $tukang)}}</td>
+                                @php
+                                    $gt += $pk + $bahan + $tukang;
+                                @endphp
+                            </tr>
+                        @else
+                            <tr style="background-color:lightgreen;">
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$w->nama_pekerjaan}}</td>
+                                <td>{{$w->client->nama_client}}</td>
+                                <td align="right">Rp. {{number_format($tukang)}}</td>
+                                <td align="right">Rp. {{number_format($bahan)}}</td>
+                                <td align="right">Rp. {{number_format($pk)}}</td>
+                                <td align="right">Rp. {{number_format($pk + $bahan + $tukang)}}</td>
+                                @php
+                                    $gt += $pk + $bahan + $tukang;
+                                @endphp
+                            </tr>
+                        @endif
                     @endforeach
                     <tr class="table-info">
-                        <td colspan="6"></td>
+                        <td colspan="5"></td>
                         <td>Grand Total</td>
                         <td align="right">
                             Rp. {{number_format($gt)}}
@@ -199,6 +214,17 @@
                 </tbody>
             </table>
         <br><br>
+        <div>
+            Keterangan :
+            <div class="row">
+                <div class="ket" id="not" style="background-color:rgb(211, 102, 102);"></div>
+                <div class="label">Belum Selesai</div>
+            </div>
+            <div class="row">
+                <div class="ket" id="done" style="background-color:lightgreen;"></div>
+                <div class="label">Sudah Selesai</div>
+            </div>
+        </div>
 
 
         {{-- <h2>Pekerjaan : {{$work->nama_pekerjaan}} </h2>

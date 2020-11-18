@@ -25,6 +25,7 @@
 
     @if ($listSpWork !== null)
     <h1>Daftar Pekerjaan Khusus</h1>
+    <hr>
     <form action="/mandor/searchSpWork" method="post">
         <div class="row-first" style=" margin:80px 0px 50px 0px;">
                 @csrf
@@ -183,6 +184,7 @@
     </form>
     @else
     <h1>Daftar Pekerjaan Khusus</h1>
+    <hr>
     <div class="row-first">
         <form action="/mandor/searchSpWork" method="post">
             @csrf

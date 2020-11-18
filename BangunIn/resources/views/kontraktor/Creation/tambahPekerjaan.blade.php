@@ -16,6 +16,7 @@
     }
 </script>
 <h1>Tambah Pekerjaan</h1>
+<hr>
 <form method="POST" action="/kontraktor/submitAddWork" class="option needs-validation" novalidate>
     @csrf
     <div class="form-group">

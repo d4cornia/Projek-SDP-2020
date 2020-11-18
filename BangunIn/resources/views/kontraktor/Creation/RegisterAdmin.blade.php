@@ -2,6 +2,7 @@
 
 @section('content')
 <h1>Tambah Admin</h1>
+<hr>
 @isset($succ)
 <div class="succ"  id="succ">
     {{$succ}}

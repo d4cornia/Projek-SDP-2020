@@ -123,14 +123,14 @@ class tukangController extends Controller
         ];
         $a = new absen_tukang();
         $date = mktime(8, 0, 0);
-        $data['buka'] = true;
-        // if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
-        //     $data['buka'] = true;
-        // } else if ($a->doneAbsen($temp[0])) {
-        //     $data['msg'] = 'Anda sudah melakukan absen!';
-        // } else if (date('H:i:s') > date('H:i:s', $date)) {
-        //     $data['msg'] = 'Anda Telat!';
-        // }
+        $data['buka'] = false;
+        if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
+            $data['buka'] = true;
+        } else if ($a->doneAbsen($temp[0])) {
+            $data['msg'] = 'Anda sudah melakukan absen!';
+        } else if (date('H:i:s') > date('H:i:s', $date)) {
+            $data['msg'] = 'Anda Telat!';
+        }
         return view('tukang.Creation.absen', $data);
     }
 
@@ -169,12 +169,10 @@ class tukangController extends Controller
         $tgl = date('Y/m/d');
         $tgla = new DateTime(date('Y/m/d', strtotime($tgl)));
         $result = $b->getTukangAbsen($kodetukang);
-        if(count($result) > 0)
-        {
+        if (count($result) > 0) {
             foreach ($result as $baru) {
                 $tglAbsen = new DateTime(date('Y/m/d', strtotime($baru->tanggal_absen)));
-                if ($tglAbsen->diff($firstday)->days < 7 && (intval(date('d/m/Y', strtotime($baru->tanggal_absen))) - intval(date('d/m/Y', strtotime("monday -1 week")))) >= 0)
-                {
+                if ($tglAbsen->diff($firstday)->days < 7 && (intval(date('d/m/Y', strtotime($baru->tanggal_absen))) - intval(date('d/m/Y', strtotime("monday -1 week")))) >= 0) {
                     $filter[] = $baru;
                 }
             }
@@ -189,10 +187,8 @@ class tukangController extends Controller
                 $kodemandor = $gajipokok[0]->kode_mandor;
                 $totalgajipokok = $jumlah_absen * $gajipokok[0]->gaji_pokok_tukang;
             }
-        }
-        else
-        {
-            return redirect('/tukang')->with('error','Tidak ada absen minggu ini !');
+        } else {
+            return redirect('/tukang')->with('error', 'Tidak ada absen minggu ini !');
         }
 
 
@@ -255,5 +251,4 @@ class tukangController extends Controller
 
         return view('tukang.List.konfirmasiDana', $data);
     }
-
 }

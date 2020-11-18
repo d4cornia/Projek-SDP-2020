@@ -3,6 +3,7 @@
 @section('content')
     @if ($listDelSpWork !== null)
     <h1>Daftar Pekerjaan Khusus Yang Dihapus</h1>
+    <hr>
         <div class="row-first">
             <form action="/kontraktor/search" method="post">
                 @csrf
@@ -62,13 +63,13 @@
             </div>
         </div>
         <div class="option">
-            <a class="btn btn-primary" href="/kontraktor/iSpWork/{{encrypt($kode_pekerjaan)}}">Kembali</a>
+            <a class="btn btn-info" href="/kontraktor/iSpWork/{{encrypt($kode_pekerjaan)}}">Kembali</a>
         </div>
     @else
     <div class="row-second">
         <h2>Tidak ada pekerjaan khusus yang dihapus!</h2>
         <div class="option">
-            <a class="btn btn-primary" href="/kontraktor/iSpWork/{{encrypt($kode_pekerjaan)}}">Kembali</a>
+            <a class="btn btn-info" href="/kontraktor/iSpWork/{{encrypt($kode_pekerjaan)}}">Kembali</a>
         </div>
     </div>
     @endif

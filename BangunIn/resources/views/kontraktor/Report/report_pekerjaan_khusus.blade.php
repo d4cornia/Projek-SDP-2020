@@ -79,7 +79,7 @@
         <center><h1>Rekap Pekerjaan {{$work->nama_pekerjaan}}</h1></center>
         <hr>
         @if ($spWork !== null && count($spWork) > 0)
-            <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
+            <table width="100%" class="table table-striped" style="margin-top: 10px;">
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
@@ -127,8 +127,8 @@
 
                 @if ($pk->bahans !== null && count($pk->bahans) > 0)
                     @foreach ($pk->bahans as $b)
-                        <h5>Tanggal beli : {{$b->pembelian->tanggal_beli}}</h5>
-                        <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
+                        <h4>Tanggal beli : {{$b->pembelian->tanggal_beli}}</h4>
+                        <table width="100%" class="table table-striped" style="margin-top: 10px;">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>No</th>

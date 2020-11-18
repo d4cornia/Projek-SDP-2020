@@ -38,6 +38,6 @@ class cbRequired implements Rule
      */
     public function message()
     {
-        return 'Harap memilih nama pekerjaan!';
+        return 'Pilihan ini tidak boleh kosong!';
     }
 }
