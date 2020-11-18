@@ -367,7 +367,8 @@ class kontraktorController extends Controller
             $b = new pembayaran_client();
             $d = new pekerjaan();
             $jenisP = 0;
-            $b->insertPembayaran($data);
+            $tempPembayaran = $b->insertPembayaran($data);
+            // dd($tempPembayaran);
             $cek = $b->getSumPembayaran($get);
             $jumlah_bayar = intval($cek);
             $harga_deal = $d->getTotalHarga($get, $jenisP);
@@ -382,8 +383,16 @@ class kontraktorController extends Controller
             foreach ($sisa as $value) {
                 $sisaBaru = $value - $uang;
                 $c->updateTagihan($sisaBaru, $idtagihan);
-                return view('kontraktor.Creation.inputPembayaran', $data);
             }
+            $w = new pembayaran_client();
+            $tmp = $w->find($tempPembayaran->kode_pembayaran_client);
+            $data = [
+                'buktiPembayaran' => $tmp
+            ];
+
+            $pdf = PDF::loadView('kontraktor.Report.report_pembayaran_client', $data)->setPaper('a5', 'landscape');
+            return $pdf->stream();
+
         } else {
             $b = new client();
             $req->validate([
@@ -411,8 +420,15 @@ class kontraktorController extends Controller
             ];
 
             $b = new pembayaran_client();
-            $b->insertPembayaran($data);
-            return view('kontraktor.Creation.inputPembayaran', $data);
+            $tempPembayaran = $b->insertPembayaran($data);
+            $w = new pembayaran_client();
+            $tmp = $w->find($tempPembayaran->kode_pembayaran_client);
+            $data = [
+                'buktiPembayaran' => $tmp
+            ];
+
+            $pdf = PDF::loadView('kontraktor.Report.report_pembayaran_client', $data)->setPaper('a5', 'landscape');
+            return $pdf->stream();
         }
     }
 

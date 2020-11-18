@@ -13,12 +13,14 @@ class pembayaran_client extends Model
     //
     public function insertPembayaran($data)
     {
+        $p = new pembayaran_client();
         $this->kode_pekerjaan = $data['pekerjaan_kode'];
         $this->id_tagihan = $data['id_tagihan'];
         $this->kode_client = $data['client_kode'];
         $this->tanggal_pembayan_client = $data['waktu'];
         $this->jumlah_pembayaran_client = $data['total'];
         $this->save();
+        return $p->orderBy('kode_pembayaran_client','desc')->get()->first();
     }
 
     public function getDataPembayaran()
