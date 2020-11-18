@@ -3,7 +3,7 @@
 @section('content')
 <h1>Laporan Pembelian Bahan</h1>
 <div class="row-first  mt-5">
-    <form action="/report/reportPembelian" method="post">
+    <form action="/report/reportPembelian" id="form" method="post" target="_blank">
         @csrf
         <span class="form-group">
             <label for="work">Nama Pekerjaan</label>
@@ -40,7 +40,7 @@
             </div>
         </span>
         <div class="form-group text-right">
-            <button type="submit" class="btn btn-info">Laporan</button>
+            <button type="button" onclick="refresh()" class="btn btn-info">Laporan</button>
         </div>
 
     </form>
@@ -58,4 +58,10 @@
         }
     }
 </script>
+<script>
+    function refresh(){
+        $('#form').submit();
+        location.reload();
+    }
+    </script>
 @endsection
