@@ -82,9 +82,8 @@
             Laporan
             </button>
             <div class="collapse" id="d" style="font-size: 2vh">
-                <a class="dropdown-item" href="/kontraktor/iSpWork">Laporan Detail Pekerjaan</a>
                 <a class="dropdown-item" href="/report/iPeriode">Laporan periode</a>
-                <a class="dropdown-item" href="/report/iuangKeseluruhan">Laporan total keseluruhan <br>proyek</a>
+                <a class="dropdown-item" href="/kontraktor/iSpWork">Laporan Detail Pekerjaan</a>
                 <a class="dropdown-item" href="/report/buktiPembayaran">Bukti Pembayaran <br>Client</a>
                 <a class="dropdown-item" href="/report/iPembelian">Laporan Pembelian Bahan</a>
             </div>

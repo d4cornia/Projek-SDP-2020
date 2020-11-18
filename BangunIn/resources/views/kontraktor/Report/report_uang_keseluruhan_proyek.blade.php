@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Laporan pekerjaan</title>
+
+    <link href="{{public_path()}}/css/report.css" rel="stylesheet">
     <style type="text/css">
         .page-break {
             page-break-after: always;
@@ -75,10 +77,132 @@
     </div>
     <br/>
     <div class="invoice">
+        <hr>
         <center><h1>Laporan Keseluruhan Proyek</h1></center>
         <hr>
-        <h4>Client : {{$work->client->nama_client}}</h4>
-        <h4>Pekerjaan : {{$work->nama_pekerjaan}}</h4>
+        <div  align="right"><h3>Periode : {{$tglAwal}} - {{$tglAkhir}}</h3></div>
+            <table width="100%" class="table table-striped" style="margin-top: 30px;"  border="1">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Pekerjaan</th>
+                        <th>Client</th>
+                        <th>Status</th>
+                        <th>Absen Tukang</th>
+                        <th>Pembelian Bahan</th>
+                        <th>Pekerjaan Khusus</th>
+                        <th>Total Pengeluaran</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $gt = 0;
+                    @endphp
+                    @foreach ($work as $w)
+                        @php
+                            $pk = 0;
+                            $bahan = 0;
+                            $tp = 0;
+                            $tukang = 0;
+
+                            $fday = intval(date('d', strtotime($tglAwal)));
+                            $fmonth = intval(date('m', strtotime($tglAwal)));
+                            $fyear = intval(date('Y', strtotime($tglAwal)));
+                            $eday = intval(date('d', strtotime($tglAkhir)));
+                            $emonth = intval(date('m', strtotime($tglAkhir)));
+                            $eyear = intval(date('Y', strtotime($tglAkhir)));
+                            if($w->absens !== null && count($w->absens) > 0){
+                                // dd($w->absens);
+                                foreach ($w->absens as $item) {
+                                    $tglHari = intval(date('d', strtotime($item['tanggal_absen'])));
+                                    $tglBulan = intval(date('m', strtotime($item['tanggal_absen'])));
+                                    $tglTahun = intval(date('Y', strtotime($item['tanggal_absen'])));
+                                    if(
+                                        $tglTahun >= $fyear && $tglTahun <= $eyear
+                                        && $tglBulan >= $fmonth && $tglBulan <= $emonth
+                                        && $tglHari >= $fday && $tglHari <= $eday
+                                    ){
+                                        if($item->details !== null && count($item->details) > 0){
+                                            foreach($item->details as $d){
+                                                if($d->buktiAbsen->konfirmasi_absen == 1){
+                                                    $tukang += $d->buktiAbsen->tukangs->gaji_pokok_tukang;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            if ($w->pk !== null) {
+                                foreach ($w->pk as $item) {
+                                    $pk += $item['total_keseluruhan'];
+                                }
+                            }
+
+                            if ($w->pembelian !== null) {
+                                foreach ($w->pembelian as $item) {
+                                    $tglHari = intval(date('d', strtotime($item['tanggal_beli'])));
+                                    $tglBulan = intval(date('m', strtotime($item['tanggal_beli'])));
+                                    $tglTahun = intval(date('Y', strtotime($item['tanggal_beli'])));
+                                    if(
+                                        $tglTahun >= $fyear && $tglTahun <= $eyear
+                                        && $tglBulan >= $fmonth && $tglBulan <= $emonth
+                                        && $tglHari >= $fday && $tglHari <= $eday
+                                    ){
+                                        $bahan += $item['total_pembelian'];
+                                    }
+                                }
+                            }
+
+                            if ($w->pc !== null) {
+                                foreach ($w->pc as $item) {
+                                    $tglHari = intval(date('d', strtotime($item['tanggal_pembayaran_client'])));
+                                    $tglBulan = intval(date('m', strtotime($item['tanggal_pembayaran_client'])));
+                                    $tglTahun = intval(date('Y', strtotime($item['tanggal_pembayaran_client'])));
+                                    if(
+                                        $tglTahun >= $fyear && $tglTahun <= $eyear
+                                        && $tglBulan >= $fmonth && $tglBulan <= $emonth
+                                        && $tglHari >= $fday && $tglHari <= $eday
+                                    ){
+                                        $tp += $item['jumlah_pembayaran_client'];
+                                    }
+                                }
+                            }
+                        @endphp
+                        <tr>
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$w->nama_pekerjaan}}</td>
+                            <td>{{$w->client->nama_client}}</td>
+                            <td>
+                                @if ($w->status_selesai == 0)
+                                    Belum selesai
+                                @else
+                                    Selesai
+                                @endif
+                            </td>
+                            <td align="right">Rp. {{number_format($tukang)}}</td>
+                            <td align="right">Rp. {{number_format($bahan)}}</td>
+                            <td align="right">Rp. {{number_format($pk)}}</td>
+                            <td align="right">Rp. {{number_format($pk + $bahan + $tukang)}}</td>
+                            @php
+                                $gt += $pk + $bahan + $tukang;
+                            @endphp
+                        </tr>
+                    @endforeach
+                    <tr class="table-info">
+                        <td colspan="6"></td>
+                        <td>Grand Total</td>
+                        <td align="right">
+                            Rp. {{number_format($gt)}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        <br><br>
+
+
+        {{-- <h2>Pekerjaan : {{$work->nama_pekerjaan}} </h2>
+        <h4>Client : {{$w->client->nama_client}}</h4>
         <h4>Status pekerjaan : @if ($work->status_selesai == 0)
             Belum selesai
             @else
@@ -118,22 +242,8 @@
             <h2 style="color: red;">Sisa Uang : Rp. -{{ number_format(($pk + $bahan + $tukang) - $total_pembayaran) }}</h2>
         @else
             <h2 style="color: green;">Sisa Uang : Rp. {{ number_format($total_pembayaran - ($pk + $bahan + $tukang)) }}</h2>
-        @endif
-        <br><br>
+        @endif --}}
     </div>
-
-    {{-- <div class="information" style="position: absolute; bottom: 0;">
-        <table>
-            <tr>
-                <td align="left" style="width: 50%;">
-                    &copy; {{ date('Y') }} {{ config('app.url') }} - All rights reserved.
-                </td>
-                <td align="right" style="width: 50%;">
-                    Company Slogan
-                </td>
-            </tr>
-        </table>
-    </div> --}}
 </div>
 </body>
 </html>

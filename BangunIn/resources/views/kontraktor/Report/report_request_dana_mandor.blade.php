@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Laporan pekerjaan</title>
 
+    <link href="{{public_path()}}/css/report.css" rel="stylesheet">
     <style type="text/css">
 
         .page-break {
@@ -75,7 +76,70 @@
         </table>
     </div>
     <br/>
-    <div class="invoice">
+    <div class="invoice"><hr>
+        <center><h1>Rekap Pengeluaran Mandor</h1></center>
+        <hr>
+        <div  align="right"><h3>Periode : {{$tglAwal}} - {{$tglAkhir}}</h3></div>
+
+        @if ($mans !== null && count($mans) > 0)
+            <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Mandor</th>
+                        <th>Total Detail</th>
+                        <th>Total Bon</th>
+                        <th>Total Sistem</th>
+                        <th>Total Yang Diminta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($mans as $m)
+                        @php
+                            $gt = 0;
+                            $td = 0;
+                            $tb = 0;
+                            $ts = 0;
+                            $tm = 0;
+                        @endphp
+                        @if ($req !== null && count($req) > 0)
+                            @foreach ($req as $pu)
+                                @if($pu->kode_mandor == $m->kode_mandor)
+                                    @php
+                                        $gt += $pu->real_total;
+                                        $td = $pu->total_detail;
+                                        $tb = $pu->total_bon;
+                                        $ts = $pu->total_sistem;
+                                        $tm = $pu->real_total;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        @endif
+                        <tr>
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$m->nama_mandor}}</td>
+                            <td align="right">Rp. {{number_format($td)}}</td>
+                            <td align="right">Rp. {{number_format($tb)}}</td>
+                            <td align="right">Rp. {{number_format($ts)}}</td>
+                            <td align="right">Rp. {{number_format($tm)}}</td>
+                        </tr>
+                    @endforeach
+                    <tr class="table-info">
+                        <td colspan="4"></td>
+                        <td>Grand Total</td>
+                        <td align="right">
+                            Rp. {{number_format($gt)}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        @else
+            <h3>Tidak Ada Mandor</h3>
+        @endif
+        <div class="page-break"></div>
+        <br><hr>
+        <center><h1>Detail Pengeluaran mandor</h1></center>
+        <hr>
         @foreach ($mans as $m)
             <center><h1>Mandor {{$m->nama_mandor}}</h1></center>
             <hr>
