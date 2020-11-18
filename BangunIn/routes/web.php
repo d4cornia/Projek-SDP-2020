@@ -106,6 +106,7 @@ Route::group(['prefix' => 'kontraktor'], function () {
     Route::get('/listKomisi', 'kontraktorController@showListKomisi');
     Route::get('/tambahTagihan/{n?}', "kontraktorController@tambahTagihanDenganKode");
     Route::get('/hapusTagihan/{n?}', "kontraktorController@hapusTagihan");
+    Route::post('/generateBukti', 'kontraktorController@generateBuktiPembayaran');
 
     //dana
     Route::get('/lihatRequest', "kontraktorKonfirmDanaController@index");

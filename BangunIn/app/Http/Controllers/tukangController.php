@@ -160,23 +160,41 @@ class tukangController extends Controller
 
     public function konfirmasiPenerimaanDana()
     {
-        $firstday = new DateTime(date('Y/m/d', strtotime("monday 0 week")));
+        $firstday = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
+
+        $filter = null;
         $kodetukang = session()->get('kode');
         //Cari di bukti absen
         $b = new absen_tukang();
+        $tgl = date('Y/m/d');
+        $tgla = new DateTime(date('Y/m/d', strtotime($tgl)));
         $result = $b->getTukangAbsen($kodetukang);
-        // if ($tglbon->diff($firstday)->days < 7 && (intval(date('d/m/Y', strtotime($key->tanggal_pembayaran_bon))) - intval(date('d/m/Y', strtotime("monday -1 week")))) >= 0)
-        // {
-
-        // }
-        if (count($result) < 1) {
-        } else {
-            $jumlah_absen = count($result);
-            $c = new tukang();
-            $gajipokok = $c->getGajiPokokTukang($kodetukang);
-            $kodemandor = $gajipokok[0]->kode_mandor;
-            $totalgajipokok = $jumlah_absen * $gajipokok[0]->gaji_pokok_tukang;
+        if(count($result) > 0)
+        {
+            foreach ($result as $baru) {
+                $tglAbsen = new DateTime(date('Y/m/d', strtotime($baru->tanggal_absen)));
+                if ($tglAbsen->diff($firstday)->days < 7 && (intval(date('d/m/Y', strtotime($baru->tanggal_absen))) - intval(date('d/m/Y', strtotime("monday -1 week")))) >= 0)
+                {
+                    $filter[] = $baru;
+                }
+            }
+            $kodemandor = 0;
+            $totalgajipokok = 0;
+            if ($filter == null) {
+                $jumlah_absen = 0;
+            } else {
+                $jumlah_absen = count($filter);
+                $c = new tukang();
+                $gajipokok = $c->getGajiPokokTukang($kodetukang);
+                $kodemandor = $gajipokok[0]->kode_mandor;
+                $totalgajipokok = $jumlah_absen * $gajipokok[0]->gaji_pokok_tukang;
+            }
         }
+        else
+        {
+            return redirect('/tukang')->with('error','Tidak ada absen minggu ini !');
+        }
+
 
         $pk = new pekerjaan_khusus();
         $pekerjaankhusus = $pk->getPekerjaanKhususTukang($kodetukang);
@@ -189,7 +207,6 @@ class tukangController extends Controller
             $totalgajipokokdankhusus = $pkdana[0]->dana;
         }
 
-
         $e = new pembayaran_bon_tukang();
         $pembayaranbon = $e->getBonTukang($kodemandor);
         $totalBon = 0;
@@ -199,9 +216,6 @@ class tukangController extends Controller
         } else {
             foreach ($pembayaranbon as $key) {
                 $tglbon = new DateTime(date('Y/m/d', strtotime($key->tanggal_pembayaran_bon)));
-                // dd(intval(date('d/m/Y', strtotime($key->tanggal_pembayaran_bon))));
-                // dd(intval(date('d/m/Y', strtotime("monday -1 week"))));
-                // dd($tglbon->diff($firstday)->days);
                 if ($tglbon->diff($firstday)->days < 7 && (intval(date('d/m/Y', strtotime($key->tanggal_pembayaran_bon))) - intval(date('d/m/Y', strtotime("monday -1 week")))) >= 0) {
                     $kodepembayaranbon = $key->kode_pembayaran_bon;
                     $f = new memiliki_detail_bon();

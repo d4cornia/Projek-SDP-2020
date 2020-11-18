@@ -98,7 +98,14 @@
 
 
 {{-- berhasil/gagal tambah --}}
+@if(session()->get('error') != null)
+<script>
+    swal("Tukang belum melakukan absen di minggu ini!", "", "error");
+</script>
+@endif
+
 @isset($error)
+
     @if ($error == 21)
     <script>
         swal("Berhasil Melakukan Pembayaran!", "", "success");

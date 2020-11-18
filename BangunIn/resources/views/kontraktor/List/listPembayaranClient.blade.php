@@ -24,8 +24,11 @@
                             <td>{{$item->tanggal_pembayan_client}}</td>
                             <td>Rp. {{number_format($item->jumlah_pembayaran_client)}}</td>
                             <td>
-                                <a href="/kontraktor/detClient/" class="btn btn-success">Detail</a>
-                                {{-- <a href="/kontraktor/delClient/" class="btn btn-danger delete">Hapus</a> --}}
+                                <form action="/kontraktor/generateBukti" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="id_pembayaran" value="{{$item->kode_pembayaran_client}}">
+                                    <input type="submit" value="Generate Bukti" class="btn btn-secondary">
+                                </form>
                             </td>
                         </tr>
                     @endforeach

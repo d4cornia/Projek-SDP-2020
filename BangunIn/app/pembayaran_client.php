@@ -53,5 +53,16 @@ class pembayaran_client extends Model
         return $users;
     }
 
-
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'kode_client');
+    }
+    public function tagihan()
+    {
+        return $this->belongsTo(Tagihan::class, 'id_tagihan');
+    }
+    public function pekerjaan()
+    {
+        return $this->belongsTo(pekerjaan::class, 'kode_pekerjaan');
+    }
 }

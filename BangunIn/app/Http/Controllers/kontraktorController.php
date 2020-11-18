@@ -18,6 +18,7 @@ use App\Rules\cbRequired;
 use App\Rules\cekCpass;
 use App\Rules\cekNpass;
 use App\Rules\cekNamaWork;
+use Barryvdh\DomPDF\Facade as PDF;
 use App\tagihan;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -401,6 +402,7 @@ class kontraktorController extends Controller
 
             $data = [
                 'pekerjaan_kode' => $req->input('pekerjaan'),
+                'id_tagihan' => 0,
                 'client_kode' => $req->input('namaClient'),
                 'waktu' => $req->input('waktuPembayaran'),
                 'total' => $req->input('total'),
@@ -467,6 +469,21 @@ class kontraktorController extends Controller
         ];
         return view('kontraktor.List.listPembayaranClient', $data);
     }
+
+    public function generateBuktiPembayaran(Request $request)
+    {
+        $idPc = $request->input('id_pembayaran');
+        $w = new pembayaran_client();
+        $tmp = $w->find($idPc);
+
+        $data = [
+            'buktiPembayaran' => $tmp
+        ];
+
+        $pdf = PDF::loadView('kontraktor.Report.report_pembayaran_client', $data)->setPaper('a5', 'landscape');
+        return $pdf->stream();
+    }
+
     // Mandor
     public function indexRegisterMandor()
     {
