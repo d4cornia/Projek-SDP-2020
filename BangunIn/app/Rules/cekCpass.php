@@ -39,6 +39,6 @@ class cekCpass implements Rule
      */
     public function message()
     {
-        return 'Kata sandi dengan konfirmasi kata sandi tidak sama!';
+        return 'Kata sandi baru dengan konfirmasi kata sandi tidak sama!';
     }
 }

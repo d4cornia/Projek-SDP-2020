@@ -499,6 +499,9 @@ class kontraktorController extends Controller
         return $pdf->stream();
     }
 
+
+
+
     // Mandor
     public function indexRegisterMandor()
     {
@@ -1507,20 +1510,9 @@ class kontraktorController extends Controller
     public function rollbackSpecialWorkMenu($id)
     {
         $pk = new pekerjaan_khusus();
-        $p = new pekerjaan();
         $pk->rollbackSpWork(decrypt($id));
 
         $kodeP = $pk->findKodePekerjaan(decrypt($id));
-        $data = [
-            'title' => 'Pekerjaan Khusus',
-            'listDelSpWork' => $pk->where('kode_pekerjaan', $kodeP[0])
-                ->where('status_delete_pk', 1)->get(),
-            'id' => $kodeP[0],
-            'listWork' => $p->where('kode_kontraktor', session()->get('kode'))
-                ->where('status_delete_pekerjaan', 0)
-                ->get(),
-            'roll' => 'Berhasil Mengembalikan Data Pekerjaan Khusus!'
-        ];
-        return view('kontraktor.Deleted.deletedSpecialWork', $data);
+        return redirect('/kontraktor/sSpDelWork/' . $kodeP[0]);
     }
 }
