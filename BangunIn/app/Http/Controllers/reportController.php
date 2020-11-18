@@ -248,15 +248,20 @@ class reportController extends Controller
     public function reportPembelian(Request $req)
     {
         $id = $req->id_project;
-        /*
-            SELECT t.nama_toko,p.tanggal_beli,b.nama_bahan,b.harga_satuan,md.jumlah_barang,md.subtotal,p.total_pembelian FROM `memiliki_detail_pembelians` as md
-            join pembelians as p on p.id_pembelian = md.id_pembelian
-            join toko_bangunans as t on t.id_kerjasama = p.id_kerjasama
-            join bahan_bangunans as b  on md.id_bahan = b.id_bahan
-        */
 
+        if($req->jenis=="all"){
+
+            $start="1000-1-1";
+            $end = "9000-1-1";
+        }
+        else{
+            $start=$req->start;
+            $end = $req->end;
+        }
         $param["toko"] =  DB::table('pembelians as p')->where('p.kode_pekerjaan', $id)
             ->join("toko_bangunans as t", "t.id_kerjasama", "p.id_kerjasama")
+            ->whereBetween('p.tanggal_beli',[$start,$end])
+            ->orderBy('p.tanggal_beli')
             ->get();
 
         $param["data"] = DB::table('memiliki_detail_pembelians as md')
@@ -264,10 +269,11 @@ class reportController extends Controller
             ->where('p.kode_pekerjaan', $id)
             ->join("toko_bangunans as t", "t.id_kerjasama", "p.id_kerjasama")
             ->join("bahan_bangunans as b", "b.id_bahan", "md.id_bahan")
+            ->whereBetween('p.tanggal_beli',[$start,$end])
+            ->orderBy('p.tanggal_beli')
             ->get();
         $pdf = PDF::loadView('kontraktor.Report.report_pembelian_bahan', $param);
         return $pdf->stream();
-        //return view('kontraktor.Report.report_pembelian_bahan')->with($param);
     }
     public function indexPembelian()
     {

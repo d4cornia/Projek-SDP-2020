@@ -34,24 +34,48 @@
         </div>
         <br/>
         <div class="invoice">
-            <center><h1>Laporan Pembelian Barang</h1></center>
+            <center><h1 style="margin-bottom: 5%">Laporan Pembelian Barang</h1></center>
+            @php
+                $gtotal = 0;
+                $mandor=0;
+                $Kontraktor=0;
+            @endphp
             @foreach ($toko as $item)
                 @php
                     $nm = $item->nama_toko;
                     $total = $item->total_pembelian;
+                    $gtotal+=$item->total_pembelian;
+
                 @endphp
-                <hr>
-                <h4>TOKO : {{$item->nama_toko}}</h4>
-                <h4>TANGGAL PEMBELIAN : {{$item->tanggal_beli}}</h4>
-                <h4>TOTAL PEMBELIAN   : Rp. {{number_format($total)}}</h4>
-                <hr>
-                <div style="padding: 2%">
+                <table width="100%">
+                    <tr>
+                        <td ><h4>TOKO : {{$item->nama_toko}} </h4></td>
+                        <td align="right"><h4>TANGGAL PEMBELIAN : {{$item->tanggal_beli}} </h4></td>
+                    </tr>
+                    <tr>
+                        @if($item->status_pembayaran_oleh==1)
+                            @php
+                                $mandor+=$item->total_pembelian;
+                            @endphp
+                            <td ><h4>METODE : Cash </h4></td>
+
+                        @else
+                            @php
+                                $Kontraktor+=$item->total_pembelian;
+                            @endphp
+                            <td ><h4>METODE : Kredit </h4></td>
+                        @endif
+                        <td align="right"><h4>TOTAL : Rp. {{number_format($total)}}</h4></td>
+                    </tr>
+                </table>
+                <div >
                 <table width="100%" class="table table-light" style="margin-top: 30px;"  >
                     <thead class="thead-dark">
                         <tr>
                             <th>NAMA BAHAN</th>
                             <th>JUMLAH</th>
                             <th>HARGA</th>
+                            <th>DISKON</th>
                             <th>SUBTOTAL</th>
                         </tr>
                     </thead>
@@ -61,16 +85,22 @@
                             <tr>
                                 <td>{{$item->nama_bahan}}</td>
                                 <td>{{$item->jumlah_barang}}</td>
-                                <td>{{$item->harga_satuan}}</td>
-                                <td>{{$item->subtotal}}</td>
+                                <td align="right">Rp. {{number_format($item->harga_satuan)}}</td>
+                                <td align="center">{{$item->persen_diskon}}%</td>
+                                <td align="right">Rp. {{number_format($item->subtotal)}}</td>
                             </tr>
                             @endif
                         @endforeach
                     </tbody>
                 </table>
                 </div>
+
                 <h4 style="margin-bottom: 10%;text-align:right;">Total  : Rp. {{number_format($total)}}</h4>
+                <hr style="margin-top: -5%">
             @endforeach
+            <h4 style="text-align:right;">Total Pembelihan Mandor   : Rp. {{number_format($mandor)}}</h4>
+            <h4 style=text-align:right;">Total Pembelihan Kontraktor   : Rp. {{number_format($Kontraktor)}}</h4>
+            <h4 style="text-align:right;">Grand Total  : Rp. {{number_format($gtotal)}}</h4>
         </div>
 
         {{-- <div class="information" style="position: absolute; bottom: 0;">
