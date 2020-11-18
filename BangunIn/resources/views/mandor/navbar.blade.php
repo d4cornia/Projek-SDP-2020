@@ -1,4 +1,5 @@
 @extends('layout.layout')
+
 @section('side-navbar')
 <style>
     .dropdowns{
@@ -19,7 +20,7 @@
     }
     ::-webkit-scrollbar {
     width: 0px;
-    
+
     background: transparent; /* make scrollbar transparent */
 }
 </style>
@@ -169,4 +170,5 @@
             </div>
       </div>
   </div>
+</div>
 @endsection
