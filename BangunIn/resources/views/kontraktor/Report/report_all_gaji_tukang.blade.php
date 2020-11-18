@@ -79,61 +79,69 @@
         <hr>
         <center><h1>Rekap Gaji Tukang</h1></center>
         <hr>
+        <div  align="right"><h3>Periode : {{$tglAwal}} - {{$tglAkhir}}</h3></div>
         @foreach ($mans as $m)
             <h3>Mandor {{$m->nama_mandor}}</h3>
+            @php
+                $gt = 0;
+            @endphp
             @if ($m->tukangs !== null && count($m->tukangs) > 0)
-                <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Tukang</th>
-                            <th>Jumlah Absen</th>
-                            <th>Gaji Pokok/th>
-                            <th>Total Gaji Absen</th>
-                            <th>Total Jumlah Ongkos Lembur</th>
-                            <th>Total Keseluruhan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($m->tukangs as $t)
-                            @php
-                                $ongkosLembur = 0;
-                                $ctrAbsen = 0;
-                            @endphp
-                            @foreach ($header as $h)
-                                @if ($h->details !== null)
-                                    @foreach ($h->details as $d)
-                                        @if ($d->kode_tukang == $t->kode_tukang)
-                                            @php
-                                                $ongkosLembur+=$d->ongkos_lembur;
-                                                $ctrAbsen++;
-                                            @endphp
-                                        @endif
-                                    @endforeach
-                                @endif
-                            @endforeach
+                @if ($header !== null && count($header) > 0)
+                    <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
+                        <thead class="thead-dark">
                             <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$t->nama_tukang}}</td>
-                                <td align="right">Rp. {{number_format($ctrAbsen)}}</td>
-                                <td align="right">Rp. {{number_format($t->gaji_pokok_tukang)}}</td>
-                                <td align="right">Rp. {{number_format($ctrAbsen * $t->gaji_pokok_tukang)}}</td>
-                                <td align="right">Rp. {{number_format($ongkosLembur)}}</td>
-                                <td align="right">Rp. {{number_format(($ctrAbsen * $t->gaji_pokok_tukang) + $ongkosLembur)}}</td>
+                                <th>No</th>
+                                <th>Nama Tukang</th>
+                                <th>Jumlah Absen</th>
+                                <th>Gaji Pokok</th>
+                                <th>Total Gaji Absen</th>
+                                <th>Total Jumlah Ongkos Lembur</th>
+                                <th>Total Keseluruhan</th>
                             </tr>
-                            @php
-                                $gt += (($ctrAbsen * $t->gaji_pokok_tukang) + $ongkosLembur);
-                            @endphp
-                        @endforeach
-                        <tr class="table-info">
-                            <td colspan="5"></td>
-                            <td>Grand Total</td>
-                            <td align="right">
-                                Rp. {{number_format($gt)}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($m->tukangs as $t)
+                                @php
+                                    $ongkosLembur = 0;
+                                    $ctrAbsen = 0;
+                                @endphp
+                                @foreach ($header as $h)
+                                    @if ($h->details !== null)
+                                        @foreach ($h->details as $d)
+                                            @if ($d->kode_tukang == $t->kode_tukang)
+                                                @php
+                                                    $ongkosLembur+=$d->ongkos_lembur;
+                                                    $ctrAbsen++;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$t->nama_tukang}}</td>
+                                    <td align="right">{{number_format($ctrAbsen)}}</td>
+                                    <td align="right">Rp. {{number_format($t->gaji_pokok_tukang)}}</td>
+                                    <td align="right">Rp. {{number_format($ctrAbsen * $t->gaji_pokok_tukang)}}</td>
+                                    <td align="right">Rp. {{number_format($ongkosLembur)}}</td>
+                                    <td align="right">Rp. {{number_format(($ctrAbsen * $t->gaji_pokok_tukang) + $ongkosLembur)}}</td>
+                                </tr>
+                                @php
+                                    $gt += (($ctrAbsen * $t->gaji_pokok_tukang) + $ongkosLembur);
+                                @endphp
+                            @endforeach
+                            <tr class="table-info">
+                                <td colspan="5"></td>
+                                <td>Grand Total</td>
+                                <td align="right">
+                                    Rp. {{number_format($gt)}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                @else
+                    <h3>Tidak Ada Data</h3>
+                @endif
             @else
                 <h3>Tidak Ada Tukang</h3>
             @endif
@@ -146,71 +154,75 @@
             <h3>Mandor {{$m->nama_mandor}}</h3>
             <hr>
             @if ($m->tukangs !== null && count($m->tukangs) > 0)
-                @foreach ($m->tukangs as $t)
-                    <h5>Tukang {{$t->nama_tukang}}</h5>
+                @if ($header !== null && count($header) > 0)
+                    @foreach ($m->tukangs as $t)
+                        <h5>Tukang {{$t->nama_tukang}}</h5>
 
-                    @php
-                        $to = 0;
-                        $ctr = 0;
-                    @endphp
-                    <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>No</th>
-                                <th>Tanggal Absen</th>
-                                <th>Ongkos Lembur</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if ($header !== null)
-                                @foreach ($header as $h)
-                                    @php
-                                        $flag = false;
-                                        $id = 0;
-                                        $ctr2 = 0;
-                                    @endphp
-                                    @if ($h->details !== null)
-                                        @foreach ($h->details as $d)
-                                            @if ($d->kode_tukang == $t->kode_tukang)
+                        @php
+                            $to = 0;
+                            $ctr = 0;
+                        @endphp
+                        <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tanggal Absen</th>
+                                    <th>Ongkos Lembur</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if ($header !== null)
+                                    @foreach ($header as $h)
+                                        @php
+                                            $flag = false;
+                                            $id = 0;
+                                            $ctr2 = 0;
+                                        @endphp
+                                        @if ($h->details !== null)
+                                            @foreach ($h->details as $d)
+                                                @if ($d->kode_tukang == $t->kode_tukang)
+                                                    @php
+                                                        $id = $ctr2;
+                                                        $flag = true;
+                                                    @endphp
+                                                @endif
                                                 @php
-                                                    $id = $ctr2;
-                                                    $flag = true;
+                                                    $ctr2++;
                                                 @endphp
+                                            @endforeach
+                                            @if($flag)
+                                                <tr>
+                                                    <td>{{$loop->iteration}}</td>
+                                                    <td>{{$h->tanggal_absen}}</td>
+                                                    <td>Rp. {{number_format($h->details[$id]->ongkos_lembur)}}</td>
+                                                    <td><input type="checkbox" name="" id="" checked disabled></td>
+                                                </tr>
+                                                @php
+                                                    $to += $h->details[$id]->ongkos_lembur;
+                                                    $ctr++;
+                                                @endphp
+                                            @else
+                                                <tr>
+                                                    <td>{{$loop->iteration}}</td>
+                                                    <td>{{$h->tanggal_absen}}</td>
+                                                    <td>Rp. 0</td>
+                                                    <td><input type="checkbox" name="" id="" disabled></td>
+                                                </tr>
                                             @endif
-                                            @php
-                                                $ctr2++;
-                                            @endphp
-                                        @endforeach
-                                        @if($flag)
-                                            <tr>
-                                                <td>{{$loop->iteration}}</td>
-                                                <td>{{$h->tanggal_absen}}</td>
-                                                <td>Rp. {{number_format($h->details[$id]->ongkos_lembur)}}</td>
-                                                <td><input type="checkbox" name="" id="" checked disabled></td>
-                                            </tr>
-                                            @php
-                                                $to += $h->details[$id]->ongkos_lembur;
-                                                $ctr++;
-                                            @endphp
-                                        @else
-                                            <tr>
-                                                <td>{{$loop->iteration}}</td>
-                                                <td>{{$h->tanggal_absen}}</td>
-                                                <td>Rp. 0</td>
-                                                <td><input type="checkbox" name="" id="" disabled></td>
-                                            </tr>
                                         @endif
-                                    @endif
-                                @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-                    <h4>Total Ongkos Lembur : Rp. {{number_format($to)}}</h4>
-                    <h4>Gaji dari absen : Rp. {{number_format($t->gaji_pokok_tukang * $ctr)}}</h4>
-                    <h4>Total Gaji : Rp. {{number_format(($t->gaji_pokok_tukang * $ctr) + $to)}}</h4>
-                    <br><br><br>
-                @endforeach
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                        <h4>Total Ongkos Lembur : Rp. {{number_format($to)}}</h4>
+                        <h4>Gaji dari absen : Rp. {{number_format($t->gaji_pokok_tukang * $ctr)}}</h4>
+                        <h4>Total Gaji : Rp. {{number_format(($t->gaji_pokok_tukang * $ctr) + $to)}}</h4>
+                        <br><br><br>
+                    @endforeach
+                @else
+                    <h3>Tidak Ada Data</h3>
+                @endif
             @else
                 <center><h3>Tidak Ada Tukang</h3></center>
             @endif

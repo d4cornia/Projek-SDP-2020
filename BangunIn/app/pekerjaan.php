@@ -242,4 +242,9 @@ class pekerjaan extends Model
     {
         return $this->hasMany(pembayaran_client::class, 'kode_pekerjaan');
     }
+
+    public function absens()
+    {
+        return $this->hasMany(absen_harian::class, 'kode_pekerjaan');
+    }
 }

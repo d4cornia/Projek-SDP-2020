@@ -59,6 +59,15 @@ class reportController extends Controller
 
     public function searchPeriode(Request $req)
     {
+        $validator = Validator::make($req->all(), [
+            'mode' => [new cbRequired]
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/report/iPeriode')
+                ->withErrors($validator)
+                ->withInput();
+        }
         $fday = intval(date('d', strtotime($req->periodeAwal)));
         $fmonth = intval(date('m', strtotime($req->periodeAwal)));
         $fyear = intval(date('Y', strtotime($req->periodeAwal)));
@@ -67,13 +76,14 @@ class reportController extends Controller
         $eyear = intval(date('Y', strtotime($req->periodeAkhir)));
         if ($eyear >= $fyear && $emonth >= $fmonth && $eday >= $fday) {
             if ($req->mode == "all_proyek") {
-                // return redirect('/report/budgetMandor/' . $req->periodeAwal . '/' . $req->periodeAkhir);
+                return redirect('/report/iuangKeseluruhan/' . $req->periodeAwal . '/' . $req->periodeAkhir);
             } else if ($req->mode == "req_mandor") {
                 return redirect('/report/budgetMandor/' . $req->periodeAwal . '/' . $req->periodeAkhir);
             } else if ($req->mode == "gaji_tukang") {
                 return redirect('/report/gajiAllTukang/' . $req->periodeAwal . '/' . $req->periodeAkhir);
             }
         }
+        session()->put('err', 'Tanggal awal tidak boleh melebihi tanggal akhir!');
         return view('kontraktor.Report.index_periode');
     }
 
@@ -108,7 +118,9 @@ class reportController extends Controller
 
         $data = [
             'mans' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
-            'header' => $header
+            'header' => $header,
+            'tglAwal' => date('Y/m/d', strtotime($tglAwal)),
+            'tglAkhir' => date('Y/m/d', strtotime($tglAkhir))
         ];
         // dd($data);
         $pdf = PDF::loadView('kontraktor.Report.report_all_gaji_tukang', $data);
@@ -123,14 +135,22 @@ class reportController extends Controller
         $req = null;
 
         $temp = $pu->orderBy('tanggal_permintaan_uang', 'asc')->get();
-        $firstday = date('d/m/Y', strtotime("monday -1 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
+        $fday = intval(date('d', strtotime($tglAwal)));
+        $fmonth = intval(date('m', strtotime($tglAwal)));
+        $fyear = intval(date('Y', strtotime($tglAwal)));
+        $eday = intval(date('d', strtotime($tglAkhir)));
+        $emonth = intval(date('m', strtotime($tglAkhir)));
+        $eyear = intval(date('Y', strtotime($tglAkhir)));
         if ($temp !== null) {
             foreach ($temp as $item) {
-                $tgl = date_create($item['tanggal_permintaan_uang']);
-                $tgla = new DateTime(date('Y/m/d', strtotime($item['tanggal_permintaan_uang'])));
-                // dd($fd);
-                if ($fd->diff($tgla)->days < 7 && (intval(date_format($tgl, 'd-m-Y')) - intval($firstday)) >= 0) {
+                $tglHari = intval(date('d', strtotime($item['tanggal_permintaan_uang'])));
+                $tglBulan = intval(date('m', strtotime($item['tanggal_permintaan_uang'])));
+                $tglTahun = intval(date('Y', strtotime($item['tanggal_permintaan_uang'])));
+                if (
+                    $tglTahun >= $fyear && $tglTahun <= $eyear
+                    && $tglBulan >= $fmonth && $tglBulan <= $emonth
+                    && $tglHari >= $fday && $tglHari <= $eday
+                ) {
                     $req[] = $item;
                 }
             }
@@ -138,7 +158,9 @@ class reportController extends Controller
 
         $data = [
             'mans' => $mandors,
-            'req' => $req
+            'req' => $req,
+            'tglAwal' => date('Y/m/d', strtotime($tglAwal)),
+            'tglAkhir' => date('Y/m/d', strtotime($tglAkhir))
         ];
         // dd($data);
 
@@ -147,110 +169,61 @@ class reportController extends Controller
         // return view('kontraktor.Report.report_request_dana_mandor', $data);
     }
 
-
-    public function indexKeseluruhan()
+    public function uangKeseluruhanProyek($tglAwal, $tglAkhir)
     {
         $p = new pekerjaan();
-        $data = [
-            'work' => $p->where('kode_kontraktor', session()->get('kode'))->get()
-        ];
-        return view('kontraktor.Report.index_report_uang_keseluruhan', $data);
-    }
-
-    public function uangKeseluruhanProyek(Request $req)
-    {
-        $validator = Validator::make($req->all(), [
-            'work' => [new cbRequired]
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('/report/iuangKeseluruhan')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $p = new pekerjaan();
-        $m = new mandor();
         $ab = new absen_harian();
-        $work = $p->where('kode_pekerjaan', $req->work)->get()->first();
-        $temp = $m->find($work->kode_mandor)->get()->first();
-        if ($ab->where('kode_pekerjaan', $req->work)
-            ->orderBy('tanggal_absen', 'asc')
-            ->exists()
-        ) {
-            $firstAbsen = $ab->where('kode_pekerjaan', $req->work)
-                ->orderBy('tanggal_absen', 'asc')
-                ->get()->first();
+        $work = $p->where('kode_kontraktor', session()->get('kode'))->get();
+        //     // $temp = $m->find($w->kode_mandor)->get()->first();
+        //     // if ($ab->where('kode_pekerjaan', $w->kode_pekerjaan)
+        //     //     ->orderBy('tanggal_absen', 'asc')
+        //     //     ->exists()
+        //     // ) {
+        //     //     $firstAbsen = $ab->where('kode_pekerjaan', $w->kode_pekerjaan)
+        //     //         ->orderBy('tanggal_absen', 'asc')
+        //     //         ->get()->first();
 
-            $fd = new DateTime(date('Y/m/d', strtotime("today")));
-            $tgla = new DateTime(date('Y/m/d', strtotime($firstAbsen['tanggal_absen'])));
-            // dd($tgla);
-            // dd((int)($fd->diff($tgla)->days / 7));
+        //     //     $fd = new DateTime(date('Y/m/d', strtotime("today")));
+        //     //     $tgla = new DateTime(date('Y/m/d', strtotime($firstAbsen['tanggal_absen'])));
+        //     //     // dd($tgla);
+        //     //     // dd((int)($fd->diff($tgla)->days / 7));
 
-            $total = 0;
-            $bahan = 0;
-            $pk = 0;
-            $tp = 0;
+        //     //     $total = 0;
+        //     //     $bahan = 0;
+        //     //     $pk = 0;
+        //     //     $tp = 0;
 
-            if ($temp->tukangs !== null && count($temp->tukangs) > 0) {
-                foreach ($temp->tukangs as $item) {
-                    $ctr = 0;
-                    $lembur = 0;
-                    $header = $ab->where('kode_pekerjaan', $req->work)->get(); // header per hari
-                    if ($header !== null) {
-                        foreach ($header as $h) {
-                            if ($h->details !== null) {
-                                foreach ($h->details as $d) {
-                                    if ($d->kode_tukang == $item['kode_tukang']) {
-                                        if ($d->buktiAbsen->konfirmasi_absen == '1') {
-                                            $ctr++;
-                                            $lembur += $d->ongkos_lembur;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+        //     //     if ($temp->tukangs !== null && count($temp->tukangs) > 0) {
+        //     //         foreach ($temp->tukangs as $item) {
+        //     //             $ctr = 0;
+        //     //             $lembur = 0;
+        //     //             $header = $ab->where('kode_pekerjaan', $w->kode_pekerjaan)->get(); // header per hari
+        //     //             if ($header !== null) {
+        //     //                 foreach ($header as $h) {
+        //     //                     if ($h->details !== null) {
+        //     //                         foreach ($h->details as $d) {
+        //     //                             if ($d->kode_tukang == $item['kode_tukang']) {
+        //     //                                 if ($d->buktiAbsen->konfirmasi_absen == '1') {
+        //     //                                     $ctr++;
+        //     //                                     $lembur += $d->ongkos_lembur;
+        //     //                                 }
+        //     //                             }
+        //     //                         }
+        //     //                     }
+        //     //                 }
+        //     //             }
 
-                    $total += ($ctr * $item['gaji_pokok_tukang']) + $lembur;
-                }
-            }
+        //     //             $total += ($ctr * $item['gaji_pokok_tukang']) + $lembur;
+        //     //         }
+        //     //     }
 
-            if ($work->pk !== null) {
-                foreach ($work->pk as $item) {
-                    $pk += $item['total_keseluruhan'];
-                }
-            }
-
-            if ($work->pembelian !== null) {
-                foreach ($work->pembelian as $item) {
-                    $bahan += $item['total_pembelian'];
-                }
-            }
-
-            // total pembayaran client
-            if ($work->pc !== null) {
-                foreach ($work->pc as $item) {
-                    $tp += $item['jumlah_pembayaran_client'];
-                }
-            }
-
-            $data = [
-                'work' => $work,
-                'tukang' => $total,
-                'minggu' => ((int)($fd->diff($tgla)->days / 7)),
-                'hari' => (($fd->diff($tgla)->days % 7)),
-                'bahan' => $bahan,
-                'pk' => $pk,
-                'total_pembayaran' => $tp
-            ];
-
-            $pdf = PDF::loadView('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
-            return $pdf->stream();
-        }
-
-        session()->put('err', 'Belum ada absen!');
-        return redirect('/kontraktor');
+        $data = [
+            'work' => $work,
+            'tglAwal' => date('Y/m/d', strtotime($tglAwal)),
+            'tglAkhir' => date('Y/m/d', strtotime($tglAkhir))
+        ];
+        $pdf = PDF::loadView('kontraktor.Report.report_uang_keseluruhan_proyek', $data);
+        return $pdf->stream();
     }
 
     public function indexBuktiPembayaran()

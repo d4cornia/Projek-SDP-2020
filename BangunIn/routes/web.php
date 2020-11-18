@@ -273,9 +273,8 @@ Route::group(['prefix' => 'report'], function () {
     Route::post('/sPeriode', 'reportController@searchPeriode');
     Route::get('/budgetMandor/{n?}/{m?}', 'reportController@rBudgetingMandor');
     Route::get('/gajiAllTukang/{n?}/{m?}', 'reportController@gajiAllTukang');
-    Route::get('/iuangKeseluruhan', 'reportController@indexKeseluruhan');
+    Route::get('/iuangKeseluruhan/{n?}/{m?}', 'reportController@uangKeseluruhanProyek');
     Route::get('/buktiPembayaran', 'reportController@indexBuktiPembayaran');
-    Route::post('/search', 'reportController@uangKeseluruhanProyek');
     Route::post('/searchPembayaran', 'reportController@searchPembayaran');
     Route::post('/reportPembelian', 'reportController@reportPembelian');
     Route::get('/iPembelian', 'reportController@indexPembelian');
