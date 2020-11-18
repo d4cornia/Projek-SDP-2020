@@ -34,7 +34,6 @@
             </button>
             <div class="collapse" id="logout" style="font-size: 2vh">
                 <a class="dropdown-item dropdowns" href="/logout">Log Out</a>
-                <a class="dropdown-item dropdowns" href="/kontraktor/edProfile">Edit Profile Perusahaan</a>
 
             </div>
             <button type="button" class="btn btn-link dropdown-toggle w-100  but" data-toggle="collapse" data-target="#tukang2" aria-haspopup="true" aria-expanded="false">
@@ -122,7 +121,6 @@
             </button>
             <div class="collapse" id="logout" style="font-size: 2vh">
                 <a class="dropdown-item dropdownss" href="/logout">Log Out</a>
-                <a class="dropdown-item dropdownss" href="/kontraktor/edProfile">Edit Profile Perusahaan</a>
 
             </div>
             <button type="button" class="btn btn-link dropdown-toggle w-100  but" data-toggle="collapse" data-target="#tukang2" aria-haspopup="true" aria-expanded="false">
