@@ -8,7 +8,8 @@
 
 <div class="row">
     <div class="col-lg-5 col-md-12 col-lg-12">
-    <form style='margin-top:50px' method="POST" action="/admin/submitToko" class="needs-validation" novalidate>
+
+    <form style='margin-top:50px' method="POST" action="/admin/submitToko" id="form" class="needs-validation" novalidate>
             @csrf
 
         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-interval='600000' style="width:100%;">
@@ -41,19 +42,19 @@
     <div class="col-lg-7 col-md-12 col-lg-12">
         <div class="form-group">
             <label for="exampleInputEmail1">Nama Toko</label>
-            <input type="text" class="form-control" name="name" value="{{old('name')}}" required>
+            <input type="text" class="form-control" name="name" id="name" value="{{old('name')}}" required>
             <div class="invalid-feedback">
                 Kolom nama belum di isi!
             </div>
             @error('name')
-            <div class="err">
-                {{$message}}
-            </div>
+                <div class="err">
+                    {{$message}}
+                </div>
             @enderror
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Alamat Toko</label>
-            <input type="text" class="form-control" name="alamat" value="{{old('alamat')}}" required>
+            <input type="text" class="form-control" name="alamat" id="alamat" value="{{old('alamat')}}" required>
             <div class="invalid-feedback">
                 Kolom Alamat belum di isi!
             </div>
@@ -65,7 +66,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">No Telepon Toko</label>
-            <input type="text" class="form-control" name="telepon" value="{{old('telepon')}}" required>
+            <input type="text" class="form-control" name="telepon" id="telepon" value="{{old('telepon')}}" required="required">
             <div class="invalid-feedback">
                 Kolom No Telp belum di isi!
             </div>
@@ -75,11 +76,20 @@
             </div>
             @enderror
         </div>
-        <button type="submit" class="btn btn-primary">Tambah</button>
+        <button type="button" onclick="tambah()" class="btn btn-primary">Tambah</button>
     </div>
 </form>
 </div>
 <script>
+    $('#warning').hide();
+    function tambah(){
+        if($('#telepon').val()!=""&&$('#alamat').val()!=""&&$('#name').val()!=""){
+            $('#form').submit();
+        }
+        else{
+            swal('Gagal!','Harap isi semua field!','error');
+        }
+    }
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function() {
       'use strict';

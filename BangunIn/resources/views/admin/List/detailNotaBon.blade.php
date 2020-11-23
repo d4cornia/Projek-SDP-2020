@@ -61,14 +61,15 @@
     <img style='width:500px;height:500px;' class="img-fluid mt-3" src='{{$pathsaya}}'><br>
     <br>
     <b>
-    <form method='post' action='/admin/bayarBonBahan' enctype="multipart/form-data">
+    <form method='post' action='/admin/bayarBonBahan' id="form" enctype="multipart/form-data">
         @csrf
         <input type='hidden' name='kodepembelian' value='{{$pembelian[0]->id_pembelian}}'>
         <input type='hidden' name='idbukti' value='{{$pembelian[0]->id_bukti}}'>
-        Tanggal pembayaran : <input type='date' name='tanggal'><br>
-        Bukti pembayaran : <input type='file' name='foto'><br>
-        <input type='submit' value='Bayar' class='btn-success'>
+        Tanggal pembayaran : <input type='date' id="tanggal" name='tanggal'><br>
+        Bukti pembayaran : <input type='file' id="foto" name='foto'><br>
+        <input type='button' onclick="tambah()" value='Bayar' class='btn-success'>
         <br><br>
+
     </form>
     </b>
     @if (count($detailbeli) > 0)
@@ -128,6 +129,23 @@
         $(document).ready(function() {
             $("#tabel-nota").DataTable();
     } );
+    function tambah() {
+        if($('#tanggal').val()!=""&&$('#foto').val()!=""){
+
+            var fileName = $('#foto').val();
+            var fileExtension = fileName.substr((fileName.lastIndexOf('.') + 1));
+            if(fileExtension.toLowerCase()=="jpg"||fileExtension.toLowerCase()=="png"){
+                $('#form').submit();
+            }
+            else{
+                swal("Gagal!","Extention tidak sesuai!","error");
+            }
+        }
+        else
+        {
+            swal("Gagal!","Isi Tanggal & Upload Gambar ","error");
+        }
+    }
     </script>
 @endsection
 

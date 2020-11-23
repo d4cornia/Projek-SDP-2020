@@ -5,13 +5,13 @@
 <div class="col-12 text-right mt-5 mb-5">
     <a class="btn btn-primary"  href="/mandor/lihatRequestDana" style="width:250px"><font size="3">Lihat Request Dana</font></a>
 </div>
-<form method="POST" action="/mandor/tambahRequestDana" class="needs-validation" novalidate>
+<form method="POST" action="/mandor/tambahRequestDana" id="form" class="needs-validation" novalidate>
     @csrf
     <div class="form-group">
         <label for="pekerjaan">Pekerjaan</label>
         <div class="my-1">
             <select class="custom-select mr-sm-2 pekerjaan" id="inlineFormCustomSelect" name="pekerjaan" id="pekerjaan">
-                <option selected>-</option>
+                <option selected value="-">-</option>
                 @foreach ($listPekerjaan as $item)
                     <option value='{{$item['kode_pekerjaan']}}'>{{$item['nama_pekerjaan']}}</option>
                 @endforeach
@@ -35,7 +35,18 @@
         <label for="exampleInputEmail1">Gaji Tukang</label>
         <input type="text" class="form-control" name="gaji" id="gaji" readonly required>
     </div>
-    <button type="submit" class="btn btn-primary">Tambah</button><br><br>
+    <button type="button" onclick="tambah()" class="btn btn-primary">Tambah</button><br><br>
+    <script>
+        function tambah(){
+            if($('#inlineFormCustomSelect').val() != "-"){
+                $('#form').submit();
+            }
+            else{
+                swal('Gagal!','Pilih Pekerjaan','error');
+            }
+        }
+
+    </script>
 </form>
     <div id='tablesession'>
         @if (count($listReq)>0)

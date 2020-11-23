@@ -73,7 +73,7 @@
                 <a class="dropdown-item dropdowns" href="/mandor/absenTukang">Lihat Absen Tukang</a>
                 <a class="dropdown-item dropdowns" href="/mandor/complain">Lihat Komplain Absen</a>
             </div>
-            <button type="button" class="btn btn-link dropdown-toggle w-100 text-white but" data-toggle="collapse" data-target="#tukang6" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-link dropdown-toggle w-100  but" data-toggle="collapse" data-target="#tukang6" aria-haspopup="true" aria-expanded="false">
                  Dana
             </button>
             <div class="collapse" id="tukang6" style="font-size: 2vh">
