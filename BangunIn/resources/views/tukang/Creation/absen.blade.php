@@ -26,13 +26,13 @@
     @csrf
     <div class="form-group">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div id="my_camera"></div>
                     <br/>
                     <input type=button value="Take Snapshot" onClick="take_snapshot()">
                     <input type="hidden" name="image" class="image-tag">
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="preview">
                         <div id="results" class="imgprev" style="width: 100%;">Your captured image will appear here...</div>
                     </div>

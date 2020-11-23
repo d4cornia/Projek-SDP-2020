@@ -61,4 +61,9 @@
             $("#tabel-req").DataTable();
     } );
     </script>
+    @if (session()->get('error'))
+        <script>
+            swal('Gagal!',session()->get('error'),'error');
+        </script>
+    @endif
 @endsection

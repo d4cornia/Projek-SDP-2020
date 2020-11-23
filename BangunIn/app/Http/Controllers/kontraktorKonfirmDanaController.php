@@ -77,8 +77,12 @@ class kontraktorKonfirmDanaController extends Controller
         $param['pekerjaan_khusus']=$pekerjaankhusus->get();
         return view('kontraktor.Detail.detailRequestDana')->with($param);
     }
+
     public function bayar(Request $request)
     {
+        if( $request->file('foto')==null){
+            return redirect('/kontraktor/lihatRequest')->with(["error" => "Harap Pilih Bukti Foto!"]);
+        }
         $idheader = $request->idheader;
         $permintaanuang = new permintaan_uang();
         $mypermintaan = $permintaanuang->where('id_permintaan_uang',$idheader)->get()[0];
