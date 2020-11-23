@@ -205,6 +205,8 @@
 <script>
     var bahan;
     var suges = [];
+    var hargas = [];
+    var id = [];
     function submits(){
         var gambar = $('.active').attr("id");
         $("#active").val(gambar);
@@ -237,10 +239,12 @@
             data:{value:value,_token:_token},
             success:function(result){
                 bahan = JSON.parse(result,true);
+
                 for (let i = 0; i < bahan.length; i++) {
                     suges.push(bahan[i]["nama_bahan"]);
+                    hargas.push(bahan[i]["harga_satuan"]);
+                    id.push(bahan[i]["id_bahan"]);
                 }
-                console.log(suges);
                 $( "#nmbahan" ).autocomplete({
                     source: suges
                 });
@@ -266,8 +270,8 @@
                 harga = 0;
                 for (let i = 0; i < suges.length; i++) {
                    if(suges[i] == nama){
-                        $('#hargabahan').val(bahan[i]["harga_satuan"]);
-                        $('#bahan').val(bahan[i]["id_bahan"]);
+                        $('#hargabahan').val(hargas[i]);
+                        $('#bahan').val(id[i]);
                    }
                 }
 
