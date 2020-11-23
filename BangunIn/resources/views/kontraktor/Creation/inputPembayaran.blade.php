@@ -5,7 +5,7 @@
     <a class="btn btn-secondary" href="/kontraktor/listPembayaran">List Pembayaran Client</a>
 </div>
 <br><br>
-<form method="POST" action="/kontraktor/submitPembayaran" class="needs-validation" novalidate>
+<form method="POST" action="/kontraktor/submitPembayaran" id="form" target="_blank">
     @csrf
     <div class="form-group">
         <label for="exampleInputEmail1">Nama Client</label>
@@ -95,7 +95,7 @@
         @enderror
     </div>
 
-    <button type="submit" class="btn btn-primary">Tambah</button>
+    <button type="button" class="btn btn-primary" onclick="refresh()">Tambah</button>
 </form>
 <script>
     $(document).ready(function(){
@@ -137,6 +137,11 @@
         $("#komisi").click(function () {
             $("#tagihan").prop('disabled',true);
         });
-    })
+
+    });
+    function refresh(){
+            $('#form').submit();
+        location.reload();
+    }
 </script>
 @endsection

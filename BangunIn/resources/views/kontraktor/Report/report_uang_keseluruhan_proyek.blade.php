@@ -81,7 +81,7 @@
         <center><h1>Laporan Keseluruhan Proyek</h1></center>
         <hr>
         <div  align="right"><h3>Periode : {{$tglAwal}} - {{$tglAkhir}}</h3></div>
-            <table width="100%" class="table table-striped" style="margin-top: 30px;"  border="1">
+            <table width="100%" class="table table-striped" style="margin-top: 30px;" >
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>

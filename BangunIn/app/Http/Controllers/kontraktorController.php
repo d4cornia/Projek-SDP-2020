@@ -392,7 +392,6 @@ class kontraktorController extends Controller
 
             $pdf = PDF::loadView('kontraktor.Report.report_pembayaran_client', $data)->setPaper('a5', 'landscape');
             return $pdf->stream();
-
         } else {
             $b = new client();
             $req->validate([
