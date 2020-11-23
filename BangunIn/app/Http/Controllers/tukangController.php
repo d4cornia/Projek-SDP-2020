@@ -168,6 +168,7 @@ class tukangController extends Controller
         //Cari di bukti absen
         $b = new absen_tukang();
         $tgl = date('Y/m/d');
+        $tol = 0;
         $tgla = new DateTime(date('Y/m/d', strtotime($tgl)));
         $result = $b->getTukangAbsen($kodetukang);
         if (count($result) > 0) {
@@ -175,6 +176,9 @@ class tukangController extends Controller
                 $tglAbsen = new DateTime(date('Y/m/d', strtotime($baru->tanggal_absen)));
                 if ($tglAbsen->diff($firstday)->days < 7 && (intval(date('d/m/Y', strtotime($baru->tanggal_absen))) - intval(date('d/m/Y', strtotime("monday 0 week")))) >= 0) {
                     $filter[] = $baru;
+                    if ($baru->details != null && $baru->details->ongkos_lembur != 0) {
+                        $tol++;
+                    }
                 }
             }
             $kodemandor = 0;
@@ -245,6 +249,7 @@ class tukangController extends Controller
             'pekerjaanKhusus' => count($pekerjaankhusus),
             'totalPekerjaanKhusus' => $totalgajipokokdankhusus,
             'ongkos_lembur' => $ga[0],
+            'tol' => $tol,
             'jumlahBon' => $jumlah_bon,
             'totalBonTukang' => $totalBon,
             'totalGajiDapat' => $totalGajiDapat

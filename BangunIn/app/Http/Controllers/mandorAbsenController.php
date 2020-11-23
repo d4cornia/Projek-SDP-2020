@@ -63,21 +63,26 @@ class mandorAbsenController extends Controller
                             'bukti' => $bukti[0]
                         ];
                     }
-
-                    // untuk header ini yang ga konfirm siapa aja
-                    $tem = $b->notConfirm($format);
-                    if ($tem != null) {
-                        foreach ($tem as $item) {
-                            foreach ($item as $val) {
-                                $jenis = $jt->getNamaJenis($t->where('kode_tukang', $val['kode_tukang'])->pluck('kode_jenis')->first());
-                                $val['jenis_tukang'] = $jenis[0];
-                                $sem = $t->codetoName($val['kode_tukang']);
-                                $val['nama_tukang'] = $sem[0];
-                                $nc[] = $val;
-                            }
-                        }
+                }
+                // untuk hari ini yang ga konfirm siapa aja
+                $tem = $b->notConfirm($format);
+                if ($tem != null) {
+                    foreach ($tem[0] as $val) {
+                        $jenis = $jt->getNamaJenis($t->where('kode_tukang', $val['kode_tukang'])->pluck('kode_jenis')->first());
+                        $val['jenis_tukang'] = $jenis[0];
+                        $sem = $t->codetoName($val['kode_tukang']);
+                        $val['nama_tukang'] = $sem[0];
+                        $nc[] = $val;
+                    }
+                    foreach ($tem[1] as $val) {
+                        $jenis = $jt->getNamaJenis($t->where('kode_tukang', $val['kode_tukang'])->pluck('kode_jenis')->first());
+                        $val['jenis_tukang'] = $jenis[0];
+                        $sem = $t->codetoName($val['kode_tukang']);
+                        $val['nama_tukang'] = $sem[0];
+                        $nc[] = $val;
                     }
                 }
+
                 //tampilkan yang sudah terkonfirmasi dan yang belum absennya
                 $data = [
                     'title' => 'List Absen Tukang',

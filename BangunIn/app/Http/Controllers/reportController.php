@@ -108,6 +108,7 @@ class reportController extends Controller
                     && $tglHari >= $fday && $tglHari <= $eday
                 ) {
                     $header[] = $item;
+                    $history[$item->tanggal_absen] = true;
                 }
             }
         }
@@ -116,7 +117,8 @@ class reportController extends Controller
             'mans' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
             'header' => $header,
             'tglAwal' => date('Y/m/d', strtotime($tglAwal)),
-            'tglAkhir' => date('Y/m/d', strtotime($tglAkhir))
+            'tglAkhir' => date('Y/m/d', strtotime($tglAkhir)),
+            'history' => $history
         ];
         // dd($data);
         $pdf = PDF::loadView('kontraktor.Report.report_all_gaji_tukang', $data);

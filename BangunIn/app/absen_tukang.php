@@ -19,6 +19,11 @@ class absen_tukang extends Model
         return $this->belongsTo(tukang::class, 'kode_tukang');
     }
 
+    public function details()
+    {
+        return $this->belongsTo(detail_absen::class, 'kode_absen');
+    }
+
     public function getAllMyHist($id)
     {
         return $this->where('kode_tukang', $id)->orderby('tanggal_absen')->get();
