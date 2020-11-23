@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    img {
+    .img {
       border: 1px solid #ddd; /* Gray border */
       border-radius: 4px;  /* Rounded border */
       padding: 5px; /* Some padding */
@@ -93,7 +93,7 @@
                                     <td><input type="number" name="ongkos[]" value="0" id="o{{$ctr}}"></td>
                                     <td>{{$item->tanggal_absen}}</td>
                                     <td style=""><a target="_blank" href="/assets/absen_tukang/{{$item->bukti_foto_absen}}" alt="/assets/default_tukang.png">
-                                        <img src="/assets/absen_tukang/{{$item->bukti_foto_absen}}"  alt="/assets/default_tukang.png">
+                                        <img class="img" src="/assets/absen_tukang/{{$item->bukti_foto_absen}}"  alt="/assets/default_tukang.png">
                                     </a></td>
                                     <td><input style="width: 25%; margin: auto" name="status[]" value="{{$item->kode_absen}}" class="form-control" type="checkbox" id="c{{$ctr}}" checked onclick="disable({{$ctr}})"></td>
                                     <input type="hidden" name="kode_tukang[]" value="{{$item->kode_tukang}}" id="k{{$ctr}}">
@@ -176,11 +176,11 @@
                         <td>Rp. {{number_format($item['ongkos_lembur'])}}</td>
                         <td>@if ($item['bukti'] == '-')
                             <a target="_blank" href="/assets/default_tukang.png" alt="/assets/default_tukang.png">
-                                <img src="/assets/default_tukang.png" alt="/assets/default_tukang.png">
+                                <img  class="img" src="/assets/default_tukang.png" alt="/assets/default_tukang.png">
                             </a>
                             @else
                             <a target="_blank" href="/assets/absen_tukang/{{$item['bukti']}}" alt="/assets/default_tukang.png">
-                                <img src="/assets/absen_tukang/{{$item['bukti']}}" alt="/assets/default_tukang.png">
+                                <img  class="img" src="/assets/absen_tukang/{{$item['bukti']}}" alt="/assets/default_tukang.png">
                             </a>
                         @endif</td>
                     </tr>
