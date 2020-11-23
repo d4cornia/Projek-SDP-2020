@@ -3,6 +3,7 @@
 @section('content')
     @if (count($listDelMandor) > 0)
         <h1>Daftar Mandor</h1>
+        <hr>
         <div class="table-responsive">
             <table id="tabel-mandor" class="table table-bordered table-striped">
               <thead>

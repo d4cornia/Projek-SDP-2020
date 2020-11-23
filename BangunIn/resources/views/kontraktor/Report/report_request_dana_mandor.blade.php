@@ -82,7 +82,7 @@
         <div  align="right"><h3>Periode : {{$tglAwal}} - {{$tglAkhir}}</h3></div>
 
         @if ($mans !== null && count($mans) > 0)
-            <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
+            <table width="100%" class="table table-striped" style="margin-top: 10px;">
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
@@ -156,8 +156,8 @@
 
                         @if ($pu->detail_pu !== null && count($pu->detail_pu) > 0)
                             @foreach ($pu->detail_pu as $d)
-                                <h5>Nama Pekerjaan : {{$d->pekerjaan->nama_pekerjaan}}</h5>
-                                <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
+                                <h4>Nama Pekerjaan : {{$d->pekerjaan->nama_pekerjaan}}</h4>
+                                <table width="100%" class="table table-striped" style="margin-top: 10px;">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>No</th>
@@ -188,7 +188,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <br>
                             @endforeach
                         @endif
                         <h5>Total Detail : Rp. {{number_format($pu->total_detail)}} </h5>
@@ -196,7 +195,6 @@
                         <h5>Total Sistem : Rp. {{number_format($pu->total_sistem)}} </h5>
                         <h4>Total Yang Diminta : Rp. {{number_format($pu->real_total)}} </h4>
                         <h4>Keterangan : {{$pu->keterangan}}</h4>
-                        <br><br><br><br><br>
                     @endif
                 @endforeach
             @endif

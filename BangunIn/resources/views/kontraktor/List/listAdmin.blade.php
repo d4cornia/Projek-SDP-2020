@@ -3,6 +3,7 @@
 @section('content')
     @if (count($listAdmin) > 0)
     <h1>Daftar Admin</h1>
+    <hr>
         <div class="option" style="float: right; margin:5px 0px 40px 0px;">
             <a class="btn btn-primary"  href="/kontraktor/rAdmin">Tambah Admin</a>
             <a class="btn btn-secondary" href="/kontraktor/sDelAdmin">Lihat Admin Yang Dihapus</a>
@@ -51,6 +52,7 @@
             </div>
     @else
         <h1>Tidak Ada Admin!</h1>
+        <hr>
         <div class="option">
             <a class="btn btn-primary"  href="/kontraktor/rAdmin">Tambah Admin</a>
             <a class="btn btn-secondary" href="/kontraktor/sDelAdmin">Lihat Admin Yang Dihapus</a>

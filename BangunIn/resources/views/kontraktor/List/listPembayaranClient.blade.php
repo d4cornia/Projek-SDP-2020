@@ -3,6 +3,8 @@
 {{-- {{dd($listDataPembayaranClient)}} --}}
 @section('content')
     @if (count($listDataPembayaranClient) > 0)
+        <h1>Daftar Pembayaran Client</h1>
+        <hr>
         <div class="table-responsive">
             <table id="tabel-client" class="table table-bordered table-striped">
               <thead>
@@ -47,6 +49,7 @@
             </div>
     @else
         <h1>Tidak Ada Pembayaran Client!</h1>
+        <hr>
     @endif
     <script>
         $(document).ready(function() {

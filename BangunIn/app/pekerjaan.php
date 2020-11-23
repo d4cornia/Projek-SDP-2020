@@ -61,8 +61,12 @@ class pekerjaan extends Model
         DB::beginTransaction();
         try {
             $dealPrice = 0;
+            $specAgreement = "";
             if ($request->has('dealPrice')) {
                 $dealPrice = $request->input('dealPrice');
+            }
+            if ($request->input('specAgreement') != null) {
+                $specAgreement = $request->input('specAgreement');
             }
             $this->kode_kontraktor = session()->get('kode');
             $this->kode_client = $kc[0];
@@ -70,7 +74,7 @@ class pekerjaan extends Model
             $this->kode_mandor = $km[0];
             $this->nama_pekerjaan = $request->input('name');
             $this->alamat_pekerjaan = $request->input('address');
-            $this->perjanjian_khusus = $request->input('specAgreement');
+            $this->perjanjian_khusus = $specAgreement;
             $this->jenis_pekerjaan = $request->input('type'); // 0 = dp, 1 = komisi
             $this->harga_deal = $dealPrice;
             $this->status_selesai = '0';

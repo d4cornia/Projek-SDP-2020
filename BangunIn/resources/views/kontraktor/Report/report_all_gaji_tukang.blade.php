@@ -81,13 +81,13 @@
         <hr>
         <div  align="right"><h3>Periode : {{$tglAwal}} - {{$tglAkhir}}</h3></div>
         @foreach ($mans as $m)
-            <h3>Mandor {{$m->nama_mandor}}</h3>
+            <h2>Mandor {{$m->nama_mandor}}</h2>
             @php
                 $gt = 0;
             @endphp
             @if ($m->tukangs !== null && count($m->tukangs) > 0)
                 @if ($header !== null && count($header) > 0)
-                    <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
+                    <table width="100%" class="table table-striped" style="margin-top: 10px;">
                         <thead class="thead-dark">
                             <tr>
                                 <th>No</th>
@@ -145,6 +145,7 @@
             @else
                 <h3>Tidak Ada Tukang</h3>
             @endif
+            <br>
         @endforeach
         <div class="page-break"></div>
         <br><hr>
@@ -156,13 +157,13 @@
             @if ($m->tukangs !== null && count($m->tukangs) > 0)
                 @if ($header !== null && count($header) > 0)
                     @foreach ($m->tukangs as $t)
-                        <h5>Tukang {{$t->nama_tukang}}</h5>
+                        <h4>Tukang {{$t->nama_tukang}}</h4>
 
                         @php
                             $to = 0;
                             $ctr = 0;
                         @endphp
-                        <table width="100%" class="table table-striped" style="margin-top: 30px;" border="1">
+                        <table width="100%" class="table table-striped" style="margin-top: 15px;">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>No</th>
@@ -195,7 +196,7 @@
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$h->tanggal_absen}}</td>
-                                                    <td>Rp. {{number_format($h->details[$id]->ongkos_lembur)}}</td>
+                                                    <td align="right">Rp. {{number_format($h->details[$id]->ongkos_lembur)}}</td>
                                                     <td><input type="checkbox" name="" id="" checked disabled></td>
                                                 </tr>
                                                 @php
@@ -206,7 +207,7 @@
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$h->tanggal_absen}}</td>
-                                                    <td>Rp. 0</td>
+                                                    <td align="right">Rp. 0</td>
                                                     <td><input type="checkbox" name="" id="" disabled></td>
                                                 </tr>
                                             @endif
@@ -218,7 +219,7 @@
                         <h4>Total Ongkos Lembur : Rp. {{number_format($to)}}</h4>
                         <h4>Gaji dari absen : Rp. {{number_format($t->gaji_pokok_tukang * $ctr)}}</h4>
                         <h4>Total Gaji : Rp. {{number_format(($t->gaji_pokok_tukang * $ctr) + $to)}}</h4>
-                        <br><br><br>
+                        <br>
                     @endforeach
                 @else
                     <h3>Tidak Ada Data</h3>

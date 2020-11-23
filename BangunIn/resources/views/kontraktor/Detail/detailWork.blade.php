@@ -199,16 +199,14 @@
         </div>
         <a href="/kontraktor/tambahTagihan/{{ $work[0]['kode_pekerjaan'] }}" class="btn btn-primary" style="float: right;">Tambah Tagihan</a>
         <br>
-    </div>
         @else
-    <h1>Tidak ada tagihan!</h1>
+            <h1>Tidak ada tagihan!</h1>
         @endif
-        <br>
-        <a href="/kontraktor/lWork" class="btn btn-secondary">Kembali</a>
-    <button type="submit" class="btn btn-primary">Ubah</button>
-    <hr class="option">
-    </div><br>
+    </div>
+    <hr>
 
+    <a href="/kontraktor/lWork" class="btn btn-secondary">Kembali</a>
+    <button type="submit" class="btn btn-primary">Ubah</button>
 </form>
 
 @endsection

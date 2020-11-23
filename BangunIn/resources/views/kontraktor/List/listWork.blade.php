@@ -3,6 +3,7 @@
 @section('content')
     @if (count($listWork) > 0)
         <h1>Daftar Pekerjaan</h1>
+        <hr>
         <div class="option" style="float: right; margin:5px 0px 40px 0px;">
             <a class="btn btn-primary" href="/kontraktor/aWork">Tambah Pekerjaan</a>
             <a class="btn btn-secondary" href="/kontraktor/sDelWork">Lihat Pekerjaan Yang Dihapus</a>
@@ -66,6 +67,7 @@
             </div>
     @else
         <h1>Tidak Ada Pekerjaan!</h1>
+        <hr>
         <div class="option">
             <a class="btn btn-primary" href="/kontraktor/aWork">Tambah Pekerjaan</a>
             <a class="btn btn-secondary" href="/kontraktor/sDelWork">Lihat Pekerjaan Yang Dihapus</a>

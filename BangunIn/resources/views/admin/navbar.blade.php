@@ -33,7 +33,6 @@
         </button>
         <div class="collapse" id="logout" style="font-size: 2vh">
             <a class="dropdown-item dropdowns" href="/logout">Log Out</a>
-            <a class="dropdown-item dropdowns" href="/kontraktor/edProfile">Edit Profile Perusahaan</a>
 
         </div>
 
@@ -96,7 +95,6 @@
         </button>
         <div class="collapse" id="logout" style="font-size: 2vh">
             <a class="dropdown-item dropdowns" href="/logout">Log Out</a>
-            <a class="dropdown-item dropdowns" href="/kontraktor/edProfile">Edit Profile Perusahaan</a>
 
         </div>
         <div class=" p-4 text-white" style="background-color: #2d3338">

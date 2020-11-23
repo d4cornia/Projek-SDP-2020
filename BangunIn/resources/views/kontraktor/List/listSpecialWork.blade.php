@@ -3,6 +3,7 @@
 @section('content')
 @if ($listSpWork !== null)
     <h1>Daftar Pekerjaan Khusus</h1>
+    <hr>
     <div class="option" style="float: right; margin:5px 0px 40px 0px;">
         <a class="btn btn-primary" href="/kontraktor/aSpWork/{{$current['kode_pekerjaan']}}">Tambah Pekerjaan Khusus</a>
         <a class="btn btn-secondary" href="/kontraktor/sSpDelWork/{{$current['kode_pekerjaan']}}">Lihat Pekerjaan Khusus Yang Dihapus</a>
@@ -77,6 +78,7 @@
         </div>
     @else
     <h1>Daftar Pekerjaan Khusus</h1>
+    <hr>
     <div class="row-first">
         <form action="/kontraktor/search" method="post">
             @csrf

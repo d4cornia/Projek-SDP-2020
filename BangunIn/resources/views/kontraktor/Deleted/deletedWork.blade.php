@@ -3,6 +3,7 @@
 @section('content')
     @if (count($listDelWork) > 0)
         <h1>Daftar Pekerjaan</h1>
+        <hr>
         <div class="table-responsive">
             <table id="tabel-work" class="table table-bordered table-striped">
               <thead>

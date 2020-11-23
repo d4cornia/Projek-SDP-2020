@@ -2,6 +2,7 @@
 
 @section('content')
 <h1 id="judul">Ubah Data Pekerjaan</h1>
+<hr>
 <form method="POST" action="/kontraktor/updWork" class="option needs-validation" novalidate>
     @csrf
     <div class="option padd">

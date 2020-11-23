@@ -3,6 +3,7 @@
 @section('content')
     @if (count($listDelAdmin) > 0)
         <h1>Daftar Admin</h1>
+        <hr>
         <div class="table-responsive">
             <table id="tabel-admin" class="table table-bordered table-striped">
               <thead>

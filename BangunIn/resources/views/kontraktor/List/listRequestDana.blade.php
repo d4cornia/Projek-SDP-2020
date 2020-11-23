@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>List Request Dana</h1>
-    <br>
+    <hr>
     @if (count($listReq) > 0)
         <div class="table-responsive">
             <table id="tabel-req" class="table table-bordered table-striped">

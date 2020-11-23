@@ -39,17 +39,13 @@ class reportController extends Controller
         if ($pk->where('kode_pekerjaan', $kode_pekerjaan)->exists()) {
             $spWork = $pk->where('kode_pekerjaan', $kode_pekerjaan)->get();
         }
-        // dd($spWork[1]->bahans[0]->pembelian->detail[0]->bhn->nama_bahan);
         $data = [
             'spWork' => $spWork,
             'work' => $work
         ];
 
-        // $pdf = App::make('dompdf.wrapper');
-        // $pdf->loadHTML('<h1>Test</h1>');
         $pdf = PDF::loadView('kontraktor.Report.report_pekerjaan_khusus', $data);
         return $pdf->stream();
-        // return view('kontraktor.Report.report_pekerjaan_khusus', $data);
     }
 
     public function indexPeriode()
@@ -166,7 +162,6 @@ class reportController extends Controller
 
         $pdf = PDF::loadView('kontraktor.Report.report_request_dana_mandor', $data);
         return $pdf->stream();
-        // return view('kontraktor.Report.report_request_dana_mandor', $data);
     }
 
     public function uangKeseluruhanProyek($tglAwal, $tglAkhir)
@@ -174,49 +169,6 @@ class reportController extends Controller
         $p = new pekerjaan();
         $ab = new absen_harian();
         $work = $p->where('kode_kontraktor', session()->get('kode'))->get();
-        //     // $temp = $m->find($w->kode_mandor)->get()->first();
-        //     // if ($ab->where('kode_pekerjaan', $w->kode_pekerjaan)
-        //     //     ->orderBy('tanggal_absen', 'asc')
-        //     //     ->exists()
-        //     // ) {
-        //     //     $firstAbsen = $ab->where('kode_pekerjaan', $w->kode_pekerjaan)
-        //     //         ->orderBy('tanggal_absen', 'asc')
-        //     //         ->get()->first();
-
-        //     //     $fd = new DateTime(date('Y/m/d', strtotime("today")));
-        //     //     $tgla = new DateTime(date('Y/m/d', strtotime($firstAbsen['tanggal_absen'])));
-        //     //     // dd($tgla);
-        //     //     // dd((int)($fd->diff($tgla)->days / 7));
-
-        //     //     $total = 0;
-        //     //     $bahan = 0;
-        //     //     $pk = 0;
-        //     //     $tp = 0;
-
-        //     //     if ($temp->tukangs !== null && count($temp->tukangs) > 0) {
-        //     //         foreach ($temp->tukangs as $item) {
-        //     //             $ctr = 0;
-        //     //             $lembur = 0;
-        //     //             $header = $ab->where('kode_pekerjaan', $w->kode_pekerjaan)->get(); // header per hari
-        //     //             if ($header !== null) {
-        //     //                 foreach ($header as $h) {
-        //     //                     if ($h->details !== null) {
-        //     //                         foreach ($h->details as $d) {
-        //     //                             if ($d->kode_tukang == $item['kode_tukang']) {
-        //     //                                 if ($d->buktiAbsen->konfirmasi_absen == '1') {
-        //     //                                     $ctr++;
-        //     //                                     $lembur += $d->ongkos_lembur;
-        //     //                                 }
-        //     //                             }
-        //     //                         }
-        //     //                     }
-        //     //                 }
-        //     //             }
-
-        //     //             $total += ($ctr * $item['gaji_pokok_tukang']) + $lembur;
-        //     //         }
-        //     //     }
-
         $data = [
             'work' => $work,
             'tglAwal' => date('Y/m/d', strtotime($tglAwal)),
@@ -249,18 +201,17 @@ class reportController extends Controller
     {
         $id = $req->id_project;
 
-        if($req->jenis=="all"){
+        if ($req->jenis == "all") {
 
-            $start="1000-1-1";
+            $start = "1000-1-1";
             $end = "9000-1-1";
-        }
-        else{
-            $start=$req->start;
+        } else {
+            $start = $req->start;
             $end = $req->end;
         }
         $param["toko"] =  DB::table('pembelians as p')->where('p.kode_pekerjaan', $id)
             ->join("toko_bangunans as t", "t.id_kerjasama", "p.id_kerjasama")
-            ->whereBetween('p.tanggal_beli',[$start,$end])
+            ->whereBetween('p.tanggal_beli', [$start, $end])
             ->orderBy('p.tanggal_beli')
             ->get();
 
@@ -269,7 +220,7 @@ class reportController extends Controller
             ->where('p.kode_pekerjaan', $id)
             ->join("toko_bangunans as t", "t.id_kerjasama", "p.id_kerjasama")
             ->join("bahan_bangunans as b", "b.id_bahan", "md.id_bahan")
-            ->whereBetween('p.tanggal_beli',[$start,$end])
+            ->whereBetween('p.tanggal_beli', [$start, $end])
             ->orderBy('p.tanggal_beli')
             ->get();
         $pdf = PDF::loadView('kontraktor.Report.report_pembelian_bahan', $param);
