@@ -96,6 +96,7 @@ class reportController extends Controller
         $emonth = intval(date('m', strtotime($tglAkhir)));
         $eyear = intval(date('Y', strtotime($tglAkhir)));
         $header = null;
+        $history = null;
         if ($temp !== null) {
             foreach ($temp as $item) {
                 $tglHari = intval(date('d', strtotime($item['tanggal_absen'])));

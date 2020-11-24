@@ -97,7 +97,7 @@
                         <th>Client</th>
                         <th>Absen Tukang</th>
                         <th>Pembelian Bahan</th>
-                        <th>Pekerjaan Khusus</th>
+                        <th>Jasa Pekerjaan Khusus</th>
                         <th>Total Pengeluaran</th>
                     </tr>
                 </thead>
@@ -142,7 +142,7 @@
 
                             if ($w->pk !== null) {
                                 foreach ($w->pk as $item) {
-                                    $pk += $item['total_keseluruhan'];
+                                    $pk += $item['total_jasa'];
                                 }
                             }
 
