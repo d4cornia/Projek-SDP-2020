@@ -43,13 +43,11 @@
             <div class="collapse" id="tukang3" style="font-size: 2vh">
                 {{--Dropdown Tukang--}}
                 <a class="dropdown-item dropdowns" href="/kontraktor/lihatClient">Lihat Client</a>
-                <a class="dropdown-item dropdowns" href="/kontraktor/addClient">Tambah Client</a>
-                <a class="dropdown-item dropdowns" href="/kontraktor/show">Input Pembayaran Client</a>
-                <a class="dropdown-item dropdowns" href="/kontraktor/listPembayaran">List Pembayaran Client</a>
-                <a class="dropdown-item dropdowns" href="/kontraktor/listDeleteClient">List Delete Client</a>
-                <a class="dropdown-item dropdowns" href="/kontraktor/inputTagihan">Input Tagihan</a>
-                <a class="dropdown-item dropdowns" href="/kontraktor/listTagihan">List Tagihan</a>
-                <a class="dropdown-item dropdowns" href="/kontraktor/listKomisi">List Pembayaran Komisi</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/show">Tambah Pembayaran Client</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/listPembayaran">Daftar Pembayaran Client</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/inputTagihan">Tambah Tagihan</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/listTagihan">Daftar Tagihan</a>
+                <a class="dropdown-item dropdowns" href="/kontraktor/listKomisi">Daftar Pembayaran Komisi</a>
             </div>
             <button type="button" class="btn btn-link dropdown-toggle w-100  but" data-toggle="collapse" data-target="#tukang4" aria-haspopup="true" aria-expanded="false">
                 Pekerjaan

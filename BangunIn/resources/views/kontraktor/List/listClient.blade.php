@@ -1,6 +1,8 @@
 @extends('kontraktor.navbar')
 
 @section('content')
+<h1>Daftar Client</h1>
+<hr>
 <div class="tombol" style="float:right">
     <a href="/kontraktor/addClient" class="btn btn-primary">Tambah Client</a>
     <a class="btn btn-secondary" href="/kontraktor/listDeleteClient">Lihat Client Yang Dihapus</a>

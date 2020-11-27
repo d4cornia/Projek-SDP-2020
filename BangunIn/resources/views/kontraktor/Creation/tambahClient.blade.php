@@ -1,9 +1,10 @@
 @extends('kontraktor.navbar')
 
 @section('content')
+<h1>Tambah Client</h1>
+<hr>
 <div class="tombol" style="float:right">
-    <a class="btn btn-primary" href="/kontraktor/lihatClient">Lihat Client</a>
-    <a class="btn btn-secondary" href="/kontraktor/listDeleteClient">Lihat Client Yang Dihapus</a>
+    <a class="btn btn-info" href="/kontraktor/lihatClient">Lihat Client</a>
 </div>
 <br><br>
 <form method="POST" action="/kontraktor/submitRegClient" class="needs-validation" novalidate>
