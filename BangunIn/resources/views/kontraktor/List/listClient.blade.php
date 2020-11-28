@@ -44,7 +44,6 @@
             </div>
     @else
         <h1>Tidak Ada Client!</h1>
-        <hr>
     @endif
     <script>
         $(document).ready(function() {

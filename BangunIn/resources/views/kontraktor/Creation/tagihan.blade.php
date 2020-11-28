@@ -1,6 +1,8 @@
 @extends('kontraktor.navbar')
 
 @section('content')
+<h1>Tambah Tagihan</h1>
+<hr>
 <form method="POST" action="/kontraktor/submitTagihan" class="needs-validation" novalidate>
     @csrf
     <div class="option" style="float: right;margin:5px 0px 40px 0px;">

@@ -43,9 +43,7 @@
             <div class="collapse" id="tukang3" style="font-size: 2vh">
                 {{--Dropdown Tukang--}}
                 <a class="dropdown-item dropdowns" href="/kontraktor/lihatClient">Lihat Client</a>
-                <a class="dropdown-item dropdowns" href="/kontraktor/show">Tambah Pembayaran Client</a>
                 <a class="dropdown-item dropdowns" href="/kontraktor/listPembayaran">Daftar Pembayaran Client</a>
-                <a class="dropdown-item dropdowns" href="/kontraktor/inputTagihan">Tambah Tagihan</a>
                 <a class="dropdown-item dropdowns" href="/kontraktor/listTagihan">Daftar Tagihan</a>
                 <a class="dropdown-item dropdowns" href="/kontraktor/listKomisi">Daftar Pembayaran Komisi</a>
             </div>
