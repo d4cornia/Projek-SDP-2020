@@ -1,7 +1,7 @@
 @extends('kontraktor.navbar')
 
 @section('content')
-<h1>Periode Laporan</h1>
+<h1>Laporan Periode</h1>
 <hr>
 <div class="row-first">
     <form action="/report/sPeriode" method="post">

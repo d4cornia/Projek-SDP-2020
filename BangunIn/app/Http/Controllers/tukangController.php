@@ -49,6 +49,7 @@ class tukangController extends Controller
 
         $date = mktime(8, 0, 0);
         $data['buka'] = false;
+        $data['mode'] = null;
         if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
             $data['buka'] = true;
         } else {
