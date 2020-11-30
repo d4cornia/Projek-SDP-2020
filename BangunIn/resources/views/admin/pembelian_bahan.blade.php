@@ -11,7 +11,7 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-5 col-md-12 col-lg-12">
+    <div class="col-lg-5 col-md-12 col-sm-12">
     <form style='margin-top:50px' method="POST" action="/admin/pembelianNota" class="needs-validation" novalidate id="form">
         @csrf
         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-interval='600000' style="width:100%;">
@@ -41,7 +41,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-7 col-md-12 col-lg-12">
+    <div class="col-lg-7 col-md-12 col-sm-12">
         <div class="form-group">
             <label for="exampleInputEmail1">Nama Toko</label>
             <select name="nama" id="nama" class="form-control" required="required">

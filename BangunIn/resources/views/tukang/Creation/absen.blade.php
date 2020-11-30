@@ -26,15 +26,17 @@
     @csrf
     <div class="form-group">
             <div class="row">
-                <div class="col-md-12">
-                    <div id="my_camera"></div>
+                <div class="col-lg-6 col-sm-12">
+                    <h4>Camera</h4>
+                    <div id="my_camera" style="width: 100%"></div>
                     <br/>
                     <input type=button value="Take Snapshot" onClick="take_snapshot()">
                     <input type="hidden" name="image" class="image-tag">
                 </div>
-                <div class="col-md-12">
-                    <div class="preview">
-                        <div id="results" class="imgprev" style="width: 100%;">Your captured image will appear here...</div>
+                <div class="col-lg-6 col-sm-12">
+                    <div class="w-100">
+                        <h4>Your captured image will appear here...</h4>
+                        <div id="results" class="imgprev" style="width: 100%;"></div>
                     </div>
                     <input type="hidden" name="hasilfoto" id="hasilfoto">
                 </div>
