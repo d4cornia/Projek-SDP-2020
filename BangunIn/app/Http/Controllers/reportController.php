@@ -110,8 +110,7 @@ class reportController extends Controller
                 $tglHari = intval(date('d', strtotime($item['tanggal_absen'])));
                 $tglBulan = intval(date('m', strtotime($item['tanggal_absen'])));
                 $tglTahun = intval(date('Y', strtotime($item['tanggal_absen'])));
-                // dd($tglHari);
-
+                
                 if ($fmonth == $emonth) {
                     if (
                         $tglTahun >= $fyear && $tglTahun <= $eyear

@@ -29,14 +29,25 @@ class tukangController extends Controller
         $temp = $t->nameToCode(session()->get('username'));
         $filter = null;
 
-        $firstday = date('d/m/Y', strtotime("monday -1 week"));
-        $fd = new DateTime(date('Y/m/d', strtotime("monday -1 week")));
-        // dd($firstday);
+        $bday = intval(date('d', strtotime("monday -1 week")));
+        $bmonth = intval(date('m', strtotime("monday -1 week")));
+        $byear = intval(date('Y', strtotime("monday -1 week")));
+
         if ($a->getAllMyHist($temp[0]) !== null) {
             foreach ($a->getAllMyHist($temp[0]) as $item) {
-                $tgl = date_create($item['tanggal_absen']);
-                $tgla = new DateTime(date('Y/m/d', strtotime($item['tanggal_absen'])));
-                if ($fd->diff($tgla)->days < 7 && (intval(date_format($tgl, 'd-m-Y')) - intval($firstday)) >= 0) {
+                $tglHari = intval(date('d', strtotime($item['tanggal_absen'])));
+                $tglBulan = intval(date('m', strtotime($item['tanggal_absen'])));
+                $tglTahun = intval(date('Y', strtotime($item['tanggal_absen'])));
+                if (
+                    $tglTahun >= $byear
+                    && $tglBulan == $bmonth
+                    && $tglHari >= $bday
+                ) {
+                    $filter[] = $item;
+                } else if (
+                    $tglTahun >= $byear
+                    && $tglBulan > $bmonth
+                ) {
                     $filter[] = $item;
                 }
             }

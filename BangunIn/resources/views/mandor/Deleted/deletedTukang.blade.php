@@ -2,6 +2,7 @@
 
 @section('content')
     <h1>Tukang yang Telah Dihapus</h1>
+    <hr>
     <div class="option" style="margin-left:78%">
         <a class="btn btn-primary"  href="/mandor/lihatTukang" style="width:250px"><font size="3">Lihat Tukang yang Aktif</font></a>
     </div>

@@ -2,6 +2,7 @@
 
 @section('content')
     <h1>Pembayaran Bon Tukang <a class="btn btn-primary"  href="/mandor/tambahPembayaranBon" style="margin-left:40%">Tambah Pembayaran Bon</a></h1>
+    <hr>
     <h3>Mandor : {{$mandor}}</h3>
     <div class="option">
         <form action="/mandor/filterRincianBon" method='post' class="needs-validation" novalidate>

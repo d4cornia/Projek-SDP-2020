@@ -2,6 +2,7 @@
 
 @section('content')
 <h1>Pembayaran Bon</h1>
+<hr>
 <h3>Mandor : {{$mandor}}</h3>
 <h4>Tanggal Pembayaran :
     @php

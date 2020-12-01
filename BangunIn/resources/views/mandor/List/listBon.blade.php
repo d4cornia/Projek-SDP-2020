@@ -2,6 +2,7 @@
 
 @section('content')
     <h1>Bon Tukang</h1>
+    <hr>
     <h3>Mandor : {{$mandor}}</h3>
     @php
         $jumbon=0;

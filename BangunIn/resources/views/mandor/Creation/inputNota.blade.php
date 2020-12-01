@@ -2,6 +2,7 @@
 
 @section('content')
 <h1>Input Nota Pembelian Bahan</h1>
+<hr>
 <div class="option" style="margin-left:91%">
     <a class="btn btn-primary"  href="/mandor/listNota">Lihat Nota Pembelian</a>
 </div>

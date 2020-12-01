@@ -18,6 +18,7 @@
 </style>
     @if ($listNota !== null && count($listNota) > 0)
         <h1>Daftar Pekerjaan</h1>
+        <hr>
         <div class="option" style="float: right; margin:5px 0px 40px 0px;">
             <a class="btn btn-primary" href="/mandor/menuNota">Input Nota Pembelian</a>
         </div>

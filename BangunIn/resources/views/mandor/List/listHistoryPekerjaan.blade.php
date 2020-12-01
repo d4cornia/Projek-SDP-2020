@@ -2,6 +2,7 @@
 
 @section('content')
     <h1>History Pekerjaan Selesai</h1>
+    <hr>
     <div class="option text-right" style="margin-left:60%">
         <a class="btn btn-primary"  href="/mandor/lihatPekerjaan">Lihat Pekerjaan Aktif</a>
     </div>

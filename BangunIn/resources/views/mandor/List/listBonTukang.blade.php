@@ -2,6 +2,7 @@
 
 @section('content')
     <h1>Detail Bon : {{$nama}}</h1>
+    <hr>
     <div class="option" style="color:red;">
         @php
             $jumbon=0;
