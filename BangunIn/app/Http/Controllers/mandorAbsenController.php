@@ -41,7 +41,8 @@ class mandorAbsenController extends Controller
         $tglHari = intval(date('d', strtotime($tanggal)));
         $tglBulan = intval(date('m', strtotime($tanggal)));
         $tglTahun = intval(date('Y', strtotime($tanggal)));
-        if ($fd->diff($tgla)->days < 7) { // jika sudah dikonfirmasi maka tidak ada konfirmasi lagi
+        $today = intval(date("d"));
+        if ($fd->diff($tgla)->days < 7 && $tglHari <= $today) { // jika sudah dikonfirmasi maka tidak ada konfirmasi lagi
             if (
                 $tglTahun >= $byear
                 && $tglBulan == $bmonth
