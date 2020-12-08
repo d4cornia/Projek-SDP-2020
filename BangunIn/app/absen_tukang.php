@@ -31,7 +31,7 @@ class absen_tukang extends Model
 
     public function doneAbsen($id)
     {
-        if (count($this->where('kode_tukang', $id)->where('tanggal_absen', date("d-m-Y"))->get()) > 0) {
+        if (count($this->where('kode_tukang', $id)->where('tanggal_absen', date("Y-m-d"))->get()) > 0) {
             return true;
         }
         return false;
