@@ -318,7 +318,7 @@
                 var diskon =  $('#diskon').val();
                 var sub =  $('#subtotal').val();
 
-                $('#subtotal').val(sub- (sub*diskon/100);
+                $('#subtotal').val(sub- (sub*diskon/100));
             }
             else{
                 $('#diskon').val(0);
