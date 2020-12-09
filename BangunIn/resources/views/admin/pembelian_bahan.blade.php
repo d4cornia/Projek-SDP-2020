@@ -184,7 +184,7 @@
                     <th>Diskon</th>
                     <th>Subtotal</th>
                     <th>Action</th>
-                </tr>
+                </tr>0
             </tfoot>
             </table>
         </div>
@@ -239,7 +239,9 @@
             data:{value:value,_token:_token},
             success:function(result){
                 bahan = JSON.parse(result,true);
-
+                suges =[];
+                hargas = [];
+                id= [];
                 for (let i = 0; i < bahan.length; i++) {
                     suges.push(bahan[i]["nama_bahan"]);
                     hargas.push(bahan[i]["harga_satuan"]);
@@ -316,7 +318,7 @@
                 var diskon =  $('#diskon').val();
                 var sub =  $('#subtotal').val();
 
-                $('#subtotal').val((100-diskon)*sub/100);
+                $('#subtotal').val(sub- (sub*diskon/100);
             }
             else{
                 $('#diskon').val(0);
