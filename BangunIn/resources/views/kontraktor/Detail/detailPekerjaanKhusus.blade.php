@@ -2,6 +2,7 @@
 
 @section('content')
 <h1>Ubah Pekerjaan Khusus</h1>
+<hr>
 <form method="POST" action="/kontraktor/updSpWork" novalidate>
     @csrf
     <div class="form-group">

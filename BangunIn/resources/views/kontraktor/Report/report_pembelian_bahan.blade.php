@@ -97,7 +97,9 @@
 
                 <h4 style="margin-bottom: 10%;text-align:right;">Total  : Rp. {{number_format($total)}}</h4>
                 <hr style="margin-top: -5%">
+                <div style="margin-top:4%"></div>
             @endforeach
+
             <h4 style="text-align:right;">Total Pembelihan Mandor   : Rp. {{number_format($mandor)}}</h4>
             <h4 style=text-align:right;">Total Pembelihan Kontraktor   : Rp. {{number_format($Kontraktor)}}</h4>
             <h4 style="text-align:right;">Grand Total  : Rp. {{number_format($gtotal)}}</h4>

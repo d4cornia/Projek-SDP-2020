@@ -1,4 +1,4 @@
-@extends('mandor.navbar');
+@extends('mandor.navbar')
 
 @section('content')
 @if (isset($pesan))
@@ -7,6 +7,7 @@
     </script>
 @endif
 <h1>List Pekerjaan</h1>
+<hr>
 <div class="col-12 text-right">
     <a class="btn btn-primary"  href="/mandor/lihatHistoryPekerjaan">Lihat History Pekerjaan Selesai</a>
 </div>

@@ -3,6 +3,7 @@
 @section('content')
 <h1>Tambah Tukang</h1>
 
+<hr>
 <div class="col-12  mt-3 mb-3 text-right" >
     <a class="btn btn-primary"  href="/mandor/lihatTukang" ><font size="3">Lihat Tukang</font></a>
 </div>

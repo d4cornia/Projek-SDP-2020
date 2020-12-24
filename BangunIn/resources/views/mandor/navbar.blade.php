@@ -65,20 +65,20 @@
             <div class="collapse" id="tukang5" style="font-size: 2vh">
                 {{--Dropdown Tukang--}}
                 <a class="dropdown-item dropdowns" href="/mandor/lihatTukang">Lihat Tukang</a>
-                <a class="dropdown-item dropdowns" href="/mandor/tambahTukang">Tambah Tukang</a>
+                {{-- <a class="dropdown-item dropdowns" href="/mandor/tambahTukang">Tambah Tukang</a> --}}
+                 {{-- <a class="dropdown-item dropdowns" href="/mandor/tambahTukang">Tambah Tukang</a> --}}
                 <a class="dropdown-item dropdowns" href="/mandor/lihatBon">Lihat Bon</a>
-                <a class="dropdown-item dropdowns" href="/mandor/tambahBon">Tambah Bon</a>
-                <a class="dropdown-item dropdowns" href="/mandor/tambahPembayaranBon">Pembayaran Bon</a>
-                <a class="dropdown-item dropdowns" href="/mandor/lihatRincianPembayaran">Lihat Pembayaran<br> Bon</a>
-                <a class="dropdown-item dropdowns" href="/mandor/absenTukang">Lihat Absen Tukang</a>
-                <a class="dropdown-item dropdowns" href="/mandor/complain">Lihat Komplain Absen</a>
+                {{-- <a class="dropdown-item dropdowns" href="/mandor/tambahBon">Tambah Bon</a> --}}
+                {{-- <a class="dropdown-item dropdowns" href="/mandor/tambahPembayaranBon">Pembayaran Bon</a> --}}
+                 <a class="dropdown-item dropdowns" href="/mandor/lihatRincianPembayaran">Lihat Pembayaran<br> Bon</a>
+                 <a class="dropdown-item dropdowns" href="/mandor/absenTukang">Lihat Absen Tukang</a>
+                 <a class="dropdown-item dropdowns" href="/mandor/complain">Lihat Komplain Absen</a>
             </div>
-            <button type="button" class="btn btn-link dropdown-toggle w-100 text-white but" data-toggle="collapse" data-target="#tukang6" aria-haspopup="true" aria-expanded="false">
+            <a class="dropdown-item dropdowns mt-1" href="/mandor/requestDana">
+            <button type="button" class="btn btn-link dropdown-toggle w-100  but" data-toggle="collapse" data-target="#tukang6" aria-haspopup="true" aria-expanded="false">
                  Dana
             </button>
-            <div class="collapse" id="tukang6" style="font-size: 2vh">
-                <a class="dropdown-item dropdowns" href="/mandor/requestDana">Request Dana</a>
-            </div>
+			</a>
         </div>
 </div>
 @endsection

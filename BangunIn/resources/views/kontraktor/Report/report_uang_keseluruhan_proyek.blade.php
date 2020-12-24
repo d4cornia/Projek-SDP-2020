@@ -97,7 +97,7 @@
                         <th>Client</th>
                         <th>Absen Tukang</th>
                         <th>Pembelian Bahan</th>
-                        <th>Pekerjaan Khusus</th>
+                        <th>Jasa Pekerjaan Khusus</th>
                         <th>Total Pengeluaran</th>
                     </tr>
                 </thead>
@@ -124,15 +124,48 @@
                                     $tglHari = intval(date('d', strtotime($item['tanggal_absen'])));
                                     $tglBulan = intval(date('m', strtotime($item['tanggal_absen'])));
                                     $tglTahun = intval(date('Y', strtotime($item['tanggal_absen'])));
-                                    if(
-                                        $tglTahun >= $fyear && $tglTahun <= $eyear
-                                        && $tglBulan >= $fmonth && $tglBulan <= $emonth
-                                        && $tglHari >= $fday && $tglHari <= $eday
-                                    ){
-                                        if($item->details !== null && count($item->details) > 0){
-                                            foreach($item->details as $d){
-                                                if($d->buktiAbsen->konfirmasi_absen == 1){
-                                                    $tukang += $d->buktiAbsen->tukangs->gaji_pokok_tukang + $d->ongkos_lembur;
+                                    if($fmonth == $emonth){
+                                        if(
+                                            $tglTahun >= $fyear && $tglTahun <= $eyear
+                                            && $tglBulan >= $fmonth && $tglBulan <= $emonth
+                                            && $tglHari >= $fday && $tglHari <= $eday
+                                        ){
+                                            // dd("hello");
+                                            if($item->details !== null && count($item->details) > 0){
+                                                foreach($item->details as $d){
+                                                    if($d->buktiAbsen->konfirmasi_absen == 1){
+                                                        $tukang += $d->buktiAbsen->tukangs->gaji_pokok_tukang + $d->ongkos_lembur;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }else if($fmonth < $emonth){
+                                        if(
+                                            $tglTahun >= $fyear && $tglTahun <= $eyear
+                                            && $tglBulan >= $fmonth
+                                            && $tglHari >= $fday
+                                        ){
+                                            // dd("hello");
+                                            if($item->details !== null && count($item->details) > 0){
+                                                foreach($item->details as $d){
+                                                    if($d->buktiAbsen->konfirmasi_absen == 1){
+                                                        $tukang += $d->buktiAbsen->tukangs->gaji_pokok_tukang + $d->ongkos_lembur;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if(
+                                            $tglTahun >= $fyear && $tglTahun <= $eyear
+                                            && $tglBulan <= $emonth
+                                            && $tglHari <= $eday
+                                        ){
+                                            // dd("hello");
+                                            if($item->details !== null && count($item->details) > 0){
+                                                foreach($item->details as $d){
+                                                    if($d->buktiAbsen->konfirmasi_absen == 1){
+                                                        $tukang += $d->buktiAbsen->tukangs->gaji_pokok_tukang + $d->ongkos_lembur;
+                                                    }
                                                 }
                                             }
                                         }
@@ -142,7 +175,7 @@
 
                             if ($w->pk !== null) {
                                 foreach ($w->pk as $item) {
-                                    $pk += $item['total_keseluruhan'];
+                                    $pk += $item['total_jasa'];
                                 }
                             }
 
@@ -151,12 +184,31 @@
                                     $tglHari = intval(date('d', strtotime($item['tanggal_beli'])));
                                     $tglBulan = intval(date('m', strtotime($item['tanggal_beli'])));
                                     $tglTahun = intval(date('Y', strtotime($item['tanggal_beli'])));
-                                    if(
-                                        $tglTahun >= $fyear && $tglTahun <= $eyear
-                                        && $tglBulan >= $fmonth && $tglBulan <= $emonth
-                                        && $tglHari >= $fday && $tglHari <= $eday
-                                    ){
-                                        $bahan += $item['total_pembelian'];
+
+                                    if($fmonth == $emonth){
+                                        if(
+                                            $tglTahun >= $fyear && $tglTahun <= $eyear
+                                            && $tglBulan >= $fmonth && $tglBulan <= $emonth
+                                            && $tglHari >= $fday && $tglHari <= $eday
+                                        ){
+                                            $bahan += $item['total_pembelian'];
+                                        }
+                                    }else if($fmonth < $emonth){
+                                        if(
+                                            $tglTahun >= $fyear && $tglTahun <= $eyear
+                                            && $tglBulan >= $fmonth
+                                            && $tglHari >= $fday
+                                        ){
+                                            $bahan += $item['total_pembelian'];
+                                        }
+
+                                        if(
+                                            $tglTahun >= $fyear && $tglTahun <= $eyear
+                                            && $tglBulan <= $emonth
+                                            && $tglHari <= $eday
+                                        ){
+                                            $bahan += $item['total_pembelian'];
+                                        }
                                     }
                                 }
                             }
@@ -166,12 +218,30 @@
                                     $tglHari = intval(date('d', strtotime($item['tanggal_pembayaran_client'])));
                                     $tglBulan = intval(date('m', strtotime($item['tanggal_pembayaran_client'])));
                                     $tglTahun = intval(date('Y', strtotime($item['tanggal_pembayaran_client'])));
-                                    if(
-                                        $tglTahun >= $fyear && $tglTahun <= $eyear
-                                        && $tglBulan >= $fmonth && $tglBulan <= $emonth
-                                        && $tglHari >= $fday && $tglHari <= $eday
-                                    ){
-                                        $tp += $item['jumlah_pembayaran_client'];
+                                    if($fmonth == $emonth){
+                                        if(
+                                            $tglTahun >= $fyear && $tglTahun <= $eyear
+                                            && $tglBulan >= $fmonth && $tglBulan <= $emonth
+                                            && $tglHari >= $fday && $tglHari <= $eday
+                                        ){
+                                            $tp += $item['jumlah_pembayaran_client'];
+                                        }
+                                    }else if($fmonth < $emonth){
+                                        if(
+                                            $tglTahun >= $fyear && $tglTahun <= $eyear
+                                            && $tglBulan >= $fmonth
+                                            && $tglHari >= $fday
+                                        ){
+                                            $tp += $item['jumlah_pembayaran_client'];
+                                        }
+
+                                        if(
+                                            $tglTahun >= $fyear && $tglTahun <= $eyear
+                                            && $tglBulan <= $emonth
+                                            && $tglHari <= $eday
+                                        ){
+                                            $tp += $item['jumlah_pembayaran_client'];
+                                        }
                                     }
                                 }
                             }
@@ -225,50 +295,6 @@
                 <div class="label">Sudah Selesai</div>
             </div>
         </div>
-
-
-        {{-- <h2>Pekerjaan : {{$work->nama_pekerjaan}} </h2>
-        <h4>Client : {{$w->client->nama_client}}</h4>
-        <h4>Status pekerjaan : @if ($work->status_selesai == 0)
-            Belum selesai
-            @else
-            Selesai
-        @endif</h4>
-        <h4>Total Pembayaran : Rp. {{number_format($total_pembayaran)}}</h4>
-        <hr>
-
-        <table width="100%" class="table table-striped" style="margin-top: 30px;"  border="1">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Keterangan</th>
-                    <th>Jumlah</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        Pembayaran Tukang @if ($minggu > 0) {{$minggu}} Minggu @endif @if ($hari > 0)
-                            {{$hari}} Hari
-                        @endif
-                    </td>
-                    <td>Rp. {{number_format($tukang)}}</td>
-                </tr>
-                <tr>
-                    <td>Pembelian Bahan</td>
-                    <td>Rp. {{number_format($bahan)}}</td>
-                </tr>
-                <tr>
-                    <td>Pekerjaan Khusus</td>
-                    <td>Rp. {{number_format($pk)}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <h2>Total Pengeluaran : Rp. {{number_format($pk + $bahan + $tukang)}}</h2>
-        @if ($total_pembayaran - ($pk + $bahan + $tukang) < 0)
-            <h2 style="color: red;">Sisa Uang : Rp. -{{ number_format(($pk + $bahan + $tukang) - $total_pembayaran) }}</h2>
-        @else
-            <h2 style="color: green;">Sisa Uang : Rp. {{ number_format($total_pembayaran - ($pk + $bahan + $tukang)) }}</h2>
-        @endif --}}
     </div>
 </div>
 </body>

@@ -2,6 +2,7 @@
 
 @section('content')
     <h1>Tukang</h1>
+    <hr>
     <div class="col-12 text-right">
         <a class="btn btn-primary"  href="/mandor/tambahTukang">Tambah Tukang</a>
         <a class="btn btn-secondary" href="/mandor/lihatTukangTerhapus">Lihat Tukang Yang Dihapus</a>

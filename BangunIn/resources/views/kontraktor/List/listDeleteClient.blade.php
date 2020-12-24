@@ -1,6 +1,13 @@
 @extends('kontraktor.navbar')
 
 @section('content')
+<h1>Daftar Client Yang Dihapus</h1>
+<hr>
+<br>
+<div class="tombol" style="float:right">
+    <a class="btn btn-info" href="/kontraktor/lihatClient">Kembali</a>
+</div>
+<br><br>
     @if (count($listDataDeleteClient) > 0)
         <div class="table-responsive">
             <table id="tabel-delete" class="table table-bordered table-striped">
@@ -19,7 +26,7 @@
                             <td>{{$item->nama_client}}</td>
                             <td>{{$item->no_hp_client}}</td>
                             <td>
-                                <a href="/kontraktor/resClient/{{encrypt($item->kode_client)}}" class="btn btn-danger delete">Batal Hapus</a>
+                                <a href="/kontraktor/resClient/{{encrypt($item->kode_client)}}" class="btn btn-secondary delete">Batal Hapus</a>
                             </td>
                         </tr>
                     @endforeach
@@ -35,8 +42,7 @@
             </table>
             </div>
     @else
-        <h1>Tidak Ada Client yang dihapus!</h1>
-        <hr>
+        <h2>Tidak Ada Client yang dihapus!</h2>
     @endif
     <script>
         $(document).ready(function() {

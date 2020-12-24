@@ -70,7 +70,15 @@ class reportController extends Controller
         $eday = intval(date('d', strtotime($req->periodeAkhir)));
         $emonth = intval(date('m', strtotime($req->periodeAkhir)));
         $eyear = intval(date('Y', strtotime($req->periodeAkhir)));
-        if ($eyear >= $fyear && $emonth >= $fmonth && $eday >= $fday) {
+        if ($eyear >= $fyear && $emonth > $fmonth) {
+            if ($req->mode == "all_proyek") {
+                return redirect('/report/iuangKeseluruhan/' . $req->periodeAwal . '/' . $req->periodeAkhir);
+            } else if ($req->mode == "req_mandor") {
+                return redirect('/report/budgetMandor/' . $req->periodeAwal . '/' . $req->periodeAkhir);
+            } else if ($req->mode == "gaji_tukang") {
+                return redirect('/report/gajiAllTukang/' . $req->periodeAwal . '/' . $req->periodeAkhir);
+            }
+        } else if ($emonth == $fmonth && $eday >= $fday) {
             if ($req->mode == "all_proyek") {
                 return redirect('/report/iuangKeseluruhan/' . $req->periodeAwal . '/' . $req->periodeAkhir);
             } else if ($req->mode == "req_mandor") {
@@ -96,18 +104,40 @@ class reportController extends Controller
         $emonth = intval(date('m', strtotime($tglAkhir)));
         $eyear = intval(date('Y', strtotime($tglAkhir)));
         $header = null;
+        $history = null;
         if ($temp !== null) {
             foreach ($temp as $item) {
                 $tglHari = intval(date('d', strtotime($item['tanggal_absen'])));
                 $tglBulan = intval(date('m', strtotime($item['tanggal_absen'])));
                 $tglTahun = intval(date('Y', strtotime($item['tanggal_absen'])));
-                // dd($tglHari);
-                if (
-                    $tglTahun >= $fyear && $tglTahun <= $eyear
-                    && $tglBulan >= $fmonth && $tglBulan <= $emonth
-                    && $tglHari >= $fday && $tglHari <= $eday
-                ) {
-                    $header[] = $item;
+                
+                if ($fmonth == $emonth) {
+                    if (
+                        $tglTahun >= $fyear && $tglTahun <= $eyear
+                        && $tglBulan >= $fmonth && $tglBulan <= $emonth
+                        && $tglHari >= $fday && $tglHari <= $eday
+                    ) {
+                        $header[] = $item;
+                        $history[$item->tanggal_absen] = true;
+                    }
+                } else if ($fmonth < $emonth) {
+                    if (
+                        $tglTahun >= $fyear && $tglTahun <= $eyear
+                        && $tglBulan >= $fmonth
+                        && $tglHari >= $fday
+                    ) {
+                        $header[] = $item;
+                        $history[$item->tanggal_absen] = true;
+                    }
+
+                    if (
+                        $tglTahun >= $fyear && $tglTahun <= $eyear
+                        && $tglBulan <= $emonth
+                        && $tglHari <= $eday
+                    ) {
+                        $header[] = $item;
+                        $history[$item->tanggal_absen] = true;
+                    }
                 }
             }
         }
@@ -116,7 +146,8 @@ class reportController extends Controller
             'mans' => $m->where('kode_kontraktor', session()->get('kode'))->get(),
             'header' => $header,
             'tglAwal' => date('Y/m/d', strtotime($tglAwal)),
-            'tglAkhir' => date('Y/m/d', strtotime($tglAkhir))
+            'tglAkhir' => date('Y/m/d', strtotime($tglAkhir)),
+            'history' => $history
         ];
         // dd($data);
         $pdf = PDF::loadView('kontraktor.Report.report_all_gaji_tukang', $data);
@@ -142,12 +173,31 @@ class reportController extends Controller
                 $tglHari = intval(date('d', strtotime($item['tanggal_permintaan_uang'])));
                 $tglBulan = intval(date('m', strtotime($item['tanggal_permintaan_uang'])));
                 $tglTahun = intval(date('Y', strtotime($item['tanggal_permintaan_uang'])));
-                if (
-                    $tglTahun >= $fyear && $tglTahun <= $eyear
-                    && $tglBulan >= $fmonth && $tglBulan <= $emonth
-                    && $tglHari >= $fday && $tglHari <= $eday
-                ) {
-                    $req[] = $item;
+
+                if ($fmonth == $emonth) {
+                    if (
+                        $tglTahun >= $fyear && $tglTahun <= $eyear
+                        && $tglBulan >= $fmonth && $tglBulan <= $emonth
+                        && $tglHari >= $fday && $tglHari <= $eday
+                    ) {
+                        $req[] = $item;
+                    }
+                } else if ($fmonth < $emonth) {
+                    if (
+                        $tglTahun >= $fyear && $tglTahun <= $eyear
+                        && $tglBulan >= $fmonth
+                        && $tglHari >= $fday
+                    ) {
+                        $req[] = $item;
+                    }
+
+                    if (
+                        $tglTahun >= $fyear && $tglTahun <= $eyear
+                        && $tglBulan <= $emonth
+                        && $tglHari <= $eday
+                    ) {
+                        $req[] = $item;
+                    }
                 }
             }
         }
@@ -167,7 +217,6 @@ class reportController extends Controller
     public function uangKeseluruhanProyek($tglAwal, $tglAkhir)
     {
         $p = new pekerjaan();
-        $ab = new absen_harian();
         $work = $p->where('kode_kontraktor', session()->get('kode'))->get();
         $data = [
             'work' => $work,

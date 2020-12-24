@@ -2,11 +2,9 @@
 
 @section('content')
     <h1>Detail Bon Pembelian Bahan</h1>
-    <div class="option mb-5" style="float:right;margin-bottom:10px">
+    <div class="col-12 text-right">
         <a class="btn btn-primary"  href="/admin/vListNotaBon">List Bon Pembelian Bahan</a>
     </div>
-    <br>
-    <br>
     @foreach ($toko as $item)
         @foreach ($pembelian as $item2)
             @if ($item->id_kerjasama == $item2->id_kerjasama)
@@ -25,52 +23,64 @@
             }
         }
     @endphp
-    Toko Bangunan : {{$namatoko}}<br>
-    @php
-        $namapekerjaan="";
+      @php
+      $namapekerjaan="";
     @endphp
-    @foreach ($toko as $item)
+    @foreach ($pembelian as $item)
         @foreach ($pekerjaan as $item2)
             @if ($item->kode_pekerjaan == $item2->kode_pekerjaan)
                 @php
-                    $namapekerjaan = $item->nama_pekerjaan;
+                    $namapekerjaan = $item2->nama_pekerjaan;
                 @endphp
             @endif
         @endforeach
     @endforeach
-    Nama Pekerjaan : {{$namapekerjaan}}<br>
-    @if ($pkmemakaibahan!="")
-        @php
-            $pkbahan = $pkmemakaibahan[0];
-            $idpk = $pkbahan->kode_pk;
-
-            $namapk="";
-            foreach($pk as $item){
-                if($item->kode_pk == $idpk){
-                    $namapk = $item->keterangan_pk;
-                }
-            }
-        @endphp
-        Pekerjaan Khusus : {{$namapk}}
-    @endif
-    Total Pembelian : Rp {{number_format($pembelian[0]->total_pembelian)}}<br>
-    Tanggal Pembelian : {{$pembelian[0]->tanggal_beli}}<br>
     @php
         $pathsaya = "/assets/nota_beli/".$pathfoto;
     @endphp
-    <img style='width:500px;height:500px;' class="img-fluid mt-3" src='{{$pathsaya}}'><br>
+    <br>
+    <br>
+    <div class="row mb-5">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <img style='width:500px;height:500px;' class="img-fluid mt-3" src='{{$pathsaya}}'><br>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+
+            <p> Toko Bangunan : {{$namatoko}}<br></p>
+            <p>Nama Pekerjaan : {{$namapekerjaan}}<br></p>
+            @if ($pkmemakaibahan!="")
+            @php
+                $pkbahan = $pkmemakaibahan[0];
+                $idpk = $pkbahan->kode_pk;
+
+                $namapk="";
+                foreach($pk as $item){
+                    if($item->kode_pk == $idpk){
+                        $namapk = $item->keterangan_pk;
+                    }
+                }
+            @endphp
+            <p>Pekerjaan Khusus : {{$namapk}}</p>
+        @endif
+        <p>Total Pembelian : Rp {{number_format($pembelian[0]->total_pembelian)}}<br></p>
+        <p>Tanggal Pembelian : {{$pembelian[0]->tanggal_beli}}<br></p>
+
+
     <br>
     <b>
-    <form method='post' action='/admin/bayarBonBahan' enctype="multipart/form-data">
+    <form method='post' action='/admin/bayarBonBahan' id="form" enctype="multipart/form-data">
         @csrf
         <input type='hidden' name='kodepembelian' value='{{$pembelian[0]->id_pembelian}}'>
         <input type='hidden' name='idbukti' value='{{$pembelian[0]->id_bukti}}'>
-        Tanggal pembayaran : <input type='date' name='tanggal'><br>
-        Bukti pembayaran : <input type='file' name='foto'><br>
-        <input type='submit' value='Bayar' class='btn-success'>
+        Tanggal pembayaran : <input type='date'  class="form-control" id="tanggal" name='tanggal'><br>
+        Bukti pembayaran : <input type='file' class="form-control"  id="foto" name='foto'><br>
+        <input type='button' onclick="tambah()" value='Bayar' class='btn btn-success'>
         <br><br>
+
     </form>
     </b>
+    </div>
+</div>
     @if (count($detailbeli) > 0)
         <div class="table-responsive">
             <table id="tabel-nota" class="table table-bordered table-striped">
@@ -128,6 +138,23 @@
         $(document).ready(function() {
             $("#tabel-nota").DataTable();
     } );
+    function tambah() {
+        if($('#tanggal').val()!=""&&$('#foto').val()!=""){
+
+            var fileName = $('#foto').val();
+            var fileExtension = fileName.substr((fileName.lastIndexOf('.') + 1));
+            if(fileExtension.toLowerCase()=="jpg"||fileExtension.toLowerCase()=="png"){
+                $('#form').submit();
+            }
+            else{
+                swal("Gagal!","Extention tidak sesuai!","error");
+            }
+        }
+        else
+        {
+            swal("Gagal!","Isi Tanggal & Upload Gambar ","error");
+        }
+    }
     </script>
 @endsection
 

@@ -92,8 +92,8 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Tukang</th>
-                                <th>Jumlah Absen</th>
                                 <th>Gaji Pokok</th>
+                                <th>Jumlah Absen</th>
                                 <th>Total Gaji Absen</th>
                                 <th>Total Jumlah Ongkos Lembur</th>
                                 <th>Total Keseluruhan</th>
@@ -120,8 +120,8 @@
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$t->nama_tukang}}</td>
-                                    <td align="right">{{number_format($ctrAbsen)}}</td>
                                     <td align="right">Rp. {{number_format($t->gaji_pokok_tukang)}}</td>
+                                    <td align="right">{{number_format($ctrAbsen)}}</td>
                                     <td align="right">Rp. {{number_format($ctrAbsen * $t->gaji_pokok_tukang)}}</td>
                                     <td align="right">Rp. {{number_format($ongkosLembur)}}</td>
                                     <td align="right">Rp. {{number_format(($ctrAbsen * $t->gaji_pokok_tukang) + $ongkosLembur)}}</td>
@@ -162,6 +162,7 @@
                         @php
                             $to = 0;
                             $ctr = 0;
+                            $hist = $history;
                         @endphp
                         <table width="100%" class="table table-striped" style="margin-top: 15px;">
                             <thead class="thead-dark">
@@ -179,6 +180,18 @@
                                             $flag = false;
                                             $id = 0;
                                             $ctr2 = 0;
+                                            $ftgl = $hist[$h->tanggal_absen];
+                                            if($hist[$h->tanggal_absen]){
+                                                foreach ($header as $hed) {
+                                                    if($h->tanggal_absen == $hed->tanggal_absen){
+                                                        foreach ($hed->details as $d) {
+                                                            if($d->kode_tukang == $t->kode_tukang){
+                                                                $ftgl = false;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         @endphp
                                         @if ($h->details !== null)
                                             @foreach ($h->details as $d)
@@ -204,12 +217,17 @@
                                                     $ctr++;
                                                 @endphp
                                             @else
-                                                <tr>
-                                                    <td>{{$loop->iteration}}</td>
-                                                    <td>{{$h->tanggal_absen}}</td>
-                                                    <td align="right">Rp. 0</td>
-                                                    <td><input type="checkbox" name="" id="" disabled></td>
-                                                </tr>
+                                                @if ($ftgl)
+                                                    @php
+                                                        $hist[$h->tanggal_absen] = false;
+                                                    @endphp
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+                                                        <td>{{$h->tanggal_absen}}</td>
+                                                        <td align="right">Rp. 0</td>
+                                                        <td><input type="checkbox" name="" id="" disabled></td>
+                                                    </tr>
+                                                @endif
                                             @endif
                                         @endif
                                     @endforeach

@@ -19,6 +19,11 @@ class absen_tukang extends Model
         return $this->belongsTo(tukang::class, 'kode_tukang');
     }
 
+    public function details()
+    {
+        return $this->belongsTo(detail_absen::class, 'kode_absen');
+    }
+
     public function getAllMyHist($id)
     {
         return $this->where('kode_tukang', $id)->orderby('tanggal_absen')->get();
@@ -26,7 +31,7 @@ class absen_tukang extends Model
 
     public function doneAbsen($id)
     {
-        if (count($this->where('kode_tukang', $id)->where('tanggal_absen', date("d-m-Y"))->get()) > 0) {
+        if (count($this->where('kode_tukang', $id)->where('tanggal_absen', date("Y-m-d"))->get()) > 0) {
             return true;
         }
         return false;

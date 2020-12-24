@@ -1,4 +1,4 @@
-@extends('mandor.navbar');
+@extends('mandor.navbar')
 
 @section('content')
 

@@ -480,7 +480,6 @@ class adminController extends Controller
     {
         $kodepembelian = $request->kodepembelian;
         $idbukti = $request->idbukti;
-
         $bukti = new bukti_pembelian_mandor();
         $buktib = $request->file('foto');
         $buktibaru = $buktib->getClientOriginalName();

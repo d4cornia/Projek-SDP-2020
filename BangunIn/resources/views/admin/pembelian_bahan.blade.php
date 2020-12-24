@@ -11,7 +11,7 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-5 col-md-12 col-lg-12">
+    <div class="col-lg-5 col-md-12 col-sm-12">
     <form style='margin-top:50px' method="POST" action="/admin/pembelianNota" class="needs-validation" novalidate id="form">
         @csrf
         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-interval='600000' style="width:100%;">
@@ -41,7 +41,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-7 col-md-12 col-lg-12">
+    <div class="col-lg-7 col-md-12 col-sm-12">
         <div class="form-group">
             <label for="exampleInputEmail1">Nama Toko</label>
             <select name="nama" id="nama" class="form-control" required="required">
@@ -184,7 +184,7 @@
                     <th>Diskon</th>
                     <th>Subtotal</th>
                     <th>Action</th>
-                </tr>
+                </tr>0
             </tfoot>
             </table>
         </div>
@@ -205,6 +205,8 @@
 <script>
     var bahan;
     var suges = [];
+    var hargas = [];
+    var id = [];
     function submits(){
         var gambar = $('.active').attr("id");
         $("#active").val(gambar);
@@ -237,10 +239,14 @@
             data:{value:value,_token:_token},
             success:function(result){
                 bahan = JSON.parse(result,true);
+                suges =[];
+                hargas = [];
+                id= [];
                 for (let i = 0; i < bahan.length; i++) {
                     suges.push(bahan[i]["nama_bahan"]);
+                    hargas.push(bahan[i]["harga_satuan"]);
+                    id.push(bahan[i]["id_bahan"]);
                 }
-                console.log(suges);
                 $( "#nmbahan" ).autocomplete({
                     source: suges
                 });
@@ -266,8 +272,8 @@
                 harga = 0;
                 for (let i = 0; i < suges.length; i++) {
                    if(suges[i] == nama){
-                        $('#hargabahan').val(bahan[i]["harga_satuan"]);
-                        $('#bahan').val(bahan[i]["id_bahan"]);
+                        $('#hargabahan').val(hargas[i]);
+                        $('#bahan').val(id[i]);
                    }
                 }
 
@@ -312,7 +318,7 @@
                 var diskon =  $('#diskon').val();
                 var sub =  $('#subtotal').val();
 
-                $('#subtotal').val((100-diskon)*sub/100);
+                $('#subtotal').val(sub- (sub*diskon/100));
             }
             else{
                 $('#diskon').val(0);

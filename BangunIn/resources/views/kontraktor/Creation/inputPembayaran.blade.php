@@ -1,6 +1,8 @@
 @extends('kontraktor.navbar')
 
 @section('content')
+<h1>Tambah Pembayaran Client</h1>
+<hr>
 <div class="tombol" style="float:right">
     <a class="btn btn-secondary" href="/kontraktor/listPembayaran">List Pembayaran Client</a>
 </div>

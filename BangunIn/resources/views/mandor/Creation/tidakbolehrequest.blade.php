@@ -2,6 +2,7 @@
 
 @section('content')
 <h1>Request Dana</h1>
+<hr>
 <div class="col-12 text-right">
     <a class="btn btn-primary"  href="/mandor/lihatRequestDana" style="width:250px"><font size="3">Lihat Request Dana</font></a>
 </div>

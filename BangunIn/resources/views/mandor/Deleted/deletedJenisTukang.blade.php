@@ -2,6 +2,7 @@
 
 @section('content')
     <h1>Jenis Tukang yang Telah Dihapus</h1>
+    <hr>
     <div class="option" style="margin-left:78%">
         <a class="btn btn-primary"  href="/mandor/lihatJenisTukang" style="width:250px"><font size="3">Lihat Jenis Tukang yang Aktif</font></a>
     </div>

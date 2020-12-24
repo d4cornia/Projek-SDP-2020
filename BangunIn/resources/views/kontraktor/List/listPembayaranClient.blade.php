@@ -2,9 +2,13 @@
 
 {{-- {{dd($listDataPembayaranClient)}} --}}
 @section('content')
+
+<h1>Daftar Pembayaran Client</h1>
+<hr>
     @if (count($listDataPembayaranClient) > 0)
-        <h1>Daftar Pembayaran Client</h1>
-        <hr>
+    <div class="option" style="float: right; margin:5px 0px 40px 0px;">
+        <a class="btn btn-info" href="/kontraktor/show">Tambah Pembayaran Client</a>
+    </div>
         <div class="table-responsive">
             <table id="tabel-client" class="table table-bordered table-striped">
               <thead>
@@ -48,8 +52,11 @@
             </table>
             </div>
     @else
+        <div class="option" style="float: right; margin:5px 0px 40px 0px;">
+            <a class="btn btn-info" href="/kontraktor/show">Tambah Pembayaran Client</a>
+        </div>
+        <br><br>
         <h1>Tidak Ada Pembayaran Client!</h1>
-        <hr>
     @endif
     <script>
         $(document).ready(function() {

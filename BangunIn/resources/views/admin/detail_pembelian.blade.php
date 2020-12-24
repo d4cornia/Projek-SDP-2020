@@ -63,10 +63,10 @@
 </div>
 <div class="row">
     <div class="col-5">
-        <form style='margin-top:50px' method="POST" action="/admin/checkout" class="needs-validation" novalidate id="form">
+        <form style='margin-top:50px' method="POST" id="form" action="/admin/checkout" class="needs-validation" novalidate id="form">
         @csrf
         <h6>Nota Pembelian</h6>
-        <img src="/assets/nota_beli/{{$foto[0]["file_bukti"]}}" class="d-block w-100" alt="...">
+        <img src="/assets/nota_beli/{{$foto[0]["file_bukti"]}}" id="gambar" class="d-block w-100" alt="...">
     </div>
     <div class="col-7">
             <div class="form-group">
@@ -88,7 +88,7 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Pekerjaan</label>
                 <select name="pekerjaan" id="pekerjaan" class="form-control" required="required">
-                    <option readonly="readonly"d selected>Pilih Pekerjaan</option>
+                    <option readonly="readonly" value="-" selected>Pilih Pekerjaan</option>
                     @foreach ($listPekerjaan as $item)
                             <option value="{{$item["kode_pekerjaan"]}}">{{$item["nama_pekerjaan"]}}</option>
                     @endforeach
@@ -115,16 +115,36 @@
                 <label for="exampleInputEmail1">Tanggal Beli</label>
                 <input type="date" name="beli" id="beli" class="form-control" required="required" value="">
             </div>
-            <a href="/admin/vpembelianNota"><button class="btn btn-info mr-3">Kembali</button></a>
-            <button class="btn btn-success" type="submit">Simpan</button>
+            <a href="/admin/vpembelianNota"><button class="btn btn-info mr-3" type="button">Kembali</button></a>
+            <button class="btn btn-success" type="button" onclick="tambah()">Simpan</button>
         </form>
     </div>
 
 </div>
 
     @endif
-
+@php
+    $data = $foto[0]["file_bukti"];
+@endphp
 <script>
+    function tambah() {
+
+
+        if($('#pekerjaan').val()!="-"&&$('#beli').val()!=""){
+
+            var fileName = $('#gambar').attr('src');
+            var fileExtension = fileName.substr((fileName.lastIndexOf('.') + 1));
+            if(fileExtension.toLowerCase()=="jpg"||fileExtension.toLowerCase()=="png"){
+                $('#form').submit();
+            }
+            else{
+                swal("Gagal!","Extention tidak sesuai!","error");
+            }
+        }
+        else{
+            swal("Gagal!","Isi Pekerjaan & Tanggal Beli","error");
+        }
+    }
     $('#bbayar').hide();
     $('#pekerjaan').change(function(){
             if($(this).val()!=''){

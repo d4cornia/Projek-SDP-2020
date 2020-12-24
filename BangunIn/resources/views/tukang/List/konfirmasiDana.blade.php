@@ -32,7 +32,7 @@
                         <tr>
                             @isset($ongkos_lembur)
                                 <td>Ongkos Lembur</td>
-                                <td>{{$pekerjaanKhusus}}</td>
+                                <td>{{$tol}}</td>
                                 <td style="color: green;">+{{$ongkos_lembur}}</td>
                             @endisset
 

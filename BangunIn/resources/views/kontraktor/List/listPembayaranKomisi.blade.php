@@ -1,6 +1,8 @@
 @extends('kontraktor.navbar')
 
 @section('content')
+<h1>Daftar Pembayaran Komisi</h1>
+<hr>
 <div class="tombol" style="float:right">
     <a href="/kontraktor/show" class="btn btn-primary">Tambah Pembayaran</a>
 </div>

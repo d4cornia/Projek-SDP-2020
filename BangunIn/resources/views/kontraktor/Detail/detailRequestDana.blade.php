@@ -14,11 +14,31 @@
     <h3>Jumlah Keseluruhan : Rp {{number_format($header->total_sistem)}}</h3>
     <h3>Jumlah Request : Rp {{number_format($header->real_total)}}</h3>
     <h3>Keterangan : {{$header->keterangan}}</h3>
-    <form method='post' action='/kontraktor/bayarRequest' enctype="multipart/form-data">
+    <form method='post' action='/kontraktor/bayarRequest' id="form" enctype="multipart/form-data">
         @csrf
         <input type='hidden' name='idheader' value='{{$header->id_permintaan_uang}}'>
-        Bukti pembayaran : <input type='file' name='foto'><br>
-        <input type='submit' value='Bayar' class='btn-success'>
+        Bukti pembayaran : <input type='file' name='foto' id="foto"><br>
+        <input type='button' onclick="tambah()" value='Bayar' class='btn-success'>
+        <script>
+            function tambah(){
+
+                if(!$('#foto').val()){
+
+                    swal("Gagal!","Upload File Dulu!","error");
+                }
+                else{
+                    var fileName = $('#foto').val();
+                    var fileExtension = fileName.substr((fileName.lastIndexOf('.') + 1));
+                    if(fileExtension.toLowerCase()=="jpg"||fileExtension.toLowerCase()=="png"){
+                        $('#form').submit();
+                    }
+                    else{
+                        swal("Gagal!","Extention tidak sesuai!","error");
+                    }
+                }
+            }
+
+        </script>
         <br><br>
     </form>
     <hr>
