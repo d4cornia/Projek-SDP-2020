@@ -39,6 +39,10 @@
                     <input type="hidden" name="hasilfoto" id="hasilfoto">
                 </div>
                 <div class="col-md-12 text-center">
+                    @error('image')
+                        <p style="color:red">Harus ada foto!</p>
+                    @enderror
+
                     <br/>
                 </div>
             </div>

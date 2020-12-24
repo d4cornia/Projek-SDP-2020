@@ -124,7 +124,7 @@ class tukangController extends Controller
         ];
         $a = new absen_tukang();
         $date = mktime(8, 0, 0);
-        $data['buka'] = false;
+        $data['buka'] = true;
         if (date('H:i:s') <= date('H:i:s', $date) && !$a->doneAbsen($temp[0])) {
             $data['buka'] = true;
         } else if ($a->doneAbsen($temp[0])) {
@@ -137,6 +137,13 @@ class tukangController extends Controller
 
     public function absen(Request $request)
     {
+
+        $request->validate([
+            'image' => 'required'
+        ], [
+            'image.required' => 'Harus ada foto!'
+        ]);
+
         date_default_timezone_set("Asia/Bangkok");
         $img = $request->input('image');
         $folderPath = public_path('/assets/absen_tukang/');
